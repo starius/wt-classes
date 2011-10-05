@@ -1,5 +1,5 @@
 /**
- * wt-classes is licensed under the GNU GPL Version 2.
+ * wt-classes, utility classes used by Wt applications
  * Copyright (C) 2011 Boris Nagaev
  *
  * wt-classes is licensed under the GNU GPL Version 2.
