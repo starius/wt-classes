@@ -134,7 +134,7 @@ for filename, ids in filename2ids.items():
             continue
         print filename, 'Warning: id "%s" not found' % Id
 
-l9n_re = re.compile(r'"(%s[^"]+)"' % re.escape(args.prefix))
+l9n_re = re.compile(r'"(%s\.[^"]+)"' % re.escape(args.prefix))
 
 for root, dirnames, filenames in os.walk('src'):
     for filename in fnmatch.filter(filenames, '*.?pp'):
