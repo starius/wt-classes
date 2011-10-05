@@ -1,12 +1,10 @@
 
-table.wt_tableform
-{
+table.wt_tableform {
     border-Collapse: separate;
     border-spacing: 7px;
 }
 
-td.wt_tableform_name
-{
+td.wt_tableform_name {
     text-align: right;
     vertical-align: middle;
 }
