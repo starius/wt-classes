@@ -16,11 +16,11 @@
 #include <Wt/WGlobal>
 #include <Wt/WCompositeWidget>
 
+#include "global.hpp"
+
 namespace Wt {
 
 namespace Wc {
-
-class AbstractTaskRunner;
 
 class AbstractArgument : WCompositeWidget {
 public:
