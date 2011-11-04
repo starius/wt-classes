@@ -153,7 +153,7 @@ protected:
 
 /** Input argument using WFileUpload and WTextArea.
 This input allows the user to select file using WFileUpload or
-enter text using WFileUpload.
+enter text using WTextArea.
 The contents of the file is loaded to WTextArea.
 */
 class TextFileInput : public FileInput {
