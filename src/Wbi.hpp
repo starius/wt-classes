@@ -23,7 +23,7 @@ namespace Wt {
 namespace Wc {
 
 /** Abstract base class for any command-line argument of a program */
-class AbstractArgument : WCompositeWidget {
+class AbstractArgument : public WCompositeWidget {
 public:
     /** Constructor.
     \param option_name Name of a program option (i.e., "-i", "--output").
