@@ -25,7 +25,7 @@ namespace Wc {
 class AbstractArgument : WCompositeWidget {
 public:
     AbstractArgument(const std::string& option_name="");
-    //void set_task(AbstractTask* task);
+
     virtual void add_args(std::vector<std::string>& args);
 
 protected:
@@ -101,9 +101,9 @@ protected:
     void task_finished_handler();
 };
 
-class AbstractTask : public WCompositeWidget {
+class BaseForm : public WCompositeWidget {
 public:
-    AbstractTask(WContainerWidget* p=0);
+    BaseForm(WContainerWidget* p=0);
     void add_input(AbstractInput* input, const WString& name,
             const WString& description="");
     void add_output(AbstractOutput* output, const WString& name,
@@ -114,7 +114,7 @@ public:
 class AbstractTaskRunner : public WObject {
 public:
     AbstractTaskRunner();
-    virtual void run(AbstractTask* task)=0;
+    virtual void run(BaseForm* form)=0;
     virtual bool is_finished()=0;
 };
 

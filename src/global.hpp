@@ -26,7 +26,7 @@ class TextFileInput;
 class AbstractOutput;
 class FileOutput;
 class TextFileOutput;
-class AbstractTask;
+class BaseForm;
 class AbstractTaskRunner;
 
 }
