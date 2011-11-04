@@ -71,14 +71,28 @@ public:
     */
     virtual WFormWidget* form_widget();
 
+    /** Get if the input is required.
+    \sa set_required
+    */
+    bool is_required() const {
+        return required_;
+    }
+
     /** Set if the input is required.
     If input is required but not provided (or provided incorrectly),
     a program is not started and error message is shown to the user.
     This is detected as follows: if size of args vector is not
     changed by add_args(), the input is considered not to be provided.
     \note All switches must not be required.
+
+    The default value is true.
     */
-    void set_required(bool value);
+    void set_required(bool value) {
+        required_ = value;
+    }
+
+private:
+    bool required_;
 };
 
 /** Abstract input wrapping WFormWidget */
@@ -106,6 +120,9 @@ public:
     */
     LineEditInput(WLineEdit* widget, const std::string& option_name);
 
+    /** Return line edit instance passed to constructor */
+    WLineEdit* line_edit();
+
 protected:
     /** Set option value.
     Set WLineEdit::text() as an option value.
@@ -122,10 +139,16 @@ public:
     FileInput(const std::string& option_name);
 
 protected:
+    /** File upload widget */
+    WFileUpload* file_upload_;
+
     /** Set option value.
     Set uploaded file name.
     */
     void set_option();
+
+    /** File uploaded handler */
+    virtual void file_uploaded_handler();
 };
 
 /** Input argument using WFileUpload and WTextArea.
@@ -144,11 +167,16 @@ public:
     WFormWidget* form_widget();
 
 protected:
+    /** Text are widget to enter text */
+    WTextArea* text_area_;
+
     /** Set option value.
     Save contains of the WTextArea to the file, uploaded by WFileUpload
     and set the name of the file.
     */
     void set_option();
+
+    void file_uploaded_handler();
 };
 
 /** Abstract base class for output argument */
@@ -158,6 +186,13 @@ public:
     \copydetails AbstractArgument()
     */
     AbstractOutput(const std::string& option_name);
+
+    /** Get whether the argument can be deselected.
+    \sa set_selectable()
+    */
+    bool is_selectable() const {
+        return selectable_;
+    }
 
     /** Set whether the argument can be deselected.
     This adds a checkbox to the form.
@@ -169,13 +204,24 @@ public:
     */
     void set_selectable(bool value);
 
+    /** Get if the checkbox is checked by default.
+    \sa set_selected()
+    */
+    bool is_selected() const {
+        return selected_;
+    }
+
     /** Set if the checkbox is checked by default.
-    This make sense only if selectable() == true.
+    This make sense only if is_selectable() == true.
     */
     void set_selected(bool value);
 
     /** This method is triggered when the program is finished */
     void virtual task_finished_handler()=0;
+
+private:
+    bool selectable_;
+    bool selected_;
 };
 
 /** Output file argument.
