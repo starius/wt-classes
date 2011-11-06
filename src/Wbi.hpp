@@ -320,7 +320,7 @@ protected:
 
 private:
     NameGen temp_gen_;
-    std::string temp_file_;
+    mutable std::string temp_file_;
     std::string download_mime_;
 };
 

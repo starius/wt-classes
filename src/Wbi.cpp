@@ -7,6 +7,8 @@
  * See the LICENSE file for terms of use.
  */
 
+#include <cstdio>
+
 #include <Wt/WContainerWidget>
 #include <Wt/WCompositeWidget>
 #include <Wt/WLineEdit>
@@ -14,6 +16,8 @@
 #include <Wt/WFileUpload>
 #include <Wt/WTextArea>
 #include <Wt/WBreak>
+#include <Wt/WFileResource>
+#include <Wt/WAnchor>
 
 #include "Wbi.hpp"
 #include "TableForm.hpp"
@@ -145,6 +149,37 @@ bool AbstractOutput::is_needed() const {
 void AbstractOutput::select_handler_() {
     WCheckBox* box = static_cast<WCheckBox*>(sender());
     selected_ = box->isChecked();
+}
+
+FileOutput::FileOutput(const FileOutput::NameGen& temp_gen,
+                       const std::string& option_name,
+                       const std::string& download_mime):
+    AbstractOutput(option_name),
+    temp_gen_(temp_gen),
+    download_mime_(download_mime)
+{ }
+
+FileOutput::~FileOutput() {
+    if (!temp_file_.empty()) {
+        remove(temp_file_.c_str());
+        temp_file_ = "";
+    }
+}
+
+const std::string& FileOutput::temp_file() const {
+    if (temp_file_.empty()) {
+        temp_file_ = temp_gen_();
+    }
+    return temp_file_;
+}
+
+void FileOutput::set_option() {
+    option_value_ = temp_file();
+}
+
+void FileOutput::task_finished_handler() {
+    WFileResource* r = new WFileResource(download_mime_, temp_file());
+    setImplementation(new WAnchor(r, tr("wc.Download")));
 }
 
 }
