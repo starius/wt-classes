@@ -159,8 +159,7 @@ protected:
     */
     void set_option();
 
-    /** File uploaded handler */
-    virtual void file_uploaded_handler();
+    bool is_valid() const;
 };
 
 /** Input argument using WFileUpload and WTextArea.
@@ -187,8 +186,6 @@ protected:
     and set the name of the file.
     */
     void set_option();
-
-    void file_uploaded_handler();
 };
 
 /** Abstract base class for output argument */
