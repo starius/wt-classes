@@ -301,7 +301,7 @@ public:
 
 protected:
     /** Set option value.
-    Create a file with a ranmod name in the temp_dir
+    Create a file with a random name in the temp_dir
     and set it's name to option value.
     \note File as well as temp_dir are not removed by this class.
         Temporary directory should be removed latter by the form.
