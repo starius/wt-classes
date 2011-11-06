@@ -153,7 +153,7 @@ public:
     const WLineEdit* line_edit() const;
 
 protected:
-    /** Set option value.
+    /** \copybrief AbstractArgument::set_option()
     Set WLineEdit::text() as an option value (UTF-8).
     */
     void set_option();
@@ -173,7 +173,7 @@ protected:
     /** File upload widget */
     WFileUpload* file_upload_;
 
-    /** Set option value.
+    /** \copybrief AbstractArgument::set_option()
     Set uploaded file name.
     */
     void set_option();
@@ -203,7 +203,7 @@ protected:
     */
     WFormWidget* form_widget_impl();
 
-    /** Set option value.
+    /** \copybrief AbstractArgument::set_option()
     Save contains of the WTextArea to the file, uploaded by WFileUpload
     and set the name of the file.
     */
@@ -300,7 +300,7 @@ public:
     }
 
 protected:
-    /** Set option value.
+    /** \copybrief AbstractArgument::set_option()
     Create a file with a random name in the temp_dir
     and set it's name to option value.
     \note File as well as temp_dir are not removed by this class.
