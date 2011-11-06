@@ -335,6 +335,9 @@ protected:
     /** Create a HTML reference downloading the file */
     void task_finished_handler();
 
+    /** Generate new anchor to be shown */
+    WAnchor* anchor() const;
+
 private:
     NameGen temp_gen_;
     NameGen suggested_gen_;

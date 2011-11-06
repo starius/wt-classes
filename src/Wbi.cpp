@@ -22,6 +22,7 @@
 #include <Wt/WBreak>
 #include <Wt/WFileResource>
 #include <Wt/WAnchor>
+#include <Wt/WText>
 
 #include "Wbi.hpp"
 #include "TableForm.hpp"
@@ -195,9 +196,31 @@ void FileOutput::set_option() {
 }
 
 void FileOutput::task_finished_handler() {
+    setImplementation(anchor());
+}
+
+WAnchor* FileOutput::anchor() const {
     WFileResource* r = new WFileResource(download_mime_, temp_file());
     r->suggestFileName(suggested_name());
-    setImplementation(new WAnchor(r, tr("wc.Download")));
+    return new WAnchor(r, tr("wc.Download"));
+}
+
+TextFileOutput::TextFileOutput(const std::string& option_name,
+                               const NameGen& temp_gen,
+                               const std::string& download_mime,
+                               const std::string& view_mime):
+    FileOutput(option_name, temp_gen, download_mime),
+    view_mime_(view_mime)
+{ }
+
+void TextFileOutput::task_finished_handler() {
+    WFileResource* r = new WFileResource(view_mime_, temp_file());
+    WAnchor* a = new WAnchor(r, tr("wc.View"));
+    WContainerWidget* c = new WContainerWidget();
+    c->addWidget(FileOutput::anchor());
+    c->addWidget(new WText(" | "));
+    c->addWidget(a);
+    setImplementation(c);
 }
 
 }
