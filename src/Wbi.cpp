@@ -10,6 +10,7 @@
 #define BOOST_FILESYSTEM_VERSION 3
 
 #include <cstdio>
+#include <fstream>
 #include <boost/bind.hpp>
 #include <boost/filesystem.hpp>
 
@@ -130,8 +131,11 @@ WFormWidget* TextFileInput::form_widget_impl() {
 }
 
 void TextFileInput::set_option() {
-    // TODO save contents of text_area_ to file_upload_->spoolFileName()
-    // TODO and return its name
+    std::string filename = file_upload_->spoolFileName();
+    std::ofstream file(filename.c_str());
+    file << text_area_->text().toUTF8();
+    file.close();
+    option_value_ = filename;
 }
 
 AbstractOutput::AbstractOutput(const std::string& option_name):
