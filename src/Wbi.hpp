@@ -168,6 +168,8 @@ public:
     FileInput(const std::string& option_name);
 
 protected:
+    WContainerWidget* impl_;
+
     /** File upload widget */
     WFileUpload* file_upload_;
 
