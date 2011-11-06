@@ -173,12 +173,17 @@ const std::string& FileOutput::temp_file() const {
     return temp_file_;
 }
 
+std::string FileOutput::suggested_name() const {
+    return suggested_gen_();
+}
+
 void FileOutput::set_option() {
     option_value_ = temp_file();
 }
 
 void FileOutput::task_finished_handler() {
     WFileResource* r = new WFileResource(download_mime_, temp_file());
+    r->suggestFileName(suggested_name());
     setImplementation(new WAnchor(r, tr("wc.Download")));
 }
 

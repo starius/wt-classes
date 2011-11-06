@@ -308,6 +308,14 @@ public:
         return download_mime_;
     }
 
+    /** Set generator of a suggested name of a downloaded file */
+    void set_suggested_gen(const NameGen& value) {
+        suggested_gen_ = value;
+    }
+
+    /** Return suggested name of a downloaded file */
+    std::string suggested_name() const;
+
 protected:
     /** \copybrief AbstractArgument::set_option()
     Create a file with a name provided by NameGen passed to the constructor
@@ -320,6 +328,7 @@ protected:
 
 private:
     NameGen temp_gen_;
+    NameGen suggested_gen_;
     mutable std::string temp_file_;
     std::string download_mime_;
 };
