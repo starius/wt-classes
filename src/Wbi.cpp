@@ -10,6 +10,7 @@
 #include <Wt/WContainerWidget>
 #include <Wt/WCompositeWidget>
 #include <Wt/WLineEdit>
+#include <Wt/WCheckBox>
 #include <Wt/WFileUpload>
 #include <Wt/WTextArea>
 #include <Wt/WBreak>
@@ -122,6 +123,28 @@ WFormWidget* TextFileInput::form_widget_impl() {
 void TextFileInput::set_option() {
     // TODO save contents of text_area_ to file_upload_->spoolFileName()
     // TODO and return its name
+}
+
+AbstractOutput::AbstractOutput(const std::string& option_name):
+    AbstractArgument(option_name),
+    selectable_(true), selected_by_default_(true),
+    selected_(selected_by_default_) {
+    WCheckBox* box = new WCheckBox();
+    box->setChecked(selected_by_default_);
+    box->setEnabled(selectable_);
+    if (selectable_) {
+        box->changed().connect(this, &AbstractOutput::select_handler_);
+    }
+    setImplementation(box);
+}
+
+bool AbstractOutput::is_needed() const {
+    return !is_selectable() || is_selected();
+}
+
+void AbstractOutput::select_handler_() {
+    WCheckBox* box = static_cast<WCheckBox*>(sender());
+    selected_ = box->isChecked();
 }
 
 }
