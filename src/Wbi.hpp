@@ -28,7 +28,7 @@ public:
     /** Constructor.
     \param option_name Name of a program option (i.e., "-i", "--output").
     */
-    AbstractArgument(const std::string& option_name="");
+    AbstractArgument(const std::string& option_name = "");
 
     /** Add arguments to the vector of arguments.
     Default implementation adds option_name_ and option_value_.
@@ -55,7 +55,7 @@ protected:
         In case you reimplemented add_args(), you should implement
         this method with empty body (doing nothing).
     */
-    virtual void set_option()=0;
+    virtual void set_option() = 0;
 };
 
 /** Abstract base class for input argument */
@@ -264,7 +264,7 @@ public:
     bool is_needed() const;
 
     /** This method is triggered when the program is finished */
-    void virtual task_finished_handler()=0;
+    void virtual task_finished_handler() = 0;
 
 private:
     bool selectable_;
@@ -285,7 +285,7 @@ public:
     \param download_mime Mime-type for a downloaded file
     */
     FileOutput(const std::string& temp_dir, const std::string& option_name,
-               const std::string& download_mime="application/octet-stream");
+               const std::string& download_mime = "application/octet-stream");
 
     /** Get temponary directory to acreate a file */
     const std::string& temp_dir() const {
@@ -325,8 +325,8 @@ public:
     \param view_mime Mime-type for a viewed file
     */
     TextFileOutput(const std::string& temp_dir, const std::string& option_name,
-                   const std::string& download_mime="application/octet-stream",
-                   const std::string& view_mime="text/plain");
+                   const std::string& download_mime = "application/octet-stream",
+                   const std::string& view_mime = "text/plain");
 
     /** Get mime-type for a viewed file */
     const std::string& view_mime() const {
@@ -345,15 +345,15 @@ private:
 class BaseForm : public WCompositeWidget {
 public:
     /** Constructor */
-    BaseForm(WContainerWidget* p=0);
+    BaseForm(WContainerWidget* p = 0);
 
     /** Add input agrument to the program */
     void add_input(AbstractInput* input, const WString& name,
-            const WString& description="");
+                   const WString& description = "");
 
     /** Add output agrument to the program */
     void add_output(AbstractOutput* output, const WString& name,
-            const WString& description="");
+                    const WString& description = "");
 
     /** Set the program runner */
     void set_runner(AbstractTaskRunner* runer);
@@ -366,10 +366,10 @@ public:
     AbstractTaskRunner();
 
     /** Run a program */
-    virtual void run(BaseForm* form)=0;
+    virtual void run(BaseForm* form) = 0;
 
     /** Return if a program has finished */
-    virtual bool is_finished()=0;
+    virtual bool is_finished() = 0;
 };
 
 }
