@@ -220,7 +220,16 @@ public:
         selected_by_default_ = value;
     }
 
-    /** Return if the output is needed */
+    /** Get if the checkbox is checked.
+    This make sense only if is_selectable() == true.
+    */
+    bool is_selected() const {
+        return selected_;
+    }
+
+    /** Return if the output is needed.
+    Current implementation returns !is_selectable() || is_selected().
+    */
     bool is_needed() const;
 
     /** This method is triggered when the program is finished */
@@ -229,6 +238,9 @@ public:
 private:
     bool selectable_;
     bool selected_by_default_;
+    bool selected_;
+
+    void select_handler_();
 };
 
 /** Output file argument.
