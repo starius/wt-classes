@@ -205,7 +205,7 @@ WAnchor* FileOutput::anchor() const {
     return new WAnchor(r, tr("wc.Download"));
 }
 
-TextFileOutput::TextFileOutput(const std::string& option_name,
+ViewFileOutput::ViewFileOutput(const std::string& option_name,
                                const NameGen& temp_gen,
                                const std::string& download_mime,
                                const std::string& view_mime):
@@ -213,7 +213,7 @@ TextFileOutput::TextFileOutput(const std::string& option_name,
     view_mime_(view_mime)
 { }
 
-void TextFileOutput::task_finished_handler() {
+void ViewFileOutput::task_finished_handler() {
     WFileResource* r = new WFileResource(view_mime_, temp_file());
     WAnchor* a = new WAnchor(r, tr("wc.View"));
     WContainerWidget* c = new WContainerWidget();

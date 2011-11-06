@@ -349,13 +349,13 @@ private:
 This argument allows the user to download and view the file.
 File is openned in a new tab of a web-browser.
 */
-class TextFileOutput : public FileOutput {
+class ViewFileOutput : public FileOutput {
 public:
     /** Constructor.
     \copydetails FileOutput()
     \param view_mime Mime-type for a viewed file
     */
-    TextFileOutput(const std::string& option_name,
+    ViewFileOutput(const std::string& option_name,
                    const NameGen& temp_gen = &FileOutput::unique_name,
                    const std::string& download_mime = "application/octet-stream",
                    const std::string& view_mime = "text/plain");
