@@ -220,6 +220,9 @@ public:
         selected_ = value;
     }
 
+    /** Return if the output is needed */
+    bool is_needed() const;
+
     /** This method is triggered when the program is finished */
     void virtual task_finished_handler()=0;
 
