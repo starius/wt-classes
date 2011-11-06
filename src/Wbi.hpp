@@ -67,9 +67,12 @@ public:
     AbstractInput(const std::string& option_name);
 
     /** Return internal WFormWidget.
-    By default return 0
+    Reimplement form_widget_impl() virtual method.
     */
-    virtual WFormWidget* form_widget() const;
+    WFormWidget* form_widget();
+
+    /** \copydoc form_widget() */
+    const WFormWidget* form_widget() const;
 
     /** Get if the input is required.
     \sa set_required
@@ -92,6 +95,12 @@ public:
     }
 
 protected:
+    /** \copydoc form_widget()
+
+    By default return 0.
+    */
+    virtual WFormWidget* form_widget_impl();
+
     /** Return if the value of the input is valid.
     By default return true.
     */
@@ -115,12 +124,17 @@ public:
     */
     FormWidgetInput(WFormWidget* widget, const std::string& option_name);
 
-    /** Return internal WFormWidget.
+protected:
+    /** \copydoc form_widget()
+
     Widget passed to the constructor is returned.
     */
-    WFormWidget* form_widget() const;
+    WFormWidget* form_widget_impl();
 
-protected:
+    /** \copybrief AbstractInput::is_valid().
+    Check WFormWidget::validate() == Valid.
+    \note Empty value is not considered to be valid.
+    */
     bool is_valid() const;
 };
 
@@ -133,7 +147,10 @@ public:
     LineEditInput(WLineEdit* widget, const std::string& option_name);
 
     /** Return line edit instance passed to constructor */
-    WLineEdit* line_edit() const;
+    WLineEdit* line_edit();
+
+    /** \copydoc line_edit() */
+    const WLineEdit* line_edit() const;
 
 protected:
     /** Set option value.
@@ -174,12 +191,15 @@ public:
     */
     TextFileInput(const std::string& option_name);
 
-    /** Return the instance of WTextArea used */
-    WFormWidget* form_widget() const;
-
 protected:
     /** Text are widget to enter text */
     WTextArea* text_area_;
+
+    /** \copydoc form_widget()
+
+    Return the instance of WTextArea used.
+    */
+    WFormWidget* form_widget_impl();
 
     /** Set option value.
     Save contains of the WTextArea to the file, uploaded by WFileUpload
