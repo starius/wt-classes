@@ -8,6 +8,8 @@
  */
 
 #include <cstdio>
+#include <boost/bind.hpp>
+#include <boost/filesystem.hpp>
 
 #include <Wt/WContainerWidget>
 #include <Wt/WCompositeWidget>
@@ -156,6 +158,7 @@ FileOutput::FileOutput(const FileOutput::NameGen& temp_gen,
                        const std::string& download_mime):
     AbstractOutput(option_name),
     temp_gen_(temp_gen),
+    suggested_gen_(boost::bind(&FileOutput::temp_notdir, this)),
     download_mime_(download_mime)
 { }
 
@@ -175,6 +178,10 @@ const std::string& FileOutput::temp_file() const {
 
 std::string FileOutput::suggested_name() const {
     return suggested_gen_();
+}
+
+std::string FileOutput::temp_notdir() const {
+    return boost::filesystem::path(temp_file()).filename().string();
 }
 
 void FileOutput::set_option() {

@@ -316,6 +316,9 @@ public:
     /** Return suggested name of a downloaded file */
     std::string suggested_name() const;
 
+    /** Return not-dir part of temp_file() */
+    std::string temp_notdir() const;
+
 protected:
     /** \copybrief AbstractArgument::set_option()
     Create a file with a name provided by NameGen passed to the constructor
