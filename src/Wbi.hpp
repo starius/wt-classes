@@ -207,17 +207,17 @@ public:
     }
 
     /** Get if the checkbox is checked by default.
-    \sa set_selected()
+    \sa set_selected_by_default()
     */
-    bool is_selected() const {
-        return selected_;
+    bool is_selected_by_default() const {
+        return selected_by_default_;
     }
 
     /** Set if the checkbox is checked by default.
     This make sense only if is_selectable() == true.
     */
-    void set_selected(bool value) {
-        selected_ = value;
+    void set_selected_by_default(bool value) {
+        selected_by_default_ = value;
     }
 
     /** Return if the output is needed */
@@ -228,7 +228,7 @@ public:
 
 private:
     bool selectable_;
-    bool selected_;
+    bool selected_by_default_;
 };
 
 /** Output file argument.
