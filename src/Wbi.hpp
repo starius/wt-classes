@@ -241,6 +241,16 @@ public:
     FileOutput(const std::string& temp_dir, const std::string& option_name,
                const std::string& download_mime="application/octet-stream");
 
+    /** Get temponary directory to acreate a file */
+    const std::string& temp_dir() const {
+        return temp_dir_;
+    }
+
+    /** Get mime-type for a downloaded file */
+    const std::string& download_mime() const {
+        return download_mime_;
+    }
+
 protected:
     /** Set option value.
     Create a file with a ranmod name in the temp_dir
@@ -252,6 +262,10 @@ protected:
 
     /** Create a HTML reference downloading the file */
     void task_finished_handler();
+
+private:
+    std::string temp_dir_;
+    std::string download_mime_;
 };
 
 /** Output file argument.
@@ -268,9 +282,17 @@ public:
                    const std::string& download_mime="application/octet-stream",
                    const std::string& view_mime="text/plain");
 
+    /** Get mime-type for a viewed file */
+    const std::string& view_mime() const {
+        return view_mime_;
+    }
+
 protected:
     /** Create a HTML references downloading and viewing the file in new tab */
     void task_finished_handler();
+
+private:
+    std::string view_mime_;
 };
 
 /** Base class of form for web-based interface of a program */
