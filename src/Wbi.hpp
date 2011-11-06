@@ -246,6 +246,8 @@ public:
 
     /** Set if the checkbox is checked by default.
     This make sense only if is_selectable() == true.
+
+    The default value is true.
     */
     void set_selected_by_default(bool value) {
         selected_by_default_ = value;
