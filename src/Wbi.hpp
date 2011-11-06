@@ -102,7 +102,7 @@ public:
     \copydetails AbstractInput()
     \param widget Widget to use as implementation.
 
-    You can change widget, i.e. by adding WValidator.
+    You can modify widget, i.e. by adding WValidator.
     */
     FormWidgetInput(WFormWidget* widget, const std::string& option_name);
 
