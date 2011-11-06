@@ -69,7 +69,7 @@ public:
     /** Return internal WFormWidget.
     By default return 0
     */
-    virtual WFormWidget* form_widget();
+    virtual WFormWidget* form_widget() const;
 
     /** Get if the input is required.
     \sa set_required
@@ -109,7 +109,7 @@ public:
     /** Return internal WFormWidget.
     Widget passed to the constructor is returned.
     */
-    WFormWidget* form_widget();
+    WFormWidget* form_widget() const;
 };
 
 /** Input argument using WLineEdit */
@@ -121,7 +121,7 @@ public:
     LineEditInput(WLineEdit* widget, const std::string& option_name);
 
     /** Return line edit instance passed to constructor */
-    WLineEdit* line_edit();
+    WLineEdit* line_edit() const;
 
 protected:
     /** Set option value.
@@ -164,7 +164,7 @@ public:
     TextFileInput(const std::string& option_name);
 
     /** Return the instance of WTextArea used */
-    WFormWidget* form_widget();
+    WFormWidget* form_widget() const;
 
 protected:
     /** Text are widget to enter text */
