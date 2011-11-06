@@ -123,7 +123,15 @@ TextFileInput::TextFileInput(const std::string& option_name):
     FileInput(option_name) {
     new WBreak(impl_);
     text_area_ = new WTextArea(impl_);
-    // TODO connection with file_upload_
+    file_upload_->uploaded().connect(this, &TextFileInput::uploaded_handler);
+    // TODO File too large
+}
+
+void TextFileInput::uploaded_handler() {
+    std::string filename = file_upload_->spoolFileName();
+    std::ifstream file(filename.c_str());
+    text_area_->setText(std::string(std::istreambuf_iterator<char>(file),
+                                    std::istreambuf_iterator<char>()));
 }
 
 WFormWidget* TextFileInput::form_widget_impl() {

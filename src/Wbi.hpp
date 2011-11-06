@@ -209,6 +209,9 @@ protected:
     and set the name of the file.
     */
     void set_option();
+
+private:
+    void uploaded_handler();
 };
 
 /** Abstract base class for output argument */
