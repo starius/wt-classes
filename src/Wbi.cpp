@@ -7,6 +7,8 @@
  * See the LICENSE file for terms of use.
  */
 
+#define BOOST_FILESYSTEM_VERSION 3
+
 #include <cstdio>
 #include <boost/bind.hpp>
 #include <boost/filesystem.hpp>
@@ -153,8 +155,8 @@ void AbstractOutput::select_handler_() {
     selected_ = box->isChecked();
 }
 
-FileOutput::FileOutput(const FileOutput::NameGen& temp_gen,
-                       const std::string& option_name,
+FileOutput::FileOutput(const std::string& option_name,
+                       const FileOutput::NameGen& temp_gen,
                        const std::string& download_mime):
     AbstractOutput(option_name),
     temp_gen_(temp_gen),
@@ -178,6 +180,10 @@ const std::string& FileOutput::temp_file() const {
 
 std::string FileOutput::suggested_name() const {
     return suggested_gen_();
+}
+
+std::string FileOutput::unique_name() {
+    return boost::filesystem::unique_path().string();
 }
 
 std::string FileOutput::temp_notdir() const {
