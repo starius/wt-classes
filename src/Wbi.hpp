@@ -91,6 +91,15 @@ public:
         required_ = value;
     }
 
+protected:
+    /** Return if the value of the input is valid.
+    By default return true.
+    */
+    virtual bool is_valid() const;
+
+    /** Add arguments to the vector of arguments, if is_valid() */
+    void add_args(std::vector<std::string>& args);
+
 private:
     bool required_;
 };
@@ -110,6 +119,9 @@ public:
     Widget passed to the constructor is returned.
     */
     WFormWidget* form_widget() const;
+
+protected:
+    bool is_valid() const;
 };
 
 /** Input argument using WLineEdit */
