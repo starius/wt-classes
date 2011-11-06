@@ -202,7 +202,9 @@ public:
 
     The default value is true.
     */
-    void set_selectable(bool value);
+    void set_selectable(bool value) {
+        selectable_ = value;
+    }
 
     /** Get if the checkbox is checked by default.
     \sa set_selected()
@@ -214,7 +216,9 @@ public:
     /** Set if the checkbox is checked by default.
     This make sense only if is_selectable() == true.
     */
-    void set_selected(bool value);
+    void set_selected(bool value) {
+        selected_ = value;
+    }
 
     /** This method is triggered when the program is finished */
     void virtual task_finished_handler()=0;
