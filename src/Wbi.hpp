@@ -12,6 +12,7 @@
 
 #include <string>
 #include <vector>
+#include <boost/function.hpp>
 
 #include <Wt/WGlobal>
 #include <Wt/WCompositeWidget>
@@ -281,18 +282,26 @@ This argument allows the user to download the file.
 */
 class FileOutput : public AbstractOutput {
 public:
+    /** Generator of file name to be used */
+    typedef boost::function<std::string()> NameGen;
+
     /** Constructor.
     \copydetails AbstractOutput()
-    \param temp_dir Temporary directory to create a file
+    \param temp_gen Temporary file name generator.
+        This file is tried to be deleted in destructor.
+        The function is called at most once by one FileOutput instance.
     \param download_mime Mime-type for a downloaded file
     */
-    FileOutput(const std::string& temp_dir, const std::string& option_name,
+    FileOutput(const NameGen& temp_gen, const std::string& option_name,
                const std::string& download_mime = "application/octet-stream");
 
-    /** Get temponary directory to acreate a file */
-    const std::string& temp_dir() const {
-        return temp_dir_;
-    }
+    /** Destructor.
+    Try to delete temp_file().
+    */
+    virtual ~FileOutput();
+
+    /** Get temponary file name */
+    const std::string& temp_file() const;
 
     /** Get mime-type for a downloaded file */
     const std::string& download_mime() const {
@@ -301,10 +310,8 @@ public:
 
 protected:
     /** \copybrief AbstractArgument::set_option()
-    Create a file with a random name in the temp_dir
+    Create a file with a name provided by NameGen passed to the constructor
     and set it's name to option value.
-    \note File as well as temp_dir are not removed by this class.
-        Temporary directory should be removed latter by the form.
     */
     void set_option();
 
@@ -312,7 +319,8 @@ protected:
     void task_finished_handler();
 
 private:
-    std::string temp_dir_;
+    NameGen temp_gen_;
+    std::string temp_file_;
     std::string download_mime_;
 };
 
@@ -326,7 +334,7 @@ public:
     \copydetails FileOutput()
     \param view_mime Mime-type for a viewed file
     */
-    TextFileOutput(const std::string& temp_dir, const std::string& option_name,
+    TextFileOutput(const NameGen& temp_gen, const std::string& option_name,
                    const std::string& download_mime = "application/octet-stream",
                    const std::string& view_mime = "text/plain");
 
