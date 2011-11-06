@@ -125,7 +125,7 @@ public:
 
 protected:
     /** Set option value.
-    Set WLineEdit::text() as an option value.
+    Set WLineEdit::text() as an option value (UTF-8).
     */
     void set_option();
 };
