@@ -53,8 +53,8 @@ protected:
     This method should get information from widgets and
     set correct value of option_value_.
     \note This method is used by default implementation of add_args().
-        In case you reimplemented add_args(), you should implement
-        this method with empty body (doing nothing).
+        Even if add_args() were reimplemented, this method also should be
+        implemented (e.g. with with empty body).
     */
     virtual void set_option() = 0;
 };
