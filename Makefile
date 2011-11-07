@@ -2,7 +2,7 @@
 BUILD = debug
 VERSION = $(shell cat VERSION)
 
-ifneq (,$(findstring dist,$(MAKECMDGOALS)))
+ifneq (,$(findstring $(MAKECMDGOALS),dist deb))
 BUILD = release
 endif
 
