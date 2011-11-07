@@ -19,7 +19,7 @@ dist_install_dir = /usr/lib
 
 CXX = g++
 LINK = g++
-LIBS += -lboost_signals -lboost_regex -lboost_system -lboost_thread
+LIBS += -lboost_signals -lboost_system
 LIBS += -lwt
 CXXFLAGS += -pipe -Wall -W -fPIC
 CXXFLAGS += -I$(BUILD) -Isrc
