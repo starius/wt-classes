@@ -62,5 +62,13 @@ doc:
 dist: $$(dist_files)
 	mkdir -p $(dist_dir)$(dist_install_dir)
 	cp -f -l $(LIB) $(dist_dir)$(dist_install_dir)/lib$(LIB_FILE).$(VERSION)
-	tar -czf $(dist_tgz) $(dist_dir)
+	tar --exclude=debian -czf $(dist_tgz) $(dist_dir)
+
+.PHONY: deb
+deb: dist
+	cp -fl $(dist_tgz) wtclasses_$(VERSION).orig.tar.gz
+	rm -rf $(dist_dir)/debian
+	cd $(dist_dir) && yes | dh_make -l
+	cp -flr debian/* $(dist_dir)/debian
+	cd $(dist_dir) && dpkg-buildpackage
 

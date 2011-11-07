@@ -1,0 +1,20 @@
+Source: wtclasses
+Priority: extra
+Maintainer: Boris Nagaev <bnagaev@gmail.com>
+Build-Depends: debhelper (>= 7.0.50~)
+Standards-Version: 3.8.4
+Section: libs
+Homepage: https://bitbucket.org/starius/wt-classes
+
+# Package: wtclasses-dev
+# Section: libdevel
+# Architecture: any
+# Depends: wtclasses (= ${binary:Version})
+# Description: utility classes used by Wt applications
+
+Package: libwtclasses
+Section: libs
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: utility classes used by Wt applications
+
