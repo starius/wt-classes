@@ -37,6 +37,7 @@ AbstractArgument::AbstractArgument(const std::string& option_name):
 { }
 
 void AbstractArgument::add_args(std::vector<std::string>& args) {
+    set_option();
     if (!option_name_.empty()) {
         args.push_back(option_name_);
     }
