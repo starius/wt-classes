@@ -1,11 +1,21 @@
 
 BUILD = debug
+VERSION = $(shell cat VERSION)
+
+ifneq (,$(findstring dist,$(MAKECMDGOALS)))
+BUILD = release
+endif
 
 .SECONDEXPANSION:
 
 LIB_FILE = wtclasses.so
 LIB = ./$(BUILD)/$(LIB_FILE)
 LIB_PATH = $(LIB)
+
+dist_files = $(LIB)
+dist_dir = wtclasses-$(VERSION)
+dist_tgz = $(dist_dir).tar.gz
+dist_install_dir = /usr/lib
 
 CXX = g++
 LINK = g++
@@ -47,4 +57,10 @@ $(LIB): $$(sources) $$(headers) $$(makefiles) $$(objects)
 .PHONY: doc
 doc:
 	doxygen
+
+.PHONY: dist
+dist: $$(dist_files)
+	mkdir -p $(dist_dir)$(dist_install_dir)
+	cp -f -l $(LIB) $(dist_dir)$(dist_install_dir)/lib$(LIB_FILE).$(VERSION)
+	tar -czf $(dist_tgz) $(dist_dir)
 
