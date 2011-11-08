@@ -12,11 +12,6 @@ LIB_FILE = wtclasses.so
 LIB = ./$(BUILD)/$(LIB_FILE)
 LIB_PATH = $(LIB)
 
-dist_files = $(LIB)
-dist_dir = wtclasses-$(VERSION)
-dist_tgz = $(dist_dir).tar.gz
-dist_install_dir = /usr/lib
-
 CXX = g++
 LINK = g++
 LIBS += -lboost_signals -lboost_system
@@ -37,6 +32,12 @@ headers = $(sort $(wildcard src/*.hpp) $(wildcard src/*/*.hpp))
 objects = $(subst src/,$(BUILD)/,$(sources:.cpp=.o))
 makefiles = $(objects:.o=.d)
 tosource = src/$*.cpp
+
+dist_files = $(LIB) $(headers)
+dist_dir = wtclasses-$(VERSION)
+dist_tgz = $(dist_dir).tar.gz
+dist_install_dir = /usr/lib
+dist_header_dir = /usr/include/Wt/Wc
 
 .PHONY: build
 build: $$(LIB)
@@ -62,6 +63,8 @@ doc:
 dist: $$(dist_files)
 	mkdir -p $(dist_dir)$(dist_install_dir)
 	cp -f -l $(LIB) $(dist_dir)$(dist_install_dir)/lib$(LIB_FILE).$(VERSION)
+	mkdir -p $(dist_dir)$(dist_header_dir)
+	cp -f -l $(headers) $(dist_dir)$(dist_header_dir)
 	tar --exclude=debian -czf $(dist_tgz) $(dist_dir)
 
 .PHONY: deb
