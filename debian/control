@@ -1,4 +1,4 @@
-Source: wtclasses
+Source: libwtclasses
 Priority: extra
 Maintainer: Boris Nagaev <bnagaev@gmail.com>
 Build-Depends: debhelper (>= 7.0.50~)
