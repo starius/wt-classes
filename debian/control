@@ -6,11 +6,11 @@ Standards-Version: 3.8.4
 Section: libs
 Homepage: https://bitbucket.org/starius/wt-classes
 
-# Package: wtclasses-dev
-# Section: libdevel
-# Architecture: any
-# Depends: wtclasses (= ${binary:Version})
-# Description: utility classes used by Wt applications
+Package: libwtclasses-dev
+Section: libdevel
+Architecture: any
+Depends: libwtclasses (= ${binary:Version}), libwt-dev
+Description: utility classes used by Wt applications
 
 Package: libwtclasses
 Section: libs
