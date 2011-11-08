@@ -12,6 +12,8 @@ endif
 LIB_FILE = $(name).so
 LIB = ./$(BUILD)/$(LIB_FILE)
 LIB_PATH = $(LIB)
+STATIC_LIB = $(name).a
+STATIC_LIB_PATH = ./$(BUILD)/$(STATIC_LIB)
 
 CXX = g++
 LINK = g++
@@ -34,14 +36,14 @@ objects = $(subst src/,$(BUILD)/,$(sources:.cpp=.o))
 makefiles = $(objects:.o=.d)
 tosource = src/$*.cpp
 
-dist_files = $(LIB) $(headers)
+dist_files = $(LIB) $(STATIC_LIB_PATH) $(headers)
 dist_dir = $(name)-$(VERSION)
 dist_tgz = $(dist_dir).tar.gz
 dist_install_dir = /usr/lib
 dist_header_dir = /usr/include/Wt/Wc
 
 .PHONY: build
-build: $$(LIB)
+build: $$(LIB) $$(STATIC_LIB_PATH)
 
 include $(makefiles)
 
@@ -56,14 +58,20 @@ $(LIB): $$(sources) $$(headers) $$(makefiles) $$(objects)
 	mkdir -p $(dir $@)
 	$(LINK) $(LFLAGS) $(LIBS) $(objects) -o $@
 
+$(STATIC_LIB_PATH): $$(objects)
+	mkdir -p $(dir $@)
+	ar -cvq $@ $^
+
 .PHONY: doc
 doc:
 	doxygen
 
 .PHONY: dist
-dist: $$(dist_files)
+dist: $$(dist_files) build
 	mkdir -p $(dist_dir)$(dist_install_dir)
 	cp -f -l $(LIB) $(dist_dir)$(dist_install_dir)/$(LIB_FILE).$(VERSION)
+	ln -f -s $(LIB_FILE).$(VERSION) $(dist_dir)$(dist_install_dir)/$(LIB_FILE)
+	cp -f -l $(STATIC_LIB_PATH) $(dist_dir)$(dist_install_dir)
 	mkdir -p $(dist_dir)$(dist_header_dir)
 	cp -f -l $(headers) $(dist_dir)$(dist_header_dir)
 	tar --exclude=debian -czf $(dist_tgz) $(dist_dir)
