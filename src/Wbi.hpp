@@ -397,14 +397,22 @@ public:
 /** Abstract base class for runner of a program */
 class AbstractTaskRunner : public WObject {
 public:
+    /** Signal emitted when task is finished */
+    typedef Signal<> ExitSignal;
+
     /** Constructor */
     AbstractTaskRunner();
 
-    /** Run a program */
+    /** Run a program.
+    This method should return immediately.
+    */
     virtual void run(BaseForm* form) = 0;
 
     /** Return if a program has finished */
     virtual bool is_finished() = 0;
+
+    /** Return signal emitted when task is finished */
+    virtual ExitSignal& exit_signal() = 0;
 };
 
 }
