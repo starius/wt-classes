@@ -539,6 +539,18 @@ private:
     void emit() const;
 };
 
+/** Task runner, starting a waiting thread and a process */
+class ForkingTaskRunner : public AbstractTaskRunner {
+public:
+    /** Constructor.
+    \param command Command to use (program name)
+    */
+    ForkingTaskRunner(const std::string& command);
+
+    void run(BaseForm* form);
+};
+
+
 }
 
 }
