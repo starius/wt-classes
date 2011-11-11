@@ -36,13 +36,13 @@ AbstractArgument::AbstractArgument(const std::string& option_name):
     option_name_(option_name)
 { }
 
-void AbstractArgument::add_args(std::vector<std::string>& args) {
+void AbstractArgument::add_args(const ArgUser& f) {
     set_option();
     if (!option_name_.empty()) {
-        args.push_back(option_name_);
+        f(option_name_);
     }
     if (!option_value_.empty()) {
-        args.push_back(option_value_);
+        f(option_value_);
     }
 }
 
@@ -67,9 +67,9 @@ bool AbstractInput::is_valid() const {
     return true;
 }
 
-void AbstractInput::add_args(std::vector<std::string>& args) {
+void AbstractInput::add_args(const ArgUser& f) {
     if (is_valid()) {
-        AbstractArgument::add_args(args);
+        AbstractArgument::add_args(f);
     }
 }
 

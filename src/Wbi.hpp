@@ -11,7 +11,6 @@
 #define WT_WBI_HPP_
 
 #include <string>
-#include <vector>
 #include <boost/function.hpp>
 
 #include <Wt/WGlobal>
@@ -26,12 +25,15 @@ namespace Wc {
 /** Abstract base class for any command-line argument of a program */
 class AbstractArgument : public WCompositeWidget {
 public:
+    /** Function to be applied to command line argument */
+    typedef boost::function<void(const std::string&)> ArgUser;
+
     /** Constructor.
     \param option_name Name of a program option (i.e., "-i", "--output").
     */
     AbstractArgument(const std::string& option_name = "");
 
-    /** Add arguments to the vector of arguments.
+    /** Call the function for each of adding arguments.
     Default implementation adds option_name_ and option_value_.
     If option name or value is an empty string, it is skipped.
 
@@ -39,7 +41,7 @@ public:
         is not equal to 2 (name and value).
         Examples: argument lists; switches (flags).
     */
-    virtual void add_args(std::vector<std::string>& args);
+    virtual void add_args(const ArgUser& f);
 
 protected:
     /** Name of a program option (i.e., "-i", "--output") */
@@ -85,8 +87,8 @@ public:
     /** Set if the input is required.
     If input is required but not provided (or provided incorrectly),
     a program is not started and error message is shown to the user.
-    This is detected as follows: if size of args vector is not
-    changed by add_args(), the input is considered not to be provided.
+    This is detected as follows: if the function, passed to add_args()
+    has not been called, the input is considered not to be provided.
     \note All switches must not be required.
 
     The default value is true.
@@ -107,8 +109,8 @@ protected:
     */
     virtual bool is_valid() const;
 
-    /** Add arguments to the vector of arguments, if is_valid() */
-    void add_args(std::vector<std::string>& args);
+    /** Call the function for each of adding arguments, if is_valid() */
+    void add_args(const ArgUser& f);
 
 private:
     bool required_;
