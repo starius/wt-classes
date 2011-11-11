@@ -303,6 +303,8 @@ private:
     std::string name_if_false_;
     std::string value_if_true_;
     std::string value_if_false_;
+
+    void initialize(bool checked);
 };
 
 /** Abstract base class for output argument */

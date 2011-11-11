@@ -147,6 +147,44 @@ void TextFileInput::set_option() {
     option_value_ = filename;
 }
 
+BoolInput::BoolInput(const std::string& name_if_true, bool checked):
+    AbstractInput(""),
+    name_if_true_(name_if_true) {
+    initialize(checked);
+}
+
+BoolInput::BoolInput(const std::string& name_if_true,
+                     const std::string& name_if_false, bool checked):
+    AbstractInput(""),
+    name_if_true_(name_if_true), name_if_false_(name_if_false) {
+    initialize(checked);
+}
+
+BoolInput::BoolInput(const std::string& name,
+                     const std::string& value_if_true,
+                     const std::string& value_if_false, bool checked):
+    AbstractInput(""),
+    name_if_true_(name), name_if_false_(name),
+    value_if_true_(value_if_true), value_if_false_(value_if_false) {
+    initialize(checked);
+}
+
+void BoolInput::set_option() {
+    if (impl_->isChecked()) {
+        option_name_ = name_if_true_;
+        option_value_ = value_if_true_;
+    } else {
+        option_name_ = name_if_false_;
+        option_value_ = value_if_false_;
+    }
+}
+
+void BoolInput::initialize(bool checked) {
+    setImplementation(impl_ = new WCheckBox());
+    impl_->setChecked(checked);
+
+}
+
 AbstractOutput::AbstractOutput(const std::string& option_name):
     AbstractArgument(option_name),
     selectable_(true), selected_by_default_(true),
