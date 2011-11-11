@@ -273,6 +273,15 @@ void ViewFileOutput::task_finished_handler() {
     setImplementation(c);
 }
 
+AbstractTaskRunner::AbstractTaskRunner():
+    is_finished_(false) {
+    finished_signal_.connect(this, &AbstractTaskRunner::finished_handler);
+}
+
+void AbstractTaskRunner::finished_handler() {
+    is_finished_ = true;
+}
+
 }
 
 }
