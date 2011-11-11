@@ -214,6 +214,94 @@ private:
     void uploaded_handler();
 };
 
+/** Boolean input.
+This input may pass option name and/or option value.
+
+This is installed by four parameters:
+ - name_if_true()
+ - name_if_false()
+ - value_if_true()
+ - value_if_false()
+*/
+class BoolInput : public AbstractInput {
+public:
+    /** Constructor.
+    \param name_if_true Option name to be passed if true (name_if_true())
+    */
+    BoolInput(const std::string& name_if_true);
+
+    /** Constructor.
+    \param name_if_true Option name to be passed if true (name_if_true())
+    \param name_if_false Option name to be passed if false (name_if_false())
+    */
+    BoolInput(const std::string& name_if_true,
+              const std::string& name_if_false);
+
+    /** Constructor.
+    \param name Option name to be passed (name_if_true() = name_if_false())
+    \param value_if_true Option value to be passed if true (value_if_true())
+    \param value_if_false Option value to be passed if false (value_if_false())
+    */
+    BoolInput(const std::string& name,
+              const std::string& value_if_true,
+              const std::string& value_if_false);
+
+    /** Get the value to be set as option name, if true */
+    const std::string& name_if_true() const {
+        return name_if_true_;
+    }
+
+    /** Set the value to be set as option name, if true */
+    void set_name_if_true(const std::string& v) {
+        name_if_true_ = v;
+    }
+
+    /** Get the value to be set as option name, if false */
+    const std::string& name_if_false() const {
+        return name_if_false_;
+    }
+
+    /** Set the value to be set as option name, if false */
+    void set_name_if_false(const std::string& v) {
+        name_if_false_ = v;
+    }
+
+    /** Get the value to be set as option value, if true */
+    const std::string& value_if_true() const {
+        return value_if_true_;
+    }
+
+    /** Set the value to be set as option value, if true */
+    void set_value_if_true(const std::string& v) {
+        value_if_true_ = v;
+    }
+
+    /** Get the value to be set as option value, if false */
+    const std::string& value_if_false() const {
+        return value_if_false_;
+    }
+
+    /** Set the value to be set as option value, if false */
+    void set_value_if_false(const std::string& v) {
+        value_if_false_ = v;
+    }
+
+protected:
+    /** Implementation */
+    WCheckBox* impl_;
+
+    /** \copybrief AbstractArgument::set_option()
+    Add or not add argument
+    */
+    void set_option();
+
+private:
+    std::string name_if_true_;
+    std::string name_if_false_;
+    std::string value_if_true_;
+    std::string value_if_false_;
+};
+
 /** Abstract base class for output argument */
 class AbstractOutput : public AbstractArgument {
 public:
