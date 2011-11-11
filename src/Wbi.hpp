@@ -493,7 +493,7 @@ public:
 class AbstractTaskRunner : public WObject {
 public:
     /** Signal emitted when task is finished */
-    typedef Signal<> ExitSignal;
+    typedef Signal<> FinishedSignal;
 
     /** Constructor */
     AbstractTaskRunner();
@@ -509,15 +509,15 @@ public:
     }
 
     /** Return signal emitted when task is finished */
-    ExitSignal& exit_signal() {
-        return exit_signal_;
+    FinishedSignal& finished_signal() {
+        return finished_signal_;
     }
 
 private:
     bool is_finished_;
-    ExitSignal exit_signal_;
+    FinishedSignal finished_signal_;
 
-    void exit_handler();
+    void finished_handler();
 };
 
 }
