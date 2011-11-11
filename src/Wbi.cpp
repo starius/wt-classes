@@ -182,7 +182,6 @@ void BoolInput::set_option() {
 void BoolInput::initialize(bool checked) {
     setImplementation(impl_ = new WCheckBox());
     impl_->setChecked(checked);
-
 }
 
 AbstractOutput::AbstractOutput(const std::string& option_name):
