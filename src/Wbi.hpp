@@ -227,24 +227,27 @@ class BoolInput : public AbstractInput {
 public:
     /** Constructor.
     \param name_if_true Option name to be passed if true (name_if_true())
+    \param checked If the checkbox is checked by default
     */
-    BoolInput(const std::string& name_if_true);
+    BoolInput(const std::string& name_if_true, bool checked = true);
 
     /** Constructor.
     \param name_if_true Option name to be passed if true (name_if_true())
     \param name_if_false Option name to be passed if false (name_if_false())
+    \param checked If the checkbox is checked by default
     */
     BoolInput(const std::string& name_if_true,
-              const std::string& name_if_false);
+              const std::string& name_if_false, bool checked = true);
 
     /** Constructor.
     \param name Option name to be passed (name_if_true() = name_if_false())
     \param value_if_true Option value to be passed if true (value_if_true())
     \param value_if_false Option value to be passed if false (value_if_false())
+    \param checked If the checkbox is checked by default
     */
     BoolInput(const std::string& name,
               const std::string& value_if_true,
-              const std::string& value_if_false);
+              const std::string& value_if_false, bool checked = true);
 
     /** Get the value to be set as option name, if true */
     const std::string& name_if_true() const {
