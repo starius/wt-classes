@@ -24,6 +24,8 @@
 #include <Wt/WFileResource>
 #include <Wt/WAnchor>
 #include <Wt/WText>
+#include <Wt/WApplication>
+#include <Wt/WServer>
 
 #include "Wbi.hpp"
 #include "TableForm.hpp"
@@ -274,12 +276,19 @@ void ViewFileOutput::task_finished_handler() {
 }
 
 AbstractTaskRunner::AbstractTaskRunner():
-    is_finished_(false) {
-    finished_signal_.connect(this, &AbstractTaskRunner::finished_handler);
+    state_(NEW)
+{ }
+
+void AbstractTaskRunner::finish() {
+    state_ = FINISHED;
+    // TODO use helper function emitter
+    WServer::instance()->post(wApp->sessionId(),
+                              boost::bind(&AbstractTaskRunner::emit,
+                                          this));
 }
 
-void AbstractTaskRunner::finished_handler() {
-    is_finished_ = true;
+void AbstractTaskRunner::emit() const {
+    finished_signal_.emit();
 }
 
 }

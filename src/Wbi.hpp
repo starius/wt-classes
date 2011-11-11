@@ -495,17 +495,29 @@ public:
     /** Signal emitted when task is finished */
     typedef Signal<> FinishedSignal;
 
+    /** Execution state */
+    enum State {
+        NEW, /**< Not started yet */
+        WORKING, /**< Working */
+        FINISHED /**< Finished */
+    };
+
     /** Constructor */
     AbstractTaskRunner();
 
     /** Run a program.
     This method should return immediately.
+     - If state is WORKING, this should do nothing;
+     - if state is FINISHED, this should firstly make it NEW
+       (not only set state=NEW, but also prepare the object, if needed);
+     - then the state is set to WORKING and the program is started;
+     - when the program is finished, finish() should be called.
     */
     virtual void run(BaseForm* form) = 0;
 
-    /** Return if a program has finished */
-    bool is_finished() const {
-        return is_finished_;
+    /** Get state */
+    State state() const {
+        return state_;
     }
 
     /** Return signal emitted when task is finished */
@@ -513,11 +525,18 @@ public:
         return finished_signal_;
     }
 
+protected:
+    /** Method to be called when the program is finished.
+    This method changes the state() and emits finished_signal().
+    \note Thread-safe method
+    */
+    void finish();
+
 private:
-    bool is_finished_;
+    State state_;
     FinishedSignal finished_signal_;
 
-    void finished_handler();
+    void emit() const;
 };
 
 }
