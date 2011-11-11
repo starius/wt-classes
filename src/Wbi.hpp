@@ -504,10 +504,20 @@ public:
     virtual void run(BaseForm* form) = 0;
 
     /** Return if a program has finished */
-    virtual bool is_finished() = 0;
+    bool is_finished() const {
+        return is_finished_;
+    }
 
     /** Return signal emitted when task is finished */
-    virtual ExitSignal& exit_signal() = 0;
+    ExitSignal& exit_signal() {
+        return exit_signal_;
+    }
+
+private:
+    bool is_finished_;
+    ExitSignal exit_signal_;
+
+    void exit_handler();
 };
 
 }
