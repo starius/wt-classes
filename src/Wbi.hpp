@@ -372,7 +372,7 @@ private:
     bool selected_by_default_;
     bool selected_;
 
-    void select_handler_();
+    void select_handler();
 };
 
 /** Output file argument.

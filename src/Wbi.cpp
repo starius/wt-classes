@@ -193,7 +193,7 @@ AbstractOutput::AbstractOutput(const std::string& option_name):
     box->setChecked(selected_by_default_);
     box->setEnabled(selectable_);
     if (selectable_) {
-        box->changed().connect(this, &AbstractOutput::select_handler_);
+        box->changed().connect(this, &AbstractOutput::select_handler);
     }
     setImplementation(box);
 }
@@ -202,7 +202,7 @@ bool AbstractOutput::is_needed() const {
     return !is_selectable() || is_selected();
 }
 
-void AbstractOutput::select_handler_() {
+void AbstractOutput::select_handler() {
     WCheckBox* box = static_cast<WCheckBox*>(sender());
     selected_ = box->isChecked();
 }
