@@ -568,7 +568,17 @@ public:
     */
     ForkingTaskRunner(const std::string& command);
 
+    /** Destructor.
+    \todo Should kill a thread and a process if any
+    */
+    ~ForkingTaskRunner();
+
     void run(AbstractForm* form);
+
+private:
+    std::string command_;
+
+    void run_impl(AbstractForm* form);
 };
 
 

@@ -9,10 +9,13 @@
 
 #define BOOST_FILESYSTEM_VERSION 3
 
+#include <cstdlib>
 #include <cstdio>
 #include <fstream>
+#include <sstream>
 #include <boost/bind.hpp>
 #include <boost/filesystem.hpp>
+#include <boost/thread.hpp>
 
 #include <Wt/WContainerWidget>
 #include <Wt/WCompositeWidget>
@@ -298,6 +301,33 @@ void AbstractTaskRunner::finish() {
 
 void AbstractTaskRunner::emit() const {
     finished_.emit();
+}
+
+ForkingTaskRunner::ForkingTaskRunner(const std::string& command):
+    command_(command)
+{ }
+
+ForkingTaskRunner::~ForkingTaskRunner() {
+    // TODO
+}
+
+void ForkingTaskRunner::run(AbstractForm* form) {
+    if (state() == FINISHED || state() == NEW) {
+        set_state(WORKING);
+        boost::thread(&ForkingTaskRunner::run_impl, this, form);
+    }
+}
+
+void arg_to_stream(std::stringstream& stream, const std::string& arg) {
+    stream << " " << arg << " ";
+}
+
+void ForkingTaskRunner::run_impl(AbstractForm* form) {
+    std::stringstream cmd;
+    cmd << command_ << " ";
+    form->visit_args(boost::bind(arg_to_stream, boost::ref(cmd), _1));
+    system(cmd.str().c_str());
+    finish();
 }
 
 }
