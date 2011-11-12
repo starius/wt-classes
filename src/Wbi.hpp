@@ -522,6 +522,7 @@ public:
 
     /** Return signal emitted when task is finished.
     This signal is thread-safely emitted by finish() through WServer::post().
+    \note Connect this signal to WApplication::triggerUpdate()
     */
     FinishedSignal& finished_signal() {
         return finished_signal_;
