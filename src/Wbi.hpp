@@ -488,7 +488,7 @@ public:
     /** Set the program runner.
     Form takes ownership of the runner.
     */
-    void set_runner(AbstractTaskRunner* runer);
+    void set_runner(AbstractTaskRunner* runner);
 
     /** Apply the function to all arguments.
     This method should call add_args() of each argument.
