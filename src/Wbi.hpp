@@ -499,7 +499,9 @@ protected:
     AbstractTaskRunner* runner_;
 };
 
-/** Abstract base class for runner of a program */
+/** Abstract base class for runner of a program.
+Destructor of the class should kill working treads/processes if any.
+*/
 class AbstractTaskRunner : public WObject {
 public:
     /** Signal emitted when task is finished */
