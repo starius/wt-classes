@@ -520,14 +520,17 @@ public:
         return state_;
     }
 
-    /** Return signal emitted when task is finished */
+    /** Return signal emitted when task is finished.
+    This signal is thread-safely emitted by finish() through WServer::post().
+    */
     FinishedSignal& finished_signal() {
         return finished_signal_;
     }
 
 protected:
     /** Method to be called when the program is finished.
-    This method changes the state() and emits finished_signal().
+    This method changes the state() and emits finished_signal()
+    through WServer::post().
     \note Thread-safe method
     */
     void finish();
