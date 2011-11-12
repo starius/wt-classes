@@ -471,22 +471,30 @@ private:
     std::string view_mime_;
 };
 
-/** Base class of form for web-based interface of a program */
-class BaseForm : public WCompositeWidget {
+/** Abstract base class of form for web-based interface of a program */
+class AbstractForm : public WCompositeWidget {
 public:
     /** Constructor */
-    BaseForm(WContainerWidget* p = 0);
+    AbstractForm(WContainerWidget* p = 0);
 
     /** Add input agrument to the program */
-    void add_input(AbstractInput* input, const WString& name,
-                   const WString& description = "");
+    virtual void add_input(AbstractInput* input, const WString& name,
+                           const WString& description = "") = 0;
 
     /** Add output agrument to the program */
-    void add_output(AbstractOutput* output, const WString& name,
-                    const WString& description = "");
+    virtual void add_output(AbstractOutput* output, const WString& name,
+                            const WString& description = "") = 0;
 
     /** Set the program runner */
     void set_runner(AbstractTaskRunner* runer);
+
+    /** Apply the function to all arguments.
+    This method should call add_args() of each argument.
+    */
+    virtual void visit_args(const AbstractArgument::ArgUser& f) = 0;
+
+protected:
+    AbstractTaskRunner* runner_;
 };
 
 /** Abstract base class for runner of a program */
@@ -513,7 +521,7 @@ public:
      - then the state is set to WORKING and the program is started;
      - when the program is finished, finish() should be called.
     */
-    virtual void run(BaseForm* form) = 0;
+    virtual void run(AbstractForm* form) = 0;
 
     /** Get state */
     State state() const {
@@ -551,7 +559,7 @@ public:
     */
     ForkingTaskRunner(const std::string& command);
 
-    void run(BaseForm* form);
+    void run(AbstractForm* form);
 };
 
 
