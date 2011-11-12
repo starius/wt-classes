@@ -548,6 +548,11 @@ protected:
     */
     void finish();
 
+    /** Set state */
+    void set_state(State v) {
+        state_ = v;
+    }
+
 private:
     State state_;
     FinishedSignal finished_;
