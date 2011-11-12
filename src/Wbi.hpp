@@ -485,7 +485,9 @@ public:
     virtual void add_output(AbstractOutput* output, const WString& name,
                             const WString& description = "") = 0;
 
-    /** Set the program runner */
+    /** Set the program runner.
+    Form takes ownership of the runner.
+    */
     void set_runner(AbstractTaskRunner* runer);
 
     /** Apply the function to all arguments.
