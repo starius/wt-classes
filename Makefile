@@ -41,6 +41,7 @@ dist_dir = $(name)-$(VERSION)
 dist_tgz = $(dist_dir).tar.gz
 dist_install_dir = /usr/lib
 dist_header_dir = /usr/include/Wt/Wc
+bindir = /usr/bin
 
 .PHONY: build
 build: $$(LIB) $$(STATIC_LIB_PATH)
@@ -74,6 +75,8 @@ dist: $$(dist_files) build
 	cp -f -l $(STATIC_LIB_PATH) $(dist_dir)$(dist_install_dir)
 	mkdir -p $(dist_dir)$(dist_header_dir)
 	cp -f -l $(headers) $(dist_dir)$(dist_header_dir)
+	mkdir -p $(dist_dir)$(bindir)
+	cp -f -l locales-test.py $(dist_dir)$(bindir)/locales-test
 	tar --exclude=debian -czf $(dist_tgz) $(dist_dir)
 
 .PHONY: deb

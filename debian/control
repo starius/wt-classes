@@ -18,3 +18,9 @@ Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}
 Description: utility classes used by Wt applications
 
+Package: wtclasses-progs
+Section: devel
+Architecture: any
+Depends: python (>=2.7) | python-argparse
+Description: Wt application developer helpers
+
