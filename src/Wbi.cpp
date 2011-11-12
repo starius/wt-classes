@@ -275,6 +275,15 @@ void ViewFileOutput::task_finished_handler() {
     setImplementation(c);
 }
 
+AbstractForm::AbstractForm(WContainerWidget* p):
+    WCompositeWidget(p)
+{ }
+
+void AbstractForm::set_runner(AbstractTaskRunner* runner) {
+    runner_ = runner;
+    WObject::addChild(runner);
+}
+
 AbstractTaskRunner::AbstractTaskRunner():
     state_(NEW)
 { }
