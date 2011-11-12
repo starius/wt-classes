@@ -288,7 +288,7 @@ void AbstractTaskRunner::finish() {
 }
 
 void AbstractTaskRunner::emit() const {
-    finished_signal_.emit();
+    finished_.emit();
 }
 
 }

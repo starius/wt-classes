@@ -524,13 +524,13 @@ public:
     This signal is thread-safely emitted by finish() through WServer::post().
     \note Connect this signal to WApplication::triggerUpdate()
     */
-    FinishedSignal& finished_signal() {
-        return finished_signal_;
+    FinishedSignal& finished() {
+        return finished_;
     }
 
 protected:
     /** Method to be called when the program is finished.
-    This method changes the state() and emits finished_signal()
+    This method changes the state() and emits finished()
     through WServer::post().
     \note Thread-safe method
     */
@@ -538,7 +538,7 @@ protected:
 
 private:
     State state_;
-    FinishedSignal finished_signal_;
+    FinishedSignal finished_;
 
     void emit() const;
 };
