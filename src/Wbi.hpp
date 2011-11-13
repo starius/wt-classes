@@ -581,7 +581,6 @@ private:
     void run_impl(AbstractTask* form);
 };
 
-
 }
 
 }
