@@ -472,10 +472,10 @@ private:
 };
 
 /** Abstract base class of form for web-based interface of a program */
-class AbstractForm : public WCompositeWidget {
+class AbstractTask : public WCompositeWidget {
 public:
     /** Constructor */
-    AbstractForm(WContainerWidget* p = 0);
+    AbstractTask(WContainerWidget* p = 0);
 
     /** Add input agrument to the program */
     virtual void add_input(AbstractInput* input, const WString& name,
@@ -525,7 +525,7 @@ public:
      - then the state is set to WORKING and the program is started;
      - when the program is finished, finish() should be called.
     */
-    virtual void run(AbstractForm* form) = 0;
+    virtual void run(AbstractTask* form) = 0;
 
     /** Get state */
     State state() const {
@@ -573,12 +573,12 @@ public:
     */
     ~ForkingTaskRunner();
 
-    void run(AbstractForm* form);
+    void run(AbstractTask* form);
 
 private:
     std::string command_;
 
-    void run_impl(AbstractForm* form);
+    void run_impl(AbstractTask* form);
 };
 
 

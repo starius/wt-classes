@@ -278,11 +278,11 @@ void ViewFileOutput::task_finished_handler() {
     setImplementation(c);
 }
 
-AbstractForm::AbstractForm(WContainerWidget* p):
+AbstractTask::AbstractTask(WContainerWidget* p):
     WCompositeWidget(p)
 { }
 
-void AbstractForm::set_runner(AbstractTaskRunner* runner) {
+void AbstractTask::set_runner(AbstractTaskRunner* runner) {
     runner_ = runner;
     WObject::addChild(runner);
 }
@@ -311,7 +311,7 @@ ForkingTaskRunner::~ForkingTaskRunner() {
     // TODO
 }
 
-void ForkingTaskRunner::run(AbstractForm* form) {
+void ForkingTaskRunner::run(AbstractTask* form) {
     if (state() == FINISHED || state() == NEW) {
         set_state(WORKING);
         boost::thread(&ForkingTaskRunner::run_impl, this, form);
@@ -322,7 +322,7 @@ void arg_to_stream(std::stringstream& stream, const std::string& arg) {
     stream << " " << arg << " ";
 }
 
-void ForkingTaskRunner::run_impl(AbstractForm* form) {
+void ForkingTaskRunner::run_impl(AbstractTask* form) {
     std::stringstream cmd;
     cmd << command_ << " ";
     form->visit_args(boost::bind(arg_to_stream, boost::ref(cmd), _1));
