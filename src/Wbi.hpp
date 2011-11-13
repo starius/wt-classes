@@ -499,6 +499,21 @@ protected:
     AbstractTaskRunner* runner_;
 };
 
+/** Task form implementation using TableForm */
+class TableTask : public AbstractTask {
+public:
+    /** Constructor */
+    TableTask(WContainerWidget* p = 0);
+
+    void add_input(AbstractInput* input, const WString& name,
+                   const WString& description = "");
+
+    void add_output(AbstractOutput* output, const WString& name,
+                    const WString& description = "");
+
+    void visit_args(const AbstractArgument::ArgUser& f);
+};
+
 /** Abstract base class for runner of a program.
 Destructor of the class should kill working treads/processes if any.
 */

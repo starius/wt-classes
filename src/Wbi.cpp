@@ -287,6 +287,25 @@ void AbstractTask::set_runner(AbstractTaskRunner* runner) {
     WObject::addChild(runner);
 }
 
+TableTask::TableTask(WContainerWidget* p):
+    AbstractTask(p) {
+    // TODO
+}
+
+void TableTask::add_input(AbstractInput* input, const WString& name,
+                          const WString& description) {
+    // TODO
+}
+
+void TableTask::add_output(AbstractOutput* output, const WString& name,
+                           const WString& description) {
+    // TODO
+}
+
+void TableTask::visit_args(const AbstractArgument::ArgUser& f) {
+    // TODO
+}
+
 AbstractTaskRunner::AbstractTaskRunner():
     state_(NEW)
 { }
