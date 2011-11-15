@@ -373,8 +373,14 @@ public:
     */
     bool is_needed() const;
 
-    /** This method is triggered when the program is finished */
-    void virtual task_finished_handler() = 0;
+    /** This method is triggered when the program is finished.
+    The implementation of this method is finished_handler_impl()
+    */
+    void finished_handler();
+
+protected:
+    /** Implementation of finished_handler() */
+    virtual void finished_handler_impl() = 0;
 
 private:
     bool selectable_;
@@ -440,7 +446,7 @@ protected:
     void set_option();
 
     /** Create a HTML reference downloading the file */
-    void task_finished_handler();
+    void finished_handler_impl();
 
     /** Generate new anchor to be shown */
     WAnchor* anchor() const;
@@ -474,7 +480,7 @@ public:
 
 protected:
     /** Create a HTML references downloading and viewing the file in new tab */
-    void task_finished_handler();
+    void finished_handler_impl();
 
 private:
     std::string view_mime_;

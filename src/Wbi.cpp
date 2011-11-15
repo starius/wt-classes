@@ -220,6 +220,10 @@ void AbstractOutput::select_handler() {
     selected_ = box->isChecked();
 }
 
+void AbstractOutput::finished_handler() {
+    finished_handler_impl();
+}
+
 FileOutput::FileOutput(const std::string& option_name,
                        const FileOutput::NameGen& temp_gen,
                        const std::string& download_mime):
@@ -259,7 +263,7 @@ void FileOutput::set_option() {
     option_value_ = temp_file();
 }
 
-void FileOutput::task_finished_handler() {
+void FileOutput::finished_handler_impl() {
     setImplementation(anchor());
 }
 
@@ -277,7 +281,7 @@ ViewFileOutput::ViewFileOutput(const std::string& option_name,
     view_mime_(view_mime)
 { }
 
-void ViewFileOutput::task_finished_handler() {
+void ViewFileOutput::finished_handler_impl() {
     WFileResource* r = new WFileResource(view_mime_, temp_file());
     WAnchor* a = new WAnchor(r, tr("wc.View"));
     WContainerWidget* c = new WContainerWidget();
