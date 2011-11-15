@@ -16,6 +16,7 @@
 #include <boost/bind.hpp>
 #include <boost/filesystem.hpp>
 #include <boost/thread.hpp>
+#include <boost/foreach.hpp>
 
 #include <Wt/WContainerWidget>
 #include <Wt/WCompositeWidget>
@@ -297,11 +298,13 @@ AbstractTask::AbstractTask(WContainerWidget* p):
 
 void AbstractTask::add_input(AbstractInput* input, const WString& name,
                              const WString& description) {
+    args_.push_back(input);
     add_input_impl(input, name, description);
 }
 
 void AbstractTask::add_output(AbstractOutput* output, const WString& name,
                               const WString& description) {
+    args_.push_back(output);
     add_output_impl(output, name, description);
 }
 
@@ -314,6 +317,12 @@ void AbstractTask::set_runner(AbstractTaskRunner* runner) {
 void AbstractTask::run() {
     if (runner_) {
         runner_->run(this);
+    }
+}
+
+void AbstractTask::visit_args(const AbstractArgument::ArgUser& f) {
+    BOOST_FOREACH (AbstractArgument* arg, args_) {
+        arg->add_args(f);
     }
 }
 
@@ -342,16 +351,6 @@ void TableTask::add_input_impl(AbstractInput* input, const WString& name,
 void TableTask::add_output_impl(AbstractOutput* output, const WString& name,
                                 const WString& description) {
     outputs_->item(name, description, 0, output);
-}
-
-void argument_visitor(const AbstractArgument::ArgUser& f, WWidget* widget) {
-    AbstractArgument* arg = dynamic_cast<AbstractArgument*>(widget);
-    arg->add_args(f);
-}
-
-void TableTask::visit_args(const AbstractArgument::ArgUser& f) {
-    inputs_->foreach(boost::bind(argument_visitor, f, _1));
-    outputs_->foreach(boost::bind(argument_visitor, f, _1));
 }
 
 AbstractTaskRunner::AbstractTaskRunner():

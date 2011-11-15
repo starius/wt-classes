@@ -11,6 +11,7 @@
 #define WT_WBI_HPP_
 
 #include <string>
+#include <vector>
 #include <boost/function.hpp>
 
 #include <Wt/WGlobal>
@@ -496,12 +497,16 @@ public:
     AbstractTask(WContainerWidget* p = 0);
 
     /** Add input agrument to the program.
+    Argument is added to the vector of arguments which is used by visit_args().
+
     This method calls add_input_impl().
     */
     void add_input(AbstractInput* input, const WString& name,
                    const WString& description = "");
 
     /** Add output agrument to the program.
+    Argument is added to the vector of arguments which is used by visit_args().
+
     This method calls add_output_impl().
     */
     void add_output(AbstractOutput* output, const WString& name,
@@ -522,9 +527,10 @@ public:
     void run();
 
     /** Apply the function to all arguments.
-    This method should call add_args() of each argument.
+    This method calls \ref AbstractArgument::add_args "add_args(f)"
+    of each argument.
     */
-    virtual void visit_args(const AbstractArgument::ArgUser& f) = 0;
+    void visit_args(const AbstractArgument::ArgUser& f);
 
     /** Return signal emitted when task is finished.
     The emmiting of the signal is forwarded from AbstractTaskRunner::finished()
@@ -547,6 +553,7 @@ protected:
 
 private:
     FinishedSignal finished_;
+    std::vector<AbstractArgument*> args_;
 
     void finished_emitter();
 };
@@ -556,8 +563,6 @@ class TableTask : public AbstractTask {
 public:
     /** Constructor */
     TableTask(WContainerWidget* p = 0);
-
-    void visit_args(const AbstractArgument::ArgUser& f);
 
 protected:
     /** Container for inputs */
