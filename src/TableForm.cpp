@@ -20,14 +20,24 @@
 
 namespace Wt {
 
+const int TF_SECTION_COLUMN = 0;
+const int TF_NAME_COLUMN = 0;
+const int TF_INPUT_COLUMN = 1;
+const int TF_DESCRIPTION_COLUMN = 2;
+const int TF_NOROW_COLUMN = 2;
+const int TF_COLUMN_SPAN = 3;
+const int TF_WIDGET_IN_ROW = 0;
+const int TF_WIDGET_IN_NOROW = 2;
+const int TF_WIDGETS_IN_NOROW = 3;
+
 TableForm::TableForm(Wt::WContainerWidget* parent):
     Wt::WTable(parent) {
     setStyleClass("wt_tableform");
 }
 
 void TableForm::section(const Wt::WString& header) {
-    Wt::WTableCell* cell = elementAt(rowCount(), 0);
-    cell->setColumnSpan(3);
+    Wt::WTableCell* cell = elementAt(rowCount(), TF_SECTION_COLUMN);
+    cell->setColumnSpan(TF_COLUMN_SPAN);
     new Wt::WText(header, cell);
     cell->setStyleClass("wt_tableform_header");
 }
@@ -36,13 +46,13 @@ Wt::WContainerWidget* TableForm::item(const Wt::WString& name,
                                       const Wt::WString& description, Wt::WFormWidget* fw,
                                       Wt::WWidget* input, bool row) {
     int row_num = rowAt(rowCount())->rowNum();
-    Wt::WTableCell* name_cell = elementAt(row_num, 0);
-    Wt::WTableCell* input_cell = elementAt(row_num, 1);
-    Wt::WTableCell* description_cell = elementAt(row_num, 2);
+    Wt::WTableCell* name_cell = elementAt(row_num, TF_NAME_COLUMN);
+    Wt::WTableCell* input_cell = elementAt(row_num, TF_INPUT_COLUMN);
+    Wt::WTableCell* description_cell = elementAt(row_num, TF_DESCRIPTION_COLUMN);
     if (!row) {
         input_cell = name_cell;
         description_cell = name_cell;
-        name_cell->setColumnSpan(3);
+        name_cell->setColumnSpan(TF_COLUMN_SPAN);
     }
     if (row) {
         name_cell->setStyleClass("wt_tableform_name");
@@ -86,14 +96,14 @@ Wt::WTableRow* TableForm::parent_row_(Wt::WWidget* input) {
 }
 
 WWidget* TableForm::input_at(int row) {
-    int column_span = elementAt(row, 0)->columnSpan();
+    int column_span = elementAt(row, TF_NAME_COLUMN)->columnSpan();
     if (column_span == 1) {
-        WTableCell* cell = elementAt(row, 1);
-        return cell->widget(0);
-    } else if (column_span == 3) {
-        WTableCell* cell = elementAt(row, 0);
-        if (cell->count() == 3) {
-            return cell->widget(2);
+        WTableCell* cell = elementAt(row, TF_INPUT_COLUMN);
+        return cell->widget(TF_WIDGET_IN_ROW);
+    } else if (column_span == TF_COLUMN_SPAN) {
+        WTableCell* cell = elementAt(row, TF_NOROW_COLUMN);
+        if (cell->count() == TF_WIDGETS_IN_NOROW) {
+            return cell->widget(TF_WIDGET_IN_NOROW);
         }
     }
     return 0;
