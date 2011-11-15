@@ -295,6 +295,16 @@ AbstractTask::AbstractTask(WContainerWidget* p):
     WCompositeWidget(p)
 { }
 
+void AbstractTask::add_input(AbstractInput* input, const WString& name,
+                             const WString& description) {
+    add_input_impl(input, name, description);
+}
+
+void AbstractTask::add_output(AbstractOutput* output, const WString& name,
+                              const WString& description) {
+    add_output_impl(output, name, description);
+}
+
 void AbstractTask::set_runner(AbstractTaskRunner* runner) {
     runner_ = runner;
     WObject::addChild(runner);
@@ -323,14 +333,14 @@ TableTask::TableTask(WContainerWidget* p):
     setImplementation(impl);
 }
 
-void TableTask::add_input(AbstractInput* input, const WString& name,
-                          const WString& description) {
+void TableTask::add_input_impl(AbstractInput* input, const WString& name,
+                               const WString& description) {
     // TODO row argument of item()
     inputs_->item(name, description, input->form_widget(), input);
 }
 
-void TableTask::add_output(AbstractOutput* output, const WString& name,
-                           const WString& description) {
+void TableTask::add_output_impl(AbstractOutput* output, const WString& name,
+                                const WString& description) {
     outputs_->item(name, description, 0, output);
 }
 

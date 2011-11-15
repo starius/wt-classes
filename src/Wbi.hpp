@@ -495,13 +495,17 @@ public:
     /** Constructor */
     AbstractTask(WContainerWidget* p = 0);
 
-    /** Add input agrument to the program */
-    virtual void add_input(AbstractInput* input, const WString& name,
-                           const WString& description = "") = 0;
+    /** Add input agrument to the program.
+    This method calls add_input_impl().
+    */
+    void add_input(AbstractInput* input, const WString& name,
+                   const WString& description = "");
 
-    /** Add output agrument to the program */
-    virtual void add_output(AbstractOutput* output, const WString& name,
-                            const WString& description = "") = 0;
+    /** Add output agrument to the program.
+    This method calls add_output_impl().
+    */
+    void add_output(AbstractOutput* output, const WString& name,
+                    const WString& description = "");
 
     /** Set the program runner.
     AbstractTaskRunner::finished() is forwarded to finished().
@@ -533,6 +537,14 @@ protected:
     /** Runner running the task */
     AbstractTaskRunner* runner_;
 
+    /** Implementation of add_input() */
+    virtual void add_input_impl(AbstractInput* input, const WString& name,
+                                const WString& description = "") = 0;
+
+    /** Implementation of add_output() */
+    virtual void add_output_impl(AbstractOutput* output, const WString& name,
+                                 const WString& description = "") = 0;
+
 private:
     FinishedSignal finished_;
 
@@ -545,12 +557,6 @@ public:
     /** Constructor */
     TableTask(WContainerWidget* p = 0);
 
-    void add_input(AbstractInput* input, const WString& name,
-                   const WString& description = "");
-
-    void add_output(AbstractOutput* output, const WString& name,
-                    const WString& description = "");
-
     void visit_args(const AbstractArgument::ArgUser& f);
 
 protected:
@@ -559,6 +565,12 @@ protected:
 
     /** Container for outputs */
     TableForm* outputs_;
+
+    void add_input_impl(AbstractInput* input, const WString& name,
+                        const WString& description = "");
+
+    void add_output_impl(AbstractOutput* output, const WString& name,
+                         const WString& description = "");
 };
 
 /** Abstract base class for runner of a program.
