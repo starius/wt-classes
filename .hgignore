@@ -8,5 +8,6 @@ syntax: glob
 debug/
 release/
 doc/
-*wtclasses*
+libwtclasses*
+*.deb
 
