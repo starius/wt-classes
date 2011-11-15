@@ -16,18 +16,20 @@ class TableForm; // FIXME
 
 namespace Wc {
 
-class AbstractTaskRunner;
 class AbstractArgument;
 class AbstractInput;
 class FormWidgetInput;
 class LineEditInput;
 class FileInput;
 class TextFileInput;
+class BoolInput;
 class AbstractOutput;
 class FileOutput;
-class TextFileOutput;
-class BaseForm;
+class ViewFileOutput;
+class AbstractTask;
+class TableTask;
 class AbstractTaskRunner;
+class ForkingTaskRunner;
 
 }
 
