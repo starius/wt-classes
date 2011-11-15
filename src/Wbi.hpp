@@ -34,14 +34,9 @@ public:
     AbstractArgument(const std::string& option_name = "");
 
     /** Call the function for each of adding arguments.
-    Default implementation adds option_name_ and option_value_.
-    If option name or value is an empty string, it is skipped.
-
-    \note Reimplement this method if the number of added arguments
-        is not equal to 2 (name and value).
-        Examples: argument lists; switches (flags).
+    The implementation of this method is add_args_impl()
     */
-    virtual void add_args(const ArgUser& f);
+    void add_args(const ArgUser& f);
 
 protected:
     /** Name of a program option (i.e., "-i", "--output") */
@@ -50,12 +45,26 @@ protected:
     /** Value of a program option (i.e., "123", "in.txt", "out.pdf") */
     std::string option_value_;
 
+    /** Call the function for each of adding arguments (implementation).
+    Default implementation adds option_name_ and option_value_.
+    If option name or value is an empty string, it is skipped.
+
+    \note Reimplement this method if the number of added arguments
+        is not equal to 2 (name and value).
+        Examples: argument lists; switches (flags).
+    */
+    virtual void add_args_impl(const ArgUser& f);
+
+    /** Call the function for option_name_ and option_value_.
+    If option name or value is an empty string, it is skipped.
+    */
+    void add_option(const ArgUser& f);
+
     /** Set option value.
     You should implement this method in descendant classes.
     This method should get information from widgets and
     set correct value of option_value_.
-    \note This method is used by default implementation of add_args().
-        Even if add_args() were reimplemented, this method also should be
+    \note Even if add_args_impl() were reimplemented, this method also should be
         implemented (e.g. with with empty body).
     */
     virtual void set_option() = 0;
@@ -110,7 +119,7 @@ protected:
     virtual bool is_valid() const;
 
     /** Call the function for each of adding arguments, if is_valid() */
-    void add_args(const ArgUser& f);
+    void add_args_impl(const ArgUser& f);
 
 private:
     bool required_;
