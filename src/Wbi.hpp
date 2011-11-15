@@ -96,8 +96,10 @@ public:
     /** Set if the input is required.
     If input is required but not provided (or provided incorrectly),
     a program is not started and error message is shown to the user.
-    This is detected as follows: if the function, passed to add_args()
+
+    \todo This is detected as follows: if the function, passed to add_args()
     has not been called, the input is considered not to be provided.
+
     \note All switches must not be required.
 
     The default value is true.
