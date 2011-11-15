@@ -19,6 +19,7 @@
 
 #include <Wt/WContainerWidget>
 #include <Wt/WCompositeWidget>
+#include <Wt/WPushButton>
 #include <Wt/WLineEdit>
 #include <Wt/WCheckBox>
 #include <Wt/WFileUpload>
@@ -300,6 +301,8 @@ TableTask::TableTask(WContainerWidget* p):
     inputs_->section(tr("wc.wbi.Inputs"));
     outputs_ = new TableForm(impl);
     outputs_->section(tr("wc.wbi.Outputs"));
+    WPushButton* go = new WPushButton(tr("wc.wbi.Run"), impl);
+    go->clicked().connect(this, &AbstractTask::run);
     setImplementation(impl);
 }
 
