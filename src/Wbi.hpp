@@ -321,7 +321,10 @@ private:
     void initialize(bool checked);
 };
 
-/** Abstract base class for output argument */
+/** Abstract base class for output argument.
+\attention Do call setImplementation() from descriptors of this class.
+    Use container() instead.
+*/
 class AbstractOutput : public AbstractArgument {
 public:
     /** Constructor.
@@ -384,6 +387,9 @@ public:
 protected:
     /** Implementation of finished_handler() */
     virtual void finished_handler_impl() = 0;
+
+    /** Implementation */
+    WContainerWidget* container();
 
 private:
     bool selectable_;

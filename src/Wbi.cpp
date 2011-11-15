@@ -203,13 +203,14 @@ AbstractOutput::AbstractOutput(const std::string& option_name):
     AbstractArgument(option_name),
     selectable_(true), selected_by_default_(true),
     selected_(selected_by_default_) {
+    setImplementation(new WContainerWidget());
     WCheckBox* box = new WCheckBox();
     box->setChecked(selected_by_default_);
     box->setEnabled(selectable_);
     if (selectable_) {
         box->changed().connect(this, &AbstractOutput::select_handler);
     }
-    setImplementation(box);
+    container()->addWidget(box);
 }
 
 bool AbstractOutput::is_needed() const {
@@ -219,6 +220,10 @@ bool AbstractOutput::is_needed() const {
 void AbstractOutput::select_handler() {
     WCheckBox* box = static_cast<WCheckBox*>(sender());
     selected_ = box->isChecked();
+}
+
+WContainerWidget* AbstractOutput::container() {
+    return static_cast<WContainerWidget*>(implementation());
 }
 
 void AbstractOutput::finished_handler() {
@@ -265,7 +270,8 @@ void FileOutput::set_option() {
 }
 
 void FileOutput::finished_handler_impl() {
-    setImplementation(anchor());
+    container()->clear();
+    container()->addWidget(anchor());
 }
 
 WAnchor* FileOutput::anchor() const {
@@ -283,13 +289,12 @@ ViewFileOutput::ViewFileOutput(const std::string& option_name,
 { }
 
 void ViewFileOutput::finished_handler_impl() {
+    container()->clear();
     WFileResource* r = new WFileResource(view_mime_, temp_file());
     WAnchor* a = new WAnchor(r, tr("wc.View"));
-    WContainerWidget* c = new WContainerWidget();
-    c->addWidget(FileOutput::anchor());
-    c->addWidget(new WText(" | "));
-    c->addWidget(a);
-    setImplementation(c);
+    container()->addWidget(FileOutput::anchor());
+    container()->addWidget(new WText(" | "));
+    container()->addWidget(a);
 }
 
 AbstractTask::AbstractTask(WContainerWidget* p):
