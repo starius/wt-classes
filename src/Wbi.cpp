@@ -305,6 +305,7 @@ void AbstractTask::add_input(AbstractInput* input, const WString& name,
 void AbstractTask::add_output(AbstractOutput* output, const WString& name,
                               const WString& description) {
     args_.push_back(output);
+    finished_.connect(output, &AbstractOutput::finished_handler);
     add_output_impl(output, name, description);
 }
 
