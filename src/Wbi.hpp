@@ -179,6 +179,7 @@ public:
     FileInput(const std::string& option_name);
 
 protected:
+    /** Implementation widget */
     WContainerWidget* impl_;
 
     /** File upload widget */
@@ -517,6 +518,7 @@ public:
     virtual void visit_args(const AbstractArgument::ArgUser& f) = 0;
 
 protected:
+    /** Runner running the task */
     AbstractTaskRunner* runner_;
 };
 
