@@ -50,8 +50,7 @@ protected:
     If option name or value is an empty string, it is skipped.
 
     \note Reimplement this method if the number of added arguments
-        is not equal to 2 (name and value).
-        Examples: argument lists; switches (flags).
+        is more than 2 (e.g. variadic argument list).
     */
     virtual void add_args_impl(const ArgUser& f);
 
