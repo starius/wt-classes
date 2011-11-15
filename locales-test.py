@@ -35,20 +35,20 @@ import argparse
 ampersand = '-locales_test_ampersand'
 
 p = argparse.ArgumentParser(description='Wt l9n checker')
-p.add_argument('--wt', help='path to wt.xml', metavar='FILE', type=argparse.FileType('r'), required=True)
+p.add_argument('--wt', help='path to wt.xml', metavar='FILE', type=argparse.FileType('r'))
 p.add_argument('--prefix', help='Current project prefix', metavar='STR')
 p.add_argument('--sections', help='The list of allowed sections', nargs='+')
 args = p.parse_args()
 
-try:
-    wt_messages = parse(args.wt).getroot()
-except:
-    print 'Error: put wt.xml file into current directory'
-    quit()
-
 wt_ids = set()
-for message in wt_messages:
-    wt_ids.add(message.get('id'))
+if args.wt:
+    try:
+        wt_messages = parse(args.wt).getroot()
+        for message in wt_messages:
+            wt_ids.add(message.get('id'))
+    except:
+        print 'Error: provide correct wt.xml file through --wt option'
+        quit()
 
 sections = args.sections
 
@@ -85,7 +85,10 @@ for filename in os.listdir('locales'):
             print filename, Id, 'Error: message id should start with Wt. or %s' % args.prefix
         if Id.startswith('Wt.'):
             if Id not in wt_ids:
-                print filename, Id, 'Error: unknown Wt message (old wt.xml?)'
+                if wt_ids:
+                    print filename, Id, 'Error: unknown Wt message (old wt.xml?)'
+                else:
+                    print filename, Id, 'Error: unknown Wt message (provide --wt option)'
         else:
             try:
                 prefix, section, id = Id.split('.')
