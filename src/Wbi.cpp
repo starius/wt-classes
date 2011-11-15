@@ -292,6 +292,7 @@ void ViewFileOutput::finished_handler_impl() {
     container()->clear();
     WFileResource* r = new WFileResource(view_mime_, temp_file());
     WAnchor* a = new WAnchor(r, tr("wc.wbi.View"));
+    a->setTarget(TargetNewWindow);
     container()->addWidget(FileOutput::anchor());
     container()->addWidget(new WText(" | "));
     container()->addWidget(a);
