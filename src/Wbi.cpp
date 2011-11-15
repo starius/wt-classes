@@ -289,21 +289,33 @@ void AbstractTask::set_runner(AbstractTaskRunner* runner) {
 
 TableTask::TableTask(WContainerWidget* p):
     AbstractTask(p) {
-    // TODO
+    WContainerWidget* impl = new WContainerWidget();
+    inputs_ = new TableForm(impl);
+    inputs_->section(tr("wc.wbi.Inputs"));
+    outputs_ = new TableForm(impl);
+    outputs_->section(tr("wc.wbi.Outputs"));
+    setImplementation(impl);
 }
 
 void TableTask::add_input(AbstractInput* input, const WString& name,
                           const WString& description) {
-    // TODO
+    // TODO row argument of item()
+    inputs_->item(name, description, input->form_widget(), input);
 }
 
 void TableTask::add_output(AbstractOutput* output, const WString& name,
                            const WString& description) {
-    // TODO
+    outputs_->item(name, description, 0, output);
+}
+
+void argument_visitor(const AbstractArgument::ArgUser& f, WWidget* widget) {
+    AbstractArgument* arg = dynamic_cast<AbstractArgument*>(widget);
+    arg->add_args(f);
 }
 
 void TableTask::visit_args(const AbstractArgument::ArgUser& f) {
-    // TODO
+    inputs_->foreach(boost::bind(argument_visitor, f, _1));
+    outputs_->foreach(boost::bind(argument_visitor, f, _1));
 }
 
 AbstractTaskRunner::AbstractTaskRunner():

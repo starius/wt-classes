@@ -512,6 +512,13 @@ public:
                     const WString& description = "");
 
     void visit_args(const AbstractArgument::ArgUser& f);
+
+protected:
+    /** Container for inputs */
+    TableForm* inputs_;
+
+    /** Container for outputs */
+    TableForm* outputs_;
 };
 
 /** Abstract base class for runner of a program.
