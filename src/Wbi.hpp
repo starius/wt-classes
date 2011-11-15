@@ -518,6 +518,7 @@ public:
     AbstractTaskRunner::finished() is forwarded to finished().
 
     Form takes ownership of the runner.
+    Previous runner is deleted.
     */
     void set_runner(AbstractTaskRunner* runner);
 

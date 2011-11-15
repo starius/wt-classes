@@ -293,7 +293,7 @@ void ViewFileOutput::finished_handler_impl() {
 }
 
 AbstractTask::AbstractTask(WContainerWidget* p):
-    WCompositeWidget(p)
+    WCompositeWidget(p), runner_(0)
 { }
 
 void AbstractTask::add_input(AbstractInput* input, const WString& name,
@@ -310,6 +310,9 @@ void AbstractTask::add_output(AbstractOutput* output, const WString& name,
 }
 
 void AbstractTask::set_runner(AbstractTaskRunner* runner) {
+    if (runner_) {
+        WObject::removeChild(runner_);
+    }
     runner_ = runner;
     WObject::addChild(runner);
     runner_->finished().connect(this, &AbstractTask::finished_emitter);
