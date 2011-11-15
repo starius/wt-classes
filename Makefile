@@ -87,3 +87,10 @@ deb: dist
 	cp -flr debian/* $(dist_dir)/debian
 	cd $(dist_dir) && dpkg-buildpackage
 
+.PHONY: check
+check: locales
+
+.PHONY: locales
+locales: locales-test.py
+	./locales-test.py --prefix=wc --sections wbi
+
