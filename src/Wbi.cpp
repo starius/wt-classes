@@ -277,7 +277,7 @@ void FileOutput::finished_handler_impl() {
 WAnchor* FileOutput::anchor() const {
     WFileResource* r = new WFileResource(download_mime_, temp_file());
     r->suggestFileName(suggested_name());
-    return new WAnchor(r, tr("wc.Download"));
+    return new WAnchor(r, tr("wc.wbi.Download"));
 }
 
 ViewFileOutput::ViewFileOutput(const std::string& option_name,
@@ -291,7 +291,7 @@ ViewFileOutput::ViewFileOutput(const std::string& option_name,
 void ViewFileOutput::finished_handler_impl() {
     container()->clear();
     WFileResource* r = new WFileResource(view_mime_, temp_file());
-    WAnchor* a = new WAnchor(r, tr("wc.View"));
+    WAnchor* a = new WAnchor(r, tr("wc.wbi.View"));
     container()->addWidget(FileOutput::anchor());
     container()->addWidget(new WText(" | "));
     container()->addWidget(a);
