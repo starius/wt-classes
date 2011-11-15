@@ -298,12 +298,17 @@ AbstractTask::AbstractTask(WContainerWidget* p):
 void AbstractTask::set_runner(AbstractTaskRunner* runner) {
     runner_ = runner;
     WObject::addChild(runner);
+    runner_->finished().connect(this, &AbstractTask::finished_emitter);
 }
 
 void AbstractTask::run() {
     if (runner_) {
         runner_->run(this);
     }
+}
+
+void AbstractTask::finished_emitter() {
+    finished_.emit();
 }
 
 TableTask::TableTask(WContainerWidget* p):

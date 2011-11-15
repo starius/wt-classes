@@ -489,6 +489,9 @@ private:
 /** Abstract base class of form for web-based interface of a program */
 class AbstractTask : public WCompositeWidget {
 public:
+    /** Signal emitted when task is finished */
+    typedef Signal<> FinishedSignal;
+
     /** Constructor */
     AbstractTask(WContainerWidget* p = 0);
 
@@ -501,6 +504,8 @@ public:
                             const WString& description = "") = 0;
 
     /** Set the program runner.
+    AbstractTaskRunner::finished() is forwarded to finished().
+
     Form takes ownership of the runner.
     */
     void set_runner(AbstractTaskRunner* runner);
@@ -517,9 +522,21 @@ public:
     */
     virtual void visit_args(const AbstractArgument::ArgUser& f) = 0;
 
+    /** Return signal emitted when task is finished.
+    The emmiting of the signal is forwarded from AbstractTaskRunner::finished()
+    */
+    FinishedSignal& finished() {
+        return finished_;
+    }
+
 protected:
     /** Runner running the task */
     AbstractTaskRunner* runner_;
+
+private:
+    FinishedSignal finished_;
+
+    void finished_emitter();
 };
 
 /** Task form implementation using TableForm */
