@@ -328,15 +328,14 @@ void TableTask::visit_args(const AbstractArgument::ArgUser& f) {
 }
 
 AbstractTaskRunner::AbstractTaskRunner():
-    state_(NEW)
+    state_(NEW),
+    server_(WServer::instance()), session_id_(wApp->sessionId())
 { }
 
 void AbstractTaskRunner::finish() {
     state_ = FINISHED;
     // TODO use helper function emitter
-    WServer::instance()->post(wApp->sessionId(),
-                              boost::bind(&AbstractTaskRunner::emit,
-                                          this));
+    server_->post(session_id_, boost::bind(&AbstractTaskRunner::emit, this));
 }
 
 void AbstractTaskRunner::emit() const {

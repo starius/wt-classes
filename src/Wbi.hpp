@@ -585,6 +585,8 @@ protected:
 private:
     State state_;
     FinishedSignal finished_;
+    WServer* server_;
+    std::string session_id_;
 
     void emit() const;
 };
