@@ -539,6 +539,7 @@ public:
 
     /** Return signal emitted when task is finished.
     The emmiting of the signal is forwarded from AbstractTaskRunner::finished()
+    \note Connect this signal to WApplication::triggerUpdate()
     */
     FinishedSignal& finished() {
         return finished_;
@@ -618,7 +619,6 @@ public:
 
     /** Return signal emitted when task is finished.
     This signal is thread-safely emitted by finish() through WServer::post().
-    \note Connect this signal to WApplication::triggerUpdate()
     */
     FinishedSignal& finished() {
         return finished_;
