@@ -10,6 +10,8 @@ public:
     XxdApp(const WEnvironment& env):
         WApplication(env) {
         enableUpdates(true);
+        messageResourceBundle().use(Wt::WApplication::appRoot() +
+                                    "locales/wtclasses");
         TableTask* task = new TableTask(root());
         task->add_input(new FileInput(""), "Binary file");
         task->add_output(new ViewFileOutput(""), "Hex dump");

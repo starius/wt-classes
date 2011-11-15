@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<messages nplurals='2' plural="n==1 ? 0 : 1">
+
+    <message id='wc.wbi.Download'>Download</message>
+    <message id='wc.wbi.Inputs'>Inputs</message>
+    <message id='wc.wbi.Outputs'>Outputs</message>
+    <message id='wc.wbi.Run'>Run</message>
+    <message id='wc.wbi.View'>View</message>
+
+</messages>
+
