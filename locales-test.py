@@ -36,8 +36,10 @@ ampersand = '-locales_test_ampersand'
 
 p = argparse.ArgumentParser(description='Wt l9n checker')
 p.add_argument('--wt', help='path to wt.xml', metavar='FILE', type=argparse.FileType('r'))
-p.add_argument('--prefix', help='Current project prefix', metavar='STR')
-p.add_argument('--sections', help='The list of allowed sections', nargs='+')
+p.add_argument('--prefix', help='Current project prefix', metavar='STR',
+        required=True)
+p.add_argument('--sections', help='The list of allowed sections', nargs='+',
+        required=True)
 args = p.parse_args()
 
 wt_ids = set()
