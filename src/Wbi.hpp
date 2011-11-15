@@ -490,6 +490,13 @@ public:
     */
     void set_runner(AbstractTaskRunner* runner);
 
+    /** Run a program.
+    Call AbstractTaskRunner::run() if task runner \ref set_runner "is set".
+
+    Implementing this class, connect .clicked() of Start button to this method
+    */
+    void run();
+
     /** Apply the function to all arguments.
     This method should call add_args() of each argument.
     */

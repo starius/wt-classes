@@ -287,6 +287,12 @@ void AbstractTask::set_runner(AbstractTaskRunner* runner) {
     WObject::addChild(runner);
 }
 
+void AbstractTask::run() {
+    if (runner_) {
+        runner_->run(this);
+    }
+}
+
 TableTask::TableTask(WContainerWidget* p):
     AbstractTask(p) {
     WContainerWidget* impl = new WContainerWidget();
