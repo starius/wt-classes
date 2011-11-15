@@ -72,8 +72,31 @@ void TableForm::hide(Wt::WWidget* input) {
     parent_row_(input)->hide();
 }
 
+void TableForm::foreach(const boost::function<void(WWidget*)>& f) {
+    for (int row = 0; row < rowCount(); row++) {
+        WWidget* input = input_at(row);
+        if (input) {
+            f(input);
+        }
+    }
+}
+
 Wt::WTableRow* TableForm::parent_row_(Wt::WWidget* input) {
     return rowAt(dynamic_cast<Wt::WTableCell*>(input->parent())->row());
+}
+
+WWidget* TableForm::input_at(int row) {
+    int column_span = elementAt(row, 0)->columnSpan();
+    if (column_span == 1) {
+        WTableCell* cell = elementAt(row, 1);
+        return cell->widget(0);
+    } else if (column_span == 3) {
+        WTableCell* cell = elementAt(row, 0);
+        if (cell->count() == 3) {
+            return cell->widget(2);
+        }
+    }
+    return 0;
 }
 
 }

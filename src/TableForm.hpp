@@ -10,6 +10,8 @@
 #ifndef WT_TABLE_FORM_HPP_
 #define WT_TABLE_FORM_HPP_
 
+#include <boost/function.hpp>
+
 #include <Wt/WGlobal>
 #include <Wt/WTable>
 
@@ -50,8 +52,15 @@ public:
     /** Hide the row containing the input widget */
     void hide(Wt::WWidget* input);
 
+    /** Apply a function to all items in order of addition.
+    \attention Do not add widgets manually (e.g. by WTable->elementAt())
+        if you are using this method.
+    */
+    void foreach(const boost::function<void(WWidget*)>& f);
+
 private:
     Wt::WTableRow* parent_row_(Wt::WWidget* input);
+    WWidget* input_at(int row);
 };
 
 }
