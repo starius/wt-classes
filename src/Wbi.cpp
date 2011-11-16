@@ -35,6 +35,7 @@
 
 #include "Wbi.hpp"
 #include "TableForm.hpp"
+#include "util.hpp"
 
 namespace Wt {
 
@@ -312,7 +313,6 @@ void AbstractTask::add_input(AbstractInput* input, const WString& name,
 void AbstractTask::add_output(AbstractOutput* output, const WString& name,
                               const WString& description) {
     args_.push_back(output);
-    finished_.connect(output, &AbstractOutput::finished_handler);
     add_output_impl(output, name, description);
 }
 
@@ -338,6 +338,11 @@ void AbstractTask::visit_args(const AbstractArgument::ArgUser& f) {
 }
 
 void AbstractTask::finished_emitter() {
+    BOOST_FOREACH (AbstractArgument* arg, args_) {
+        if (isinstance<AbstractOutput>(arg)) {
+            dynamic_cast<AbstractOutput*>(arg)->finished_handler();
+        }
+    }
     finished_.emit();
 }
 

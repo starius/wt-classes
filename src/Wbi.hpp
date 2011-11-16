@@ -521,8 +521,6 @@ public:
     Argument is added to the vector of arguments which is used by visit_args().
 
     This method calls add_output_impl().
-
-    Signal finished() is connected to finished_handler() of the output.
     */
     void add_output(AbstractOutput* output, const WString& name,
                     const WString& description = "");
@@ -629,8 +627,8 @@ public:
 
 protected:
     /** Method to be called when the program is finished.
-    This method changes the state() and emits AbstractTask::finished()
-    through WServer::post().
+    This method changes the state(), call AbstractOutput::finished_handler()
+    and emits AbstractTask::finished() through WServer::post().
     \note Thread-safe method
     */
     void finish();
