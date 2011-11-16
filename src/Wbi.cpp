@@ -323,11 +323,12 @@ void AbstractTask::set_runner(AbstractTaskRunner* runner) {
     runner_ = runner;
     WObject::addChild(runner);
     runner_->finished().connect(this, &AbstractTask::finished_emitter);
+    runner_->set_task(this);
 }
 
 void AbstractTask::run() {
     if (runner_) {
-        runner_->run(this);
+        runner_->run();
     }
 }
 
@@ -366,6 +367,7 @@ void TableTask::add_output_impl(AbstractOutput* output, const WString& name,
 
 AbstractTaskRunner::AbstractTaskRunner():
     state_(NEW),
+    task_(0),
     server_(WServer::instance()), session_id_(wApp->sessionId())
 { }
 
@@ -387,10 +389,10 @@ ForkingTaskRunner::~ForkingTaskRunner() {
     // TODO
 }
 
-void ForkingTaskRunner::run(AbstractTask* form) {
+void ForkingTaskRunner::run() {
     if (state() == FINISHED || state() == NEW) {
         set_state(WORKING);
-        boost::thread(&ForkingTaskRunner::run_impl, this, form);
+        boost::thread(&ForkingTaskRunner::run_impl, this);
     }
 }
 
@@ -409,10 +411,10 @@ void arg_to_stream(std::stringstream& stream, const std::string& arg,
     stream << " ";
 }
 
-void ForkingTaskRunner::run_impl(AbstractTask* form) {
+void ForkingTaskRunner::run_impl() {
     std::stringstream cmd;
     cmd << command_ << " ";
-    form->visit_args(boost::bind(arg_to_stream, boost::ref(cmd), _1, _2));
+    task()->visit_args(boost::bind(arg_to_stream, boost::ref(cmd), _1, _2));
     system(cmd.str().c_str());
     finish();
 }

@@ -573,6 +573,8 @@ private:
     std::vector<AbstractArgument*> args_;
 
     void finished_emitter();
+
+    friend class AbstractTaskRunner;
 };
 
 /** Task form implementation using TableForm */
@@ -621,7 +623,7 @@ public:
      - then the state is set to WORKING and the program is started;
      - when the program is finished, finish() should be called.
     */
-    virtual void run(AbstractTask* form) = 0;
+    virtual void run() = 0;
 
     /** Get state */
     State state() const {
@@ -648,13 +650,25 @@ protected:
         state_ = v;
     }
 
+    /** Get task */
+    AbstractTask* task() {
+        return task_;
+    }
+
 private:
     State state_;
+    AbstractTask* task_;
     FinishedSignal finished_;
     WServer* server_;
     std::string session_id_;
 
     void emit() const;
+
+    void set_task(AbstractTask* task) {
+        task_ = task;
+    }
+
+    friend class AbstractTask;
 };
 
 /** Task runner, starting a waiting thread and a process */
@@ -670,7 +684,7 @@ public:
     */
     ~ForkingTaskRunner();
 
-    void run(AbstractTask* form);
+    void run();
 
     /** Escape an argument to be used as a shell argument.
     Add single quotes around an argument and
@@ -681,7 +695,7 @@ public:
 private:
     std::string command_;
 
-    void run_impl(AbstractTask* form);
+    void run_impl();
 };
 
 }
