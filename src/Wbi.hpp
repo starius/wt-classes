@@ -528,7 +528,6 @@ public:
                     const WString& description = "");
 
     /** Set the program runner.
-    AbstractTaskRunner::finished() is forwarded to finished().
 
     Form takes ownership of the runner.
     Previous runner is deleted.
@@ -549,7 +548,6 @@ public:
     void visit_args(const AbstractArgument::ArgUser& f);
 
     /** Return signal emitted when task is finished.
-    The emmiting of the signal is forwarded from AbstractTaskRunner::finished()
     \note Connect this signal to WApplication::triggerUpdate()
     */
     FinishedSignal& finished() {
@@ -629,16 +627,9 @@ public:
         return state_;
     }
 
-    /** Return signal emitted when task is finished.
-    This signal is thread-safely emitted by finish() through WServer::post().
-    */
-    FinishedSignal& finished() {
-        return finished_;
-    }
-
 protected:
     /** Method to be called when the program is finished.
-    This method changes the state() and emits finished()
+    This method changes the state() and emits AbstractTask::finished()
     through WServer::post().
     \note Thread-safe method
     */
@@ -667,7 +658,6 @@ protected:
 private:
     State state_;
     AbstractTask* task_;
-    FinishedSignal finished_;
     WServer* server_;
     std::string session_id_;
 

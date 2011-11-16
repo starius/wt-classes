@@ -322,7 +322,6 @@ void AbstractTask::set_runner(AbstractTaskRunner* runner) {
     }
     runner_ = runner;
     WObject::addChild(runner);
-    runner_->finished().connect(this, &AbstractTask::finished_emitter);
     runner_->set_task(this);
 }
 
@@ -379,12 +378,8 @@ void AbstractTaskRunner::run() {
 
 void AbstractTaskRunner::finish() {
     state_ = FINISHED;
-    // TODO use helper function emitter
-    server_->post(session_id_, boost::bind(&AbstractTaskRunner::emit, this));
-}
-
-void AbstractTaskRunner::emit() const {
-    finished_.emit();
+    server_->post(session_id_,
+                  boost::bind(&AbstractTask::finished_emitter, task()));
 }
 
 ForkingTaskRunner::ForkingTaskRunner(const std::string& command):
