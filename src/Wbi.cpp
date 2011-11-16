@@ -372,7 +372,7 @@ AbstractTaskRunner::AbstractTaskRunner():
 { }
 
 void AbstractTaskRunner::run() {
-    if (state() != WORKING) {
+    if (task() && state() != WORKING) {
         run_impl();
     }
 }

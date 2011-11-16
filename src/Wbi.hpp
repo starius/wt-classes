@@ -617,6 +617,8 @@ public:
 
     /** Run a program.
     This method should return immediately.
+     - If the runner is not \ref AbstractTask::set_runner "set" to any task,
+        do nothing;
      - If state is WORKING, this should do nothing;
      - call run_impl()
     */
