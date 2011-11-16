@@ -17,6 +17,7 @@
 #include <boost/filesystem.hpp>
 #include <boost/thread.hpp>
 #include <boost/foreach.hpp>
+#include <boost/algorithm/string/replace.hpp>
 
 #include <Wt/WContainerWidget>
 #include <Wt/WCompositeWidget>
@@ -54,10 +55,10 @@ void AbstractArgument::add_args_impl(const ArgUser& f) {
 void AbstractArgument::add_option(const ArgUser& f) {
     set_option();
     if (!option_name_.empty()) {
-        f(option_name_);
+        f(option_name_, /* escape */ false);
     }
     if (!option_value_.empty()) {
-        f(option_value_);
+        f(option_value_, /* escape */ true);
     }
 }
 
@@ -393,14 +394,25 @@ void ForkingTaskRunner::run(AbstractTask* form) {
     }
 }
 
-void arg_to_stream(std::stringstream& stream, const std::string& arg) {
-    stream << " " << arg << " ";
+std::string ForkingTaskRunner::escape_arg(const std::string& arg) {
+    return std::string("'") + boost::replace_all_copy(arg, "'", "'\''") + "'";
+}
+
+void arg_to_stream(std::stringstream& stream, const std::string& arg,
+                   bool escape) {
+    stream << " ";
+    if (escape) {
+        stream << ForkingTaskRunner::escape_arg(arg);
+    } else {
+        stream << arg;
+    }
+    stream << " ";
 }
 
 void ForkingTaskRunner::run_impl(AbstractTask* form) {
     std::stringstream cmd;
     cmd << command_ << " ";
-    form->visit_args(boost::bind(arg_to_stream, boost::ref(cmd), _1));
+    form->visit_args(boost::bind(arg_to_stream, boost::ref(cmd), _1, _2));
     system(cmd.str().c_str());
     finish();
 }

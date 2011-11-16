@@ -26,8 +26,13 @@ namespace Wc {
 /** Abstract base class for any command-line argument of a program */
 class AbstractArgument : public WCompositeWidget {
 public:
-    /** Function to be applied to command line argument */
-    typedef boost::function<void(const std::string&)> ArgUser;
+    /** Function to be applied to command line argument.
+    Arguments:
+     - string -- argument
+     - bool -- if the argument must (or must not) be escaped.
+       Option names must not escaped, options values must be escaped.
+    */
+    typedef boost::function<void(const std::string&, bool)> ArgUser;
 
     /** Constructor.
     \param option_name Name of a program option (i.e., "-i", "--output").
@@ -666,6 +671,12 @@ public:
     ~ForkingTaskRunner();
 
     void run(AbstractTask* form);
+
+    /** Escape an argument to be used as a shell argument.
+    Add single quotes around an argument and
+    quotes/escapes any existing single quotes.
+    */
+    static std::string escape_arg(const std::string& arg);
 
 private:
     std::string command_;
