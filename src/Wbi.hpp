@@ -618,12 +618,9 @@ public:
     /** Run a program.
     This method should return immediately.
      - If state is WORKING, this should do nothing;
-     - if state is FINISHED, this should firstly make it NEW
-       (not only set state=NEW, but also prepare the object, if needed);
-     - then the state is set to WORKING and the program is started;
-     - when the program is finished, finish() should be called.
+     - call run_impl()
     */
-    virtual void run() = 0;
+    void run();
 
     /** Get state */
     State state() const {
@@ -655,6 +652,16 @@ protected:
         return task_;
     }
 
+    /** Implementation of run().
+    This method should return immediately.
+     - if state is FINISHED, this should firstly make it NEW
+       (not only set state=NEW, but also prepare the object, if needed);
+     - then the state is set to WORKING;
+     - start the program;
+     - when the program is finished, finish() should be called.
+    */
+    virtual void run_impl() = 0;
+
 private:
     State state_;
     AbstractTask* task_;
@@ -684,18 +691,19 @@ public:
     */
     ~ForkingTaskRunner();
 
-    void run();
-
     /** Escape an argument to be used as a shell argument.
     Add single quotes around an argument and
     quotes/escapes any existing single quotes.
     */
     static std::string escape_arg(const std::string& arg);
 
+protected:
+    void run_impl();
+
 private:
     std::string command_;
 
-    void run_impl();
+    void start_process();
 };
 
 }

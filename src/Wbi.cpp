@@ -371,6 +371,12 @@ AbstractTaskRunner::AbstractTaskRunner():
     server_(WServer::instance()), session_id_(wApp->sessionId())
 { }
 
+void AbstractTaskRunner::run() {
+    if (state() != WORKING) {
+        run_impl();
+    }
+}
+
 void AbstractTaskRunner::finish() {
     state_ = FINISHED;
     // TODO use helper function emitter
@@ -389,10 +395,10 @@ ForkingTaskRunner::~ForkingTaskRunner() {
     // TODO
 }
 
-void ForkingTaskRunner::run() {
+void ForkingTaskRunner::run_impl() {
     if (state() == FINISHED || state() == NEW) {
         set_state(WORKING);
-        boost::thread(&ForkingTaskRunner::run_impl, this);
+        boost::thread(&ForkingTaskRunner::start_process, this);
     }
 }
 
@@ -411,7 +417,7 @@ void arg_to_stream(std::stringstream& stream, const std::string& arg,
     stream << " ";
 }
 
-void ForkingTaskRunner::run_impl() {
+void ForkingTaskRunner::start_process() {
     std::stringstream cmd;
     cmd << command_ << " ";
     task()->visit_args(boost::bind(arg_to_stream, boost::ref(cmd), _1, _2));
