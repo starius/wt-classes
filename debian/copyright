@@ -1,0 +1,37 @@
+This work was packaged for Debian by:
+
+    Boris Nagaev <bnagaev@gmail.com> on Tue, 08 Nov 2011 02:44:41 +0400
+
+It was downloaded from:
+
+    https://bitbucket.org/starius/wt-classes
+
+Upstream Author(s):
+
+    Boris Nagaev <bnagaev@gmail.com>
+
+Copyright:
+
+    Copyright (C) 2011 Boris Nagaev
+
+License:
+
+    You can redistribute this software and/or modify it under the terms of
+    the GNU General Public License as published by the Free Software
+    Foundation; version 2 dated June, 1991.
+
+    This program is distributed in the hope that it will be useful, but
+    WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+    General Public License for more details.
+
+    On Debian systems, the complete text of the GNU General Public License
+    can be found in /usr/share/common-licenses/GPL-2 file.
+
+The Debian packaging is:
+
+    Copyright (C) 2011 Boris Nagaev <bnagaev@gmail.com>
+
+and is licensed under the GPL version 2,
+see "/usr/share/common-licenses/GPL-2".
+
