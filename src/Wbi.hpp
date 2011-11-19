@@ -500,6 +500,14 @@ private:
     std::string view_mime_;
 };
 
+/** Execution state */
+enum State {
+    UNSET, /** Runner is not \ref AbstractTask::set_runner "set" to task */
+    NEW, /**< Not started yet */
+    WORKING, /**< Working */
+    FINISHED /**< Finished */
+};
+
 /** Abstract base class of form for web-based interface of a program */
 class AbstractTask : public WCompositeWidget {
 public:
@@ -552,6 +560,11 @@ public:
         return finished_;
     }
 
+    /** Get state.
+    If runner is set, its state is returned, otherwise UNSET.
+    */
+    State state() const;
+
 protected:
     /** Runner running the task */
     AbstractRunner* runner_;
@@ -600,14 +613,6 @@ class AbstractRunner : public WObject {
 public:
     /** Signal emitted when task is finished */
     typedef Signal<> FinishedSignal;
-
-    /** Execution state */
-    enum State {
-        UNSET, /** Runner is not \ref AbstractTask::set_runner "set" to task */
-        NEW, /**< Not started yet */
-        WORKING, /**< Working */
-        FINISHED /**< Finished */
-    };
 
     /** Constructor */
     AbstractRunner();

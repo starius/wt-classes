@@ -337,6 +337,10 @@ void AbstractTask::visit_args(const AbstractArgument::ArgUser& f) {
     }
 }
 
+State AbstractTask::state() const {
+    return runner_ ? runner_->state() : UNSET;
+}
+
 void AbstractTask::finished_emitter() {
     BOOST_FOREACH (AbstractArgument* arg, args_) {
         if (isinstance<AbstractOutput>(arg)) {
@@ -381,7 +385,7 @@ void AbstractRunner::run() {
     }
 }
 
-AbstractRunner::State AbstractRunner::state() const {
+State AbstractRunner::state() const {
     return task_ ? state_ : UNSET;
 }
 
