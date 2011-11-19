@@ -337,7 +337,7 @@ void AbstractTask::visit_args(const AbstractArgument::ArgUser& f) {
     }
 }
 
-State AbstractTask::state() const {
+RunState AbstractTask::state() const {
     return runner_ ? runner_->state() : UNSET;
 }
 
@@ -385,7 +385,7 @@ void AbstractRunner::run() {
     }
 }
 
-State AbstractRunner::state() const {
+RunState AbstractRunner::state() const {
     return task_ ? state_ : UNSET;
 }
 

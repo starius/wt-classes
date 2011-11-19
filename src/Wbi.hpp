@@ -501,7 +501,7 @@ private:
 };
 
 /** Execution state */
-enum State {
+enum RunState {
     UNSET, /** Runner is not \ref AbstractTask::set_runner "set" to task */
     NEW, /**< Not started yet */
     WORKING, /**< Working */
@@ -563,7 +563,7 @@ public:
     /** Get state.
     If runner is set, its state is returned, otherwise UNSET.
     */
-    State state() const;
+    RunState state() const;
 
 protected:
     /** Runner running the task */
@@ -625,7 +625,7 @@ public:
     void run();
 
     /** Get state */
-    State state() const;
+    RunState state() const;
 
 protected:
     /** Method to be called when the program is finished.
@@ -636,7 +636,7 @@ protected:
     void finish();
 
     /** Set state */
-    void set_state(State v) {
+    void set_state(RunState v) {
         state_ = v;
     }
 
@@ -656,7 +656,7 @@ protected:
     virtual void run_impl() = 0;
 
 private:
-    State state_;
+    RunState state_;
     AbstractTask* task_;
     WServer* server_;
     std::string session_id_;
