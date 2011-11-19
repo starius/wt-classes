@@ -316,7 +316,7 @@ void AbstractTask::add_output(AbstractOutput* output, const WString& name,
     add_output_impl(output, name, description);
 }
 
-void AbstractTask::set_runner(AbstractTaskRunner* runner) {
+void AbstractTask::set_runner(AbstractRunner* runner) {
     if (runner_) {
         WObject::removeChild(runner_);
     }
@@ -369,19 +369,19 @@ void TableTask::add_output_impl(AbstractOutput* output, const WString& name,
     outputs_->item(name, description, 0, output);
 }
 
-AbstractTaskRunner::AbstractTaskRunner():
+AbstractRunner::AbstractRunner():
     state_(NEW),
     task_(0),
     server_(WServer::instance()), session_id_(wApp->sessionId())
 { }
 
-void AbstractTaskRunner::run() {
+void AbstractRunner::run() {
     if (task() && state() != WORKING) {
         run_impl();
     }
 }
 
-void AbstractTaskRunner::finish() {
+void AbstractRunner::finish() {
     state_ = FINISHED;
     server_->post(session_id_,
                   boost::bind(&AbstractTask::finished_emitter, task()));

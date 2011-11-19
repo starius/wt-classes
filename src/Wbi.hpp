@@ -530,10 +530,10 @@ public:
     Form takes ownership of the runner.
     Previous runner is deleted.
     */
-    void set_runner(AbstractTaskRunner* runner);
+    void set_runner(AbstractRunner* runner);
 
     /** Run a program.
-    Call AbstractTaskRunner::run() if task runner \ref set_runner "is set".
+    Call AbstractRunner::run() if task runner \ref set_runner "is set".
 
     Implementing this class, connect .clicked() of Start button to this method
     */
@@ -554,7 +554,7 @@ public:
 
 protected:
     /** Runner running the task */
-    AbstractTaskRunner* runner_;
+    AbstractRunner* runner_;
 
     /** Implementation of add_input() */
     virtual void add_input_impl(AbstractInput* input, const WString& name,
@@ -570,7 +570,7 @@ private:
 
     void finished_emitter();
 
-    friend class AbstractTaskRunner;
+    friend class AbstractRunner;
 };
 
 /** Task form implementation using TableForm */
@@ -596,7 +596,7 @@ protected:
 /** Abstract base class for runner of a program.
 Destructor of the class should kill working treads/processes if any.
 */
-class AbstractTaskRunner : public WObject {
+class AbstractRunner : public WObject {
 public:
     /** Signal emitted when task is finished */
     typedef Signal<> FinishedSignal;
@@ -609,7 +609,7 @@ public:
     };
 
     /** Constructor */
-    AbstractTaskRunner();
+    AbstractRunner();
 
     /** Run a program.
     This method should return immediately.
@@ -669,7 +669,7 @@ private:
 };
 
 /** Task runner, starting a waiting thread and a process */
-class ForkingTaskRunner : public AbstractTaskRunner {
+class ForkingTaskRunner : public AbstractRunner {
 public:
     /** Constructor.
     \param command Command to use (program name)

@@ -28,7 +28,7 @@ class FileOutput;
 class ViewFileOutput;
 class AbstractTask;
 class TableTask;
-class AbstractTaskRunner;
+class AbstractRunner;
 class ForkingTaskRunner;
 
 }
