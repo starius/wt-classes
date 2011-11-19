@@ -1,4 +1,4 @@
-/**
+/*
  * wt-classes, utility classes used by Wt applications
  * Copyright (C) 2011 Boris Nagaev
  *
