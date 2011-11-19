@@ -387,22 +387,22 @@ void AbstractRunner::finish() {
                   boost::bind(&AbstractTask::finished_emitter, task()));
 }
 
-ForkingTaskRunner::ForkingTaskRunner(const std::string& command):
+ForkingRunner::ForkingRunner(const std::string& command):
     command_(command)
 { }
 
-ForkingTaskRunner::~ForkingTaskRunner() {
+ForkingRunner::~ForkingRunner() {
     // TODO
 }
 
-void ForkingTaskRunner::run_impl() {
+void ForkingRunner::run_impl() {
     if (state() == FINISHED || state() == NEW) {
         set_state(WORKING);
-        boost::thread(&ForkingTaskRunner::start_process, this);
+        boost::thread(&ForkingRunner::start_process, this);
     }
 }
 
-std::string ForkingTaskRunner::escape_arg(const std::string& arg) {
+std::string ForkingRunner::escape_arg(const std::string& arg) {
     return std::string("'") + boost::replace_all_copy(arg, "'", "'\''") + "'";
 }
 
@@ -410,14 +410,14 @@ void arg_to_stream(std::stringstream& stream, const std::string& arg,
                    bool escape) {
     stream << " ";
     if (escape) {
-        stream << ForkingTaskRunner::escape_arg(arg);
+        stream << ForkingRunner::escape_arg(arg);
     } else {
         stream << arg;
     }
     stream << " ";
 }
 
-void ForkingTaskRunner::start_process() {
+void ForkingRunner::start_process() {
     std::stringstream cmd;
     cmd << command_ << " ";
     task()->visit_args(boost::bind(arg_to_stream, boost::ref(cmd), _1, _2));

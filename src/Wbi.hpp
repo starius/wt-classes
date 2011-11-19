@@ -669,17 +669,17 @@ private:
 };
 
 /** Task runner, starting a waiting thread and a process */
-class ForkingTaskRunner : public AbstractRunner {
+class ForkingRunner : public AbstractRunner {
 public:
     /** Constructor.
     \param command Command to use (program name)
     */
-    ForkingTaskRunner(const std::string& command);
+    ForkingRunner(const std::string& command);
 
     /** Destructor.
     \todo Should kill a thread and a process if any
     */
-    ~ForkingTaskRunner();
+    ~ForkingRunner();
 
     /** Escape an argument to be used as a shell argument.
     Add single quotes around an argument and

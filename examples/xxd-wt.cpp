@@ -15,7 +15,7 @@ public:
         TableTask* task = new TableTask(root());
         task->add_input(new FileInput("<"), "Binary file");
         task->add_output(new ViewFileOutput(">"), "Hex dump");
-        task->set_runner(new ForkingTaskRunner("xxd"));
+        task->set_runner(new ForkingRunner("xxd"));
         task->finished().connect(this, &WApplication::triggerUpdate);
     }
 };
