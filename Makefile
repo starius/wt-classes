@@ -37,7 +37,7 @@ makefiles = $(objects:.o=.d)
 tosource = src/$*.cpp
 
 dist_files = $(LIB) $(STATIC_LIB_PATH) $(headers)
-dist_dir = $(name)-$(VERSION)
+dist_dir = $(name)
 dist_tgz = $(dist_dir).tar.gz
 dist_install_dir = /usr/lib
 dist_header_dir = /usr/include/Wt/Wc
@@ -64,7 +64,7 @@ $(STATIC_LIB_PATH): $$(objects)
 	ar -cvq $@ $^
 
 .PHONY: doc
-doc:
+doc: dist
 	doxygen
 
 .PHONY: dist
@@ -83,7 +83,7 @@ dist: $$(dist_files) build
 deb: dist
 	cp -fl $(dist_tgz) $(name)_$(VERSION).orig.tar.gz
 	rm -rf $(dist_dir)/debian
-	cd $(dist_dir) && yes | dh_make -l
+	cd $(dist_dir) && yes | dh_make -l -p $(name)_$(VERSION)
 	cp -flr debian/* $(dist_dir)/debian
 	cd $(dist_dir) && dpkg-buildpackage
 
