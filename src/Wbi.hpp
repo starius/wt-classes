@@ -23,7 +23,17 @@ namespace Wt {
 
 namespace Wc {
 
-/** Abstract base class for any command-line argument of a program */
+/** \defgroup wbi Web-based interface of a program
+Classes to simplify creation of a WebUI for programs
+running from command line.
+
+\include examples/xxd-wt.cpp
+*/
+
+/** Abstract base class for any command-line argument of a program.
+
+\ingroup wbi
+*/
 class AbstractArgument : public WCompositeWidget {
 public:
     /** Function to be applied to command line argument.
@@ -75,7 +85,10 @@ protected:
     virtual void set_option() = 0;
 };
 
-/** Abstract base class for input argument */
+/** Abstract base class for input argument.
+
+\ingroup wbi
+*/
 class AbstractInput : public AbstractArgument {
 public:
     /** Constructor.
@@ -132,7 +145,10 @@ private:
     bool required_;
 };
 
-/** Abstract input wrapping WFormWidget */
+/** Abstract input wrapping WFormWidget.
+
+\ingroup wbi
+*/
 class FormWidgetInput : public AbstractInput {
 public:
     /** Constructor.
@@ -157,7 +173,10 @@ protected:
     bool is_valid() const;
 };
 
-/** Input argument using WLineEdit */
+/** Input argument using WLineEdit.
+
+\ingroup wbi
+*/
 class LineEditInput : public FormWidgetInput {
 public:
     /** Constructor.
@@ -178,7 +197,10 @@ protected:
     void set_option();
 };
 
-/** Input argument using WFileUpload */
+/** Input argument using WFileUpload.
+
+\ingroup wbi
+*/
 class FileInput : public AbstractInput {
 public:
     /** Constructor.
@@ -205,6 +227,8 @@ protected:
 This input allows the user to select file using WFileUpload or
 enter text using WTextArea.
 The contents of the file is loaded to WTextArea.
+
+\ingroup wbi
 */
 class TextFileInput : public FileInput {
 public:
@@ -241,6 +265,8 @@ This is installed by four parameters:
  - name_if_false()
  - value_if_true()
  - value_if_false()
+
+\ingroup wbi
 */
 class BoolInput : public AbstractInput {
 public:
@@ -329,6 +355,8 @@ private:
 /** Abstract base class for output argument.
 \attention Do call setImplementation() from descriptors of this class.
     Use container() instead.
+
+\ingroup wbi
 */
 class AbstractOutput : public AbstractArgument {
 public:
@@ -406,6 +434,8 @@ private:
 
 /** Output file argument.
 This argument allows the user to download the file.
+
+\ingroup wbi
 */
 class FileOutput : public AbstractOutput {
 public:
@@ -475,6 +505,8 @@ private:
 /** Output file argument.
 This argument allows the user to download and view the file.
 File is openned in a new tab of a web-browser.
+
+\ingroup wbi
 */
 class ViewFileOutput : public FileOutput {
 public:
@@ -508,7 +540,10 @@ enum RunState {
     FINISHED /**< Finished */
 };
 
-/** Abstract base class of form for web-based interface of a program */
+/** Abstract base class of form for web-based interface of a program.
+
+\ingroup wbi
+*/
 class AbstractTask : public WCompositeWidget {
 public:
     /** Signal emitted after task state changing */
@@ -586,7 +621,10 @@ private:
     friend class AbstractRunner;
 };
 
-/** Task form implementation using TableForm */
+/** Task form implementation using TableForm.
+
+\ingroup wbi
+*/
 class TableTask : public AbstractTask {
 public:
     /** Constructor */
@@ -608,6 +646,8 @@ protected:
 
 /** Abstract base class for runner of a program.
 Destructor of the class should kill working treads/processes if any.
+
+\ingroup wbi
 */
 class AbstractRunner : public WObject {
 public:
@@ -665,7 +705,10 @@ private:
     friend class AbstractTask;
 };
 
-/** Task runner, starting a waiting thread and a process */
+/** Task runner, starting a waiting thread and a process.
+
+\ingroup wbi
+*/
 class ForkingRunner : public AbstractRunner {
 public:
     /** Constructor.
