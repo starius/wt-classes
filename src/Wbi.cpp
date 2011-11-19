@@ -370,21 +370,30 @@ void TableTask::add_output_impl(AbstractOutput* output, const WString& name,
 }
 
 AbstractRunner::AbstractRunner():
-    state_(NEW),
+    state_(UNSET),
     task_(0),
     server_(WServer::instance()), session_id_(wApp->sessionId())
 { }
 
 void AbstractRunner::run() {
-    if (task() && state() != WORKING) {
+    if (!(state() == UNSET || state() == WORKING)) {
         run_impl();
     }
+}
+
+AbstractRunner::State AbstractRunner::state() const {
+    return task_ ? state_ : UNSET;
 }
 
 void AbstractRunner::finish() {
     state_ = FINISHED;
     server_->post(session_id_,
                   boost::bind(&AbstractTask::finished_emitter, task()));
+}
+
+void AbstractRunner::set_task(AbstractTask* task) {
+    task_ = task;
+    state_ = NEW;
 }
 
 ForkingRunner::ForkingRunner(const std::string& command):

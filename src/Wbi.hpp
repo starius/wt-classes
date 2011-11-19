@@ -603,6 +603,7 @@ public:
 
     /** Execution state */
     enum State {
+        UNSET, /** Runner is not \ref AbstractTask::set_runner "set" to task */
         NEW, /**< Not started yet */
         WORKING, /**< Working */
         FINISHED /**< Finished */
@@ -613,17 +614,13 @@ public:
 
     /** Run a program.
     This method should return immediately.
-     - If the runner is not \ref AbstractTask::set_runner "set" to any task,
-        do nothing;
-     - If state is WORKING, this should do nothing;
+     - If state is UNSET or WORKING, do nothing;
      - call run_impl()
     */
     void run();
 
     /** Get state */
-    State state() const {
-        return state_;
-    }
+    State state() const;
 
 protected:
     /** Method to be called when the program is finished.
@@ -661,9 +658,7 @@ private:
 
     void emit() const;
 
-    void set_task(AbstractTask* task) {
-        task_ = task;
-    }
+    void set_task(AbstractTask* task);
 
     friend class AbstractTask;
 };
