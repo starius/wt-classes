@@ -341,13 +341,13 @@ RunState AbstractTask::state() const {
     return runner_ ? runner_->state() : UNSET;
 }
 
-void AbstractTask::finished_emitter() {
+void AbstractTask::changed_emitter() {
     BOOST_FOREACH (AbstractArgument* arg, args_) {
         if (isinstance<AbstractOutput>(arg)) {
             dynamic_cast<AbstractOutput*>(arg)->finished_handler();
         }
     }
-    finished_.emit();
+    changed_.emit();
 }
 
 TableTask::TableTask(WContainerWidget* p):
@@ -392,7 +392,7 @@ RunState AbstractRunner::state() const {
 void AbstractRunner::finish() {
     set_state(FINISHED);
     server_->post(session_id_,
-                  boost::bind(&AbstractTask::finished_emitter, task()));
+                  boost::bind(&AbstractTask::changed_emitter, task()));
 }
 
 void AbstractRunner::set_task(AbstractTask* task) {

@@ -511,8 +511,8 @@ enum RunState {
 /** Abstract base class of form for web-based interface of a program */
 class AbstractTask : public WCompositeWidget {
 public:
-    /** Signal emitted when task is finished */
-    typedef Signal<> FinishedSignal;
+    /** Signal emitted after task state changing */
+    typedef Signal<> ChangedSignal;
 
     /** Constructor */
     AbstractTask(WContainerWidget* p = 0);
@@ -553,11 +553,11 @@ public:
     */
     void visit_args(const AbstractArgument::ArgUser& f);
 
-    /** Return signal emitted when task is finished.
+    /** Return signal emitted after task state changing.
     \note Connect this signal to WApplication::triggerUpdate()
     */
-    FinishedSignal& finished() {
-        return finished_;
+    ChangedSignal& changed() {
+        return changed_;
     }
 
     /** Get state.
@@ -578,10 +578,10 @@ protected:
                                  const WString& description = "") = 0;
 
 private:
-    FinishedSignal finished_;
+    ChangedSignal changed_;
     std::vector<AbstractArgument*> args_;
 
-    void finished_emitter();
+    void changed_emitter();
 
     friend class AbstractRunner;
 };
@@ -627,7 +627,7 @@ public:
 protected:
     /** Method to be called when the program is finished.
     This method changes the state(), call AbstractOutput::finished_handler()
-    and emits AbstractTask::finished() through WServer::post().
+    and emits AbstractTask::changed() through WServer::post().
     \note Thread-safe method
     */
     void finish();
