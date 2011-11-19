@@ -611,9 +611,6 @@ Destructor of the class should kill working treads/processes if any.
 */
 class AbstractRunner : public WObject {
 public:
-    /** Signal emitted when task is finished */
-    typedef Signal<> FinishedSignal;
-
     /** Constructor */
     AbstractRunner();
 
