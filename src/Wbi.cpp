@@ -386,14 +386,14 @@ AbstractRunner::State AbstractRunner::state() const {
 }
 
 void AbstractRunner::finish() {
-    state_ = FINISHED;
+    set_state(FINISHED);
     server_->post(session_id_,
                   boost::bind(&AbstractTask::finished_emitter, task()));
 }
 
 void AbstractRunner::set_task(AbstractTask* task) {
     task_ = task;
-    state_ = NEW;
+    set_state(NEW);
 }
 
 ForkingRunner::ForkingRunner(const std::string& command):
@@ -405,7 +405,10 @@ ForkingRunner::~ForkingRunner() {
 }
 
 void ForkingRunner::run_impl() {
-    if (state() == FINISHED || state() == NEW) {
+    if (state() == FINISHED) {
+        set_state(NEW);
+    }
+    if (state() == NEW) {
         set_state(WORKING);
         boost::thread(&ForkingRunner::start_process, this);
     }
