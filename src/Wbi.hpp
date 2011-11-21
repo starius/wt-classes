@@ -688,7 +688,7 @@ public:
 
 protected:
     /** Method to be called when the program is finished.
-     - change the state(),
+     - change the state() to FINISHED,
      - call AbstractQueue::remove() if needed,
      - call AbstractOutput::finished_handler() through WServer::post(),
      - emit AbstractTask::changed() through WServer::post().
