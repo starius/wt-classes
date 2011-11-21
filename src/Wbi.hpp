@@ -664,6 +664,16 @@ public:
     /** Get state */
     RunState state() const;
 
+
+    /** Set server.
+    The server is used to perform WServer::post().
+
+    Default value is WServer::instance() calculated once, by the constructor.
+    */
+    void set_server(WServer* server) {
+        server_ = server;
+    }
+
 protected:
     /** Method to be called when the program is finished.
     This method changes the state(), call AbstractOutput::finished_handler()
