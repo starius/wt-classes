@@ -667,13 +667,6 @@ public:
     /** Constructor */
     AbstractRunner();
 
-    /** Run a program.
-    This method should return immediately.
-     - If state is UNSET or WORKING, do nothing;
-     - call run_impl()
-    */
-    void run();
-
     /** Get state */
     RunState state() const;
 
@@ -705,6 +698,15 @@ protected:
     AbstractTask* task() {
         return task_;
     }
+
+    /** Run a program.
+    This method should return immediately.
+     - If state is UNSET or WORKING, do nothing;
+     - call run_impl()
+
+    This method should be only called by AbstractRunner.
+    */
+    void run();
 
     /** Implementation of run().
     This method should return immediately.
