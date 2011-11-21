@@ -30,6 +30,7 @@ class AbstractTask;
 class TableTask;
 class AbstractRunner;
 class ForkingRunner;
+class AbstractQueue;
 
 }
 

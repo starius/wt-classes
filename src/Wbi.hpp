@@ -12,7 +12,10 @@
 
 #include <string>
 #include <vector>
+#include <list>
+#include <set>
 #include <boost/function.hpp>
+#include <boost/thread/mutex.hpp>
 
 #include <Wt/WGlobal>
 #include <Wt/WCompositeWidget>
@@ -536,6 +539,7 @@ private:
 enum RunState {
     UNSET, /** Runner is not \ref AbstractTask::set_runner "set" to task */
     NEW, /**< Not started yet */
+    QUEUED, /**< Queued */
     WORKING, /**< Working */
     FINISHED /**< Finished */
 };
@@ -574,6 +578,11 @@ public:
     Previous runner is deleted.
     */
     void set_runner(AbstractRunner* runner);
+
+    /** Set the task queue.
+    State must be UNSET or NEW.
+    */
+    void set_queue(AbstractQueue* queue);
 
     /** Run a program.
     Call AbstractRunner::run() if task runner \ref set_runner "is set".
@@ -615,10 +624,14 @@ protected:
 private:
     ChangedSignal changed_;
     std::vector<AbstractArgument*> args_;
+    AbstractQueue* queue_;
+    bool queued_;
 
     void changed_emitter();
+    void run_impl();
 
     friend class AbstractRunner;
+    friend class AbstractQueue;
 };
 
 /** Task form implementation using TableForm.
@@ -664,7 +677,6 @@ public:
     /** Get state */
     RunState state() const;
 
-
     /** Set server.
     The server is used to perform WServer::post().
 
@@ -676,8 +688,10 @@ public:
 
 protected:
     /** Method to be called when the program is finished.
-    This method changes the state(), call AbstractOutput::finished_handler()
-    and emits AbstractTask::changed() through WServer::post().
+     - change the state(),
+     - call AbstractQueue::remove() if needed,
+     - call AbstractOutput::finished_handler() through WServer::post(),
+     - emit AbstractTask::changed() through WServer::post().
     \note Thread-safe method
     */
     void finish();
@@ -744,6 +758,99 @@ private:
     std::string command_;
 
     void start_process();
+};
+
+/** Queue controlling tasks.
+The instance of this class should be created once per WServer.
+Each task should be connected to this queue.
+
+\ingroup wbi
+*/
+class AbstractQueue : public WObject {
+public:
+    /** Constructor */
+    AbstractQueue(WObject* p = 0);
+
+    /** Add new task to queue.
+    This method should be called from the session of the task.
+    The implementation of this method is add_impl().
+    */
+    void add(AbstractTask* task);
+
+    /** Remove the task from queue.
+    The implementation of this method is remove_impl().
+    */
+    void remove(AbstractTask* task);
+
+    /** Set server.
+    The server is used to perform WServer::post().
+
+    If value was not set, WServer::instance() is called each time.
+    */
+    void set_server(WServer* server) {
+        server_ = server;
+    }
+
+protected:
+    /** Mutex.
+    This mutex is kept by all public methods of the class.
+    Inheriting from this class, take care of all code being under this mutex.
+    */
+    boost::mutex mutex_;
+
+    /** Map task to session id.
+    Entry is added before calling add_impl()
+    and removed after calling remove_impl().
+    */
+    std::map<AbstractTask*, std::string> task2session_;
+
+    /** Implementation of add() */
+    virtual void add_impl(AbstractTask* task) = 0;
+
+    /** Implementation of remove().
+    This method is called when the task is finished or cancelled.
+    The task may be in queue or running.
+    */
+    virtual void remove_impl(AbstractTask* task) = 0;
+
+    /** Run the task in the session of the task */
+    void run_task(AbstractTask* task);
+
+    /** Set if task is queued.
+    This method changes task internal state.
+    */
+    static void set_queued(AbstractTask* task, bool queued = true) {
+        task->queued_ = queued;
+    }
+
+private:
+    WServer* server_;
+};
+
+/** Queue controlling the number of tasks running at the same time.
+
+\ingroup wbi
+*/
+class TaskNumberQueue : public AbstractQueue {
+public:
+    /** Constructor.
+    \param max_tasks The maximum number of tasks running at the same time.
+        If set to -1, this means infinite number.
+    \param p Parent object
+    */
+    TaskNumberQueue(int max_tasks, WObject* p = 0);
+
+protected:
+    void add_impl(AbstractTask* task);
+
+    void remove_impl(AbstractTask* task);
+
+private:
+    int max_tasks_;
+    std::list<AbstractTask*> waiting_;
+    std::set<AbstractTask*> running_;
+
+    void try_to_run();
 };
 
 }

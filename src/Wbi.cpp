@@ -301,7 +301,7 @@ void ViewFileOutput::finished_handler_impl() {
 }
 
 AbstractTask::AbstractTask(WContainerWidget* p):
-    WCompositeWidget(p), runner_(0)
+    WCompositeWidget(p), runner_(0), queue_(0), queued_(false)
 { }
 
 void AbstractTask::add_input(AbstractInput* input, const WString& name,
@@ -325,9 +325,17 @@ void AbstractTask::set_runner(AbstractRunner* runner) {
     runner_->set_task(this);
 }
 
+void AbstractTask::set_queue(AbstractQueue* queue) {
+    if (state() == UNSET || state() == NEW) {
+        queue_ = queue;
+    }
+}
+
 void AbstractTask::run() {
-    if (runner_) {
-        runner_->run();
+    if (queue_) {
+        queue_->add(this);
+    } else {
+        run_impl();
     }
 }
 
@@ -338,7 +346,7 @@ void AbstractTask::visit_args(const AbstractArgument::ArgUser& f) {
 }
 
 RunState AbstractTask::state() const {
-    return runner_ ? runner_->state() : UNSET;
+    return queued_ ? QUEUED : runner_ ? runner_->state() : UNSET;
 }
 
 void AbstractTask::changed_emitter() {
@@ -346,6 +354,13 @@ void AbstractTask::changed_emitter() {
         if (isinstance<AbstractOutput>(arg)) {
             dynamic_cast<AbstractOutput*>(arg)->finished_handler();
         }
+    }
+    changed_.emit();
+}
+
+void AbstractTask::run_impl() {
+    if (runner_) {
+        runner_->run();
     }
     changed_.emit();
 }
@@ -391,6 +406,9 @@ RunState AbstractRunner::state() const {
 
 void AbstractRunner::finish() {
     set_state(FINISHED);
+    if (task_->queue_) {
+        task_->queue_->remove(task_);
+    }
     server_->post(session_id_,
                   boost::bind(&AbstractTask::changed_emitter, task()));
 }
@@ -439,6 +457,59 @@ void ForkingRunner::start_process() {
     task()->visit_args(boost::bind(arg_to_stream, boost::ref(cmd), _1, _2));
     system(cmd.str().c_str());
     finish();
+}
+
+AbstractQueue::AbstractQueue(WObject* p):
+    WObject(p), server_(0)
+{ }
+
+void AbstractQueue::add(AbstractTask* task) {
+    mutex_.lock();
+    task2session_[task] = wApp->sessionId();
+    add_impl(task);
+    mutex_.unlock();
+}
+
+void AbstractQueue::remove(AbstractTask* task) {
+    mutex_.lock();
+    remove_impl(task);
+    task2session_.erase(task);
+    mutex_.unlock();
+}
+
+void AbstractQueue::run_task(AbstractTask* task) {
+    WServer* s = server_ ? server_ : WServer::instance();
+    s->post(task2session_[task], boost::bind(&AbstractTask::run_impl, task));
+}
+
+TaskNumberQueue::TaskNumberQueue(int max_tasks, WObject* p):
+    AbstractQueue(p), max_tasks_(max_tasks)
+{ }
+
+void TaskNumberQueue::add_impl(AbstractTask* task) {
+    waiting_.push_back(task);
+    set_queued(task);
+    try_to_run();
+}
+
+void TaskNumberQueue::remove_impl(AbstractTask* task) {
+    waiting_.remove(task);
+    running_.erase(task);
+    try_to_run();
+}
+
+void TaskNumberQueue::try_to_run() {
+    if (!waiting_.empty()) {
+        if (max_tasks_ == -1 || (int)running_.size() < max_tasks_) {
+            AbstractTask* task = waiting_.front();
+            waiting_.pop_front();
+            set_queued(task, false);
+            run_task(task);
+            if (task->state() == WORKING) {
+                running_.insert(task);
+            }
+        }
+    }
 }
 
 }
