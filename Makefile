@@ -40,8 +40,12 @@ dist_files = $(LIB) $(STATIC_LIB_PATH) $(headers)
 dist_dir = $(name)
 dist_tgz = $(dist_dir).tar.gz
 dist_install_dir = /usr/lib
-dist_header_dir = /usr/include/Wt/Wc
+includedir = /usr/include
+dist_header_dir = $(includedir)/Wt/Wc
 bindir = /usr/bin
+
+examples_cpp = $(wildcard examples/*.cpp)
+examples_binaries = $(examples_cpp:.cpp=.wt)
 
 .PHONY: build
 build: $$(LIB) $$(STATIC_LIB_PATH)
@@ -93,4 +97,11 @@ check: locales
 .PHONY: locales
 locales: locales-test.py
 	./locales-test.py --prefix=wc --sections wbi
+
+.PHONY: examples
+examples: $$(examples_binaries)
+
+%.wt: %.cpp dist
+	$(CXX) -L$(dist_dir)$(dist_install_dir) -I$(dist_dir)$(includedir) $(LIBS) \
+		-lwtclasses -lwthttp $< -o $@
 
