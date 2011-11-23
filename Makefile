@@ -11,8 +11,8 @@ endif
 
 .SECONDEXPANSION:
 
-LIB_FILE = $(name).so
-LIB = ./$(BUILD)/$(LIB_FILE)
+DYNAMIC_LIB = $(name).so
+DYNAMIC_LIB_PATH = ./$(BUILD)/$(DYNAMIC_LIB)
 STATIC_LIB = $(name).a
 STATIC_LIB_PATH = ./$(BUILD)/$(STATIC_LIB)
 
@@ -35,7 +35,7 @@ sources = $(sort $(wildcard src/*.cpp) $(wildcard src/*/*.cpp))
 headers = $(sort $(wildcard src/*.hpp) $(wildcard src/*/*.hpp))
 objects = $(subst src/,$(BUILD)/,$(sources:.cpp=.o))
 
-dist_files = $(LIB) $(STATIC_LIB_PATH) $(headers)
+dist_files = $(DYNAMIC_LIB_PATH) $(STATIC_LIB_PATH) $(headers)
 dist_dir = $(name)
 dist_tgz = $(dist_dir).tar.gz
 dist_install_dir = /usr/lib
@@ -47,13 +47,13 @@ examples_cpp = $(wildcard examples/*.cpp)
 examples_binaries = $(examples_cpp:.cpp=.wt)
 
 .PHONY: build
-build: $$(LIB) $$(STATIC_LIB_PATH)
+build: $$(DYNAMIC_LIB_PATH) $$(STATIC_LIB_PATH)
 
 $(BUILD)/%.o: src/$$*.cpp $$(headers)
 	mkdir -p $(dir $@)
 	$(CXX) -c $(CXXFLAGS) $< -o $@
 
-$(LIB): $$(objects)
+$(DYNAMIC_LIB_PATH): $$(objects)
 	mkdir -p $(dir $@)
 	$(LINK) $(LFLAGS) $(LIBS) $(objects) -o $@
 
@@ -68,8 +68,8 @@ doc: dist
 .PHONY: dist
 dist: $$(dist_files) build
 	mkdir -p $(dist_dir)$(dist_install_dir)
-	cp -f -l $(LIB) $(dist_dir)$(dist_install_dir)/$(LIB_FILE).$(VERSION)
-	ln -f -s $(LIB_FILE).$(VERSION) $(dist_dir)$(dist_install_dir)/$(LIB_FILE)
+	cp -f -l $(DYNAMIC_LIB_PATH) $(dist_dir)$(dist_install_dir)/$(DYNAMIC_LIB).$(VERSION)
+	ln -f -s $(DYNAMIC_LIB).$(VERSION) $(dist_dir)$(dist_install_dir)/$(DYNAMIC_LIB)
 	cp -f -l $(STATIC_LIB_PATH) $(dist_dir)$(dist_install_dir)
 	mkdir -p $(dist_dir)$(dist_header_dir)
 	cp -f -l $(headers) $(dist_dir)$(dist_header_dir)
