@@ -38,10 +38,7 @@ objects = $(subst src/,$(BUILD)/,$(sources:.cpp=.o))
 dist_files = $(DYNAMIC_LIB_PATH) $(STATIC_LIB_PATH) $(headers)
 dist_dir = $(name)
 dist_tgz = $(dist_dir).tar.gz
-dist_install_dir = /usr/lib
-includedir = /usr/include
 dist_header_dir = $(includedir)/Wt/Wc
-bindir = /usr/bin
 
 examples_cpp = $(wildcard examples/*.cpp)
 examples_binaries = $(examples_cpp:.cpp=.wt)
@@ -67,10 +64,10 @@ doc: dist
 
 .PHONY: dist
 dist: $$(dist_files) build
-	mkdir -p $(dist_dir)$(dist_install_dir)
-	cp -f -l $(DYNAMIC_LIB_PATH) $(dist_dir)$(dist_install_dir)/$(DYNAMIC_LIB).$(VERSION)
-	ln -f -s $(DYNAMIC_LIB).$(VERSION) $(dist_dir)$(dist_install_dir)/$(DYNAMIC_LIB)
-	cp -f -l $(STATIC_LIB_PATH) $(dist_dir)$(dist_install_dir)
+	mkdir -p $(dist_dir)$(libdir)
+	cp -f -l $(DYNAMIC_LIB_PATH) $(dist_dir)$(libdir)/$(DYNAMIC_LIB).$(VERSION)
+	ln -f -s $(DYNAMIC_LIB).$(VERSION) $(dist_dir)$(libdir)/$(DYNAMIC_LIB)
+	cp -f -l $(STATIC_LIB_PATH) $(dist_dir)$(libdir)
 	mkdir -p $(dist_dir)$(dist_header_dir)
 	cp -f -l $(headers) $(dist_dir)$(dist_header_dir)
 	mkdir -p $(dist_dir)$(bindir)
@@ -78,7 +75,8 @@ dist: $$(dist_files) build
 	tar --exclude=debian -czf $(dist_tgz) $(dist_dir)
 
 .PHONY: deb
-deb: dist
+deb:
+	$(MAKE) dist prefix=/usr
 	cp -fl $(dist_tgz) $(name)_$(VERSION).orig.tar.gz
 	rm -rf $(dist_dir)/debian
 	cd $(dist_dir) && yes | dh_make -l -p $(name)_$(VERSION)
@@ -96,6 +94,6 @@ locales: locales-test.py
 examples: $$(examples_binaries)
 
 %.wt: %.cpp dist
-	$(CXX) -L$(dist_dir)$(dist_install_dir) -I$(dist_dir)$(includedir) $(LIBS) \
+	$(CXX) -L$(dist_dir)$(libdir) -I$(dist_dir)$(includedir) $(LIBS) \
 		-lwtclasses -lwthttp $< -o $@
 
