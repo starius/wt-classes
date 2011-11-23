@@ -1,3 +1,5 @@
+include InstallDirs.inc
+
 name = libwtclasses
 
 BUILD = debug
