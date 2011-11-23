@@ -34,8 +34,6 @@ endif
 sources = $(sort $(wildcard src/*.cpp) $(wildcard src/*/*.cpp))
 headers = $(sort $(wildcard src/*.hpp) $(wildcard src/*/*.hpp))
 objects = $(subst src/,$(BUILD)/,$(sources:.cpp=.o))
-makefiles = $(objects:.o=.d)
-tosource = src/$*.cpp
 
 dist_files = $(LIB) $(STATIC_LIB_PATH) $(headers)
 dist_dir = $(name)
@@ -51,16 +49,11 @@ examples_binaries = $(examples_cpp:.cpp=.wt)
 .PHONY: build
 build: $$(LIB) $$(STATIC_LIB_PATH)
 
-include $(makefiles)
-
-$(BUILD)/%.d: $$(tosource)
+$(BUILD)/%.o: src/$$*.cpp $$(headers)
 	mkdir -p $(dir $@)
-	$(CXX) $(CXXFLAGS) $< -MM | sed 's,.\+\.o[ :]*,$(@:.d=.o) $@ : ,' > $@;
+	$(CXX) -c $(CXXFLAGS) $< -o $@
 
-$(BUILD)/%.o: $$(precompiled) $$(downloaded)
-	$(CXX) -c $(CXXFLAGS) $(tosource) -o $@
-
-$(LIB): $$(sources) $$(headers) $$(makefiles) $$(objects)
+$(LIB): $$(objects)
 	mkdir -p $(dir $@)
 	$(LINK) $(LFLAGS) $(LIBS) $(objects) -o $@
 
