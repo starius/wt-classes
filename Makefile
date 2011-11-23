@@ -13,7 +13,6 @@ endif
 
 LIB_FILE = $(name).so
 LIB = ./$(BUILD)/$(LIB_FILE)
-LIB_PATH = $(LIB)
 STATIC_LIB = $(name).a
 STATIC_LIB_PATH = ./$(BUILD)/$(STATIC_LIB)
 
