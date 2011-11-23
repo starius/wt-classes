@@ -5,7 +5,7 @@ name = libwtclasses
 BUILD = debug
 VERSION = $(shell cat VERSION)
 
-ifneq (,$(findstring $(MAKECMDGOALS),dist deb))
+ifneq (,$(findstring $(MAKECMDGOALS),dist install deb))
 BUILD = release
 endif
 
@@ -30,15 +30,18 @@ else
 CXXFLAGS += -O3
 LFLAGS += -O3
 endif
+INSTALL = install
 
 sources = $(sort $(wildcard src/*.cpp) $(wildcard src/*/*.cpp))
 headers = $(sort $(wildcard src/*.hpp) $(wildcard src/*/*.hpp))
 objects = $(subst src/,$(BUILD)/,$(sources:.cpp=.o))
 
+includesubdir = /Wt/Wc
+
 dist_files = $(DYNAMIC_LIB_PATH) $(STATIC_LIB_PATH) $(headers)
 dist_dir = $(name)
 dist_tgz = $(dist_dir).tar.gz
-dist_header_dir = $(includedir)/Wt/Wc
+dist_header_dir = $(includedir)$(includesubdir)
 
 examples_cpp = $(wildcard examples/*.cpp)
 examples_binaries = $(examples_cpp:.cpp=.wt)
@@ -61,6 +64,17 @@ $(STATIC_LIB_PATH): $$(objects)
 .PHONY: doc
 doc: dist
 	doxygen
+
+.PHONY: install
+install: $(DYNAMIC_LIB_PATH) $(STATIC_LIB_PATH) $(headers)
+	$(INSTALL) -d $(DESTDIR)$(libdir)
+	$(INSTALL) $(DYNAMIC_LIB_PATH) $(DESTDIR)$(libdir)/$(DYNAMIC_LIB).$(VERSION)
+	ln -f -s $(DYNAMIC_LIB).$(VERSION) $(DESTDIR)$(libdir)/$(DYNAMIC_LIB)
+	$(INSTALL) $(STATIC_LIB_PATH) $(DESTDIR)$(libdir)
+	$(INSTALL) -d $(DESTDIR)$(includedir)$(includesubdir)
+	$(INSTALL) $(headers) $(DESTDIR)$(includedir)$(includesubdir)
+	$(INSTALL) -d $(DESTDIR)$(bindir)
+	$(INSTALL) locales-test.py $(DESTDIR)$(bindir)/locales-test
 
 .PHONY: dist
 dist: $$(dist_files) build
