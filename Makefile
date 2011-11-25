@@ -4,6 +4,7 @@ name = libwtclasses
 
 BUILD = debug
 VERSION = $(shell cat VERSION)
+fullname = $(name)-$(VERSION)
 
 ifneq (,$(findstring $(MAKECMDGOALS),tar install deb))
 BUILD = release
@@ -46,6 +47,16 @@ tar_header_dir = $(includedir)$(includesubdir)
 examples_cpp = $(wildcard examples/*.cpp)
 examples_binaries = $(examples_cpp:.cpp=.wt)
 
+css = $(wildcard css/*.css)
+pys = locales-test.py
+locales = $(wildcard locales/wtclasses*.xml)
+project_files = Doxyfile InstallDirs.inc LICENSE Makefile VERSION
+
+dist_files = $(sources) $(headers) $(project_files) $(css) $(locales) \
+	$(pys) $(examples_cpp)
+dist_dir = $(fullname)
+dist_tar = $(fullname).tar.gz
+
 .PHONY: build
 build: $$(DYNAMIC_LIB_PATH) $$(STATIC_LIB_PATH)
 
@@ -78,6 +89,12 @@ install: $(DYNAMIC_LIB_PATH) $(STATIC_LIB_PATH) $(headers) installdirs
 	$(INSTALL) $(STATIC_LIB_PATH) $(DESTDIR)$(libdir)
 	$(INSTALL) $(headers) $(DESTDIR)$(includedir)$(includesubdir)
 	$(INSTALL) locales-test.py $(DESTDIR)$(bindir)/locales-test
+
+.PHONY: dist
+dist: $$(dist_files)
+	mkdir -p $(dist_dir)
+	cp --parents $^ $(dist_dir)
+	tar -czf $(dist_tar) $(addprefix $(dist_dir)/, $(dist_files))
 
 .PHONY: tar
 tar: $$(tar_files) build
