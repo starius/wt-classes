@@ -5,7 +5,7 @@ name = libwtclasses
 BUILD = debug
 VERSION = $(shell cat VERSION)
 
-ifneq (,$(findstring $(MAKECMDGOALS),dist install deb))
+ifneq (,$(findstring $(MAKECMDGOALS),tar install deb))
 BUILD = release
 endif
 
@@ -38,10 +38,10 @@ objects = $(subst src/,$(BUILD)/,$(sources:.cpp=.o))
 
 includesubdir = /Wt/Wc
 
-dist_files = $(DYNAMIC_LIB_PATH) $(STATIC_LIB_PATH) $(headers)
-dist_dir = $(name)
-dist_tgz = $(dist_dir).tar.gz
-dist_header_dir = $(includedir)$(includesubdir)
+tar_files = $(DYNAMIC_LIB_PATH) $(STATIC_LIB_PATH) $(headers)
+tar_dir = $(name)
+tar_tgz = $(tar_dir).tar.gz
+tar_header_dir = $(includedir)$(includesubdir)
 
 examples_cpp = $(wildcard examples/*.cpp)
 examples_binaries = $(examples_cpp:.cpp=.wt)
@@ -62,7 +62,7 @@ $(STATIC_LIB_PATH): $$(objects)
 	ar -cvq $@ $^
 
 .PHONY: doc
-doc: dist
+doc: tar
 	doxygen
 
 .PHONY: installdirs
@@ -79,26 +79,26 @@ install: $(DYNAMIC_LIB_PATH) $(STATIC_LIB_PATH) $(headers) installdirs
 	$(INSTALL) $(headers) $(DESTDIR)$(includedir)$(includesubdir)
 	$(INSTALL) locales-test.py $(DESTDIR)$(bindir)/locales-test
 
-.PHONY: dist
-dist: $$(dist_files) build
-	mkdir -p $(dist_dir)$(libdir)
-	cp -f -l $(DYNAMIC_LIB_PATH) $(dist_dir)$(libdir)/$(DYNAMIC_LIB).$(VERSION)
-	ln -f -s $(DYNAMIC_LIB).$(VERSION) $(dist_dir)$(libdir)/$(DYNAMIC_LIB)
-	cp -f -l $(STATIC_LIB_PATH) $(dist_dir)$(libdir)
-	mkdir -p $(dist_dir)$(dist_header_dir)
-	cp -f -l $(headers) $(dist_dir)$(dist_header_dir)
-	mkdir -p $(dist_dir)$(bindir)
-	cp -f -l locales-test.py $(dist_dir)$(bindir)/locales-test
-	tar --exclude=debian -czf $(dist_tgz) $(dist_dir)
+.PHONY: tar
+tar: $$(tar_files) build
+	mkdir -p $(tar_dir)$(libdir)
+	cp -f -l $(DYNAMIC_LIB_PATH) $(tar_dir)$(libdir)/$(DYNAMIC_LIB).$(VERSION)
+	ln -f -s $(DYNAMIC_LIB).$(VERSION) $(tar_dir)$(libdir)/$(DYNAMIC_LIB)
+	cp -f -l $(STATIC_LIB_PATH) $(tar_dir)$(libdir)
+	mkdir -p $(tar_dir)$(tar_header_dir)
+	cp -f -l $(headers) $(tar_dir)$(tar_header_dir)
+	mkdir -p $(tar_dir)$(bindir)
+	cp -f -l locales-test.py $(tar_dir)$(bindir)/locales-test
+	tar --exclude=debian -czf $(tar_tgz) $(tar_dir)
 
 .PHONY: deb
 deb:
-	$(MAKE) dist prefix=/usr
-	cp -fl $(dist_tgz) $(name)_$(VERSION).orig.tar.gz
-	rm -rf $(dist_dir)/debian
-	cd $(dist_dir) && yes | dh_make -l -p $(name)_$(VERSION)
-	cp -flr debian/* $(dist_dir)/debian
-	cd $(dist_dir) && dpkg-buildpackage
+	$(MAKE) tar prefix=/usr
+	cp -fl $(tar_tgz) $(name)_$(VERSION).orig.tar.gz
+	rm -rf $(tar_dir)/debian
+	cd $(tar_dir) && yes | dh_make -l -p $(name)_$(VERSION)
+	cp -flr debian/* $(tar_dir)/debian
+	cd $(tar_dir) && dpkg-buildpackage
 
 .PHONY: check
 check: locales
@@ -110,7 +110,7 @@ locales: locales-test.py
 .PHONY: examples
 examples: $$(examples_binaries)
 
-%.wt: %.cpp dist
-	$(CXX) -L$(dist_dir)$(libdir) -I$(dist_dir)$(includedir) $(LIBS) \
+%.wt: %.cpp tar
+	$(CXX) -L$(tar_dir)$(libdir) -I$(tar_dir)$(includedir) $(LIBS) \
 		-lwtclasses -lwthttp $< -o $@
 
