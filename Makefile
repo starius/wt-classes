@@ -4,6 +4,7 @@ name = libwtclasses
 
 BUILD = debug
 VERSION = $(shell cat VERSION)
+SHORT_VERSION = $(shell echo $(VERSION) | sed 's@\.[0-9]\+$$@@')
 fullname = $(name)-$(VERSION)
 
 ifneq (,$(findstring $(MAKECMDGOALS),install deb))
@@ -108,6 +109,11 @@ deb:
 	rm -rf $(dist_dir)/debian
 	cd $(dist_dir) && yes | dh_make -l -p $(name)_$(VERSION)
 	cp -flr debian/* $(dist_dir)/debian
+	sed 's@SHORT_VERSION@$(SHORT_VERSION)@g' \
+		< debian/control.in > $(dist_dir)/debian/control
+	cp -fl debian/libwtclasses.SHORT_VERSION.install.in \
+		$(dist_dir)/debian/libwtclasses.$(SHORT_VERSION).install
+	cd $(dist_dir)/debian/ && rm *.in
 	cd $(dist_dir) && dpkg-buildpackage
 
 .PHONY: check

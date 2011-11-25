@@ -9,14 +9,21 @@ Homepage: https://bitbucket.org/starius/wt-classes
 Package: libwtclasses-dev
 Section: libdevel
 Architecture: any
-Depends: libwtclasses (= ${binary:Version}), libwt-dev
+Depends: libwtclasses.SHORT_VERSION (= ${binary:Version}), libwt-dev
+Description: utility classes used by Wt applications
+
+Package: libwtclasses.SHORT_VERSION
+Section: libs
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
 Description: utility classes used by Wt applications
 
 Package: libwtclasses
 Section: libs
 Architecture: any
-Depends: ${shlibs:Depends}, ${misc:Depends}
+Depends: libwtclasses.SHORT_VERSION
 Description: utility classes used by Wt applications
+ This package is a dependency package.
 
 Package: wtclasses-progs
 Section: devel
