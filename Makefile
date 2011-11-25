@@ -73,7 +73,8 @@ $(STATIC_LIB_PATH): $$(objects)
 	ar -cvq $@ $^
 
 .PHONY: doc
-doc: tar
+doc:
+	$(MAKE) install-buildless DESTDIR=./doc-source prefix=/usr
 	doxygen
 
 .PHONY: installdirs
@@ -82,13 +83,16 @@ installdirs:
 	$(INSTALL) -d $(DESTDIR)$(includedir)$(includesubdir)
 	$(INSTALL) -d $(DESTDIR)$(bindir)
 
+.PHONY: install-buildless
+install-buildless: $(headers) locales-test.py installdirs
+	$(INSTALL) $(headers) $(DESTDIR)$(includedir)$(includesubdir)
+	$(INSTALL) locales-test.py $(DESTDIR)$(bindir)/locales-test
+
 .PHONY: install
-install: $(DYNAMIC_LIB_PATH) $(STATIC_LIB_PATH) $(headers) installdirs
+install: $(DYNAMIC_LIB_PATH) $(STATIC_LIB_PATH) install-buildless installdirs
 	$(INSTALL) $(DYNAMIC_LIB_PATH) $(DESTDIR)$(libdir)/$(DYNAMIC_LIB).$(VERSION)
 	ln -f -s $(DYNAMIC_LIB).$(VERSION) $(DESTDIR)$(libdir)/$(DYNAMIC_LIB)
 	$(INSTALL) $(STATIC_LIB_PATH) $(DESTDIR)$(libdir)
-	$(INSTALL) $(headers) $(DESTDIR)$(includedir)$(includesubdir)
-	$(INSTALL) locales-test.py $(DESTDIR)$(bindir)/locales-test
 
 .PHONY: dist
 dist: $$(dist_files)

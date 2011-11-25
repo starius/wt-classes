@@ -10,4 +10,5 @@ release/
 doc/
 libwtclasses*
 *.deb
+doc-source
 
