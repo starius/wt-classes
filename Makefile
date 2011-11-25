@@ -12,7 +12,9 @@ endif
 
 .SECONDEXPANSION:
 
-DYNAMIC_LIB = $(name).so
+DYNAMIC_LIB_SHORT = $(name).so
+DYNAMIC_LIB_SHORT_PATH = ./$(BUILD)/$(name).so
+DYNAMIC_LIB = $(DYNAMIC_LIB_SHORT).$(VERSION)
 DYNAMIC_LIB_PATH = ./$(BUILD)/$(DYNAMIC_LIB)
 STATIC_LIB = $(name).a
 STATIC_LIB_PATH = ./$(BUILD)/$(STATIC_LIB)
@@ -58,7 +60,7 @@ dist_dir = $(fullname)
 dist_tar = $(fullname).tar.gz
 
 .PHONY: build
-build: $$(DYNAMIC_LIB_PATH) $$(STATIC_LIB_PATH)
+build: $$(DYNAMIC_LIB_PATH) $$(STATIC_LIB_PATH) $$(DYNAMIC_LIB_SHORT_PATH)
 
 $(BUILD)/%.o: src/$$*.cpp $$(headers)
 	mkdir -p $(dir $@)
@@ -67,6 +69,10 @@ $(BUILD)/%.o: src/$$*.cpp $$(headers)
 $(DYNAMIC_LIB_PATH): $$(objects)
 	mkdir -p $(dir $@)
 	$(LINK) $(LFLAGS) $(LIBS) $(objects) -o $@
+
+$(DYNAMIC_LIB_SHORT_PATH):
+	mkdir -p $(dir $@)
+	ln -f -s $(DYNAMIC_LIB) $@
 
 $(STATIC_LIB_PATH): $$(objects)
 	mkdir -p $(dir $@)
@@ -89,9 +95,9 @@ install-buildless: $(headers) locales-test.py installdirs
 	$(INSTALL) locales-test.py $(DESTDIR)$(bindir)/locales-test
 
 .PHONY: install
-install: $(DYNAMIC_LIB_PATH) $(STATIC_LIB_PATH) install-buildless installdirs
-	$(INSTALL) $(DYNAMIC_LIB_PATH) $(DESTDIR)$(libdir)/$(DYNAMIC_LIB).$(VERSION)
-	ln -f -s $(DYNAMIC_LIB).$(VERSION) $(DESTDIR)$(libdir)/$(DYNAMIC_LIB)
+install: build install-buildless installdirs
+	$(INSTALL) $(DYNAMIC_LIB_PATH) $(DESTDIR)$(libdir)
+	$(INSTALL) $(DYNAMIC_LIB_SHORT_PATH) $(DESTDIR)$(libdir)
 	$(INSTALL) $(STATIC_LIB_PATH) $(DESTDIR)$(libdir)
 
 .PHONY: dist
