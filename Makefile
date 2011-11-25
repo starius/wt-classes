@@ -120,12 +120,12 @@ tar: $$(tar_files) build
 
 .PHONY: deb
 deb:
-	$(MAKE) tar prefix=/usr
-	cp -fl $(tar_tgz) $(name)_$(VERSION).orig.tar.gz
-	rm -rf $(tar_dir)/debian
-	cd $(tar_dir) && yes | dh_make -l -p $(name)_$(VERSION)
-	cp -flr debian/* $(tar_dir)/debian
-	cd $(tar_dir) && dpkg-buildpackage
+	$(MAKE) dist
+	cp -fl $(dist_tar) $(name)_$(VERSION).orig.tar.gz
+	rm -rf $(dist_dir)/debian
+	cd $(dist_dir) && yes | dh_make -l -p $(name)_$(VERSION)
+	cp -flr debian/* $(dist_dir)/debian
+	cd $(dist_dir) && dpkg-buildpackage
 
 .PHONY: check
 check: locales
