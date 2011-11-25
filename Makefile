@@ -138,9 +138,13 @@ locales: locales-test.py
 examples: $$(examples_binaries)
 
 %.wt: %.cpp
+ifeq (,$(EXAMPLES_SYSTEM_LIB))
 	$(MAKE) install DESTDIR=. prefix=/usr
 	$(CXX) -L./usr/lib -I./usr/include \
 		$(LIBS) -lwtclasses -lwthttp $< -o $@
+else
+	$(CXX) $(LIBS) -lwtclasses -lwthttp $< -o $@
+endif
 
 .PHONY: clean
 clean:
