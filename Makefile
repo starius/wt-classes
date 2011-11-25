@@ -7,7 +7,7 @@ VERSION = $(shell cat VERSION)
 SHORT_VERSION = $(shell echo $(VERSION) | sed 's@\.[0-9]\+$$@@')
 fullname = $(name)-$(VERSION)
 
-ifneq (,$(findstring $(MAKECMDGOALS),install deb))
+ifneq (,$(findstring $(MAKECMDGOALS),install install-lib deb))
 BUILD = release
 endif
 
@@ -56,7 +56,10 @@ dist_dir = $(fullname)
 dist_tar = $(fullname).tar.gz
 
 .PHONY: build
-build: $$(DYNAMIC_LIB_PATH) $$(STATIC_LIB_PATH) $$(DYNAMIC_LIB_SHORT_PATH)
+build: build-lib examples
+
+.PHONY: build-lib
+build-lib: $$(DYNAMIC_LIB_PATH) $$(STATIC_LIB_PATH) $$(DYNAMIC_LIB_SHORT_PATH)
 
 $(BUILD)/%.o: src/$$*.cpp $$(headers)
 	mkdir -p $(dir $@)
@@ -94,11 +97,15 @@ install-buildless: $(headers) locales-test.py installdirs
 	$(INSTALL) $(locales) $(DESTDIR)$(datadir)/Wt/Wc/locales/
 	$(INSTALL) $(css) $(DESTDIR)$(datadir)/Wt/resources/Wc/css/
 
-.PHONY: install
-install: build install-buildless installdirs
+.PHONY: install-lib
+install-lib: build-lib install-buildless installdirs
 	$(INSTALL) $(DYNAMIC_LIB_PATH) $(DESTDIR)$(libdir)
 	$(INSTALL) $(DYNAMIC_LIB_SHORT_PATH) $(DESTDIR)$(libdir)
 	$(INSTALL) $(STATIC_LIB_PATH) $(DESTDIR)$(libdir)
+
+.PHONY: install
+install: install-lib install-buildless installdirs
+	$(INSTALL) $(examples_binaries) $(DESTDIR)$(bindir)
 
 .PHONY: dist
 dist: $$(dist_files)
@@ -132,7 +139,7 @@ examples: $$(examples_binaries)
 
 %.wt: %.cpp
 ifeq (,$(EXAMPLES_SYSTEM_LIB))
-	$(MAKE) install DESTDIR=. prefix=/usr
+	$(MAKE) install-lib DESTDIR=. prefix=/usr
 	$(CXX) -L./usr/lib -I./usr/include \
 		$(LIBS) -lwtclasses -lwthttp $< -o $@
 else

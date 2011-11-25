@@ -25,6 +25,12 @@ Depends: libwtclasses.SHORT_VERSION
 Description: utility classes used by Wt applications
  This package is a dependency package.
 
+Package: libwtclasses-examples
+Section: libdevel
+Architecture: any
+Depends: libwtclasses.SHORT_VERSION
+Description: utility classes used by Wt applications (examples)
+
 Package: wtclasses-progs
 Section: devel
 Architecture: any
