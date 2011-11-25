@@ -135,3 +135,7 @@ examples: $$(examples_binaries)
 	$(CXX) -L$(tar_dir)$(libdir) -I$(tar_dir)$(includedir) $(LIBS) \
 		-lwtclasses -lwthttp $< -o $@
 
+.PHONY: clean
+clean:
+	rm -fr debug release usr libwtclasses* doc* examples/*.wt
+
