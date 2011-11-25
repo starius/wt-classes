@@ -84,11 +84,15 @@ installdirs:
 	$(INSTALL) -d $(DESTDIR)$(libdir)
 	$(INSTALL) -d $(DESTDIR)$(includedir)$(includesubdir)
 	$(INSTALL) -d $(DESTDIR)$(bindir)
+	$(INSTALL) -d $(DESTDIR)$(datadir)/Wt/Wc/locales
+	$(INSTALL) -d $(DESTDIR)$(datadir)/Wt/resources/Wc/css
 
 .PHONY: install-buildless
 install-buildless: $(headers) locales-test.py installdirs
 	$(INSTALL) $(headers) $(DESTDIR)$(includedir)$(includesubdir)
 	$(INSTALL) locales-test.py $(DESTDIR)$(bindir)/locales-test
+	$(INSTALL) $(locales) $(DESTDIR)$(datadir)/Wt/Wc/locales/
+	$(INSTALL) $(css) $(DESTDIR)$(datadir)/Wt/resources/Wc/css/
 
 .PHONY: install
 install: build install-buildless installdirs
