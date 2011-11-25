@@ -137,9 +137,10 @@ locales: locales-test.py
 .PHONY: examples
 examples: $$(examples_binaries)
 
-%.wt: %.cpp tar
-	$(CXX) -L$(tar_dir)$(libdir) -I$(tar_dir)$(includedir) $(LIBS) \
-		-lwtclasses -lwthttp $< -o $@
+%.wt: %.cpp
+	$(MAKE) install DESTDIR=. prefix=/usr
+	$(CXX) -L./usr/lib -I./usr/include \
+		$(LIBS) -lwtclasses -lwthttp $< -o $@
 
 .PHONY: clean
 clean:

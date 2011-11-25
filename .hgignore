@@ -11,4 +11,6 @@ doc/
 libwtclasses*
 *.deb
 doc-source
+usr
+examples/*.wt
 
