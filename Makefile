@@ -65,15 +65,18 @@ $(STATIC_LIB_PATH): $$(objects)
 doc: dist
 	doxygen
 
-.PHONY: install
-install: $(DYNAMIC_LIB_PATH) $(STATIC_LIB_PATH) $(headers)
+.PHONY: installdirs
+installdirs:
 	$(INSTALL) -d $(DESTDIR)$(libdir)
+	$(INSTALL) -d $(DESTDIR)$(includedir)$(includesubdir)
+	$(INSTALL) -d $(DESTDIR)$(bindir)
+
+.PHONY: install
+install: $(DYNAMIC_LIB_PATH) $(STATIC_LIB_PATH) $(headers) installdirs
 	$(INSTALL) $(DYNAMIC_LIB_PATH) $(DESTDIR)$(libdir)/$(DYNAMIC_LIB).$(VERSION)
 	ln -f -s $(DYNAMIC_LIB).$(VERSION) $(DESTDIR)$(libdir)/$(DYNAMIC_LIB)
 	$(INSTALL) $(STATIC_LIB_PATH) $(DESTDIR)$(libdir)
-	$(INSTALL) -d $(DESTDIR)$(includedir)$(includesubdir)
 	$(INSTALL) $(headers) $(DESTDIR)$(includedir)$(includesubdir)
-	$(INSTALL) -d $(DESTDIR)$(bindir)
 	$(INSTALL) locales-test.py $(DESTDIR)$(bindir)/locales-test
 
 .PHONY: dist
