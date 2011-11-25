@@ -1,7 +1,8 @@
 Source: libwtclasses
 Priority: extra
 Maintainer: Boris Nagaev <bnagaev@gmail.com>
-Build-Depends: debhelper (>= 7.0.50~)
+Build-Depends: debhelper (>= 7.0.50~), libboost-filesystem-dev (>= 1.44),
+ libwt-dev (>= 3.1.9), libwthttp-dev
 Standards-Version: 3.8.4
 Section: libs
 Homepage: https://bitbucket.org/starius/wt-classes
