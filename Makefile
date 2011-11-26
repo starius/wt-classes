@@ -87,16 +87,16 @@ installdirs:
 
 .PHONY: install-buildless
 install-buildless: $(headers) locales-test.py installdirs
-	$(INSTALL) $(headers) $(DESTDIR)$(includedir)$(includesubdir)
+	$(INSTALL) -m 644 $(headers) $(DESTDIR)$(includedir)$(includesubdir)
 	$(INSTALL) locales-test.py $(DESTDIR)$(bindir)/locales-test
-	$(INSTALL) $(locales) $(DESTDIR)$(datadir)/Wt/Wc/locales/
-	$(INSTALL) $(css) $(DESTDIR)$(datadir)/Wt/resources/Wc/css/
+	$(INSTALL) -m 644 $(locales) $(DESTDIR)$(datadir)/Wt/Wc/locales/
+	$(INSTALL) -m 644 $(css) $(DESTDIR)$(datadir)/Wt/resources/Wc/css/
 
 .PHONY: install-lib
 install-lib: build-lib install-buildless installdirs
-	$(INSTALL) $(DYNAMIC_LIB_PATH) $(DESTDIR)$(libdir)
+	$(INSTALL) -m 644 $(DYNAMIC_LIB_PATH) $(DESTDIR)$(libdir)
 	ln -f -s $(DYNAMIC_LIB) $(DESTDIR)$(libdir)/$(DYNAMIC_LIB_SHORT)
-	$(INSTALL) $(STATIC_LIB_PATH) $(DESTDIR)$(libdir)
+	$(INSTALL) -m 644 $(STATIC_LIB_PATH) $(DESTDIR)$(libdir)
 
 .PHONY: install
 install: install-lib install-buildless installdirs
