@@ -1,3 +1,21 @@
+libwtclasses (1.0.5-2) unstable; urgency=low
+
+  * new upstream (build system, not source)
+  * add ${python:Depends} to wtclasses-progs
+        fix python-script-but-no-python-dep error
+  * do not set useless x bit while installing
+        fix executable-not-elf-or-script warning
+  * do not link against -lboost_system
+        fix dpkg-shlibdeps warning
+  * add soname to .so file, follow Debian Policy, 8.1 Run-time shared libraries
+        fix sharedobject-in-library-directory-missing-soname error
+  * add ${shlibs:Depends} to examples
+        fix missing-dependency-on-libc error
+  * add ${misc:Depends} to all packages
+        fix debhelper-but-no-misc-depends warning
+
+ -- Boris Nagaev <bnagaev@gmail.com>  Sat, 26 Nov 2011 23:43:41 +0400
+
 libwtclasses (1.0.5-1) unstable; urgency=low
 
   * new upstream
