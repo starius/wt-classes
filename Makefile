@@ -4,7 +4,7 @@ name = libwtclasses
 
 BUILD = debug
 VERSION = $(shell cat VERSION)
-SHORT_VERSION = $(shell echo $(VERSION) | sed 's@\.[0-9]\+$$@@')
+SONAME = $(shell cat SONAME)
 fullname = $(name)-$(VERSION)
 
 ifneq (,$(findstring $(MAKECMDGOALS),install install-lib deb))
@@ -14,6 +14,7 @@ endif
 .SECONDEXPANSION:
 
 DYNAMIC_LIB_SHORT = $(name).so
+DYNAMIC_LIB_SONAME = $(DYNAMIC_LIB_SHORT).$(SONAME)
 DYNAMIC_LIB = $(DYNAMIC_LIB_SHORT).$(VERSION)
 DYNAMIC_LIB_PATH = ./$(BUILD)/$(DYNAMIC_LIB)
 STATIC_LIB = $(name).a
@@ -47,7 +48,7 @@ examples_binaries = $(examples_cpp:.cpp=.wt)
 css = $(wildcard css/*.css)
 pys = locales-test.py
 locales = $(wildcard locales/wtclasses*.xml)
-project_files = Doxyfile InstallDirs.inc LICENSE Makefile VERSION
+project_files = Doxyfile InstallDirs.inc LICENSE Makefile VERSION SONAME
 
 dist_files = $(sources) $(headers) $(project_files) $(css) $(locales) \
 	$(pys) $(examples_cpp)
@@ -66,7 +67,7 @@ $(BUILD)/%.o: src/$$*.cpp $$(headers)
 
 $(DYNAMIC_LIB_PATH): $$(objects)
 	mkdir -p $(dir $@)
-	$(LINK) $(LFLAGS) $(LIBS) $(objects) -o $@
+	$(LINK) $(LFLAGS) $(LIBS) $(objects) -Wl,-soname,$(DYNAMIC_LIB_SONAME) -o $@
 
 $(STATIC_LIB_PATH): $$(objects)
 	mkdir -p $(dir $@)
@@ -95,7 +96,8 @@ install-buildless: $(headers) locales-test.py installdirs
 .PHONY: install-lib
 install-lib: build-lib install-buildless installdirs
 	$(INSTALL) -m 644 $(DYNAMIC_LIB_PATH) $(DESTDIR)$(libdir)
-	ln -f -s $(DYNAMIC_LIB) $(DESTDIR)$(libdir)/$(DYNAMIC_LIB_SHORT)
+	ln -f -s $(DYNAMIC_LIB_SONAME) $(DESTDIR)$(libdir)/$(DYNAMIC_LIB_SHORT)
+	ln -f -s $(DYNAMIC_LIB) $(DESTDIR)$(libdir)/$(DYNAMIC_LIB_SONAME)
 	$(INSTALL) -m 644 $(STATIC_LIB_PATH) $(DESTDIR)$(libdir)
 
 .PHONY: install
@@ -115,10 +117,10 @@ deb:
 	rm -rf $(dist_dir)/debian
 	mkdir -p $(dist_dir)/debian
 	cp -flr debian/* $(dist_dir)/debian
-	sed 's@SHORT_VERSION@$(SHORT_VERSION)@g' \
+	sed 's@SONAME@$(SONAME)@g' \
 		< debian/control.in > $(dist_dir)/debian/control
-	cp -fl debian/libwtclasses.SHORT_VERSION.install.in \
-		$(dist_dir)/debian/libwtclasses.$(SHORT_VERSION).install
+	cp -fl debian/libwtclassesSONAME.install.in \
+		$(dist_dir)/debian/libwtclasses$(SONAME).install
 	cd $(dist_dir)/debian/ && rm -f *.in
 	cd $(dist_dir) && debuild
 

@@ -11,13 +11,13 @@ Homepage: https://bitbucket.org/starius/wt-classes
 Package: libwtclasses-dev
 Section: libdevel
 Architecture: any
-Depends: libwtclasses.SHORT_VERSION (= ${binary:Version}), libwt-dev
+Depends: libwtclassesSONAME (= ${binary:Version}), libwt-dev
 Description: utility classes used by Wt applications [development]
  The package provides several useful classes connected with Wt:
  * TableForm: set of user input widgets, with names and descriptions
  * Wbi: web-based interface of a program
 
-Package: libwtclasses.SHORT_VERSION
+Package: libwtclassesSONAME
 Section: libs
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends},
@@ -30,14 +30,14 @@ Description: utility classes used by Wt applications [runtime]
 Package: libwtclasses
 Section: libs
 Architecture: any
-Depends: libwtclasses.SHORT_VERSION
+Depends: libwtclassesSONAME
 Description: utility classes used by Wt applications
  This package is a dependency package.
 
 Package: libwtclasses-examples
 Section: libdevel
 Architecture: any
-Depends: libwtclasses.SHORT_VERSION
+Depends: libwtclassesSONAME
 Description: utility classes used by Wt applications [examples]
  The package contains examples of using wt-classes library:
  * xxd-wt: web interface for xxd program
