@@ -17,7 +17,8 @@ Description: utility classes used by Wt applications
 Package: libwtclasses.SHORT_VERSION
 Section: libs
 Architecture: any
-Depends: ${shlibs:Depends}, ${misc:Depends}
+Depends: ${shlibs:Depends}, ${misc:Depends},
+ libwt-common (>= 3.1.9)
 Description: utility classes used by Wt applications
 
 Package: libwtclasses
