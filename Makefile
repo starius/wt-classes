@@ -118,13 +118,13 @@ deb:
 	$(MAKE) dist
 	cp -fl $(dist_tar) $(name)_$(VERSION).orig.tar.gz
 	rm -rf $(dist_dir)/debian
-	cd $(dist_dir) && yes | dh_make -l -p $(name)_$(VERSION)
+	mkdir -p $(dist_dir)/debian
 	cp -flr debian/* $(dist_dir)/debian
 	sed 's@SHORT_VERSION@$(SHORT_VERSION)@g' \
 		< debian/control.in > $(dist_dir)/debian/control
 	cp -fl debian/libwtclasses.SHORT_VERSION.install.in \
 		$(dist_dir)/debian/libwtclasses.$(SHORT_VERSION).install
-	cd $(dist_dir)/debian/ && rm *.in *.ex
+	cd $(dist_dir)/debian/ && rm -f *.in
 	cd $(dist_dir) && debuild
 
 .PHONY: check
