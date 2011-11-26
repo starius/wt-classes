@@ -45,7 +45,7 @@ Description: utility classes used by Wt applications [examples]
 Package: wtclasses-progs
 Section: devel
 Architecture: any
-Depends: python (>=2.7) | python-argparse
+Depends: ${python:Depends}, python (>=2.7) | python-argparse
 Description: Wt application developer helpers
  The package contains programs connected with using Wt:
  * locales-test: checks xml-based localizations used by Wt apps
