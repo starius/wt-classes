@@ -7,6 +7,7 @@
  * See the LICENSE file for terms of use.
  */
 
+#include <Wt/WApplication>
 #include <Wt/WFormWidget>
 #include <Wt/WLabel>
 #include <Wt/WString>
@@ -33,6 +34,7 @@ const int TF_WIDGETS_IN_NOROW = 3;
 TableForm::TableForm(Wt::WContainerWidget* parent):
     Wt::WTable(parent) {
     setStyleClass("wt_tableform");
+    wApp->useStyleSheet("resources/Wc/css/table_form.css");
 }
 
 void TableForm::section(const Wt::WString& header) {
