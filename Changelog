@@ -1,6 +1,9 @@
 2011-11-26:
     * TableForm loads table_form.css
 
+2011-11-23, 2011-11-24 and 2011-11-25:
+    * add targets: examples, clean, install
+
 2011-11-21:
     * started Changelog
     * version 1.0.0 released
