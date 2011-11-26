@@ -11,7 +11,7 @@ Homepage: https://bitbucket.org/starius/wt-classes
 Package: libwtclasses-dev
 Section: libdevel
 Architecture: any
-Depends: libwtclassesSONAME (= ${binary:Version}), libwt-dev
+Depends: ${misc:Depends}, libwtclassesSONAME (= ${binary:Version}), libwt-dev
 Description: utility classes used by Wt applications [development]
  The package provides several useful classes connected with Wt:
  * TableForm: set of user input widgets, with names and descriptions
@@ -30,14 +30,14 @@ Description: utility classes used by Wt applications [runtime]
 Package: libwtclasses
 Section: libs
 Architecture: any
-Depends: libwtclassesSONAME
+Depends: ${misc:Depends}, libwtclassesSONAME
 Description: utility classes used by Wt applications
  This package is a dependency package.
 
 Package: libwtclasses-examples
 Section: libdevel
 Architecture: any
-Depends: ${shlibs:Depends}, libwtclassesSONAME
+Depends: ${shlibs:Depends}, ${misc:Depends}, libwtclassesSONAME
 Description: utility classes used by Wt applications [examples]
  The package contains examples of using wt-classes library:
  * xxd-wt: web interface for xxd program
@@ -45,7 +45,7 @@ Description: utility classes used by Wt applications [examples]
 Package: wtclasses-progs
 Section: devel
 Architecture: any
-Depends: ${python:Depends}, python (>=2.7) | python-argparse
+Depends: ${python:Depends}, ${misc:Depends}, python (>=2.7) | python-argparse
 Description: Wt application developer helpers
  The package contains programs connected with using Wt:
  * locales-test: checks xml-based localizations used by Wt apps
