@@ -12,14 +12,20 @@ Package: libwtclasses-dev
 Section: libdevel
 Architecture: any
 Depends: libwtclasses.SHORT_VERSION (= ${binary:Version}), libwt-dev
-Description: utility classes used by Wt applications
+Description: utility classes used by Wt applications [development]
+ The package provides several useful classes connected with Wt:
+ * TableForm: set of user input widgets, with names and descriptions
+ * Wbi: web-based interface of a program
 
 Package: libwtclasses.SHORT_VERSION
 Section: libs
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends},
  libwt-common (>= 3.1.9)
-Description: utility classes used by Wt applications
+Description: utility classes used by Wt applications [runtime]
+ The package provides several useful classes connected with Wt:
+ * TableForm: set of user input widgets, with names and descriptions
+ * Wbi: web-based interface of a program
 
 Package: libwtclasses
 Section: libs
@@ -32,11 +38,15 @@ Package: libwtclasses-examples
 Section: libdevel
 Architecture: any
 Depends: libwtclasses.SHORT_VERSION
-Description: utility classes used by Wt applications (examples)
+Description: utility classes used by Wt applications [examples]
+ The package contains examples of using wt-classes library:
+ * xxd-wt: web interface for xxd program
 
 Package: wtclasses-progs
 Section: devel
 Architecture: any
 Depends: python (>=2.7) | python-argparse
 Description: Wt application developer helpers
+ The package contains programs connected with using Wt:
+ * locales-test: checks xml-based localizations used by Wt apps
 
