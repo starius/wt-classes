@@ -21,7 +21,7 @@ STATIC_LIB_PATH = ./$(BUILD)/$(STATIC_LIB)
 
 CXX = g++
 LINK = g++
-LIBS += -lboost_signals -lboost_system
+LIBS += -lboost_signals
 LIBS += -lwt
 CXXFLAGS += -pipe -Wall -W -fPIC
 CXXFLAGS += -I$(BUILD) -Isrc
