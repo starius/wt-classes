@@ -125,7 +125,7 @@ deb:
 	cp -fl debian/libwtclasses.SHORT_VERSION.install.in \
 		$(dist_dir)/debian/libwtclasses.$(SHORT_VERSION).install
 	cd $(dist_dir)/debian/ && rm *.in *.ex
-	cd $(dist_dir) && dpkg-buildpackage
+	cd $(dist_dir) && debuild
 
 .PHONY: check
 check: locales
