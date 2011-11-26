@@ -14,7 +14,6 @@ endif
 .SECONDEXPANSION:
 
 DYNAMIC_LIB_SHORT = $(name).so
-DYNAMIC_LIB_SHORT_PATH = ./$(BUILD)/$(name).so
 DYNAMIC_LIB = $(DYNAMIC_LIB_SHORT).$(VERSION)
 DYNAMIC_LIB_PATH = ./$(BUILD)/$(DYNAMIC_LIB)
 STATIC_LIB = $(name).a
@@ -59,7 +58,7 @@ dist_tar = $(fullname).tar.gz
 build: build-lib examples
 
 .PHONY: build-lib
-build-lib: $$(DYNAMIC_LIB_PATH) $$(STATIC_LIB_PATH) $$(DYNAMIC_LIB_SHORT_PATH)
+build-lib: $$(DYNAMIC_LIB_PATH) $$(STATIC_LIB_PATH)
 
 $(BUILD)/%.o: src/$$*.cpp $$(headers)
 	mkdir -p $(dir $@)
@@ -68,10 +67,6 @@ $(BUILD)/%.o: src/$$*.cpp $$(headers)
 $(DYNAMIC_LIB_PATH): $$(objects)
 	mkdir -p $(dir $@)
 	$(LINK) $(LFLAGS) $(LIBS) $(objects) -o $@
-
-$(DYNAMIC_LIB_SHORT_PATH):
-	mkdir -p $(dir $@)
-	ln -f -s $(DYNAMIC_LIB) $@
 
 $(STATIC_LIB_PATH): $$(objects)
 	mkdir -p $(dir $@)
@@ -100,7 +95,7 @@ install-buildless: $(headers) locales-test.py installdirs
 .PHONY: install-lib
 install-lib: build-lib install-buildless installdirs
 	$(INSTALL) $(DYNAMIC_LIB_PATH) $(DESTDIR)$(libdir)
-	$(INSTALL) $(DYNAMIC_LIB_SHORT_PATH) $(DESTDIR)$(libdir)
+	ln -f -s $(DYNAMIC_LIB) $(DESTDIR)$(libdir)/$(DYNAMIC_LIB_SHORT)
 	$(INSTALL) $(STATIC_LIB_PATH) $(DESTDIR)$(libdir)
 
 .PHONY: install
