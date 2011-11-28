@@ -1,3 +1,10 @@
+libwtclasses (1.0.6-1) unstable; urgency=low
+
+  * new upstream
+  * add manpage of locales-test
+
+ -- Boris Nagaev <bnagaev@gmail.com>  Mon, 28 Nov 2011 19:15:30 +0400
+
 libwtclasses (1.0.5-2) unstable; urgency=low
 
   * new upstream (build system, not source)
