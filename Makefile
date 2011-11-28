@@ -49,9 +49,11 @@ css = $(wildcard css/*.css)
 pys = locales-test.py
 locales = $(wildcard locales/wtclasses*.xml)
 project_files = Doxyfile InstallDirs.inc LICENSE Makefile VERSION SONAME
+man_rests = locales-test.1.rst
+mans = $(man_rests:.rst=)
 
 dist_files = $(sources) $(headers) $(project_files) $(css) $(locales) \
-	$(pys) $(examples_cpp)
+	$(pys) $(examples_cpp) $(man_rests)
 dist_dir = $(fullname)
 dist_tar = $(fullname).tar.gz
 
@@ -74,7 +76,7 @@ $(STATIC_LIB_PATH): $$(objects)
 	ar -cvq $@ $^
 
 .PHONY: doc
-doc:
+doc: locales-test.1
 	$(MAKE) install-buildless DESTDIR=./doc-source prefix=/usr
 	doxygen
 
@@ -85,11 +87,13 @@ installdirs:
 	$(INSTALL) -d $(DESTDIR)$(bindir)
 	$(INSTALL) -d $(DESTDIR)$(datadir)/Wt/Wc/locales
 	$(INSTALL) -d $(DESTDIR)$(datadir)/Wt/resources/Wc/css
+	$(INSTALL) -d $(DESTDIR)$(mandir)/man1
 
 .PHONY: install-buildless
-install-buildless: $(headers) locales-test.py installdirs
+install-buildless: $(headers) locales-test.py $$(mans) installdirs
 	$(INSTALL) -m 644 $(headers) $(DESTDIR)$(includedir)$(includesubdir)
 	$(INSTALL) locales-test.py $(DESTDIR)$(bindir)/locales-test
+	$(INSTALL) -m 644 locales-test.1 $(DESTDIR)$(mandir)/man1/
 	$(INSTALL) -m 644 $(locales) $(DESTDIR)$(datadir)/Wt/Wc/locales/
 	$(INSTALL) -m 644 $(css) $(DESTDIR)$(datadir)/Wt/resources/Wc/css/
 
@@ -146,4 +150,7 @@ endif
 .PHONY: clean
 clean:
 	rm -fr debug release usr libwtclasses* doc* examples/*.wt
+
+locales-test.1: locales-test.1.rst
+	rst2man $< > $@
 

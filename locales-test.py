@@ -7,22 +7,6 @@
 # Other versions of the GPL do not apply.
 # See the LICENSE file for terms of use.
 
-""" Convention on l9n files
-
- * message id should be like "prefix.SECTION.ID"
- * prefix and setion list are provided as command line options
- * first letter of Id should be of the same case, as value
- * words inside id should be separated with _, regardless of case-style
- * messages should be grouped by section (groups are separated by empty line)
- * messages should be ordered by id inside a group (case is ingnored)
- * multi-line messages should be moved to the end of group and also be ordered
- * ids of template messages should have suffix "_template"
- * max length of line: 120
- * messages should not start or end with space
- * no tabs are allowed
- * messages for Wt's translations are in the beginning and need not be sorted.
-"""
-
 import codecs
 import os.path
 from xml.etree.ElementTree import parse
