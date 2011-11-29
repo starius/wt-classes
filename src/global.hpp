@@ -12,9 +12,9 @@
 
 namespace Wt {
 
-class TableForm; // FIXME
-
 namespace Wc {
+
+class TableForm;
 
 class AbstractArgument;
 class AbstractInput;

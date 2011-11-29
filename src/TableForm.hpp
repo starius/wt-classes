@@ -17,6 +17,8 @@
 
 namespace Wt {
 
+namespace Wc {
+
 /** Set of user input widgets, with names and descriptions.
 
 Example:
@@ -62,6 +64,8 @@ private:
     Wt::WTableRow* parent_row_(Wt::WWidget* input);
     WWidget* input_at(int row);
 };
+
+}
 
 }
 

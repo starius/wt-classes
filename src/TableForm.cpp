@@ -21,6 +21,8 @@
 
 namespace Wt {
 
+namespace Wc {
+
 const int TF_SECTION_COLUMN = 0;
 const int TF_NAME_COLUMN = 0;
 const int TF_INPUT_COLUMN = 1;
@@ -109,6 +111,8 @@ WWidget* TableForm::input_at(int row) {
         }
     }
     return 0;
+}
+
 }
 
 }
