@@ -708,6 +708,14 @@ protected:
     */
     void run();
 
+    /** Cancel running program.
+     - if state is WORKING, the program is stopped;
+     - state is set to NEW.
+
+    This method should be only called by AbstractTask and AbstractRunner.
+    */
+    void cancel();
+
     /** Implementation of run().
     This method should return immediately.
      - if state is FINISHED, this should firstly make it NEW
@@ -717,6 +725,11 @@ protected:
      - when the program is finished, finish() should be called.
     */
     virtual void run_impl() = 0;
+
+    /** Implementation of cancel().
+    This method should return immediately.
+    */
+    virtual void cancel_impl() = 0;
 
 private:
     RunState state_;
@@ -733,6 +746,11 @@ private:
 
 /** Task runner, starting a waiting thread and a process.
 
+Currently it is implemented using system() function.
+Uses kill command and $$ shell expression.
+To create temponary pid file, unique_name() is used.
+It seems to work only under UNIX.
+
 \ingroup wbi
 */
 class ForkingRunner : public AbstractRunner {
@@ -743,7 +761,8 @@ public:
     ForkingRunner(const std::string& command);
 
     /** Destructor.
-    \todo Should kill a thread and a process if any
+     - If state is WORKING, call cancel_impl()
+     - remove pid file.
     */
     ~ForkingRunner();
 
@@ -755,9 +774,11 @@ public:
 
 protected:
     void run_impl();
+    void cancel_impl();
 
 private:
     std::string command_;
+    std::string pid_file_;
 
     void start_process();
 };

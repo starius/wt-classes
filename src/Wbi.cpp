@@ -400,6 +400,13 @@ void AbstractRunner::run() {
     }
 }
 
+void AbstractRunner::cancel() {
+    if (state() == WORKING) {
+        cancel_impl();
+    }
+    set_state(NEW);
+}
+
 RunState AbstractRunner::state() const {
     return task_ ? state_ : UNSET;
 }
@@ -419,11 +426,14 @@ void AbstractRunner::set_task(AbstractTask* task) {
 }
 
 ForkingRunner::ForkingRunner(const std::string& command):
-    command_(command)
+    command_(command), pid_file_(FileOutput::unique_name())
 { }
 
 ForkingRunner::~ForkingRunner() {
-    // TODO
+    if (state() == WORKING) {
+        cancel_impl();
+    }
+    remove(pid_file_.c_str());
 }
 
 void ForkingRunner::run_impl() {
@@ -434,6 +444,12 @@ void ForkingRunner::run_impl() {
         set_state(WORKING);
         boost::thread(&ForkingRunner::start_process, this);
     }
+}
+
+void ForkingRunner::cancel_impl() {
+    std::stringstream cmd;
+    cmd << "kill `cat " << pid_file_ << "`";
+    system(cmd.str().c_str());
 }
 
 std::string ForkingRunner::escape_arg(const std::string& arg) {
@@ -453,6 +469,7 @@ void arg_to_stream(std::stringstream& stream, const std::string& arg,
 
 void ForkingRunner::start_process() {
     std::stringstream cmd;
+    cmd << "echo $$ > " << pid_file_ << ";";
     cmd << command_ << " ";
     task()->visit_args(boost::bind(arg_to_stream, boost::ref(cmd), _1, _2));
     system(cmd.str().c_str());
