@@ -704,7 +704,7 @@ protected:
      - If state is UNSET or WORKING, do nothing;
      - call run_impl()
 
-    This method should be only called by AbstractRunner.
+    This method should be only called by AbstractTask.
     */
     void run();
 
