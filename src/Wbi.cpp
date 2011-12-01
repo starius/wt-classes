@@ -430,6 +430,7 @@ ForkingRunner::ForkingRunner(const std::string& command):
 { }
 
 ForkingRunner::~ForkingRunner() {
+    thread_.interrupt();
     if (state() == WORKING) {
         cancel_impl();
     }
@@ -442,7 +443,7 @@ void ForkingRunner::run_impl() {
     }
     if (state() == NEW) {
         set_state(WORKING);
-        boost::thread(&ForkingRunner::start_process, this);
+        thread_ = boost::thread(&ForkingRunner::start_process, this);
     }
 }
 
@@ -473,7 +474,9 @@ void ForkingRunner::start_process() {
     cmd << command_ << " ";
     task()->visit_args(boost::bind(arg_to_stream, boost::ref(cmd), _1, _2));
     system(cmd.str().c_str());
-    finish();
+    if (!boost::this_thread::interruption_requested()) {
+        finish();
+    }
 }
 
 AbstractQueue::AbstractQueue(WObject* p):

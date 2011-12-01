@@ -16,6 +16,7 @@
 #include <set>
 #include <boost/function.hpp>
 #include <boost/thread/mutex.hpp>
+#include <boost/thread.hpp>
 
 #include <Wt/WGlobal>
 #include <Wt/WCompositeWidget>
@@ -779,6 +780,7 @@ protected:
 private:
     std::string command_;
     std::string pid_file_;
+    boost::thread thread_;
 
     void start_process();
 };

@@ -1,5 +1,6 @@
 2011-12-01:
     * add methods to cancel running runner
+    * add interuption point to forking runner to prevent races
 
 2011-11-29:
     * move TableForm to Wt::Wc
