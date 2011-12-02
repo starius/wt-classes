@@ -471,7 +471,7 @@ void arg_to_stream(std::stringstream& stream, const std::string& arg,
 void ForkingRunner::start_process() {
     std::stringstream cmd;
     cmd << "echo $$ > " << pid_file_ << ";";
-    cmd << command_ << " ";
+    cmd << "exec " << command_ << " ";
     task()->visit_args(boost::bind(arg_to_stream, boost::ref(cmd), _1, _2));
     system(cmd.str().c_str());
     if (!boost::this_thread::interruption_requested()) {
