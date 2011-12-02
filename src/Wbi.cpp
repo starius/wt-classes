@@ -470,10 +470,12 @@ void arg_to_stream(std::stringstream& stream, const std::string& arg,
 
 void ForkingRunner::start_process() {
     std::stringstream cmd;
-    cmd << "echo $$ > " << pid_file_ << ";";
-    cmd << "exec " << command_ << " ";
+    cmd << command_ << " ";
     task()->visit_args(boost::bind(arg_to_stream, boost::ref(cmd), _1, _2));
-    system(cmd.str().c_str());
+    std::stringstream cmd_wrapper;
+    cmd_wrapper << "echo $$ > " << pid_file_ << ";";
+    cmd_wrapper << "exec sh -c " << ForkingRunner::escape_arg(cmd.str()) << ";";
+    system(cmd_wrapper.str().c_str());
     if (!boost::this_thread::interruption_requested()) {
         finish();
     }
