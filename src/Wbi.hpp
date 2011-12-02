@@ -668,6 +668,11 @@ public:
     /** Constructor */
     AbstractRunner();
 
+    /** Destructor.
+    Try to remove the task from the queue.
+    */
+    ~AbstractRunner();
+
     /** Get state */
     RunState state() const;
 
@@ -711,6 +716,7 @@ protected:
 
     /** Cancel running program.
      - if state is WORKING, the program is stopped;
+     - try to remove the task from the queue;
      - state is set to NEW.
 
     This method should be only called by AbstractTask and AbstractRunner.
@@ -731,6 +737,9 @@ protected:
     This method should return immediately.
     */
     virtual void cancel_impl() = 0;
+
+    /** Try to remove the task from the queue */
+    void remove_from_queue();
 
 private:
     RunState state_;

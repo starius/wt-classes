@@ -396,6 +396,10 @@ AbstractRunner::AbstractRunner():
     server_(WServer::instance()), session_id_(wApp->sessionId())
 { }
 
+AbstractRunner::~AbstractRunner() {
+    remove_from_queue();
+}
+
 void AbstractRunner::run() {
     if (!(state() == UNSET || state() == WORKING)) {
         run_impl();
@@ -406,6 +410,7 @@ void AbstractRunner::cancel() {
     if (state() == WORKING) {
         cancel_impl();
     }
+    remove_from_queue();
     set_state(NEW);
 }
 
@@ -415,11 +420,15 @@ RunState AbstractRunner::state() const {
 
 void AbstractRunner::finish() {
     set_state(FINISHED);
-    if (task_->queue_) {
-        task_->queue_->remove(task_);
-    }
+    remove_from_queue();
     server_->post(session_id_,
                   boost::bind(&AbstractTask::changed_emitter, task()));
+}
+
+void AbstractRunner::remove_from_queue() {
+    if (task_ && task_->queue_) {
+        task_->queue_->remove(task_);
+    }
 }
 
 void AbstractRunner::set_task(AbstractTask* task) {
