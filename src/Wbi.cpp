@@ -538,9 +538,7 @@ void TaskNumberQueue::try_to_run() {
             waiting_.pop_front();
             set_queued(task, false);
             run_task(task);
-            if (task->state() == WORKING) {
-                running_.insert(task);
-            }
+            running_.insert(task);
         }
     }
 }
