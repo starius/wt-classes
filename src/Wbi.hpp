@@ -655,17 +655,14 @@ public:
     TableTask(WContainerWidget* p = 0);
 
 protected:
-    /** Container for inputs */
-    TableForm* inputs_;
-
-    /** Container for outputs */
-    TableForm* outputs_;
-
     void add_input_impl(AbstractInput* input, const WString& name,
                         const WString& description = "");
 
     void add_output_impl(AbstractOutput* output, const WString& name,
                          const WString& description = "");
+
+private:
+    void changed_handler();
 };
 
 /** Abstract base class for runner of a program.

@@ -18,6 +18,7 @@
 #include <boost/thread.hpp>
 #include <boost/foreach.hpp>
 #include <boost/algorithm/string/replace.hpp>
+#include <boost/cast.hpp>
 
 #include <Wt/WContainerWidget>
 #include <Wt/WCompositeWidget>
@@ -388,27 +389,55 @@ void AbstractTask::run_impl() {
     changed_.emit();
 }
 
+class TTImpl : public WContainerWidget {
+public:
+    TTImpl() {
+        inputs_ = new TableForm(this);
+        inputs_->section(tr("wc.wbi.Inputs"));
+        outputs_ = new TableForm(this);
+        outputs_->section(tr("wc.wbi.Outputs"));
+        run_ = new WPushButton(tr("wc.wbi.Run"), this);
+        cancel_ = new WPushButton(tr("wc.wbi.Cancel"), this);
+        cancel_->hide();
+    }
+
+private:
+    TableForm* inputs_;
+    TableForm* outputs_;
+    WPushButton* run_;
+    WPushButton* cancel_;
+
+    friend class TableTask;
+};
+
 TableTask::TableTask(WContainerWidget* p):
     AbstractTask(p) {
-    WContainerWidget* impl = new WContainerWidget();
-    inputs_ = new TableForm(impl);
-    inputs_->section(tr("wc.wbi.Inputs"));
-    outputs_ = new TableForm(impl);
-    outputs_->section(tr("wc.wbi.Outputs"));
-    WPushButton* go = new WPushButton(tr("wc.wbi.Run"), impl);
-    go->clicked().connect(this, &AbstractTask::run);
+    TTImpl* impl = new TTImpl();
     setImplementation(impl);
+    impl->run_->clicked().connect(this, &AbstractTask::run);
+    impl->cancel_->clicked().connect(this, &AbstractTask::cancel);
+    changed().connect(this, &TableTask::changed_handler);
 }
 
 void TableTask::add_input_impl(AbstractInput* input, const WString& name,
                                const WString& description) {
     // TODO row argument of item()
-    inputs_->item(name, description, input->form_widget(), input);
+    TTImpl* impl = boost::polymorphic_downcast<TTImpl*>(implementation());
+    impl->inputs_->item(name, description, input->form_widget(), input);
 }
 
 void TableTask::add_output_impl(AbstractOutput* output, const WString& name,
                                 const WString& description) {
-    outputs_->item(name, description, 0, output);
+    TTImpl* impl = boost::polymorphic_downcast<TTImpl*>(implementation());
+    impl->outputs_->item(name, description, 0, output);
+}
+
+void TableTask::changed_handler() {
+    TTImpl* impl = boost::polymorphic_downcast<TTImpl*>(implementation());
+    bool cancel = state() == WORKING || state() == QUEUED;
+    bool run = !cancel;
+    impl->run_->setHidden(!run, WAnimation());
+    impl->cancel_->setHidden(!cancel, WAnimation());
 }
 
 AbstractRunner::AbstractRunner():
