@@ -607,7 +607,9 @@ public:
     void visit_args(const AbstractArgument::ArgUser& f);
 
     /** Return signal emitted after task state changing.
-    \note Connect this signal to WApplication::triggerUpdate()
+    \note You need not connect this signal to triggerUpdate(),
+        since triggerUpdate() is called through WServer::post() after
+        treating of other connected slots.
     */
     ChangedSignal& changed() {
         return changed_;

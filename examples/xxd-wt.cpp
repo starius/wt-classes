@@ -27,7 +27,6 @@ public:
         task->add_output(new ViewFileOutput(">"), "Hex dump");
         task->set_runner(new ForkingRunner("sleep 5; xxd"));
         task->set_queue(&queue);
-        task->changed().connect(this, &WApplication::triggerUpdate);
     }
 };
 
