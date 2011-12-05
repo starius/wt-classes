@@ -1,3 +1,13 @@
+libwtclasses (1.1.0-1) unstable; urgency=low
+
+  * new upstream (1.1.0)
+  * Wbi: place temp files in system temp directory,
+    precede name with "wt-classes-"
+  * add upstream Changelog to debian packages
+  * add debian/source/format = 3.0 (quilt)
+
+ -- Boris Nagaev <bnagaev@gmail.com>  Mon, 05 Dec 2011 21:35:34 +0400
+
 libwtclasses (1.0.6-1) unstable; urgency=low
 
   * new upstream
