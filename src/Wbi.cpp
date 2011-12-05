@@ -341,6 +341,11 @@ void AbstractTask::run() {
     }
 }
 
+void AbstractTask::cancel() {
+    runner_->cancel();
+    changed_.emit();
+}
+
 void AbstractTask::visit_args(const AbstractArgument::ArgUser& f) {
     BOOST_FOREACH (AbstractArgument* arg, args_) {
         arg->add_args(f);

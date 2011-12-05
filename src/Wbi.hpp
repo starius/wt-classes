@@ -592,6 +592,14 @@ public:
     */
     void run();
 
+    /** Cancel a task.
+     - the program is stopped
+     - changed() signal is emitted
+
+    Implementing this class, connect .clicked() of Cancel button to this method
+    */
+    void cancel();
+
     /** Apply the function to all arguments.
     This method calls \ref AbstractArgument::add_args "add_args(f)"
     of each argument.
