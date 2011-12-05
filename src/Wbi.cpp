@@ -460,7 +460,7 @@ void ForkingRunner::run_impl() {
 
 void ForkingRunner::cancel_impl() {
     std::stringstream cmd;
-    cmd << "kill `cat " << pid_file_ << "`";
+    cmd << "kill -9 `cat " << pid_file_ << "`";
     system(cmd.str().c_str());
 }
 
