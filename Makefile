@@ -48,7 +48,7 @@ examples_binaries = $(examples_cpp:.cpp=.wt)
 css = $(wildcard css/*.css)
 pys = locales-test.py
 locales = $(wildcard locales/wtclasses*.xml)
-project_files = Doxyfile InstallDirs.inc LICENSE Makefile VERSION SONAME
+project_files = Doxyfile.in InstallDirs.inc LICENSE Makefile VERSION SONAME
 man_rests = locales-test.1.rst
 mans = $(man_rests:.rst=)
 
@@ -76,9 +76,12 @@ $(STATIC_LIB_PATH): $$(objects)
 	ar -cvq $@ $^
 
 .PHONY: doc
-doc: locales-test.1
+doc: locales-test.1 Doxyfile
 	$(MAKE) install-buildless DESTDIR=./doc-source prefix=/usr
 	doxygen
+
+Doxyfile: Doxyfile.in
+	sed 's@{PROJECT_NUMBER}@$(VERSION)@g' < $< > $@
 
 .PHONY: installdirs
 installdirs:

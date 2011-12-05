@@ -14,4 +14,5 @@ doc-source
 usr
 examples/*.wt
 locales-test.1
+Doxyfile
 
