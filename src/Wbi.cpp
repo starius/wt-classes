@@ -18,7 +18,6 @@
 #include <boost/thread.hpp>
 #include <boost/foreach.hpp>
 #include <boost/algorithm/string/replace.hpp>
-#include <boost/cast.hpp>
 
 #include <Wt/WContainerWidget>
 #include <Wt/WCompositeWidget>
@@ -98,7 +97,7 @@ FormWidgetInput::FormWidgetInput(WFormWidget* widget,
 }
 
 WFormWidget* FormWidgetInput::form_widget_impl() {
-    return static_cast<WFormWidget*>(implementation());
+    return downcast<WFormWidget*>(implementation());
 }
 
 bool FormWidgetInput::is_valid() const {
@@ -111,11 +110,11 @@ LineEditInput::LineEditInput(WLineEdit* widget, const std::string& option_name):
 { }
 
 WLineEdit* LineEditInput::line_edit() {
-    return static_cast<WLineEdit*>(form_widget());
+    return downcast<WLineEdit*>(form_widget());
 }
 
 const WLineEdit* LineEditInput::line_edit() const {
-    return static_cast<const WLineEdit*>(form_widget());
+    return downcast<const WLineEdit*>(form_widget());
 }
 
 void LineEditInput::set_option() {
@@ -221,12 +220,12 @@ bool AbstractOutput::is_needed() const {
 }
 
 void AbstractOutput::select_handler() {
-    WCheckBox* box = static_cast<WCheckBox*>(sender());
+    WCheckBox* box = downcast<WCheckBox*>(sender());
     selected_ = box->isChecked();
 }
 
 WContainerWidget* AbstractOutput::container() {
-    return static_cast<WContainerWidget*>(implementation());
+    return downcast<WContainerWidget*>(implementation());
 }
 
 void AbstractOutput::finished_handler() {
@@ -376,7 +375,7 @@ RunState AbstractTask::state() const {
 void AbstractTask::changed_emitter() {
     BOOST_FOREACH (AbstractArgument* arg, args_) {
         if (isinstance<AbstractOutput>(arg)) {
-            dynamic_cast<AbstractOutput*>(arg)->finished_handler();
+            downcast<AbstractOutput*>(arg)->finished_handler();
         }
     }
     changed_.emit();
@@ -422,18 +421,18 @@ TableTask::TableTask(WContainerWidget* p):
 void TableTask::add_input_impl(AbstractInput* input, const WString& name,
                                const WString& description) {
     // TODO row argument of item()
-    TTImpl* impl = boost::polymorphic_downcast<TTImpl*>(implementation());
+    TTImpl* impl = downcast<TTImpl*>(implementation());
     impl->inputs_->item(name, description, input->form_widget(), input);
 }
 
 void TableTask::add_output_impl(AbstractOutput* output, const WString& name,
                                 const WString& description) {
-    TTImpl* impl = boost::polymorphic_downcast<TTImpl*>(implementation());
+    TTImpl* impl = downcast<TTImpl*>(implementation());
     impl->outputs_->item(name, description, 0, output);
 }
 
 void TableTask::changed_handler() {
-    TTImpl* impl = boost::polymorphic_downcast<TTImpl*>(implementation());
+    TTImpl* impl = downcast<TTImpl*>(implementation());
     bool cancel = state() == WORKING || state() == QUEUED;
     bool run = !cancel;
     impl->run_->setHidden(!run, WAnimation());

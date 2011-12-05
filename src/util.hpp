@@ -10,6 +10,8 @@
 #ifndef WT_UTIL_HPP_
 #define WT_UTIL_HPP_
 
+#include <boost/cast.hpp>
+
 namespace Wt {
 
 namespace Wc {
@@ -25,6 +27,8 @@ bool isinstance(const S* object) {
         return false;
     }
 }
+
+#define downcast boost::polymorphic_downcast
 
 }
 

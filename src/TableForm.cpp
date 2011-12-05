@@ -18,6 +18,7 @@
 #include <Wt/WWidget>
 
 #include "TableForm.hpp"
+#include "util.hpp"
 
 namespace Wt {
 
@@ -96,7 +97,7 @@ void TableForm::foreach(const boost::function<void(WWidget*)>& f) {
 }
 
 Wt::WTableRow* TableForm::parent_row_(Wt::WWidget* input) {
-    return rowAt(dynamic_cast<Wt::WTableCell*>(input->parent())->row());
+    return rowAt(downcast<Wt::WTableCell*>(input->parent())->row());
 }
 
 WWidget* TableForm::input_at(int row) {
