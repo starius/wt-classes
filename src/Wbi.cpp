@@ -354,7 +354,11 @@ void AbstractTask::run() {
 }
 
 void AbstractTask::cancel() {
-    runner_->cancel();
+    if (state() == QUEUED) {
+        queue_->remove(this);
+    } else {
+        runner_->cancel();
+    }
     changed_.emit();
 }
 
