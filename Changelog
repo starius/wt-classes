@@ -1,3 +1,11 @@
+2011-12-05:
+    * use task queues in xxd example
+    * automate triggerUpdate()
+    * implement cancellation of task (TableTask)
+
+2011-12-02:
+    * exec process to get PID to be able to kill it
+
 2011-12-01:
     * add methods to cancel running runner
     * add interuption point to forking runner to prevent races
