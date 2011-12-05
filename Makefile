@@ -48,7 +48,8 @@ examples_binaries = $(examples_cpp:.cpp=.wt)
 css = $(wildcard css/*.css)
 pys = locales-test.py
 locales = $(wildcard locales/wtclasses*.xml)
-project_files = Doxyfile.in InstallDirs.inc LICENSE Makefile VERSION SONAME
+project_files = Doxyfile.in InstallDirs.inc LICENSE Makefile VERSION SONAME \
+	Changelog
 man_rests = locales-test.1.rst
 mans = $(man_rests:.rst=)
 
