@@ -13,6 +13,8 @@
 using namespace Wt;
 using namespace Wt::Wc;
 
+TaskNumberQueue queue(2);
+
 class XxdApp : public WApplication {
 public:
     XxdApp(const WEnvironment& env):
@@ -24,6 +26,7 @@ public:
         task->add_input(new FileInput("<"), "Binary file");
         task->add_output(new ViewFileOutput(">"), "Hex dump");
         task->set_runner(new ForkingRunner("sleep 5; xxd"));
+        task->set_queue(&queue);
         task->changed().connect(this, &WApplication::triggerUpdate);
     }
 };
