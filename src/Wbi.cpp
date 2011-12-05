@@ -458,7 +458,6 @@ ForkingRunner::ForkingRunner(const std::string& command):
 { }
 
 ForkingRunner::~ForkingRunner() {
-    thread_.interrupt();
     if (state() == WORKING) {
         cancel_impl();
     }
@@ -476,6 +475,7 @@ void ForkingRunner::run_impl() {
 }
 
 void ForkingRunner::cancel_impl() {
+    thread_.interrupt();
     std::stringstream cmd;
     cmd << "kill -9 `cat " << pid_file_ << "`";
     system(cmd.str().c_str());
