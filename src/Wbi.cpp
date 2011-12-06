@@ -49,6 +49,10 @@ void AbstractArgument::add_args(const ArgUser& f) {
     add_args_impl(f);
 }
 
+bool AbstractArgument::large() const {
+    return large_impl();
+}
+
 void AbstractArgument::add_args_impl(const ArgUser& f) {
     add_option(f);
 }
@@ -61,6 +65,10 @@ void AbstractArgument::add_option(const ArgUser& f) {
     if (!option_value_.empty()) {
         f(option_value_, /* escape */ true);
     }
+}
+
+bool AbstractArgument::large_impl() const {
+    return false;
 }
 
 AbstractInput::AbstractInput(const std::string& option_name):
@@ -162,6 +170,10 @@ void TextFileInput::set_option() {
     file << text_area_->text().toUTF8();
     file.close();
     option_value_ = filename;
+}
+
+bool TextFileInput::large_impl() const {
+    return true;
 }
 
 BoolInput::BoolInput(const std::string& name_if_true, bool checked):
@@ -420,15 +432,16 @@ TableTask::TableTask(WContainerWidget* p):
 
 void TableTask::add_input_impl(AbstractInput* input, const WString& name,
                                const WString& description) {
-    // TODO row argument of item()
     TTImpl* impl = downcast<TTImpl*>(implementation());
-    impl->inputs_->item(name, description, input->form_widget(), input);
+    bool row = !input->large();
+    impl->inputs_->item(name, description, input->form_widget(), input, row);
 }
 
 void TableTask::add_output_impl(AbstractOutput* output, const WString& name,
                                 const WString& description) {
     TTImpl* impl = downcast<TTImpl*>(implementation());
-    impl->outputs_->item(name, description, 0, output);
+    bool row = !output->large();
+    impl->outputs_->item(name, description, 0, output, row);
 }
 
 void TableTask::changed_handler() {

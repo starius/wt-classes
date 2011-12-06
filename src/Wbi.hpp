@@ -58,6 +58,13 @@ public:
     */
     void add_args(const ArgUser& f);
 
+    /** Get if the widget is large.
+    A widget is considered large if it is unlikely to fit on one line.
+
+    The implementation of the method is large_impl()
+    */
+    bool large() const;
+
 protected:
     /** Name of a program option (i.e., "-i", "--output") */
     std::string option_name_;
@@ -87,6 +94,11 @@ protected:
         implemented (e.g. with with empty body).
     */
     virtual void set_option() = 0;
+
+    /** Implementation of large().
+    Default implementation returns false.
+    */
+    virtual bool large_impl() const;
 };
 
 /** Abstract base class for input argument.
@@ -256,6 +268,9 @@ protected:
     and set the name of the file.
     */
     void set_option();
+
+    /** Return true, this input is large */
+    bool large_impl() const;
 
 private:
     void uploaded_handler();

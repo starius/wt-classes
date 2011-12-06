@@ -1,3 +1,6 @@
+2011-12-07:
+    * add information to abstract argument, if it is large
+
 2011-12-05:
     * use task queues in xxd example
     * automate triggerUpdate()
