@@ -2,6 +2,7 @@
     * use task queues in xxd example
     * automate triggerUpdate()
     * implement cancellation of task (TableTask)
+    * version 1.1.0 released
 
 2011-12-02:
     * exec process to get PID to be able to kill it
@@ -15,9 +16,11 @@
 
 2011-11-28:
     * manpage for locales-test
+    * version 1.0.6 released
 
 2011-11-26:
     * TableForm loads table_form.css
+    * version 1.0.5 released
 
 2011-11-23, 2011-11-24 and 2011-11-25:
     * add targets: examples, clean, install
