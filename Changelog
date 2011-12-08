@@ -1,6 +1,7 @@
 2011-12-09:
     * COSMETIC: functor appliers (add_args(), add_option()...) are const
     * BUGFIX: ForkingRunner examines arguments from main thread
+    * FEATURE: add LineEditInput to xxd example
 
 2011-12-07:
     * add information to abstract argument, if it is large

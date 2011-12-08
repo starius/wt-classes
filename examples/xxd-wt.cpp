@@ -8,6 +8,8 @@
  */
 
 #include <Wt/WApplication>
+#include <Wt/WIntValidator>
+#include <Wt/WLineEdit>
 #include <Wt/Wc/Wbi.hpp>
 
 using namespace Wt;
@@ -24,6 +26,9 @@ public:
                                     "locales/wtclasses");
         TableTask* task = new TableTask(root());
         task->add_input(new FileInput("<"), "Binary file");
+        WLineEdit* cols = new WLineEdit("16");
+        cols->setValidator(new WIntValidator(1, 256));
+        task->add_input(new LineEditInput(cols, "-c"), "Octets per line");
         task->add_output(new ViewFileOutput(">"), "Hex dump");
         task->set_runner(new ForkingRunner("sleep 5; xxd"));
         task->set_queue(&queue);
