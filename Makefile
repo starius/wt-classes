@@ -28,10 +28,10 @@ CXXFLAGS += -pipe -Wall -W -fPIC
 CXXFLAGS += -I$(BUILD) -Isrc
 LFLAGS += -shared
 ifeq ($(BUILD), debug)
-CXXFLAGS += -g -O0
+CXXFLAGS += -g -O0 -DDEBUG
 LFLAGS += -O0
 else
-CXXFLAGS += -O3
+CXXFLAGS += -O3 -DNDEBUG
 LFLAGS += -O3
 endif
 INSTALL = install
