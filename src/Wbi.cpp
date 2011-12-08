@@ -45,7 +45,7 @@ AbstractArgument::AbstractArgument(const std::string& option_name):
     option_name_(option_name)
 { }
 
-void AbstractArgument::add_args(const ArgUser& f) {
+void AbstractArgument::add_args(const ArgUser& f) const {
     add_args_impl(f);
 }
 
@@ -53,12 +53,12 @@ bool AbstractArgument::large() const {
     return large_impl();
 }
 
-void AbstractArgument::add_args_impl(const ArgUser& f) {
+void AbstractArgument::add_args_impl(const ArgUser& f) const {
     add_option(f);
 }
 
-void AbstractArgument::add_option(const ArgUser& f) {
-    set_option();
+void AbstractArgument::add_option(const ArgUser& f) const {
+    const_cast<AbstractArgument*>(this)->set_option();
     if (!option_name_.empty()) {
         f(option_name_, /* escape */ false);
     }
@@ -92,7 +92,7 @@ bool AbstractInput::is_valid() const {
     return true;
 }
 
-void AbstractInput::add_args_impl(const ArgUser& f) {
+void AbstractInput::add_args_impl(const ArgUser& f) const {
     if (is_valid()) {
         add_option(f);
     }
@@ -374,7 +374,7 @@ void AbstractTask::cancel() {
     changed_.emit();
 }
 
-void AbstractTask::visit_args(const AbstractArgument::ArgUser& f) {
+void AbstractTask::visit_args(const AbstractArgument::ArgUser& f) const {
     BOOST_FOREACH (AbstractArgument* arg, args_) {
         arg->add_args(f);
     }

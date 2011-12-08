@@ -56,7 +56,7 @@ public:
     /** Call the function for each of adding arguments.
     The implementation of this method is add_args_impl()
     */
-    void add_args(const ArgUser& f);
+    void add_args(const ArgUser& f) const;
 
     /** Get if the widget is large.
     A widget is considered large if it is unlikely to fit on one line.
@@ -80,14 +80,14 @@ protected:
     \note Reimplement this method if the number of added arguments
         is more than 2 (e.g. variadic argument list).
     */
-    virtual void add_args_impl(const ArgUser& f);
+    virtual void add_args_impl(const ArgUser& f) const;
 
     /** Call the function for option_name_ and option_value_.
     If option name or value is an empty string, it is skipped.
 
     This method calls set_option() method.
     */
-    void add_option(const ArgUser& f);
+    void add_option(const ArgUser& f) const;
 
     /** Set option value.
     You should implement this method in descendant classes.
@@ -158,7 +158,7 @@ protected:
     virtual bool is_valid() const;
 
     /** Call the function for each of adding arguments, if is_valid() */
-    void add_args_impl(const ArgUser& f);
+    void add_args_impl(const ArgUser& f) const;
 
 private:
     bool required_;
@@ -622,7 +622,7 @@ public:
     This method calls \ref AbstractArgument::add_args "add_args(f)"
     of each argument.
     */
-    void visit_args(const AbstractArgument::ArgUser& f);
+    void visit_args(const AbstractArgument::ArgUser& f) const;
 
     /** Return signal emitted after task state changing.
     \note You need not connect this signal to triggerUpdate(),
