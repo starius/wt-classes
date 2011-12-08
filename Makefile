@@ -74,7 +74,7 @@ $(DYNAMIC_LIB_PATH): $$(objects)
 
 $(STATIC_LIB_PATH): $$(objects)
 	mkdir -p $(dir $@)
-	ar -cvq $@ $^
+	ar rcs $@ $^
 
 .PHONY: doc
 doc: locales-test.1 Doxyfile
