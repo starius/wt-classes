@@ -515,7 +515,7 @@ void ForkingRunner::run_impl() {
     }
     if (state() == NEW) {
         set_state(WORKING);
-        thread_ = boost::thread(&ForkingRunner::start_process, this);
+        thread_ = boost::thread(&ForkingRunner::start_process, this, command());
     }
 }
 
@@ -541,14 +541,18 @@ void arg_to_stream(std::stringstream& stream, const std::string& arg,
     stream << " ";
 }
 
-void ForkingRunner::start_process() {
+std::string ForkingRunner::command() const {
     std::stringstream cmd;
     cmd << command_ << " ";
     task()->visit_args(boost::bind(arg_to_stream, boost::ref(cmd), _1, _2));
     std::stringstream cmd_wrapper;
     cmd_wrapper << "echo $$ > " << pid_file_ << ";";
     cmd_wrapper << "exec sh -c " << ForkingRunner::escape_arg(cmd.str()) << ";";
-    system(cmd_wrapper.str().c_str());
+    return cmd_wrapper.str();
+}
+
+void ForkingRunner::start_process(std::string cmd) {
+    system(cmd.c_str());
     if (!boost::this_thread::interruption_requested()) {
         finish();
     }

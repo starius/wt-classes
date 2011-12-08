@@ -821,7 +821,8 @@ private:
     std::string pid_file_;
     boost::thread thread_;
 
-    void start_process();
+    std::string command() const;
+    void start_process(std::string cmd);
 };
 
 /** Queue controlling tasks.
