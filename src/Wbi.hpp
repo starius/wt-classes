@@ -73,7 +73,8 @@ protected:
     std::string option_value_;
 
     /** Call the function for each of adding arguments (implementation).
-    Default implementation adds option_name_ and option_value_.
+    Default implementation adds option_name_ and option_value_
+    using add_option().
     If option name or value is an empty string, it is skipped.
 
     \note Reimplement this method if the number of added arguments
@@ -83,6 +84,8 @@ protected:
 
     /** Call the function for option_name_ and option_value_.
     If option name or value is an empty string, it is skipped.
+
+    This method calls set_option() method.
     */
     void add_option(const ArgUser& f);
 
