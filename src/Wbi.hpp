@@ -730,6 +730,11 @@ protected:
         return task_;
     }
 
+    /** Get task */
+    const AbstractTask* task() const {
+        return task_;
+    }
+
     /** Run a program.
     This method should return immediately.
      - If state is UNSET or WORKING, do nothing;
