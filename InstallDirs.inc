@@ -11,4 +11,5 @@ oldincludedir = /usr/include
 localedir = $(datarootdir)/locale
 libdir = $(exec_prefix)/lib
 mandir = $(datarootdir)/man
+docdir = $(datarootdir)/doc/$(name)
 

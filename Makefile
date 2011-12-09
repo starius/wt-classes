@@ -45,6 +45,9 @@ includesubdir = /Wt/Wc
 
 examples_cpp = $(wildcard examples/*.cpp)
 examples_binaries = $(examples_cpp:.cpp=.wt)
+exampleslibdir = $(libdir)/$(name)/examples
+examplesdocdir = $(docdir)/examples
+exampleslibreldir = $(call relpath,$(exampleslibdir),$(examplesdocdir))
 
 css = $(wildcard css/*.css)
 pys = locales-test.py
@@ -93,6 +96,8 @@ installdirs:
 	$(INSTALL) -d $(DESTDIR)$(datadir)/Wt/Wc/locales
 	$(INSTALL) -d $(DESTDIR)$(datadir)/Wt/resources/Wc/css
 	$(INSTALL) -d $(DESTDIR)$(mandir)/man1
+	$(INSTALL) -d $(DESTDIR)$(exampleslibdir)
+	$(INSTALL) -d $(DESTDIR)$(examplesdocdir)
 
 .PHONY: install-buildless
 install-buildless: $(headers) locales-test.py $$(mans) installdirs
@@ -111,7 +116,10 @@ install-lib: build-lib install-buildless installdirs
 
 .PHONY: install
 install: install-lib install-buildless installdirs
-	$(INSTALL) $(examples_binaries) $(DESTDIR)$(bindir)
+	$(INSTALL) $(examples_binaries) $(DESTDIR)$(exampleslibdir)
+	$(INSTALL) $(examples_cpp) $(DESTDIR)$(examplesdocdir)
+	ln -f -s $(addprefix $(exampleslibreldir)/,$(notdir $(examples_binaries))) \
+		$(DESTDIR)$(examplesdocdir)
 
 .PHONY: dist
 dist: $$(dist_files)
