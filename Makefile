@@ -53,7 +53,7 @@ css = $(wildcard css/*.css)
 pys = locales-test.py
 locales = $(wildcard locales/wtclasses*.xml)
 project_files = Doxyfile.in *.inc LICENSE Makefile VERSION SONAME \
-	Changelog
+	Changelog AUTHORS README NEWS INSTALL
 man_rests = locales-test.1.rst
 mans = $(man_rests:.rst=)
 

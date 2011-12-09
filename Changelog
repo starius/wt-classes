@@ -1,3 +1,6 @@
+2011-12-10:
+    * add README, INSTALL, AUTHORS and NEWS files
+
 2011-12-09:
     * COSMETIC: functor appliers (add_args(), add_option()...) are const
     * BUGFIX: ForkingRunner examines arguments from main thread

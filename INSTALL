@@ -1,0 +1,17 @@
+wt-classes, utility classes used by Wt applications
+------------------------------------------
+
+Compile and install wt-classes library:
+$ make install
+
+Dependencies:
+ * libboost >= 1.44 (libboost-system, libboost-filesystem, libboost-thread)
+ * witty library (>=3.1.9)
+ * python, containing argparse module (used by Makefile and locales-test)
+
+Build-only dependencies:
+ * rst2man (used to build manpage)
+
+------------------------------------------
+Boris Nagaev <bnagaev@gmail.com>
+
