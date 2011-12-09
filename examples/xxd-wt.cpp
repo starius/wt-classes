@@ -7,9 +7,12 @@
  * See the LICENSE file for terms of use.
  */
 
+#include <boost/bind.hpp>
+
 #include <Wt/WApplication>
 #include <Wt/WIntValidator>
 #include <Wt/WLineEdit>
+#include <Wt/WCheckBox>
 #include <Wt/Wc/Wbi.hpp>
 
 using namespace Wt;
@@ -29,9 +32,13 @@ public:
         WLineEdit* cols = new WLineEdit("16");
         cols->setValidator(new WIntValidator(1, 256));
         task->add_input(new LineEditInput(cols, "-c"), "Octets per line");
+        WCheckBox* bits = new WCheckBox();
+        task->add_input(new BoolInput(bits, "-b"), "Bits");
         task->add_output(new ViewFileOutput(">"), "Hex dump");
         task->set_runner(new ForkingRunner("sleep 5; xxd"));
         task->set_queue(&queue);
+        bits->checked().connect(boost::bind(&WLineEdit::setText, cols, "6"));
+        bits->unChecked().connect(boost::bind(&WLineEdit::setText, cols, "16"));
     }
 };
 
