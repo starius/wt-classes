@@ -114,12 +114,15 @@ install-lib: build-lib install-buildless installdirs
 	ln -f -s $(DYNAMIC_LIB) $(DESTDIR)$(libdir)/$(DYNAMIC_LIB_SONAME)
 	$(INSTALL) -m 644 $(STATIC_LIB_PATH) $(DESTDIR)$(libdir)
 
-.PHONY: install
-install: install-lib install-buildless installdirs
+.PHONY: install-examples
+install-examples: examples installdirs
 	$(INSTALL) $(examples_binaries) $(DESTDIR)$(exampleslibdir)
 	$(INSTALL) $(examples_cpp) $(DESTDIR)$(examplesdocdir)
 	ln -f -s $(addprefix $(exampleslibreldir)/,$(notdir $(examples_binaries))) \
 		$(DESTDIR)$(examplesdocdir)
+
+.PHONY: install
+install: install-lib install-buildless install-examples
 
 .PHONY: dist
 dist: $$(dist_files)
