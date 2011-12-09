@@ -81,7 +81,7 @@ $(STATIC_LIB_PATH): $$(objects)
 	ar rcs $@ $^
 
 .PHONY: doc
-doc: locales-test.1 Doxyfile
+doc: locales-test.1 Doxyfile examples/xxd-wt.cpp.ex
 	$(MAKE) install-buildless DESTDIR=./doc-source prefix=/usr
 	doxygen
 
@@ -169,4 +169,8 @@ clean:
 
 locales-test.1: locales-test.1.rst
 	rst2man $< > $@
+
+examples/xxd-wt.cpp.ex: examples/xxd-wt.cpp
+	egrep -iv 'que|[/ ]\*|bits|cols|valid|box|line|bind' $< | \
+		sed '/^$$/N;/^\n$$/D' > $@
 

@@ -31,7 +31,7 @@ namespace Wc {
 Classes to simplify creation of a WebUI for programs
 running from command line.
 
-\include examples/xxd-wt.cpp
+\include examples/xxd-wt.cpp.ex
 */
 
 /** Abstract base class for any command-line argument of a program.

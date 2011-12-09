@@ -13,6 +13,7 @@ libwtclasses*
 doc-source
 usr
 examples/*.wt
+examples/*.ex
 locales-test.1
 Doxyfile
 
