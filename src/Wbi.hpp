@@ -290,31 +290,31 @@ This is installed by four parameters:
 
 \ingroup wbi
 */
-class BoolInput : public AbstractInput {
+class BoolInput : public FormWidgetInput {
 public:
     /** Constructor.
+    \param widget Widget to use as implementation
     \param name_if_true Option name to be passed if true (name_if_true())
-    \param checked If the checkbox is checked by default
     */
-    BoolInput(const std::string& name_if_true, bool checked = true);
+    BoolInput(WCheckBox* widget, const std::string& name_if_true);
 
     /** Constructor.
+    \param widget Widget to use as implementation
     \param name_if_true Option name to be passed if true (name_if_true())
     \param name_if_false Option name to be passed if false (name_if_false())
-    \param checked If the checkbox is checked by default
     */
-    BoolInput(const std::string& name_if_true,
-              const std::string& name_if_false, bool checked = true);
+    BoolInput(WCheckBox* widget, const std::string& name_if_true,
+              const std::string& name_if_false);
 
     /** Constructor.
+    \param widget Widget to use as implementation
     \param name Option name to be passed (name_if_true() = name_if_false())
     \param value_if_true Option value to be passed if true (value_if_true())
     \param value_if_false Option value to be passed if false (value_if_false())
-    \param checked If the checkbox is checked by default
     */
-    BoolInput(const std::string& name,
+    BoolInput(WCheckBox* widget, const std::string& name,
               const std::string& value_if_true,
-              const std::string& value_if_false, bool checked = true);
+              const std::string& value_if_false);
 
     /** Get the value to be set as option name, if true */
     const std::string& name_if_true() const {
@@ -356,10 +356,13 @@ public:
         value_if_false_ = v;
     }
 
-protected:
-    /** Implementation */
-    WCheckBox* impl_;
+    /** Return check box instance passed to constructor */
+    WCheckBox* check_box();
 
+    /** \copydoc check_box() */
+    const WCheckBox* check_box() const;
+
+protected:
     /** \copybrief AbstractArgument::set_option()
     Add or not add argument
     */
@@ -370,8 +373,6 @@ private:
     std::string name_if_false_;
     std::string value_if_true_;
     std::string value_if_false_;
-
-    void initialize(bool checked);
 };
 
 /** Abstract base class for output argument.
