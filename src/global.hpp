@@ -12,6 +12,7 @@
 
 namespace Wt {
 
+/** Namespace for wt-classes library */
 namespace Wc {
 
 class TableForm;
