@@ -639,6 +639,12 @@ public:
     */
     RunState state() const;
 
+    /** Return i18n message id for the state */
+    static const char* state_to_string(RunState state);
+
+    /** \copybrief state_to_string(RunState) */
+    const char* state_to_string();
+
 protected:
     /** Runner running the task */
     AbstractRunner* runner_;

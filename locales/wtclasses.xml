@@ -3,10 +3,15 @@
 
     <message id='wc.wbi.Cancel'>Cancel</message>
     <message id='wc.wbi.Download'>Download</message>
+    <message id='wc.wbi.Finished'>Finished</message>
     <message id='wc.wbi.Inputs'>Inputs</message>
+    <message id='wc.wbi.New'>New</message>
     <message id='wc.wbi.Outputs'>Outputs</message>
+    <message id='wc.wbi.Queued'>Queued</message>
     <message id='wc.wbi.Run'>Run</message>
+    <message id='wc.wbi.State_is'>State: {1}</message>
     <message id='wc.wbi.View'>View</message>
+    <message id='wc.wbi.Working'>Working</message>
 
 </messages>
 

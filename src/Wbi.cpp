@@ -384,6 +384,24 @@ RunState AbstractTask::state() const {
     return queued_ ? QUEUED : runner_ ? runner_->state() : UNSET;
 }
 
+const char* AbstractTask::state_to_string(RunState s) {
+    if (s == NEW) {
+        return "wc.wbi.New";
+    } else if (s == QUEUED) {
+        return "wc.wbi.Queued";
+    } else if (s == WORKING) {
+        return "wc.wbi.Working";
+    } else if (s == FINISHED) {
+        return "wc.wbi.Finished";
+    } else {
+        return "";
+    }
+}
+
+const char* AbstractTask::state_to_string() {
+    return state_to_string(state());
+}
+
 void AbstractTask::changed_emitter() {
     BOOST_FOREACH (AbstractArgument* arg, args_) {
         if (isinstance<AbstractOutput>(arg)) {
