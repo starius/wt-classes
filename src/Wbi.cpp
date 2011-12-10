@@ -428,6 +428,8 @@ public:
         run_ = new WPushButton(tr("wc.wbi.Run"), this);
         cancel_ = new WPushButton(tr("wc.wbi.Cancel"), this);
         cancel_->hide();
+        new WBreak(this);
+        state_ = new WText(this);
     }
 
 private:
@@ -435,6 +437,7 @@ private:
     TableForm* outputs_;
     WPushButton* run_;
     WPushButton* cancel_;
+    WText* state_;
 
     friend class TableTask;
 };
@@ -468,6 +471,7 @@ void TableTask::changed_handler() {
     bool run = !cancel;
     impl->run_->setHidden(!run, WAnimation());
     impl->cancel_->setHidden(!cancel, WAnimation());
+    impl->state_->setText(tr("wc.wbi.State_is").arg(tr(state_to_string())));
 }
 
 AbstractRunner::AbstractRunner():
