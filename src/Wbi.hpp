@@ -557,7 +557,7 @@ private:
 
 /** Execution state */
 enum RunState {
-    UNSET, /** Runner is not \ref AbstractTask::set_runner "set" to task */
+    UNSET, /**< Runner is not \ref AbstractTask::set_runner "set" to task */
     NEW, /**< Not started yet */
     QUEUED, /**< Queued */
     WORKING, /**< Working */
