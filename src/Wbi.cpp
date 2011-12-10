@@ -360,6 +360,7 @@ void AbstractTask::set_queue(AbstractQueue* queue) {
 void AbstractTask::run() {
     if (queue_) {
         queue_->add(this);
+        changed_.emit();
     } else {
         run_impl();
     }
