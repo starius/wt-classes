@@ -38,6 +38,7 @@ endif
 INSTALL = install
 INSTALL_PROGRAM = $(INSTALL)
 INSTALL_DATA = ${INSTALL} -m 644
+RST2MAN = rst2man
 
 sources = $(sort $(wildcard src/*.cpp) $(wildcard src/*/*.cpp))
 headers = $(sort $(wildcard src/*.hpp) $(wildcard src/*/*.hpp))
@@ -170,7 +171,7 @@ clean:
 	rm -fr debug release usr libwtclasses* doc* examples/*.wt
 
 locales-test.1: locales-test.1.rst
-	rst2man $< > $@
+	$(RST2MAN) $< > $@
 
 examples/xxd-wt.cpp.ex: examples/xxd-wt.cpp
 	egrep -iv 'que|[/ ]\*|bits|cols|valid|box|line|bind' $< | \
