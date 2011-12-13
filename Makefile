@@ -36,6 +36,8 @@ CXXFLAGS += -O3 -DNDEBUG
 LFLAGS += -O3
 endif
 INSTALL = install
+INSTALL_PROGRAM = $(INSTALL)
+INSTALL_DATA = ${INSTALL} -m 644
 
 sources = $(sort $(wildcard src/*.cpp) $(wildcard src/*/*.cpp))
 headers = $(sort $(wildcard src/*.hpp) $(wildcard src/*/*.hpp))
@@ -101,18 +103,18 @@ installdirs:
 
 .PHONY: install-buildless
 install-buildless: $(headers) locales-test.py $$(mans) installdirs
-	$(INSTALL) -m 644 $(headers) $(DESTDIR)$(includedir)$(includesubdir)
-	$(INSTALL) locales-test.py $(DESTDIR)$(bindir)/locales-test
-	$(INSTALL) -m 644 locales-test.1 $(DESTDIR)$(mandir)/man1/
-	$(INSTALL) -m 644 $(locales) $(DESTDIR)$(datadir)/Wt/Wc/locales/
-	$(INSTALL) -m 644 $(css) $(DESTDIR)$(datadir)/Wt/resources/Wc/css/
+	$(INSTALL_DATA) $(headers) $(DESTDIR)$(includedir)$(includesubdir)
+	$(INSTALL_PROGRAM) locales-test.py $(DESTDIR)$(bindir)/locales-test
+	$(INSTALL_DATA) locales-test.1 $(DESTDIR)$(mandir)/man1/
+	$(INSTALL_DATA) $(locales) $(DESTDIR)$(datadir)/Wt/Wc/locales/
+	$(INSTALL_DATA) $(css) $(DESTDIR)$(datadir)/Wt/resources/Wc/css/
 
 .PHONY: install-lib
 install-lib: build-lib install-buildless installdirs
-	$(INSTALL) -m 644 $(DYNAMIC_LIB_PATH) $(DESTDIR)$(libdir)
+	$(INSTALL_DATA) $(DYNAMIC_LIB_PATH) $(DESTDIR)$(libdir)
 	ln -f -s $(DYNAMIC_LIB_SONAME) $(DESTDIR)$(libdir)/$(DYNAMIC_LIB_SHORT)
 	ln -f -s $(DYNAMIC_LIB) $(DESTDIR)$(libdir)/$(DYNAMIC_LIB_SONAME)
-	$(INSTALL) -m 644 $(STATIC_LIB_PATH) $(DESTDIR)$(libdir)
+	$(INSTALL_DATA) $(STATIC_LIB_PATH) $(DESTDIR)$(libdir)
 
 .PHONY: install-examples
 install-examples: examples installdirs
