@@ -15,6 +15,7 @@ namespace Wc {
 
 class ConstrainedSpinBox;
 class ConstrainedDoubleSpinBox;
+class IntervalWidget;
 class TableForm;
 class TimeDurationWidget;
 
