@@ -1,0 +1,15 @@
+
+namespace Wt {
+
+namespace Wc {
+
+/** \mainpage wt-classes
+
+\attention Add locales/wtclasses to WMessageResourceBundle.
+
+*/
+
+}
+
+}
+

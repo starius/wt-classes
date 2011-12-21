@@ -5,6 +5,7 @@
     * add ConstrainedSpinBox
     * add TimeDurationWidget
     * add IntervalWidget
+    * doc main page
 
 2011-12-10:
     * add README, INSTALL, AUTHORS and NEWS files
