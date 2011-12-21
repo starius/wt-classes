@@ -52,8 +52,7 @@ To reduce to a system, this tool makes demands:
  * words inside message identifier should be separated with "_",
    regardless of case-style
  * messages should be grouped by section (groups are separated by empty line)
- * messages should be ordered by message identifier inside a group
-   (case is ignored)
+ * messages should be ordered by message identifier (case is ignored)
  * multi-line messages should be moved to the end of group and also be ordered
  * message identifiers of template messages should have suffix "_template"
  * max length of line: 120
