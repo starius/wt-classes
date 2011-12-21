@@ -1,3 +1,6 @@
+2011-12-21:
+    * allow to use with OpenSSL (LICENSE)
+
 2011-12-10:
     * add README, INSTALL, AUTHORS and NEWS files
     * FEATURE: TableTask: show current state
