@@ -35,7 +35,9 @@ const int TF_WIDGETS_IN_NOROW = 3;
 TableForm::TableForm(Wt::WContainerWidget* parent):
     Wt::WTable(parent) {
     setStyleClass("wt_tableform");
-    wApp->useStyleSheet("resources/Wc/css/table_form.css");
+    std::string resourcesURL = "resources/";
+    wApp->readConfigurationProperty("resourcesURL", resourcesURL);
+    wApp->useStyleSheet(resourcesURL + "Wc/css/table_form.css");
 }
 
 void TableForm::section(const Wt::WString& header) {
