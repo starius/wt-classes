@@ -157,7 +157,7 @@ locales: locales-test.py
 .PHONY: examples
 examples: $$(examples_binaries)
 
-%.wt: %.cpp
+%.wt: %.cpp build-lib
 ifeq (,$(EXAMPLES_SYSTEM_LIB))
 	$(MAKE) install-lib DESTDIR=. prefix=/usr
 	$(CXX) -L./usr/lib -I./usr/include \
