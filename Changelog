@@ -2,6 +2,7 @@
     * allow to use with OpenSSL (LICENSE)
     * version 1.1.5 released
     * add TimeDuration
+    * add ConstrainedSpinBox
 
 2011-12-10:
     * add README, INSTALL, AUTHORS and NEWS files

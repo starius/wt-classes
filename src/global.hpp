@@ -13,6 +13,8 @@ namespace Wt {
 /** Namespace for wt-classes library */
 namespace Wc {
 
+class ConstrainedSpinBox;
+class ConstrainedDoubleSpinBox;
 class TableForm;
 
 class AbstractArgument;
