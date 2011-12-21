@@ -152,7 +152,7 @@ check: locales
 
 .PHONY: locales
 locales: locales-test.py
-	./locales-test.py --prefix=wc --sections wbi
+	./locales-test.py --prefix=wc --sections time wbi
 
 .PHONY: examples
 examples: $$(examples_binaries)

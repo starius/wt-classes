@@ -16,6 +16,7 @@ namespace Wc {
 class ConstrainedSpinBox;
 class ConstrainedDoubleSpinBox;
 class TableForm;
+class TimeDurationWidget;
 
 class AbstractArgument;
 class AbstractInput;

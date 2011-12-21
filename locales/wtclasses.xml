@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <messages nplurals='2' plural="n==1 ? 0 : 1">
 
+    <message id='wc.time.days'>days</message>
+    <message id='wc.time.hours'>hours</message>
+    <message id='wc.time.minutes'>minutes</message>
+    <message id='wc.time.seconds'>seconds</message>
+    <message id='wc.time.weeks'>weeks</message>
+
     <message id='wc.wbi.Cancel'>Cancel</message>
     <message id='wc.wbi.Download'>Download</message>
     <message id='wc.wbi.Finished'>Finished</message>
