@@ -1,6 +1,7 @@
 2011-12-21:
     * allow to use with OpenSSL (LICENSE)
     * version 1.1.5 released
+    * add TimeDuration
 
 2011-12-10:
     * add README, INSTALL, AUTHORS and NEWS files
