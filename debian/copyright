@@ -28,6 +28,15 @@ License:
     On Debian systems, the complete text of the GNU General Public License
     can be found in /usr/share/common-licenses/GPL-2 file.
 
+    In addition, as a special exception, the copyright holders give permission
+    to link this program with the OpenSSL project's "OpenSSL" library (or with
+    modified versions of it that use the same license as the "OpenSSL"
+    library), and distribute the linked executables. You must obey the GNU
+    General Public License in all respects for all of the code used other than
+    "OpenSSL". If you modify file(s), you may extend this exception to your
+    version of the file(s), but you are not obligated to do so. If you do not
+    wish to do so, delete this exception statement from your version.
+
 The Debian packaging is:
 
     Copyright (C) 2011 Boris Nagaev <bnagaev@gmail.com>
