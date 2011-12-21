@@ -122,11 +122,17 @@ for filename, ids in filename2ids.items():
         print filename, 'Warning: id "%s" not found' % Id
 
 l9n_re = re.compile(r'"(%s\.[^"]+)"' % re.escape(args.prefix))
+used_ids = set()
 
 for root, dirnames, filenames in os.walk('src'):
     for filename in fnmatch.filter(filenames, '*.?pp'):
         path = os.path.join(root, filename)
         for match in re.findall(l9n_re, open(path).read()):
+            used_ids.add(match)
             if match not in all_ids:
                 print path, "Error: can't find message for id '%s'" % match
+
+for Id in all_ids - used_ids:
+    if not Id.startswith('Wt.'):
+        print 'Warning: id "%s" defined but not used' % Id
 
