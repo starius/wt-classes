@@ -40,6 +40,8 @@ filename2ids = {}
 id2text = {}
 
 for filename in os.listdir('locales'):
+    if not filename.endswith('.xml'):
+        continue
     ids = filename2ids[filename] = set()
     path = os.path.join('locales', filename)
     xml_file = codecs.open(path, 'r', 'utf-8')
