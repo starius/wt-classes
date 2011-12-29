@@ -36,6 +36,16 @@ class ForkingRunner;
 class AbstractQueue;
 class TaskNumberQueue;
 
+namespace url {
+
+class Parser;
+class Node;
+class PredefinedNode;
+class IntegerNode;
+class StringNode;
+
+}
+
 }
 
 }
