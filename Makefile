@@ -140,7 +140,7 @@ deb:
 	rm -rf $(dist_dir)/debian
 	mkdir -p $(dist_dir)/debian
 	cp -flr debian/* $(dist_dir)/debian
-	sed 's@SONAME@$(SONAME)@g' \
+	sed -e 's@SONAME@$(SONAME)@g' -e '/DESCR/r debian/descr.in' -e '/DESCR/d' \
 		< debian/control.in > $(dist_dir)/debian/control
 	cp -fl debian/libwtclassesSONAME.install.in \
 		$(dist_dir)/debian/libwtclasses$(SONAME).install

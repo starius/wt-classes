@@ -1,0 +1,5 @@
+ The package provides several useful classes connected with Wt:
+ * TableForm: set of user input widgets, with names and descriptions
+ * Wbi: web-based interface of a program
+ * Time-related code
+ * URL-related code

@@ -14,11 +14,7 @@ Section: libdevel
 Architecture: any
 Depends: ${misc:Depends}, libwtclassesSONAME (= ${binary:Version}), libwt-dev
 Description: utility classes used by Wt applications [development]
- The package provides several useful classes connected with Wt:
- * TableForm: set of user input widgets, with names and descriptions
- * Wbi: web-based interface of a program
- * Time-related code
- * URL-related code
+ DESCR
 
 Package: libwtclassesSONAME
 Section: libs
@@ -26,11 +22,7 @@ Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends},
  libwt-common (>= 3.1.9)
 Description: utility classes used by Wt applications [runtime]
- The package provides several useful classes connected with Wt:
- * TableForm: set of user input widgets, with names and descriptions
- * Wbi: web-based interface of a program
- * Time-related code
- * URL-related code
+ DESCR
 
 Package: libwtclasses
 Section: libs
