@@ -18,6 +18,7 @@ Description: utility classes used by Wt applications [development]
  * TableForm: set of user input widgets, with names and descriptions
  * Wbi: web-based interface of a program
  * Time-related code
+ * URL-related code
 
 Package: libwtclassesSONAME
 Section: libs
@@ -29,6 +30,7 @@ Description: utility classes used by Wt applications [runtime]
  * TableForm: set of user input widgets, with names and descriptions
  * Wbi: web-based interface of a program
  * Time-related code
+ * URL-related code
 
 Package: libwtclasses
 Section: libs
