@@ -46,6 +46,13 @@ class StringNode;
 
 }
 
+namespace notify {
+
+template <typename E> class Widget;
+template <typename E> class Server;
+
+}
+
 }
 
 }
