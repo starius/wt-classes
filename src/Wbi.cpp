@@ -312,14 +312,6 @@ void ViewFileOutput::finished_handler_impl() {
     container()->addWidget(a);
 }
 
-void updates_trigger(WApplication* app) {
-    app->triggerUpdate();
-}
-
-void updates_poster(WServer* server, WApplication* app) {
-    server->post(app->sessionId(), boost::bind(updates_trigger, app));
-}
-
 AbstractTask::AbstractTask(WContainerWidget* p):
     WCompositeWidget(p), runner_(0), queue_(0), queued_(false) {
     if (wApp->updatesEnabled()) {

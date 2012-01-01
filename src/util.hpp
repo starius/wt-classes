@@ -10,6 +10,8 @@
 
 #include <boost/cast.hpp>
 
+#include <Wt/WGlobal>
+
 namespace Wt {
 
 namespace Wc {
@@ -27,6 +29,12 @@ bool isinstance(const S* object) {
 }
 
 #define downcast boost::polymorphic_downcast
+
+/** Call triggerUpdate() in current WApplication */
+void updates_trigger();
+
+/** Post triggerUpdate() to the application */
+void updates_poster(WServer* server, WApplication* app);
 
 }
 
