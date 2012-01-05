@@ -7,7 +7,6 @@
 #include <Wt/WApplication>
 
 #include "Notify.hpp"
-#include "util.hpp"
 
 namespace Wt {
 
@@ -40,10 +39,8 @@ void Server::emit(Event* event) {
         BOOST_FOREACH (const typename A2W::value_type& a2w, it->second) {
             const std::string& app_id = a2w.first;
             const Widgets& widgets = a2w.second;
-            BOOST_FOREACH (Widget* w, widgets) {
-                server_->post(app_id, boost::bind(&Server::notify_widget, w));
-            }
-            server_->post(app_id, updates_trigger);
+            server_->post(app_id, boost::bind(&Server::notify_widgets,
+                                              widgets));
         }
     }
 }
@@ -65,8 +62,11 @@ void Server::stop_listenning(Widget* widget, const std::string& app_id) {
     }
 }
 
-void Server::notify_widget(Widget* widget) {
-    widget->notify();
+void Server::notify_widgets(Widgets widgets) {
+    BOOST_FOREACH (Widget* widget, widgets) {
+        widget->notify();
+    }
+    wApp->triggerUpdate();
 }
 
 }

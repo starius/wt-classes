@@ -102,7 +102,7 @@ public:
 
     /** Notify all widgets, listening to object updates.
     After all widgets of an application were notified,
-    triggerUpdate() is posted.
+    triggerUpdate() is called.
     \attention If you use transactions, call this method
                after successful transaction committing.
     */
@@ -120,7 +120,7 @@ private:
 
     void stop_listenning(Widget* widget, const std::string& app_id);
 
-    static void notify_widget(Widget* widget);
+    static void notify_widgets(Widgets widgets);
 
     friend class Widget;
 };
