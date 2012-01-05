@@ -10,6 +10,7 @@
 
 #include <map>
 #include <boost/thread/mutex.hpp>
+#include <boost/shared_ptr.hpp>
 
 #include <Wt/WGlobal>
 
@@ -54,6 +55,21 @@ public:
     operator Key() const;
 };
 
+/** Shared pointer to an event.
+
+\ingroup notify
+*/
+class EventPtr : public boost::shared_ptr<const Event> {
+public:
+    /** Constructor.
+    \note This constructor is not \c explicit
+    */
+    template<class Y>
+    EventPtr(Y* p):
+        boost::shared_ptr<const Event>(p)
+    { }
+};
+
 /** Base class for a widget to notify.
 
 \ingroup notify
@@ -74,7 +90,7 @@ public:
     /** Notify.
     Implement this method for descendants: run updates caused by the event.
     */
-    virtual void notify() = 0;
+    virtual void notify(EventPtr event) = 0;
 
     /** Get event key */
     const Event::Key& key() const {
@@ -106,7 +122,7 @@ public:
     \attention If you use transactions, call this method
                after successful transaction committing.
     */
-    void emit(Event* event);
+    void emit(EventPtr event);
 
 private:
     typedef std::vector<Widget*> Widgets;
@@ -120,7 +136,7 @@ private:
 
     void stop_listenning(Widget* widget, const std::string& app_id);
 
-    static void notify_widgets(Widgets widgets);
+    static void notify_widgets(Widgets widgets, EventPtr event);
 
     friend class Widget;
 };

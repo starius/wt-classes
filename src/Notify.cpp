@@ -32,7 +32,7 @@ Server::Server(WServer* server):
     server_(server ? server : WServer::instance())
 { }
 
-void Server::emit(Event* event) {
+void Server::emit(EventPtr event) {
     boost::mutex::scoped_lock(mutex_);
     typename O2W::iterator it = o2w_.find(event->key());
     if (it != o2w_.end()) {
@@ -40,7 +40,7 @@ void Server::emit(Event* event) {
             const std::string& app_id = a2w.first;
             const Widgets& widgets = a2w.second;
             server_->post(app_id, boost::bind(&Server::notify_widgets,
-                                              widgets));
+                                              widgets, event));
         }
     }
 }
@@ -62,9 +62,9 @@ void Server::stop_listenning(Widget* widget, const std::string& app_id) {
     }
 }
 
-void Server::notify_widgets(Widgets widgets) {
+void Server::notify_widgets(Widgets widgets, EventPtr event) {
     BOOST_FOREACH (Widget* widget, widgets) {
-        widget->notify();
+        widget->notify(event);
     }
     wApp->triggerUpdate();
 }
