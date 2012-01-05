@@ -29,34 +29,41 @@ This compound is similar to signal/slot system, but:
    like slots in signal/slot system;
  - notification server is shared across sessions.
 
-Template parameter E is the type of event.
+Each event has appropriate key.
+When event is thrown, the only widgets with this key are notified.
 
 Create instance of class Server and bind it to WServer.
 Inherit widgets from class Widget and implement notify() method.
 Use Server::emit() method to notify all widgets, listenning
 to this event.
-
-Events are used as keys in std::map.
-To provide additional information, not involved in comparison of events,
-define comparison operator (operator<) for the event class
-(to make different events look similar for std::map).
-Furthermore, all events may be equal, in this case emit() method would
-pass notification to all listening widgets.
 */
+
+/** Event abstract class.
+
+\ingroup notify
+*/
+class Event {
+public:
+    /** Type of key used to select widgets to notify */
+    typedef std::string Key;
+
+    /** Get key */
+    virtual Key key() const = 0;
+};
 
 /** Base class for a widget to notify.
 
 \ingroup notify
 */
-template <typename E>
 class Widget {
 public:
     /** Constructor.
-    \param e          Listening event
+    \param key        Event key to listen
     \param server     Notification server
     \param app_id     Id of WApplication ("" means wApp->sessionId())
     */
-    Widget(const E& e, Server<E>* server, const std::string& app_id = "");
+    Widget(const Event::Key& key, Server* server,
+           const std::string& app_id = "");
 
     /** Destructor */
     virtual ~Widget();
@@ -67,8 +74,8 @@ public:
     virtual void notify() = 0;
 
 private:
-    const E event_;
-    Server<E>* server_;
+    const Event::Key key_;
+    Server* server_;
     const std::string app_id_;
 };
 
@@ -78,7 +85,6 @@ This object is bound to server.
 
 \ingroup notify
 */
-template <typename E>
 class Server {
 public:
     /** Constructor.
@@ -92,25 +98,25 @@ public:
     \attention If you use transactions, call this method
                after successful transaction committing.
     */
-    void emit(const E& event);
+    void emit(Event* event);
 
 private:
-    typedef std::vector<Widget<E>*> Widgets;
+    typedef std::vector<Widget*> Widgets;
     typedef std::map<std::string, Widgets> A2W;
-    typedef std::map<E, A2W> O2W;
+    typedef std::map<Event::Key, A2W> O2W;
     O2W o2w_;
     boost::mutex mutex_;
     WServer* server_;
 
-    void start_listenning(const E& event, Widget<E>* widget,
+    void start_listenning(const Event::Key& key, Widget* widget,
                           const std::string& app_id);
 
-    void stop_listenning(const E& event, Widget<E>* widget,
+    void stop_listenning(const Event::Key& key, Widget* widget,
                          const std::string& app_id);
 
-    static void notify_widget(Widget<E>* widget);
+    static void notify_widget(Widget* widget);
 
-    friend class Widget<E>;
+    friend class Widget;
 };
 
 }
@@ -118,8 +124,6 @@ private:
 }
 
 }
-
-#include "Notify_impl.hpp"
 
 #endif
 
