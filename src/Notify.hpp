@@ -26,7 +26,7 @@ Notifications, passed to widgets.
 
 This compound is similar to signal/slot system, but:
  - widgets are listening to the particular event, not to all possible events,
-   like slots in signal/slot system;
+   (like slots in signal/slot system do);
  - notification server is shared across sessions.
 
 Each event has appropriate key.
