@@ -73,6 +73,11 @@ public:
     */
     virtual void notify() = 0;
 
+    /** Get event key */
+    const Event::Key& key() const {
+        return key_;
+    }
+
 private:
     const Event::Key key_;
     Server* server_;
@@ -108,11 +113,9 @@ private:
     boost::mutex mutex_;
     WServer* server_;
 
-    void start_listenning(const Event::Key& key, Widget* widget,
-                          const std::string& app_id);
+    void start_listenning(Widget* widget, const std::string& app_id);
 
-    void stop_listenning(const Event::Key& key, Widget* widget,
-                         const std::string& app_id);
+    void stop_listenning(Widget* widget, const std::string& app_id);
 
     static void notify_widget(Widget* widget);
 
