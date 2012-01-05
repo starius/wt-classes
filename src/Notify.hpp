@@ -49,6 +49,9 @@ public:
 
     /** Get key */
     virtual Key key() const = 0;
+
+    /** Convert to Key type */
+    operator Key() const;
 };
 
 /** Base class for a widget to notify.
