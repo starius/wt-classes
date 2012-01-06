@@ -49,7 +49,6 @@ class StringNode;
 namespace notify {
 
 class Event;
-class EventPtr;
 class Widget;
 class Server;
 

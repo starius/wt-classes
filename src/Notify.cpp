@@ -45,6 +45,10 @@ void Server::emit(EventPtr event) {
     }
 }
 
+void Server::emit(Event* event) {
+    emit(EventPtr(event));
+}
+
 void Server::start_listenning(Widget* widget, const std::string& app_id) {
     boost::mutex::scoped_lock(mutex_);
     o2w_[widget->key()][app_id].push_back(widget);

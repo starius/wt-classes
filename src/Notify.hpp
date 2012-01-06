@@ -59,16 +59,7 @@ public:
 
 \ingroup notify
 */
-class EventPtr : public boost::shared_ptr<const Event> {
-public:
-    /** Constructor.
-    \note This constructor is not \c explicit
-    */
-    template<class Y>
-    EventPtr(Y* p):
-        boost::shared_ptr<const Event>(p)
-    { }
-};
+typedef boost::shared_ptr<const Event> EventPtr ;
 
 /** Base class for a widget to notify.
 
@@ -123,6 +114,12 @@ public:
                after successful transaction committing.
     */
     void emit(EventPtr event);
+
+    /** Notify all widgets, listening to object updates.
+    This is an overloaded method for convenience.
+    Ownership of the event is transferred.
+    */
+    void emit(Event* event);
 
 private:
     typedef std::vector<Widget*> Widgets;
