@@ -22,11 +22,17 @@ namespace Dbo {
 */
 template<>
 struct sql_value_traits<Wc::td::TimeDuration, void> {
+    /** This class is a specialization */
     static const bool specialized = true;
 
+    /** SQL type name */
     static const char* type(SqlConnection* conn, int size);
+
+    /** Binds a value to a statement parameter */
     static void bind(const Wc::td::TimeDuration& v, SqlStatement* statement,
                      int column, int size);
+
+    /** Reads a result from an executed query */
     static bool read(Wc::td::TimeDuration& v, SqlStatement* statement,
                      int column, int size);
 };
