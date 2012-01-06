@@ -51,6 +51,8 @@ namespace notify {
 class Event;
 class Widget;
 class Server;
+class Task;
+class PlanningServer;
 
 }
 

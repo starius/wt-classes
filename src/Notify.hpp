@@ -37,6 +37,9 @@ Create instance of class Server and bind it to WServer.
 Inherit widgets from class Widget and implement notify() method.
 Use Server::emit() method to notify all widgets, listenning
 to this event.
+
+To execute some actions scheduling, use PlanningServer class.
+It can work in conjunction with a notification server.
 */
 
 /** Event abstract class.
