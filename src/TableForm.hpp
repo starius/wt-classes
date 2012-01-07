@@ -32,6 +32,7 @@ Example:
  - Cell with description of field: wt_tableform_description
  - Cell with input widget: wt_tableform_input
 
+\ingroup util
 */
 class TableForm : public Wt::WTable {
 public:

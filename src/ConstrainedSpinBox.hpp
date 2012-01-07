@@ -16,7 +16,10 @@ namespace Wt {
 
 namespace Wc {
 
-/** Spin box with constrained value */
+/** Spin box with constrained value.
+
+\ingroup util
+*/
 class ConstrainedSpinBox : public Wt::WSpinBox {
 public:
     /** Constructor */
@@ -28,7 +31,10 @@ public:
     int corrected_value() const;
 };
 
-/** Double spin box with constrained value */
+/** Double spin box with constrained value.
+
+\ingroup util
+*/
 class ConstrainedDoubleSpinBox : public Wt::WDoubleSpinBox {
 public:
     /** Constructor */

@@ -16,8 +16,14 @@ namespace Wt {
 
 namespace Wc {
 
+/** \defgroup util Utility code
+Useful classes, functions and macros.
+*/
+
 /** Return whether an object is an instance of a class or of a subclass thereof.
 This function and it's documentation was copied from python.
+
+\ingroup util
 */
 template <class T, class S>
 bool isinstance(const S* object) {
@@ -28,12 +34,22 @@ bool isinstance(const S* object) {
     }
 }
 
+/** Downcasting operator.
+
+\ingroup util
+*/
 #define downcast boost::polymorphic_downcast
 
-/** Call triggerUpdate() in current WApplication */
+/** Call triggerUpdate() in current WApplication.
+
+\ingroup util
+*/
 void updates_trigger();
 
-/** Post triggerUpdate() to the application */
+/** Post triggerUpdate() to the application.
+
+\ingroup util
+*/
 void updates_poster(WServer* server, WApplication* app);
 
 }
