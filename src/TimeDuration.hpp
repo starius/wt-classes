@@ -82,6 +82,9 @@ double operator /(const TimeDuration& a, const TimeDuration& b);
 /** Current datetime */
 Wt::WDateTime now();
 
+/** Get the total number of minutes */
+long total_minutes(const TimeDuration& t);
+
 }
 
 }

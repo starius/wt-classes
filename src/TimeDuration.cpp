@@ -61,6 +61,10 @@ Wt::WDateTime now() {
     return Wt::WDateTime::currentDateTime();
 }
 
+long total_minutes(const TimeDuration& t) {
+    return t.total_seconds() / 60;
+}
+
 }
 
 }
