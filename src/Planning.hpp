@@ -55,14 +55,20 @@ public:
     (in this case \c false is returned, otherwise \c true).
 
     The task is executed at <tt>when + delay()</tt>.
+
+    If immediately is false, the task would be added after currently running
+    task is finished and notification server is emitted with current event.
+    Using immediately = false makes sense only from Task::process().
+    This can be useful if new added task depends on
+    uncommited results of current task.
     */
-    bool add(TaskPtr task, const WDateTime& when);
+    bool add(TaskPtr task, const WDateTime& when, bool immediately = true);
 
     /** Add a task to the planning list.
     This is an overloaded method for convenience.
     Ownership of the task is transferred.
     */
-    bool add(Task* task, WDateTime when);
+    bool add(Task* task, WDateTime when, bool immediately = true);
 
     /** Get delay.
     \see add()
