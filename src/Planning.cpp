@@ -62,7 +62,7 @@ void PlanningServer::process(TaskPtr task) {
         server_->emit(task);
     }
     if (tasks_ptr_.get()) {
-        BOOST_FOREACH(TaskWhen task_when, tasks()) {
+        BOOST_FOREACH (TaskWhen task_when, tasks()) {
             add(task_when.first, task_when.second);
         }
         tasks().clear();
