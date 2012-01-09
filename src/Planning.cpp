@@ -31,9 +31,10 @@ Tasks& tasks() {
     return *tasks_ptr_;
 }
 
-PlanningServer::PlanningServer():
-    WIOService(),
-    server_(0)
+PlanningServer::PlanningServer(WIOService* io_service, WObject* p):
+    WObject(p),
+    server_(0),
+    io_(io_service)
 { }
 
 bool PlanningServer::add(TaskPtr task, const WDateTime& when, bool immediately) {
@@ -44,7 +45,7 @@ bool PlanningServer::add(TaskPtr task, const WDateTime& when, bool immediately) 
     if (immediately) {
         TimeDuration wait = when + delay_ - WDateTime::currentDateTime();
         int ms = wait.total_milliseconds();
-        schedule(ms, boost::bind(&PlanningServer::process, this, task));
+        io_->schedule(ms, boost::bind(&PlanningServer::process, this, task));
     } else {
         tasks().push_back(std::make_pair(task, when));
     }

@@ -8,6 +8,7 @@
 #ifndef WC_PLANNING_SERVER_HPP_
 #define WC_PLANNING_SERVER_HPP_
 
+#include <Wt/WObject>
 #include <Wt/WDateTime>
 #include <Wt/WIOService>
 
@@ -40,15 +41,12 @@ public:
 
 /** Planning server.
 
-To start a server, use \c start() method.
-See Wt::WIOService for more details.
-
 \ingroup notify
 */
-class PlanningServer : public WIOService {
+class PlanningServer : public WObject {
 public:
     /** Constructor */
-    PlanningServer();
+    PlanningServer(WIOService* io_service, WObject* p = 0);
 
     /** Add a task to the planning list.
     If the \c when  is \c inValid() (e.g., Null), no action is performed
@@ -99,9 +97,20 @@ public:
         return server_;
     }
 
+    /** Get IO service */
+    WIOService* io_service() {
+        return io_;
+    }
+
+    /** Set IO service */
+    void set_io_service(WIOService* io_service) {
+        io_ = io_service;
+    }
+
 private:
     Server* server_;
     td::TimeDuration delay_;
+    WIOService* io_;
 
     void process(TaskPtr task);
 };
