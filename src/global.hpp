@@ -18,6 +18,9 @@ class ConstrainedDoubleSpinBox;
 class IntervalWidget;
 class TableForm;
 class TimeDurationWidget;
+struct Row3;
+struct ThreeWPoints;
+struct Matrix3x3;
 
 class AbstractArgument;
 class AbstractInput;
