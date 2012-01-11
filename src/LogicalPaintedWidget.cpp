@@ -47,7 +47,7 @@ WRectF LogicalPaintedWidget::add_borders(const WRectF& rect, float border) {
     res.setY(rect.y() - height * border);
     res.setWidth(width * (1 + 2 * border));
     res.setHeight(height * (1 + 2 * border));
-    return rect;
+    return res;
 }
 
 void LogicalPaintedWidget::update_matrices() {
