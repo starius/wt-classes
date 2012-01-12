@@ -20,7 +20,8 @@ namespace Wc {
 /** An extension of WPaintedWidget, related to logical coordinated
 
 \attention Don't forget to set logical coordinates window (set_logical_window())
-    and to set this window from paintEvent() method (logical_window()).
+    and to set this window and a view port from paintEvent() method
+    (logical_window() and logical_view_port()).
 
 \ingroup util
 */
@@ -44,6 +45,13 @@ public:
     */
     const WRectF& logical_window() {
         return logical_window_;
+    }
+
+    /** Return the window bounding points in logical coordinates.
+    You MUST set this view port to the painter in paintEvent() method.
+    */
+    const WRectF& logical_view_port() {
+        return logical_view_port_;
     }
 
     /** Map the point from logical to device coordinates */
@@ -73,6 +81,7 @@ public:
 
 private:
     WRectF logical_window_;
+    WRectF logical_view_port_;
     WTransform device2logical_;
     WTransform logical2device_;
 

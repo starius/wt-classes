@@ -56,6 +56,7 @@ void LogicalPaintedWidget::update_matrices(bool preserve_aspect) {
     if (preserve_aspect) {
         out = change_aspect(out, in);
     }
+    logical_view_port_ = out;
     ThreeWPoints from(in.topLeft(), in.topRight(), in.bottomLeft());
     ThreeWPoints to(out.topLeft(), out.topRight(), out.bottomLeft());
     logical2device_ = Matrix3x3(from, to);
