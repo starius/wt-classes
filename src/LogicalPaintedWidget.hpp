@@ -43,14 +43,14 @@ public:
     /** Return the window bounding points in logical coordinates.
     You MUST set this window to the painter in paintEvent() method.
     */
-    const WRectF& logical_window() {
+    const WRectF& logical_window() const {
         return logical_window_;
     }
 
     /** Return the window bounding points in logical coordinates.
     You MUST set this view port to the painter in paintEvent() method.
     */
-    const WRectF& logical_view_port() {
+    const WRectF& logical_view_port() const {
         return logical_view_port_;
     }
 
