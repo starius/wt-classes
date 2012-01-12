@@ -33,9 +33,11 @@ public:
     /** Set the window bounding points in logical coordinates.
     \param window  The window.
     \param border Add 5% to each side of the rectangle.
+    \param preserve_aspect  Whether width to height ratio should be preserved.
     Logical window defaults to null WRectF.
     */
-    void set_logical_window(const WRectF& window, float border = 0.05);
+    void set_logical_window(const WRectF& window, float border = 0.05,
+            bool preserve_aspect = true);
 
     /** Return the window bounding points in logical coordinates.
     You MUST set this window to the painter in paintEvent() method.
@@ -74,7 +76,8 @@ private:
     WTransform device2logical_;
     WTransform logical2device_;
 
-    void update_matrices();
+    void update_matrices(bool preserve_aspect);
+    Wt::WRectF change_aspect(const Wt::WRectF& rect, const Wt::WRectF& master);
 };
 
 }
