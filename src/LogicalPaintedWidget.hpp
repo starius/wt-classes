@@ -21,7 +21,7 @@ namespace Wc {
 
 \attention Don't forget to set logical coordinates window (set_logical_window())
     and to set this window and a view port from paintEvent() method
-    (logical_window() and logical_view_port()).
+    (use_logical()).
 
 \ingroup util
 */
@@ -40,19 +40,33 @@ public:
     void set_logical_window(const WRectF& window, float border = 0.05,
             bool preserve_aspect = true);
 
-    /** Return the window bounding points in logical coordinates.
-    You MUST set this window to the painter in paintEvent() method.
-    */
+    /** Return the window bounding points in logical coordinates */
     const WRectF& logical_window() const {
         return logical_window_;
     }
 
-    /** Return the window bounding points in logical coordinates.
-    You MUST set this view port to the painter in paintEvent() method.
-    */
+    /** Return the window bounding points in logical coordinates */
     const WRectF& logical_view_port() const {
         return logical_view_port_;
     }
+
+    /** Apply mapping from logical to device to the painter.
+    You MUST apply this method to the painter from paintEvent() method
+    in order to use local coordinates in painting operations.
+
+    This method sets logical_window() as a window and
+    logical_view_port() as a view port.
+    */
+    void use_logical(WPainter& painter) const;
+
+    /** Set this painter to use device coordinates.
+    This may be useful while drawing a text.
+    To draw a text avoiding issues with font scaling,
+    call this method and temporary use device coordinates
+    (actual coordinates can be calculated with logical2device()),
+    and then call use_logical() to restore mapping from logical to device.
+    */
+    void use_device(WPainter& painter) const;
 
     /** Map the point from logical to device coordinates */
     WPointF logical2device(const WPointF& logical) const;

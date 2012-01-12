@@ -8,6 +8,7 @@
 #include <Wt/WPainter>
 #include <Wt/WRectF>
 #include <Wt/WPaintDevice>
+#include <Wt/WPainter>
 #include <Wt/WContainerWidget>
 
 #include "LogicalPaintedWidget.hpp"
@@ -25,6 +26,16 @@ void LogicalPaintedWidget::set_logical_window(const WRectF& window,
         float border, bool preserve_aspect) {
     logical_window_ = add_borders(window, border);
     update_matrices(preserve_aspect);
+}
+
+void LogicalPaintedWidget::use_logical(WPainter& painter) const {
+    painter.setWindow(logical_window());
+    painter.setViewPort(logical_view_port());
+}
+
+void LogicalPaintedWidget::use_device(WPainter& painter) const {
+    painter.setWindow(device_window());
+    painter.setViewPort(device_window());
 }
 
 WPointF LogicalPaintedWidget::logical2device(const WPointF& logical) const {
