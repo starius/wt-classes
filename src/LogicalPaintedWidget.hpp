@@ -38,7 +38,7 @@ public:
     Logical window defaults to null WRectF.
     */
     void set_logical_window(const WRectF& window, float border = 0.05,
-            bool preserve_aspect = true);
+                            bool preserve_aspect = true);
 
     /** Return the window bounding points in logical coordinates */
     const WRectF& logical_window() const {
