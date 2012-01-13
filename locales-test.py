@@ -51,7 +51,8 @@ for filename in os.listdir('locales'):
     for line in xml_file:
         if len(line) > 120:
             print filename, 'Error: line "%s" is too long' % line
-    xml_file = StringIO(open(path).read().replace('&', ampersand))
+    contents = open(path).read().replace('&', ampersand).replace('if:', '')
+    xml_file = StringIO(contents)
     messages = parse(xml_file).getroot()
     prev_message = None
     for message in messages:
