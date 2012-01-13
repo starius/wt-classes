@@ -92,6 +92,10 @@ std::string Node::full_path() const {
     return ss.str();
 }
 
+WLink Node::link() const {
+    return WLink(WLink::InternalPath, full_path());
+}
+
 Node* Node::node_parent() const {
     return isinstance<Node>(parent()) ? downcast<Node*>(parent()) : 0;
 }
@@ -147,6 +151,10 @@ std::string IntegerNode::get_full_path(long long v) {
     return full_path();
 }
 
+WLink IntegerNode::get_link(long long v) {
+    return WLink(WLink::InternalPath, get_full_path(v));
+}
+
 StringNode::StringNode(WObject* parent):
     Node(parent)
 { }
@@ -158,6 +166,10 @@ bool StringNode::meet(const std::string&) const {
 std::string StringNode::get_full_path(const std::string& v) {
     set_value(v);
     return full_path();
+}
+
+WLink StringNode::get_link(const std::string& v) {
+    return WLink(WLink::InternalPath, get_full_path(v));
 }
 
 }
