@@ -19,8 +19,9 @@ Options
 -h
     show help message and exit
 
---wt *wt.xml*
-    path to wt.xml (original wt.xml, from Wt library)
+--wt *wt.xml* [*auth.xml*]
+    path to wt.xml and optionally auth.xml
+    (original xml files, from Wt library)
 
 --prefix *prefix*
     current project prefix

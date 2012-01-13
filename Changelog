@@ -1,3 +1,6 @@
+2012-01-13:
+    * allow to pass several Wt xml files to locales-test
+
 2012-01-07:
     * add Utilities documentation module
 
