@@ -94,10 +94,17 @@ public:
     static WRectF add_borders(const WRectF& rect, float border);
 
     /** Recalculate internal matrices.
+    This is a convenience method, and is equivalent to:
+    update_matrices(device_window(), preserve_aspect).
+    */
+    void update_matrices(bool preserve_aspect = true);
+
+    /** Recalculate internal matrices.
+    \param device           The size of device.
     \param preserve_aspect  Whether width to height ratio should be preserved.
     This method should be called after device size changed.
     */
-    void update_matrices(bool preserve_aspect = true);
+    void update_matrices(const WRectF& device, bool preserve_aspect = true);
 
 private:
     WRectF logical_window_;

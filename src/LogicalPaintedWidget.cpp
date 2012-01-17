@@ -62,7 +62,12 @@ WRectF LogicalPaintedWidget::add_borders(const WRectF& rect, float border) {
 }
 
 void LogicalPaintedWidget::update_matrices(bool preserve_aspect) {
-    WRectF out = device_window();
+    update_matrices(device_window(), preserve_aspect);
+}
+
+void LogicalPaintedWidget::update_matrices(const WRectF& device,
+        bool preserve_aspect) {
+    WRectF out = device;
     WRectF& in = logical_window_;
     if (preserve_aspect) {
         out = change_aspect(out, in);
