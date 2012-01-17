@@ -106,11 +106,25 @@ public:
     */
     void update_matrices(const WRectF& device, bool preserve_aspect = true);
 
+    /** Resizes the widget.
+    This method calls the method of WPaintedWidget and
+    update_matrices() with previously used preserve_aspect.
+    */
+    void resize(const WLength& width, const WLength& height);
+
+protected:
+    /** Resizes the widget.
+    This method calls the method of WPaintedWidget and
+    update_matrices() with previously used preserve_aspect.
+    */
+    void layoutSizeChanged(int width, int height);
+
 private:
     WRectF logical_window_;
     WRectF logical_view_port_;
     WTransform device2logical_;
     WTransform logical2device_;
+    bool preserve_aspect_;
 
     Wt::WRectF change_aspect(const Wt::WRectF& rect, const Wt::WRectF& master);
 };

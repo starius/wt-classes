@@ -77,6 +77,17 @@ void LogicalPaintedWidget::update_matrices(const WRectF& device,
     ThreeWPoints to(out.topLeft(), out.topRight(), out.bottomLeft());
     logical2device_ = Matrix3x3(from, to);
     device2logical_ = logical2device_.inverted();
+    preserve_aspect_ = preserve_aspect;
+}
+
+void LogicalPaintedWidget::resize(const WLength& width, const WLength& height) {
+    WPaintedWidget::resize(width, height);
+    update_matrices(preserve_aspect_);
+}
+
+void LogicalPaintedWidget::layoutSizeChanged(int width, int height) {
+    WPaintedWidget::layoutSizeChanged(width, height);
+    update_matrices(preserve_aspect_);
 }
 
 Wt::WRectF LogicalPaintedWidget::change_aspect(const Wt::WRectF& rect,
