@@ -85,6 +85,12 @@ Wt::WDateTime now();
 /** Get the total number of minutes */
 long total_minutes(const TimeDuration& t);
 
+/** Return random time duration from open interval [min, max).
+
+\ingroup util
+*/
+TimeDuration rand_range(const TimeDuration& start, const TimeDuration& stop);
+
 }
 
 }

@@ -8,6 +8,7 @@
 #include <Wt/WDateTime>
 
 #include "TimeDuration.hpp"
+#include "rand.hpp"
 
 namespace Wt {
 
@@ -63,6 +64,12 @@ Wt::WDateTime now() {
 
 long total_minutes(const TimeDuration& t) {
     return t.total_seconds() / 60;
+}
+
+TimeDuration rand_range(const TimeDuration& start, const TimeDuration& stop) {
+    unsigned int start_int = start.total_milliseconds();
+    unsigned int stop_int = stop.total_milliseconds();
+    return ptime::milliseconds(rr(start_int, stop_int));
 }
 
 }
