@@ -93,13 +93,18 @@ public:
     */
     static WRectF add_borders(const WRectF& rect, float border);
 
+    /** Recalculate internal matrices.
+    \param preserve_aspect  Whether width to height ratio should be preserved.
+    This method should be called after device size changed.
+    */
+    void update_matrices(bool preserve_aspect = true);
+
 private:
     WRectF logical_window_;
     WRectF logical_view_port_;
     WTransform device2logical_;
     WTransform logical2device_;
 
-    void update_matrices(bool preserve_aspect);
     Wt::WRectF change_aspect(const Wt::WRectF& rect, const Wt::WRectF& master);
 };
 
