@@ -9,6 +9,7 @@
 #define WT_UTIL_HPP_
 
 #include <boost/cast.hpp>
+#include <boost/lexical_cast.hpp>
 
 #include <Wt/WGlobal>
 
@@ -39,6 +40,12 @@ bool isinstance(const S* object) {
 \ingroup util
 */
 #define downcast boost::polymorphic_downcast
+
+/** Ugly macro converting any type to std::string using boost::lexical_cast.
+
+\ingroup util
+*/
+#define TO_S(x) boost::lexical_cast<std::string>(x)
 
 /** Call triggerUpdate() in current WApplication.
 
