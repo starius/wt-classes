@@ -7,7 +7,6 @@ sysconfdir = $(prefix)/etc
 sharedstatedir = $(prefix)/com
 localstatedir = $(prefix)/var
 includedir = $(prefix)/include
-oldincludedir = /usr/include
 localedir = $(datarootdir)/locale
 libdir = $(exec_prefix)/lib
 mandir = $(datarootdir)/man
