@@ -35,7 +35,8 @@ Description: utility classes used by Wt applications
 Package: libwtclasses-examples
 Section: libdevel
 Architecture: any
-Depends: ${shlibs:Depends}, ${misc:Depends}, libwtclassesSONAME
+Depends: ${shlibs:Depends}, ${misc:Depends}, libwtclassesSONAME,
+ libjs-yui (>= 2.8.0)
 Description: utility classes used by Wt applications [examples]
  The package contains examples of using wt-classes library:
  * xxd-wt: web interface for xxd program
