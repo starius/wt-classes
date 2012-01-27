@@ -22,6 +22,7 @@ class TimeDurationWidget;
 struct Row3;
 struct ThreeWPoints;
 struct Matrix3x3;
+class SWFStore;
 
 class AbstractArgument;
 class AbstractInput;
