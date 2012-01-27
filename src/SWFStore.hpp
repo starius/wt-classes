@@ -37,6 +37,9 @@ actions if needed.
     If you let things slide, Wt will output some HTML for
     "storage-whitelist.xml", breaking this tool.
 
+SWFStore example:
+\include examples/swfstore.cpp
+
 \ingroup util
 */
 class SWFStore : public WContainerWidget {
