@@ -12,6 +12,9 @@ Dependencies:
 Build-only dependencies:
  * rst2man (used to build manpage)
 
+Recommendations:
+ * YUI library >= 2.8.0 for SWFStore
+
 ------------------------------------------
 Boris Nagaev <bnagaev@gmail.com>
 
