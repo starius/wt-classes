@@ -8,7 +8,6 @@
 #include <Wt/WApplication>
 
 #include "SWFStore.hpp"
-#include "util.hpp"
 
 namespace Wt {
 
@@ -29,7 +28,8 @@ SWFStore::SWFStore(WContainerWidget* parent, bool load_javascript,
                       "YAHOO.util.SWFStore");
     }
     doJavaScript("var swfstore = new YAHOO.util.SWFStore('" + id() + "', " +
-                 TO_S(share_data) + "," + TO_S(use_compression) + ");"
+                 bool_to_string(share_data) + "," +
+                 bool_to_string(use_compression) + ");"
                  "$(" + jsRef() + ").data('swfstore', swfstore);"
                  "$(" + jsRef() + ").data('ready', false);"
                  "swfstore.addListener('contentReady', function() {"
