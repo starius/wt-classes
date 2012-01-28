@@ -130,6 +130,8 @@ private:
     void explorer_emitter_helper(int type, std::string value);
     void swf_handler(std::string key, WString value);
     static void doJavaScript(const std::string& javascript);
+    void get_js_list(DataType type, const std::string& collection,
+                     const std::string& property);
 };
 
 }

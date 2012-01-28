@@ -76,20 +76,8 @@ void Gather::explore_cookie() {
 
 void Gather::explore_javascript() {
     signal_.connect(this, &Gather::explorer_emitter_helper);
-    doJavaScript("var plugin_names = [];"
-                 "for (var i = 0; i < navigator.plugins.length; i++) {"
-                 "if (navigator.plugins[i].name) {"
-                 "plugin_names.push(navigator.plugins[i].name);"
-                 "} }"
-                 "plugin_names.sort();" +
-                 signal_.createCall(TO_S(PLUGINS), "plugin_names.join('|')"));
-    doJavaScript("var mimes = [];"
-                 "for (var i = 0; i < navigator.mimeTypes.length; i++) {"
-                 "if (navigator.mimeTypes[i].suffixes) {"
-                 "mimes.push(navigator.mimeTypes[i].suffixes.toLowerCase());"
-                 "} }"
-                 "mimes.sort();" +
-                 signal_.createCall(TO_S(MIME_TYPES), "mimes.join('|')"));
+    get_js_list(PLUGINS, "navigator.plugins", "name");
+    get_js_list(MIME_TYPES, "navigator.mimeTypes", "suffixes.toLowerCase()");
     doJavaScript(signal_.createCall(TO_S(SCREEN), "'' + screen.width + ',' + "
                                     "screen.height + ',' + screen.colorDepth"));
     doJavaScript(signal_.createCall(TO_S(JAVA), "navigator.javaEnabled()"));
@@ -130,6 +118,17 @@ void Gather::swf_handler(std::string key, WString value) {
 
 void Gather::doJavaScript(const std::string& javascript) {
     wApp->doJavaScript(javascript);
+}
+
+void Gather::get_js_list(DataType type, const std::string& collection,
+                         const std::string& property) {
+    doJavaScript("var arr = [];"
+                 "for (var i = 0; i < " + collection + ".length; i++) {"
+                 "if (" + collection + "[i]." + property + ") {"
+                 "arr.push(" + collection + "[i]." + property + ");"
+                 "} }"
+                 "arr.sort();" +
+                 signal_.createCall(TO_S(type), "arr.join('|')"));
 }
 
 }
