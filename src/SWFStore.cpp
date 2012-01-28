@@ -57,6 +57,10 @@ void SWFStore::get_value_of(const std::string& key, const std::string& def) {
              value_.createCall("'" + key + "'", "value"));
 }
 
+std::string SWFStore::bool_to_string(bool value) {
+    return value ? "true" : "false";
+}
+
 void SWFStore::async_do(const std::string& js) {
     doJavaScript("if ($(" + jsRef() + ").data('ready')) {" +
                  js +
