@@ -38,7 +38,7 @@ actions if needed.
     "storage-whitelist.xml", breaking this tool.
 
 SWFStore example:
-\include examples/swfstore.cpp
+\include examples/swfstore.cpp.ex
 
 \ingroup util
 \ingroup gather

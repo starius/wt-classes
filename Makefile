@@ -84,7 +84,7 @@ $(STATIC_LIB_PATH): $$(objects)
 	ar rcs $@ $^
 
 .PHONY: doc
-doc: locales-test.1 Doxyfile examples/xxd-wt.cpp.ex
+doc: locales-test.1 Doxyfile examples/xxd-wt.cpp.ex examples/swfstore.cpp.ex
 	$(MAKE) install-buildless DESTDIR=./doc-source prefix=/usr
 	doxygen
 
@@ -176,4 +176,7 @@ locales-test.1: locales-test.1.rst
 examples/xxd-wt.cpp.ex: examples/xxd-wt.cpp
 	egrep -iv 'que|[/ ]\*|bits|cols|valid|box|line|bind' $< | \
 		sed '/^$$/N;/^\n$$/D' > $@
+
+examples/swfstore.cpp.ex: examples/swfstore.cpp
+	egrep -iv 'gather' $< > $@
 

@@ -13,9 +13,14 @@
 #include <Wt/WText>
 #include <Wt/WFileResource>
 #include <Wt/Wc/SWFStore.hpp>
+#include <Wt/Wc/Gather.hpp>
 
 using namespace Wt;
 using namespace Wt::Wc;
+
+void explore(Gather::DataType type, const std::string& value) {
+    wApp->log("info") << "Gathered: type=" << type << ", value=" << value;
+} // gather
 
 class SWFStoreApp : public WApplication {
 public:
@@ -33,6 +38,8 @@ public:
         get->clicked().connect(boost::bind(&SWFStore::get_value_of,
                                            swf, "k", "nothing"));
         swf->value().connect(boost::bind(&WText::setText, k, _2));
+        Gather* gather = new Gather(explore, this);
+        gather->set_swfstore(swf);
     }
 };
 
