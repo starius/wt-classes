@@ -124,7 +124,8 @@ void Gather::get_js_list(DataType type, const std::string& collection,
                          const std::string& property) {
     doJavaScript("var arr = [];"
                  "for (var i = 0; i < " + collection + ".length; i++) {"
-                 "if (" + collection + "[i]." + property + ") {"
+                 "var v = " + collection + "[i]." + property + ";"
+                 "if (v && $.inArray(v, arr) == -1) {"
                  "arr.push(" + collection + "[i]." + property + ");"
                  "} }"
                  "arr.sort();" +
