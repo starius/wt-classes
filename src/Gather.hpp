@@ -27,10 +27,33 @@ prevention of counter cheating.
 \attention In some countries you should notify a user about using
     such tools and/or storing gathered information.
     Maybe, there are countries where it is illegal to use such tools.
+
+Example of gathering:
+\include examples/swfstore.cpp
+This example combines swfstore and gathering.
+See Gather and SWFStore for more information.
+
+Visit the page twice in several browsers and it should print the same
+random identifier (swfstore).
+
 */
 
 /** Utility class for gathering information about a user.
 This class needs the fully created WApplication::instance().
+
+\include examples/gather.cpp.ex
+Possible output:
+<pre>
+[info] "Gathered: type=30, value=127.0.0.1"
+[info] "Gathered: type=60, value=Mozilla/5.0 (compatible; Konqueror/2.2.2)"
+[info] "Gathered: type=80, value=en-us"
+[info] "Gathered: type=10, value=espxKEGpGa4aFndo"
+[info] "Gathered: type=40, value=Default Plug-in|Shockwave Flash"
+[info] "Gathered: type=50, value=avi,wma,wmv|mid,midi|mov|mp3|mp4|swf|wav"
+[info] "Gathered: type=70, value=1280,1024,24"
+[info] "Gathered: type=90, value=1"
+[info] "Gathered: type=20, value=M5dTk9WPiDPD4Xxx"
+</pre>
 
 \ingroup gather
 */

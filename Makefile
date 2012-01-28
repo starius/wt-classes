@@ -65,6 +65,9 @@ dist_files = $(sources) $(headers) $(project_files) $(css) $(locales) \
 dist_dir = $(fullname)
 dist_tar = $(fullname).tar.gz
 
+doc_examples = examples/xxd-wt.cpp.ex examples/swfstore.cpp.ex \
+	examples/gather.cpp.ex examples/swfstore.cpp
+
 .PHONY: build
 build: build-lib examples
 
@@ -84,7 +87,7 @@ $(STATIC_LIB_PATH): $$(objects)
 	ar rcs $@ $^
 
 .PHONY: doc
-doc: locales-test.1 Doxyfile examples/xxd-wt.cpp.ex examples/swfstore.cpp.ex
+doc: locales-test.1 Doxyfile $$(doc_examples)
 	$(MAKE) install-buildless DESTDIR=./doc-source prefix=/usr
 	doxygen
 
@@ -179,4 +182,7 @@ examples/xxd-wt.cpp.ex: examples/xxd-wt.cpp
 
 examples/swfstore.cpp.ex: examples/swfstore.cpp
 	egrep -iv 'gather' $< > $@
+
+examples/gather.cpp.ex: examples/swfstore.cpp
+	egrep -iv 'bind|button|text|click|\<k\>' $< > $@
 
