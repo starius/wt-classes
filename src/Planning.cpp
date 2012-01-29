@@ -44,8 +44,7 @@ bool PlanningServer::add(TaskPtr task, const WDateTime& when, bool immediately) 
     }
     if (immediately) {
         TimeDuration wait = when + delay_ - WDateTime::currentDateTime();
-        int ms = wait.total_milliseconds();
-        io_->schedule(ms, boost::bind(&PlanningServer::process, this, task));
+        schedule(wait, boost::bind(&PlanningServer::process, this, task));
     } else {
         tasks().push_back(std::make_pair(task, when));
     }
@@ -54,6 +53,12 @@ bool PlanningServer::add(TaskPtr task, const WDateTime& when, bool immediately) 
 
 bool PlanningServer::add(Task* task, WDateTime when, bool immediately) {
     return add(TaskPtr(task), when, immediately);
+}
+
+void PlanningServer::schedule(const td::TimeDuration& wait,
+                              const boost::function<void()>& func) {
+    int ms = wait.total_milliseconds();
+    io_->schedule(ms, func);
 }
 
 void PlanningServer::process(TaskPtr task) {
