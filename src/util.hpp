@@ -9,6 +9,7 @@
 #define WT_UTIL_HPP_
 
 #include <boost/cast.hpp>
+#include <boost/function.hpp>
 #include <boost/lexical_cast.hpp>
 
 #include <Wt/WGlobal>
@@ -46,6 +47,21 @@ bool isinstance(const S* object) {
 \ingroup util
 */
 #define TO_S(x) boost::lexical_cast<std::string>(x)
+
+/** Post the function to the application.
+If app == 0, this means current application (wApp).
+
+\ingroup util
+*/
+void post(const boost::function<void()>& func, WApplication* app = 0);
+
+/** Return the same function, but being called through post().
+post() is bound with \p func and wApp and resultion function
+object is returned.
+
+\ingroup util
+*/
+boost::function<void()> bound_post(boost::function<void()> func);
 
 /** Call triggerUpdate() in current WApplication.
 
