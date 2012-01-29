@@ -106,6 +106,9 @@ public:
     /** \name (Re)explore data */
     /* @{ */
 
+    /** Call explorer for all data */
+    void explore_all();
+
     /** Call explorer with IP, USER_AGENT and LOCALE.
     The method is called from the constructor.
 

@@ -25,9 +25,7 @@ const std::string swf_key = "userid";
 Gather::Gather(const DataExplorer& explorer, WObject* parent):
     WObject(parent),
     explorer_(explorer), swfstore_(0), signal_(this, "gather") {
-    explore_simple();
-    explore_cookie();
-    explore_javascript();
+    explore_all();
 }
 
 void Gather::set_swfstore(SWFStore* swfstore) {
@@ -54,6 +52,13 @@ int Gather::significance(DataType type) {
     } else {
         return 0;
     }
+}
+
+void Gather::explore_all() {
+    explore_simple();
+    explore_cookie();
+    explore_javascript();
+    explore_swf();
 }
 
 void Gather::explore_simple() {
