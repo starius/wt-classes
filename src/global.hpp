@@ -24,6 +24,7 @@ struct ThreeWPoints;
 struct Matrix3x3;
 class SWFStore;
 class Gather;
+class FilterResource;
 
 class AbstractArgument;
 class AbstractInput;
