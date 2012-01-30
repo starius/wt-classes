@@ -56,6 +56,7 @@ public:
 
     /** Method writing input file for the external command.
     The method is called at most once.
+    All exceptions thrown by this function are catched in handleRequest().
     */
     virtual void write_input(std::ostream& out) const = 0;
 

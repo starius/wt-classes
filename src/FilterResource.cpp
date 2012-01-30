@@ -10,6 +10,8 @@
 #include <cstdio>
 #include <boost/filesystem.hpp>
 
+#include <Wt/WApplication>
+
 #include "Wbi.hpp" // FIXME
 #include "FilterResource.hpp"
 
@@ -33,12 +35,18 @@ void FilterResource::handleRequest(const Http::Request& request,
         output_file_ = FileOutput::unique_name(); // FIXME
         std::ofstream input(input_file.c_str());
         if (input.is_open()) {
-            write_input(input);
-            input.close();
-            system(cmd_.arg(input_file).arg(output_file_).toUTF8().c_str());
-            remove(input_file.c_str());
-            if (exists(output_file_)) {
-                setFileName(output_file_);
+            try {
+                write_input(input);
+                input.close();
+                system(cmd_.arg(input_file).arg(output_file_).toUTF8().c_str());
+                remove(input_file.c_str());
+                if (exists(output_file_)) {
+                    setFileName(output_file_);
+                }
+            } catch (std::exception& e) {
+                wApp->log("warning") << "FilterResource: " << e.what();
+            } catch (...) {
+                wApp->log("warning") << "FilterResource: error";
             }
         }
     }
