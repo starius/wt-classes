@@ -37,7 +37,9 @@ public:
     */
     ~FilterResource();
 
-    /** Method writing input file for the external command */
+    /** Method writing input file for the external command.
+    The method is called at most once.
+    */
     virtual void write_input(std::ostream& out) const = 0;
 
     /** Handles a request.
