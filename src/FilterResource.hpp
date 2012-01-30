@@ -20,6 +20,23 @@ namespace Wc {
 Temporary output file is created using \c system().
 The command called must be available.
 
+Example (graphviz dot wrapper):
+\code
+class DotResource : public Wt::Wc::FilterResource {
+public:
+    DotResource(Wt::WObject* parent = 0):
+        Wt::Wc::FilterResource("dot -Tpng {1} -o {2}", parent) {
+        setMimeType("image/png");
+    }
+
+    void write_input(std::ostream& out) const {
+        out << "graph {" << std::endl;
+        out << "a -- b -- c;" << std::endl;
+        out << "}" << std::endl;
+    }
+};
+\endcode
+
 \ingroup util
 */
 class FilterResource : public WFileResource {
