@@ -9,6 +9,7 @@
 #define WC_DOT_RESOURCE_HPP_
 
 #include <fstream>
+#include <boost/thread/mutex.hpp>
 
 #include <Wt/WFileResource>
 
@@ -68,6 +69,7 @@ public:
 private:
     WString cmd_;
     std::string output_file_;
+    boost::mutex mutex_;
 };
 
 }

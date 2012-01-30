@@ -31,6 +31,7 @@ FilterResource::~FilterResource() {
 void FilterResource::handleRequest(const Http::Request& request,
                                    Http::Response& response) {
     using namespace boost::filesystem;
+    mutex_.lock();
     if (output_file_.empty()) {
         std::string input_file = FileOutput::unique_name(); // FIXME
         output_file_ = FileOutput::unique_name(); // FIXME
@@ -51,6 +52,7 @@ void FilterResource::handleRequest(const Http::Request& request,
             }
         }
     }
+    mutex_.unlock();
     WFileResource::handleRequest(request, response);
 }
 
