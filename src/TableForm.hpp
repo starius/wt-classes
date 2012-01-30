@@ -21,7 +21,7 @@ namespace Wc {
 
 Example:
 \code
-    table_form = new Wt::TableForm();
+    table_form = new TableForm();
     table_form->item(tr("age"), tr("age_description"), new Wt::WLineEdit());
 \endcode
 
