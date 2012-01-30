@@ -45,7 +45,9 @@ public:
     /** Add new item to field */
     WContainerWidget* item(const WString& name,
                            const WString& description = "",
-                           WFormWidget* fw = 0, WWidget* input = 0, bool row = true);
+                           WFormWidget* fw = 0,
+                           WWidget* input = 0,
+                           bool row = true);
 
     /** Show the row containing the input widget */
     void show(WWidget* input);

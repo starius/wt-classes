@@ -37,7 +37,8 @@ PlanningServer::PlanningServer(WIOService* io_service, WObject* p):
     io_(io_service)
 { }
 
-bool PlanningServer::add(TaskPtr task, const WDateTime& when, bool immediately) {
+bool PlanningServer::add(TaskPtr task, const WDateTime& when,
+                         bool immediately) {
     using namespace td;
     if (!when.isValid()) {
         return false;

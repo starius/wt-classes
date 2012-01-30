@@ -70,7 +70,8 @@ specify m13 and m23.
 */
 struct Matrix3x3 {
     /** Values of the matrix.
-    To access value at \c row=row and \c column=col (first is 0), use \c m[row][col].
+    To access value at \c row=row and \c column=col (first is 0),
+    use \c m[row][col].
     \f[ \left(\begin{array}{c c c}
     m[0][0] & m[0][1] & m[0][2] \\
     m[1][0] & m[1][1] & m[1][2] \\
@@ -95,22 +96,64 @@ struct Matrix3x3 {
     Let us prove the way of calculating transformation matrix.
     WTransform will apply this to (a, b, c):
     \f[
-    \left(\begin{array}{c c} a_x & a_y \\ b_x & b_y \\ c_x & c_y \end{array}\right)
-    \left(\begin{array}{c c} m_{11} & m_{12} \\ m_{21} & m_{22} \end{array}\right) +
-    \left(\begin{array}{c c} d_x & d_y \\ d_x & d_y \\ d_x & d_y \end{array}\right) =
-    \left(\begin{array}{c c} A_x & A_y \\ B_x & B_y \\ C_x & C_y \end{array}\right).
+    \left(\begin{array}{c c}
+    a_x & a_y \\
+    b_x & b_y \\
+    c_x & c_y
+    \end{array}\right)
+
+    \left(\begin{array}{c c}
+    m_{11} & m_{12} \\
+    m_{21} & m_{22}
+    \end{array}\right) +
+
+    \left(\begin{array}{c c}
+    d_x & d_y \\
+    d_x & d_y \\
+    d_x & d_y \end{array}\right) =
+
+    \left(\begin{array}{c c}
+    A_x & A_y \\
+    B_x & B_y \\
+    C_x & C_y \end{array}\right).
     \f]
+
     ... which is equal to ...
+
     \f[
-    \left(\begin{array}{c c c} a_x & a_y & 1 \\ b_x & b_y & 1 \\ c_x & c_y & 1 \end{array}\right)
-    \left(\begin{array}{c c c} m_{11} & m_{12} & 0 \\ m_{21} & m_{22} & 0 \\ d_x & d_y & 1 \end{array}\right) =
-    \left(\begin{array}{c c c} A_x & A_y & 1 \\ B_x & B_y & 1 \\ C_x & C_y & 1 \end{array}\right).
+    \left(\begin{array}{c c c}
+    a_x & a_y & 1 \\
+    b_x & b_y & 1 \\
+    c_x & c_y & 1 \end{array}\right)
+
+    \left(\begin{array}{c c c}
+    m_{11} & m_{12} & 0 \\
+    m_{21} & m_{22} & 0 \\
+    d_x & d_y & 1 \end{array}\right) =
+
+    \left(\begin{array}{c c c}
+    A_x & A_y & 1 \\
+    B_x & B_y & 1 \\
+    C_x & C_y & 1 \end{array}\right).
     \f]
+
     ... which is equal to ...
+
     \f[
-    \left(\begin{array}{c c c} m_{11} & m_{12} & 0 \\ m_{21} & m_{22} & 0 \\ d_x & d_y & 1 \end{array}\right) =
-    \left(\begin{array}{c c c} a_x & a_y & 1 \\ b_x & b_y & 1 \\ c_x & c_y & 1 \end{array}\right)^{-1}
-    \left(\begin{array}{c c c} A_x & A_y & 1 \\ B_x & B_y & 1 \\ C_x & C_y & 1 \end{array}\right).
+    \left(\begin{array}{c c c}
+    m_{11} & m_{12} & 0 \\
+    m_{21} & m_{22} & 0 \\
+    d_x & d_y & 1 \end{array}\right) =
+
+    \left(\begin{array}{c c c}
+    a_x & a_y & 1 \\
+    b_x & b_y & 1 \\
+    c_x & c_y & 1 \end{array}\right)^{-1}
+
+    \left(\begin{array}{c c c}
+    A_x & A_y & 1 \\
+    B_x & B_y & 1 \\
+    C_x & C_y & 1 \end{array}\right).
     \f]
     */
     Matrix3x3(const ThreeWPoints& from, const ThreeWPoints& to);

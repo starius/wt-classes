@@ -537,7 +537,8 @@ public:
     */
     ViewFileOutput(const std::string& option_name,
                    const NameGen& temp_gen = &FileOutput::unique_name,
-                   const std::string& download_mime = "application/octet-stream",
+                   const std::string& download_mime =
+                       "application/octet-stream",
                    const std::string& view_mime = "text/plain");
 
     /** Get mime-type for a viewed file */
