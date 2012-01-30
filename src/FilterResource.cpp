@@ -41,7 +41,6 @@ void FilterResource::handleRequest(const Http::Request& request,
                 write_input(input);
                 input.close();
                 system(cmd_.arg(input_file).arg(output_file_).toUTF8().c_str());
-                remove(input_file.c_str());
                 if (exists(output_file_)) {
                     setFileName(output_file_);
                 }
@@ -51,6 +50,7 @@ void FilterResource::handleRequest(const Http::Request& request,
                 wApp->log("warning") << "FilterResource: error";
             }
         }
+        remove(input_file.c_str());
     }
     mutex_.unlock();
     WFileResource::handleRequest(request, response);
