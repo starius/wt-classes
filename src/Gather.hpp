@@ -75,6 +75,9 @@ public:
     /** Max allowed length of data value */
     const static unsigned int MAX_SIZE = 240;
 
+    /** Mim significant sum of \ref significance() "significances" */
+    const static int MIN_SIGNIFICANT = 100;
+
     /** Function to be applied to each peace of information discovered */
     typedef boost::function<void(DataType, const std::string&)> DataExplorer;
 
@@ -97,8 +100,11 @@ public:
     void set_swfstore(SWFStore* swfstore);
 
     /** Significance of virtuals evidence (in case of exact match of values).
-    Return some integer from [0, 100], where 100 means significant evidence,
+    Return some integer from [0, MIN_SIGNIFICANT],
+    where MIN_SIGNIFICANT means significant evidence,
     0 means no evidence. Sum of these integers may be used for rough result.
+    If the sum is more or equal to MIN_SIGNIFICANT,
+    the pair of users may be considered virtuals.
     For more accurate result, use manual check of evidence.
     */
     static int significance(DataType type);
