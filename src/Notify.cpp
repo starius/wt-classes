@@ -67,7 +67,6 @@ void Server::stop_listenning(Widget* widget, const std::string& app_id) {
 }
 
 void Server::notify_widgets(Widgets widgets, EventPtr event) {
-    boost::mutex::scoped_lock(mutex_);
     BOOST_FOREACH (Widget* widget, widgets) {
         widget->notify(event);
     }
