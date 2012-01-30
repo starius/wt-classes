@@ -33,7 +33,7 @@ Server::Server(WServer* server):
 { }
 
 void Server::emit(EventPtr event) {
-    boost::mutex::scoped_lock(mutex_);
+    boost::mutex::scoped_lock lock(mutex_);
     typename O2W::iterator it = o2w_.find(event->key());
     if (it != o2w_.end()) {
         BOOST_FOREACH (const typename A2W::value_type& a2w, it->second) {
@@ -50,12 +50,12 @@ void Server::emit(Event* event) {
 }
 
 void Server::start_listenning(Widget* widget, const std::string& app_id) {
-    boost::mutex::scoped_lock(mutex_);
+    boost::mutex::scoped_lock lock(mutex_);
     o2w_[widget->key()][app_id].push_back(widget);
 }
 
 void Server::stop_listenning(Widget* widget, const std::string& app_id) {
-    boost::mutex::scoped_lock(mutex_);
+    boost::mutex::scoped_lock lock(mutex_);
     Widgets& widgets = o2w_[widget->key()][app_id];
     widgets.erase(std::find(widgets.begin(), widgets.end(), widget));
     if (widgets.empty()) {
