@@ -24,6 +24,7 @@ FilterResource::FilterResource(const WString& cmd, WObject* parent):
 { }
 
 FilterResource::~FilterResource() {
+    beingDeleted();
     remove(output_file_.c_str());
 }
 
