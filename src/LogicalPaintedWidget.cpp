@@ -90,11 +90,11 @@ void LogicalPaintedWidget::layoutSizeChanged(int width, int height) {
     update_matrices(preserve_aspect_);
 }
 
-Wt::WRectF LogicalPaintedWidget::change_aspect(const Wt::WRectF& rect,
-        const Wt::WRectF& master) {
+WRectF LogicalPaintedWidget::change_aspect(const WRectF& rect,
+        const WRectF& master) {
     float rect_aspect = rect.width() / rect.height();
     float master_aspect = master.width() / master.height();
-    Wt::WRectF result = rect;
+    WRectF result = rect;
     if (rect_aspect > master_aspect) {
         // change width
         float aspect_factor = rect_aspect / master_aspect;

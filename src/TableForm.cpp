@@ -32,28 +32,28 @@ const int TF_WIDGET_IN_ROW = 0;
 const int TF_WIDGET_IN_NOROW = 2;
 const int TF_WIDGETS_IN_NOROW = 3;
 
-TableForm::TableForm(Wt::WContainerWidget* parent):
-    Wt::WTable(parent) {
+TableForm::TableForm(WContainerWidget* parent):
+    WTable(parent) {
     setStyleClass("wt_tableform");
     std::string resourcesURL = "resources/";
     wApp->readConfigurationProperty("resourcesURL", resourcesURL);
     wApp->useStyleSheet(resourcesURL + "Wc/css/table_form.css");
 }
 
-void TableForm::section(const Wt::WString& header) {
-    Wt::WTableCell* cell = elementAt(rowCount(), TF_SECTION_COLUMN);
+void TableForm::section(const WString& header) {
+    WTableCell* cell = elementAt(rowCount(), TF_SECTION_COLUMN);
     cell->setColumnSpan(TF_COLUMN_SPAN);
-    new Wt::WText(header, cell);
+    new WText(header, cell);
     cell->setStyleClass("wt_tableform_header");
 }
 
-Wt::WContainerWidget* TableForm::item(const Wt::WString& name,
-                                      const Wt::WString& description, Wt::WFormWidget* fw,
-                                      Wt::WWidget* input, bool row) {
+WContainerWidget* TableForm::item(const WString& name,
+                                  const WString& description, WFormWidget* fw,
+                                  WWidget* input, bool row) {
     int row_num = rowAt(rowCount())->rowNum();
-    Wt::WTableCell* name_cell = elementAt(row_num, TF_NAME_COLUMN);
-    Wt::WTableCell* input_cell = elementAt(row_num, TF_INPUT_COLUMN);
-    Wt::WTableCell* description_cell = elementAt(row_num, TF_DESCRIPTION_COLUMN);
+    WTableCell* name_cell = elementAt(row_num, TF_NAME_COLUMN);
+    WTableCell* input_cell = elementAt(row_num, TF_INPUT_COLUMN);
+    WTableCell* description_cell = elementAt(row_num, TF_DESCRIPTION_COLUMN);
     if (!row) {
         input_cell = name_cell;
         description_cell = name_cell;
@@ -64,10 +64,10 @@ Wt::WContainerWidget* TableForm::item(const Wt::WString& name,
         input_cell->setStyleClass("wt_tableform_input");
         description_cell->setStyleClass("wt_tableform_description");
     }
-    Wt::WLabel* name_label = new Wt::WLabel(name, name_cell);
+    WLabel* name_label = new WLabel(name, name_cell);
     name_label->setInline(false);
     if (!description.empty()) {
-        Wt::WText* description_text = new Wt::WText(description, description_cell);
+        WText* description_text = new WText(description, description_cell);
         description_text->setInline(false);
     }
     if (fw) {
@@ -79,11 +79,11 @@ Wt::WContainerWidget* TableForm::item(const Wt::WString& name,
     return input_cell;
 }
 
-void TableForm::show(Wt::WWidget* input) {
+void TableForm::show(WWidget* input) {
     parent_row_(input)->show();
 }
 
-void TableForm::hide(Wt::WWidget* input) {
+void TableForm::hide(WWidget* input) {
     parent_row_(input)->hide();
 }
 
@@ -96,8 +96,8 @@ void TableForm::foreach(const boost::function<void(WWidget*)>& f) {
     }
 }
 
-Wt::WTableRow* TableForm::parent_row_(Wt::WWidget* input) {
-    return rowAt(downcast<Wt::WTableCell*>(input->parent())->row());
+WTableRow* TableForm::parent_row_(WWidget* input) {
+    return rowAt(downcast<WTableCell*>(input->parent())->row());
 }
 
 WWidget* TableForm::input_at(int row) {

@@ -22,7 +22,7 @@ namespace Wc {
 Example:
 \code
     table_form = new TableForm();
-    table_form->item(tr("age"), tr("age_description"), new Wt::WLineEdit());
+    table_form->item(tr("age"), tr("age_description"), new WLineEdit());
 \endcode
 
 \section CSS
@@ -34,24 +34,24 @@ Example:
 
 \ingroup util
 */
-class TableForm : public Wt::WTable {
+class TableForm : public WTable {
 public:
     /** Constructor */
-    TableForm(Wt::WContainerWidget* parent = 0);
+    TableForm(WContainerWidget* parent = 0);
 
     /** Start new section of form */
-    void section(const Wt::WString& header);
+    void section(const WString& header);
 
     /** Add new item to field */
-    Wt::WContainerWidget* item(const Wt::WString& name,
-                               const Wt::WString& description = "",
-                               Wt::WFormWidget* fw = 0, Wt::WWidget* input = 0, bool row = true);
+    WContainerWidget* item(const WString& name,
+                           const WString& description = "",
+                           WFormWidget* fw = 0, WWidget* input = 0, bool row = true);
 
     /** Show the row containing the input widget */
-    void show(Wt::WWidget* input);
+    void show(WWidget* input);
 
     /** Hide the row containing the input widget */
-    void hide(Wt::WWidget* input);
+    void hide(WWidget* input);
 
     /** Apply a function to all items in order of addition.
     \attention Do not add widgets manually (e.g. by WTable->elementAt())
@@ -60,7 +60,7 @@ public:
     void foreach(const boost::function<void(WWidget*)>& f);
 
 private:
-    Wt::WTableRow* parent_row_(Wt::WWidget* input);
+    WTableRow* parent_row_(WWidget* input);
     WWidget* input_at(int row);
 };
 

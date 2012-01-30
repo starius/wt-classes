@@ -20,16 +20,16 @@ using namespace td;
 const int INTERVALS_SIZE = 5;
 const TimeDuration INTERVALS[5] = {SECOND, MINUTE, HOUR, DAY, WEEK};
 
-class TimeDurationWidgetImpl : public Wt::WContainerWidget {
+class TimeDurationWidgetImpl : public WContainerWidget {
 public:
     TimeDurationWidgetImpl(const TimeDuration& min, const TimeDuration& value,
                            const TimeDuration& max) :
-        Wt::WContainerWidget(), min_(min), max_(max), unit_(SECOND) {
+        WContainerWidget(), min_(min), max_(max), unit_(SECOND) {
         setInline(true);
         spin_box_ = new ConstrainedDoubleSpinBox(this);
         spin_box_->setRange(min.total_seconds(), max.total_seconds());
         spin_box_->setValue(value.total_seconds());
-        combo_box_ = new Wt::WComboBox(this);
+        combo_box_ = new WComboBox(this);
         combo_box_->addItem(tr("wc.time.seconds"));
         combo_box_->addItem(tr("wc.time.minutes"));
         combo_box_->addItem(tr("wc.time.hours"));
@@ -68,13 +68,13 @@ public:
         return unit_;
     }
 
-    Wt::WFormWidget* form_widget() {
+    WFormWidget* form_widget() {
         return spin_box_;
     }
 
 private:
     ConstrainedDoubleSpinBox* spin_box_;
-    Wt::WComboBox* combo_box_;
+    WComboBox* combo_box_;
     TimeDuration min_;
     TimeDuration max_;
     TimeDuration unit_;
@@ -90,7 +90,7 @@ private:
 TimeDurationWidget::TimeDurationWidget(const TimeDuration& min,
                                        const TimeDuration& value,
                                        const TimeDuration& max,
-                                       Wt::WContainerWidget* parent) :
+                                       WContainerWidget* parent) :
     WCompositeWidget(parent) {
     impl_ = new TimeDurationWidgetImpl(min, value, max);
     setImplementation(impl_);
@@ -116,7 +116,7 @@ TimeDuration TimeDurationWidget::unit() const {
     return impl_->unit();
 }
 
-Wt::WFormWidget* TimeDurationWidget::form_widget() {
+WFormWidget* TimeDurationWidget::form_widget() {
     return impl_->form_widget();
 }
 

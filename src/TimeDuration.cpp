@@ -22,23 +22,23 @@ std::string td2str(const TimeDuration& td) {
     return ptime::to_simple_string(ptime::seconds(td.total_seconds()));
 }
 
-TimeDuration operator -(const Wt::WDateTime& a, const Wt::WDateTime& b) {
+TimeDuration operator -(const WDateTime& a, const WDateTime& b) {
     return a.toPosixTime() - b.toPosixTime();
 }
 
-Wt::WDateTime operator +(const Wt::WDateTime& a, const TimeDuration& b) {
-    return Wt::WDateTime::fromPosixTime(a.toPosixTime() + b);
+WDateTime operator +(const WDateTime& a, const TimeDuration& b) {
+    return WDateTime::fromPosixTime(a.toPosixTime() + b);
 }
 
-Wt::WDateTime operator -(const Wt::WDateTime& a, const TimeDuration& b) {
+WDateTime operator -(const WDateTime& a, const TimeDuration& b) {
     return a + (-b);
 }
 
-Wt::WDateTime& operator +=(Wt::WDateTime& a, const TimeDuration& b) {
+WDateTime& operator +=(WDateTime& a, const TimeDuration& b) {
     return a = a + b;
 }
 
-Wt::WDateTime& operator -=(Wt::WDateTime& a, const TimeDuration& b) {
+WDateTime& operator -=(WDateTime& a, const TimeDuration& b) {
     return a = a - b;
 }
 
@@ -58,8 +58,8 @@ double operator /(const TimeDuration& a, const TimeDuration& b) {
     return double(a.total_milliseconds()) / double(b.total_milliseconds());
 }
 
-Wt::WDateTime now() {
-    return Wt::WDateTime::currentDateTime();
+WDateTime now() {
+    return WDateTime::currentDateTime();
 }
 
 long total_minutes(const TimeDuration& t) {

@@ -11,9 +11,9 @@ namespace Wt {
 
 namespace Wc {
 
-IntervalWidget:: IntervalWidget(Wt::WWidget* min, Wt::WWidget* max,
-                                Wt::WContainerWidget* parent):
-    Wt::WTemplate(tr("wc.time.interval_template"), parent) {
+IntervalWidget:: IntervalWidget(WWidget* min, WWidget* max,
+                                WContainerWidget* parent):
+    WTemplate(tr("wc.time.interval_template"), parent) {
     bindWidget("min", min);
     bindWidget("max", max);
 }

@@ -23,13 +23,13 @@ This template uses internationalization key wc.time.interval_template.
 
 \ingroup time
 */
-class IntervalWidget : public Wt::WTemplate {
+class IntervalWidget : public WTemplate {
 public:
     /** Constructor.
     Two widgets passed are used as beginning and end of the interval.
     */
-    IntervalWidget(Wt::WWidget* min, Wt::WWidget* max,
-                   Wt::WContainerWidget* parent = 0);
+    IntervalWidget(WWidget* min, WWidget* max,
+                   WContainerWidget* parent = 0);
 };
 
 }

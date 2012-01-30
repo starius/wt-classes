@@ -126,7 +126,7 @@ private:
     WTransform logical2device_;
     bool preserve_aspect_;
 
-    Wt::WRectF change_aspect(const Wt::WRectF& rect, const Wt::WRectF& master);
+    WRectF change_aspect(const WRectF& rect, const WRectF& master);
 };
 
 }

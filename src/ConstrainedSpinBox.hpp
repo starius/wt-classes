@@ -20,10 +20,10 @@ namespace Wc {
 
 \ingroup util
 */
-class ConstrainedSpinBox : public Wt::WSpinBox {
+class ConstrainedSpinBox : public WSpinBox {
 public:
     /** Constructor */
-    ConstrainedSpinBox(Wt::WContainerWidget* parent = 0);
+    ConstrainedSpinBox(WContainerWidget* parent = 0);
 
     /** Return the corrected value.
     Same as value(), but it is guaranteed to lie in [minimum(), maximum()].
@@ -35,10 +35,10 @@ public:
 
 \ingroup util
 */
-class ConstrainedDoubleSpinBox : public Wt::WDoubleSpinBox {
+class ConstrainedDoubleSpinBox : public WDoubleSpinBox {
 public:
     /** Constructor */
-    ConstrainedDoubleSpinBox(Wt::WContainerWidget* parent = 0);
+    ConstrainedDoubleSpinBox(WContainerWidget* parent = 0);
 
     /** Return the corrected value.
     Same as value(), but it is guaranteed to lie in [minimum(), maximum()].

@@ -53,19 +53,19 @@ const TimeDuration WEEK = DAY * 7;
 std::string td2str(const TimeDuration& td);
 
 /** Return time duration between two datetimes */
-TimeDuration operator -(const Wt::WDateTime& a, const Wt::WDateTime& b);
+TimeDuration operator -(const WDateTime& a, const WDateTime& b);
 
 /** Increase the datetime by the time duration */
-Wt::WDateTime operator +(const Wt::WDateTime& a, const TimeDuration& b);
+WDateTime operator +(const WDateTime& a, const TimeDuration& b);
 
 /** Decrease the datetime by the time duration */
-Wt::WDateTime operator -(const Wt::WDateTime& a, const TimeDuration& b);
+WDateTime operator -(const WDateTime& a, const TimeDuration& b);
 
 /** Increase the datetime by the time duration */
-Wt::WDateTime& operator +=(Wt::WDateTime& a, const TimeDuration& b);
+WDateTime& operator +=(WDateTime& a, const TimeDuration& b);
 
 /** Decrease the datetime by the time duration */
-Wt::WDateTime& operator -=(Wt::WDateTime& a, const TimeDuration& b);
+WDateTime& operator -=(WDateTime& a, const TimeDuration& b);
 
 /** Divide the datetime */
 TimeDuration operator /(const TimeDuration& a, const double& b);
@@ -80,7 +80,7 @@ TimeDuration operator *(const double& b, const TimeDuration& a);
 double operator /(const TimeDuration& a, const TimeDuration& b);
 
 /** Current datetime */
-Wt::WDateTime now();
+WDateTime now();
 
 /** Get the total number of minutes */
 long total_minutes(const TimeDuration& t);

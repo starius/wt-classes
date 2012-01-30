@@ -18,7 +18,7 @@ namespace Wc {
 const unsigned int UINT_MIN = 0;
 
 unsigned int rand() {
-    return Wt::WRandom::get();
+    return WRandom::get();
 }
 
 unsigned int rr(unsigned int stop) {

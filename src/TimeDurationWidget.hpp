@@ -23,7 +23,7 @@ class TimeDurationWidgetImpl;
 
 \ingroup time
 */
-class TimeDurationWidget : public Wt::WCompositeWidget {
+class TimeDurationWidget : public WCompositeWidget {
 public:
     /** Time duration (convience typedef) */
     typedef td::TimeDuration TimeDuration;
@@ -35,7 +35,7 @@ public:
     \param parent    The parent widget
     */
     TimeDurationWidget(const TimeDuration& min, const TimeDuration& value,
-                       const TimeDuration& max, Wt::WContainerWidget* parent = 0);
+                       const TimeDuration& max, WContainerWidget* parent = 0);
 
     /** Return the value */
     TimeDuration value() const;
@@ -59,7 +59,7 @@ public:
     /** Get internal form widget.
     This may be used for WLabel (e.g., in TableForm).
     */
-    Wt::WFormWidget* form_widget();
+    WFormWidget* form_widget();
 
 private:
     TimeDurationWidgetImpl* impl_;

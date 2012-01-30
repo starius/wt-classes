@@ -23,16 +23,16 @@ T spin_box_corrected_value(T minimum, T value, T maximum) {
     return value;
 }
 
-ConstrainedSpinBox::ConstrainedSpinBox(Wt::WContainerWidget* parent) :
-    Wt::WSpinBox(parent)
+ConstrainedSpinBox::ConstrainedSpinBox(WContainerWidget* parent) :
+    WSpinBox(parent)
 { }
 
 int ConstrainedSpinBox::corrected_value() const {
     return spin_box_corrected_value(minimum(), value(), maximum());
 }
 
-ConstrainedDoubleSpinBox::ConstrainedDoubleSpinBox(Wt::WContainerWidget* parent) :
-    Wt::WDoubleSpinBox(parent)
+ConstrainedDoubleSpinBox::ConstrainedDoubleSpinBox(WContainerWidget* parent) :
+    WDoubleSpinBox(parent)
 { }
 
 double ConstrainedDoubleSpinBox::corrected_value() const {
