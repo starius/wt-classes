@@ -387,7 +387,7 @@ private:
 };
 
 /** Abstract base class for output argument.
-\attention Do call setImplementation() from descriptors of this class.
+\attention Do not call setImplementation() from descendants of this class.
     Use container() instead.
 
 \ingroup wbi
