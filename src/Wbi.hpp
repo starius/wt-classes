@@ -108,6 +108,13 @@ protected:
 */
 class AbstractInput : public AbstractArgument {
 public:
+    /** Whether it is specified and valid */
+    enum State {
+        EMPTY, /**< Unspecified (validness depends on is_required()) */
+        INVALID, /**< Specified and invalid */
+        VALID /**< Specified and valid */
+    };
+
     /** Constructor.
     \copydetails AbstractArgument()
     */
@@ -150,6 +157,11 @@ public:
         return error_message_;
     }
 
+    /** Return the state of the agrument.
+    By default return AbstractInput::VALID.
+    */
+    virtual State state() const;
+
 protected:
     /** \copydoc form_widget()
 
@@ -157,12 +169,7 @@ protected:
     */
     virtual WFormWidget* form_widget_impl();
 
-    /** Return if the value of the input is valid.
-    By default return true.
-    */
-    virtual bool is_valid() const;
-
-    /** Call the function for each of adding arguments, if is_valid() */
+    /** Call the function for each of adding arguments, if state() == VALID */
     void add_args_impl(const ArgUser& f) const;
 
     /** Set error message */
@@ -189,18 +196,18 @@ public:
     */
     FormWidgetInput(WFormWidget* widget, const std::string& option_name);
 
+    /** \copybrief AbstractInput::state().
+    Return WFormWidget::validate().
+    \note You can make empty value valid (WValidator::setMandatory(true))
+    */
+    State state() const;
+
 protected:
     /** \copydoc form_widget()
 
     Widget passed to the constructor is returned.
     */
     WFormWidget* form_widget_impl();
-
-    /** \copybrief AbstractInput::is_valid().
-    Check WFormWidget::validate() == Valid.
-    \note Empty value is not considered to be valid.
-    */
-    bool is_valid() const;
 };
 
 /** Input argument using WLineEdit.
@@ -238,6 +245,8 @@ public:
     */
     FileInput(const std::string& option_name);
 
+    State state() const;
+
 protected:
     /** Implementation widget */
     WContainerWidget* impl_;
@@ -249,8 +258,6 @@ protected:
     Set uploaded file name.
     */
     void set_option();
-
-    bool is_valid() const;
 };
 
 /** Input argument using WFileUpload and WTextArea.

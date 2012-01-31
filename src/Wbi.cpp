@@ -82,16 +82,16 @@ const WFormWidget* AbstractInput::form_widget() const {
     return nonconst_this->form_widget_impl();
 }
 
+AbstractInput::State AbstractInput::state() const {
+    return VALID;
+}
+
 WFormWidget* AbstractInput::form_widget_impl() {
     return 0;
 }
 
-bool AbstractInput::is_valid() const {
-    return true;
-}
-
 void AbstractInput::add_args_impl(const ArgUser& f) const {
-    if (is_valid()) {
+    if (state() == VALID) {
         add_option(f);
     }
 }
@@ -102,13 +102,20 @@ FormWidgetInput::FormWidgetInput(WFormWidget* widget,
     setImplementation(widget);
 }
 
-WFormWidget* FormWidgetInput::form_widget_impl() {
-    return downcast<WFormWidget*>(implementation());
+AbstractInput::State FormWidgetInput::state() const {
+    WFormWidget* fw = const_cast<WFormWidget*>(form_widget()); // FIXME
+    WValidator::State validator_state = fw->validate();
+    AbstractInput::State result = INVALID;
+    if (validator_state == WValidator::Valid) {
+        result = VALID;
+    } else if (validator_state == WValidator::InvalidEmpty) {
+        result = EMPTY;
+    }
+    return result;
 }
 
-bool FormWidgetInput::is_valid() const {
-    WFormWidget* fw = const_cast<WFormWidget*>(form_widget()); // FIXME
-    return fw->validate() == WValidator::Valid;
+WFormWidget* FormWidgetInput::form_widget_impl() {
+    return downcast<WFormWidget*>(implementation());
 }
 
 LineEditInput::LineEditInput(WLineEdit* widget, const std::string& option_name):
@@ -135,12 +142,12 @@ FileInput::FileInput(const std::string& option_name):
     setImplementation(impl_);
 }
 
-void FileInput::set_option() {
-    option_value_ = file_upload_->spoolFileName();
+AbstractInput::State FileInput::state() const {
+    return file_upload_->empty() ? EMPTY : VALID;
 }
 
-bool FileInput::is_valid() const {
-    return !file_upload_->empty();
+void FileInput::set_option() {
+    option_value_ = file_upload_->spoolFileName();
 }
 
 TextFileInput::TextFileInput(const std::string& option_name):
