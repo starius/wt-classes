@@ -139,12 +139,9 @@ public:
     If input is required but not provided (or provided incorrectly),
     a program is not started and error message is shown to the user.
 
-    \todo This is detected as follows: if the function, passed to add_args()
-    has not been called, the input is considered not to be provided.
-
-    \note All switches must not be required.
-
     The default value is true.
+
+    \see AbstractTask::run()
     */
     void set_required(bool value) {
         required_ = value;
@@ -164,6 +161,8 @@ public:
 
     /** Return if the value of the input needs not to be fixed.
     This means \code VALID || (!is_required() && EMPTY) \endcode
+
+    \see AbstractTask::run()
     */
     bool accepted() const;
 
@@ -629,6 +628,11 @@ public:
     void set_queue(AbstractQueue* queue);
 
     /** Run a program.
+    It is checked, that all input arguments are
+    \ref AbstractInput::accepted() "accepted".
+    Error messages are updated using update_error_message().
+    If any of input arguments is not accepted, the function is interrupted.
+
     Call AbstractRunner::run() if task runner \ref set_runner "is set".
     If \ref set_queue() "a queue was set",
     the task is added to the queue instead.
@@ -700,7 +704,7 @@ private:
     bool queued_;
 
     void changed_emitter();
-    void run_impl();
+    void run_impl(bool check);
 
     friend class AbstractRunner;
     friend class AbstractQueue;

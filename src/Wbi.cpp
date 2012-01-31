@@ -359,11 +359,13 @@ void AbstractTask::set_queue(AbstractQueue* queue) {
 }
 
 void AbstractTask::run() {
-    if (queue_) {
-        queue_->add(this);
-        changed_.emit();
-    } else {
-        run_impl();
+    if (check_inputs()) {
+        if (queue_) {
+            queue_->add(this);
+            changed_.emit();
+        } else {
+            run_impl(/* check */ false);
+        }
     }
 }
 
@@ -428,9 +430,11 @@ void AbstractTask::changed_emitter() {
     changed_.emit();
 }
 
-void AbstractTask::run_impl() {
-    if (runner_) {
-        runner_->run();
+void AbstractTask::run_impl(bool check) {
+    if (!check || check_inputs()) {
+        if (runner_) {
+            runner_->run();
+        }
     }
     changed_.emit();
 }
@@ -617,7 +621,8 @@ void AbstractQueue::remove(AbstractTask* task) {
 
 void AbstractQueue::run_task(AbstractTask* task) {
     WServer* s = server_ ? server_ : WServer::instance();
-    s->post(task2session_[task], boost::bind(&AbstractTask::run_impl, task));
+    s->post(task2session_[task], boost::bind(&AbstractTask::run_impl,
+            task, /* check */ true));
 }
 
 TaskNumberQueue::TaskNumberQueue(int max_tasks, WObject* p):
