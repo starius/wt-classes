@@ -162,6 +162,11 @@ public:
     */
     virtual State state() const;
 
+    /** Return if the value of the input needs not to be fixed.
+    This means \code VALID || (!is_required() && EMPTY) \endcode
+    */
+    bool accepted() const;
+
 protected:
     /** \copydoc form_widget()
 

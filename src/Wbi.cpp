@@ -86,6 +86,10 @@ AbstractInput::State AbstractInput::state() const {
     return VALID;
 }
 
+bool AbstractInput::accepted() const {
+    return state() == VALID || (!is_required() && state() == EMPTY);
+}
+
 WFormWidget* AbstractInput::form_widget_impl() {
     return 0;
 }
