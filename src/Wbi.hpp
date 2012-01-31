@@ -143,6 +143,13 @@ public:
         required_ = value;
     }
 
+    /** Get error message.
+    The helper message is displayed if the input value is not accepted.
+    */
+    const WString& error_message() {
+        return error_message_;
+    }
+
 protected:
     /** \copydoc form_widget()
 
@@ -158,8 +165,14 @@ protected:
     /** Call the function for each of adding arguments, if is_valid() */
     void add_args_impl(const ArgUser& f) const;
 
+    /** Set error message */
+    void set_error_message(const WString& error_message) {
+        error_message_ = error_message;
+    }
+
 private:
     bool required_;
+    WString error_message_;
 };
 
 /** Abstract input wrapping WFormWidget.
