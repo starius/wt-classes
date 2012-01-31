@@ -12,8 +12,8 @@
 
 #include <Wt/WApplication>
 
-#include "Wbi.hpp" // FIXME
 #include "FilterResource.hpp"
+#include "util.hpp"
 
 namespace Wt {
 
@@ -33,8 +33,8 @@ void FilterResource::handleRequest(const Http::Request& request,
     using namespace boost::filesystem;
     mutex_.lock();
     if (output_file_.empty()) {
-        std::string input_file = FileOutput::unique_name(); // FIXME
-        output_file_ = FileOutput::unique_name(); // FIXME
+        std::string input_file = unique_filename();
+        output_file_ = unique_filename();
         std::ofstream input(input_file.c_str());
         if (input.is_open()) {
             try {

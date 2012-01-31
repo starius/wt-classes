@@ -281,9 +281,7 @@ std::string FileOutput::suggested_name() const {
 }
 
 std::string FileOutput::unique_name() {
-    using namespace boost::filesystem;
-    const char* const model = "wt-classes-%%%%-%%%%-%%%%-%%%%";
-    return unique_path(temp_directory_path() / model).string();
+    return unique_filename();
 }
 
 std::string FileOutput::temp_notdir() const {

@@ -520,7 +520,7 @@ public:
     std::string suggested_name() const;
 
     /** Return unique temp file name.
-    Boost.Filesystem's unique_path is used
+    unique_filename() is used.
     */
     static std::string unique_name();
 
