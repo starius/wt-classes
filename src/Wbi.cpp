@@ -407,6 +407,18 @@ const char* AbstractTask::state_to_string() {
 void AbstractTask::update_error_message(AbstractInput* input)
 { }
 
+bool AbstractTask::check_inputs() {
+    bool accepted = true;
+    BOOST_FOREACH (AbstractArgument* arg, args_) {
+        if (isinstance<AbstractInput>(arg)) {
+            AbstractInput* input = downcast<AbstractInput*>(arg);
+            accepted = accepted && input->accepted();
+            update_error_message(input);
+        }
+    }
+    return accepted;
+}
+
 void AbstractTask::changed_emitter() {
     BOOST_FOREACH (AbstractArgument* arg, args_) {
         if (isinstance<AbstractOutput>(arg)) {

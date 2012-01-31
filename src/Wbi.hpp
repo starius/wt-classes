@@ -690,6 +690,9 @@ protected:
     */
     virtual void update_error_message(AbstractInput* input);
 
+    /** Update error messages of inputs and return if they are all accepted */
+    bool check_inputs();
+
 private:
     ChangedSignal changed_;
     std::vector<AbstractArgument*> args_;
