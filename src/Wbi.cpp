@@ -404,6 +404,9 @@ const char* AbstractTask::state_to_string() {
     return state_to_string(state());
 }
 
+void AbstractTask::update_error_message(AbstractInput* input)
+{ }
+
 void AbstractTask::changed_emitter() {
     BOOST_FOREACH (AbstractArgument* arg, args_) {
         if (isinstance<AbstractOutput>(arg)) {

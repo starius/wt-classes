@@ -681,6 +681,13 @@ protected:
     virtual void add_output_impl(AbstractOutput* output, const WString& name,
                                  const WString& description = "") = 0;
 
+    /** Update (display/hide) widgets representing error message for the input.
+    Default implementation does nothing.
+
+    \see AbstractInput::error_message(), AbstractInput::accepted()
+    */
+    virtual void update_error_message(AbstractInput* input);
+
 private:
     ChangedSignal changed_;
     std::vector<AbstractArgument*> args_;
