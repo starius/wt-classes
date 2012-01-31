@@ -92,7 +92,7 @@ protected:
     This method should get information from widgets and
     set correct value of option_value_.
     \note Even if add_args_impl() were reimplemented, this method also should be
-        implemented (e.g. with with empty body).
+        implemented (e.g. with empty body).
     */
     virtual void set_option() = 0;
 
