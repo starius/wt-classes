@@ -630,6 +630,8 @@ public:
 
     /** Run a program.
     Call AbstractRunner::run() if task runner \ref set_runner "is set".
+    If \ref set_queue() "a queue was set",
+    the task is added to the queue instead.
 
     Implementing this class, connect .clicked() of Start button to this method
     */
