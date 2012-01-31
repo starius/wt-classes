@@ -5,6 +5,9 @@
  * See the LICENSE file for terms of use.
  */
 
+#define BOOST_FILESYSTEM_VERSION 3
+
+#include <boost/filesystem.hpp>
 #include <boost/bind.hpp>
 
 #include <Wt/WApplication>
@@ -33,6 +36,12 @@ void updates_trigger() {
 
 void updates_poster(WServer* server, WApplication* app) {
     server->post(app->sessionId(), updates_trigger);
+}
+
+std::string unique_filename() {
+    using namespace boost::filesystem;
+    const char* const model = "wt-classes-%%%%-%%%%-%%%%-%%%%";
+    return unique_path(temp_directory_path() / model).string();
 }
 
 }

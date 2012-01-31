@@ -75,6 +75,13 @@ void updates_trigger();
 */
 void updates_poster(WServer* server, WApplication* app);
 
+/** Return unique temp file name.
+Boost.Filesystem's unique_path is used
+
+\ingroup util
+*/
+std::string unique_filename();
+
 }
 
 }
