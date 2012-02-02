@@ -8,6 +8,7 @@
 #ifndef WT_TABLE_FORM_HPP_
 #define WT_TABLE_FORM_HPP_
 
+#include <vector>
 #include <boost/function.hpp>
 
 #include <Wt/WGlobal>
@@ -62,8 +63,9 @@ public:
     void foreach(const boost::function<void(WWidget*)>& f);
 
 private:
+    std::vector<WWidget*> inputs_;
+
     WTableRow* parent_row_(WWidget* input);
-    WWidget* input_at(int row);
 };
 
 }

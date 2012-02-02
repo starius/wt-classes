@@ -5,6 +5,8 @@
  * See the LICENSE file for terms of use.
  */
 
+#include <boost/foreach.hpp>
+
 #include <Wt/WApplication>
 #include <Wt/WFormWidget>
 #include <Wt/WLabel>
@@ -26,11 +28,7 @@ const int TF_SECTION_COLUMN = 0;
 const int TF_NAME_COLUMN = 0;
 const int TF_INPUT_COLUMN = 1;
 const int TF_DESCRIPTION_COLUMN = 2;
-const int TF_NOROW_COLUMN = 2;
 const int TF_COLUMN_SPAN = 3;
-const int TF_WIDGET_IN_ROW = 0;
-const int TF_WIDGET_IN_NOROW = 2;
-const int TF_WIDGETS_IN_NOROW = 3;
 
 TableForm::TableForm(WContainerWidget* parent):
     WTable(parent) {
@@ -74,6 +72,7 @@ WContainerWidget* TableForm::item(const WString& name,
         name_label->setBuddy(fw);
     }
     if (input) {
+        inputs_.push_back(input);
         input_cell->addWidget(input);
     }
     return input_cell;
@@ -88,30 +87,13 @@ void TableForm::hide(WWidget* input) {
 }
 
 void TableForm::foreach(const boost::function<void(WWidget*)>& f) {
-    for (int row = 0; row < rowCount(); row++) {
-        WWidget* input = input_at(row);
-        if (input) {
-            f(input);
-        }
+    BOOST_FOREACH (WWidget* input, inputs_) {
+        f(input);
     }
 }
 
 WTableRow* TableForm::parent_row_(WWidget* input) {
     return rowAt(downcast<WTableCell*>(input->parent())->row());
-}
-
-WWidget* TableForm::input_at(int row) {
-    int column_span = elementAt(row, TF_NAME_COLUMN)->columnSpan();
-    if (column_span == 1) {
-        WTableCell* cell = elementAt(row, TF_INPUT_COLUMN);
-        return cell->widget(TF_WIDGET_IN_ROW);
-    } else if (column_span == TF_COLUMN_SPAN) {
-        WTableCell* cell = elementAt(row, TF_NOROW_COLUMN);
-        if (cell->count() == TF_WIDGETS_IN_NOROW) {
-            return cell->widget(TF_WIDGET_IN_NOROW);
-        }
-    }
-    return 0;
 }
 
 }
