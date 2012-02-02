@@ -490,6 +490,13 @@ void TableTask::add_output_impl(AbstractOutput* output, const WString& name,
     impl->outputs_->item(name, description, 0, output, row);
 }
 
+void TableTask::update_error_message(AbstractInput* input) {
+    TTImpl* impl = downcast<TTImpl*>(implementation());
+    const WString& message = input->accepted() ? WString::Empty :
+                             input->error_message();
+    impl->inputs_->set_comment(input, message);
+}
+
 void TableTask::changed_handler() {
     TTImpl* impl = downcast<TTImpl*>(implementation());
     bool cancel = state() == WORKING || state() == QUEUED;

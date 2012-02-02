@@ -729,6 +729,8 @@ protected:
     void add_output_impl(AbstractOutput* output, const WString& name,
                          const WString& description = "");
 
+    void update_error_message(AbstractInput* input);
+
 private:
     void changed_handler();
 };
