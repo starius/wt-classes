@@ -309,6 +309,7 @@ protected:
 
 private:
     void uploaded_handler();
+    WText* error_;
 };
 
 /** Boolean input.

@@ -172,8 +172,12 @@ TextFileInput::TextFileInput(const std::string& option_name):
     FileInput(option_name) {
     new WBreak(impl_);
     text_area_ = new WTextArea(impl_);
+    new WBreak(impl_);
+    error_ = new WText(impl_);
     file_upload_->uploaded().connect(this, &TextFileInput::uploaded_handler);
-    // TODO File too large
+    file_upload_->uploaded().connect(boost::bind(&WText::setText, error_, ""));
+    file_upload_->fileTooLarge().connect(boost::bind(&WText::setText, error_,
+                                         tr("wc.wbi.Error_too_large")));
 }
 
 void TextFileInput::uploaded_handler() {
