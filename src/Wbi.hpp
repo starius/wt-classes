@@ -265,6 +265,13 @@ protected:
     Set uploaded file name.
     */
     void set_option();
+
+private:
+    bool too_large_;
+
+    void set_too_large(bool value) {
+        too_large_ = value;
+    }
 };
 
 /** Input argument using WFileUpload and WTextArea.

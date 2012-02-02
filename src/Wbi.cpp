@@ -141,10 +141,15 @@ void LineEditInput::set_option() {
 };
 
 FileInput::FileInput(const std::string& option_name):
-    AbstractInput(option_name) {
+    AbstractInput(option_name),
+    too_large_(false) {
     impl_ = new WContainerWidget();
     file_upload_ = new WFileUpload(impl_);
     file_upload_->changed().connect(file_upload_, &WFileUpload::upload);
+    file_upload_->uploaded().connect(boost::bind(&FileInput::set_too_large,
+                                     this, false));
+    file_upload_->fileTooLarge().connect(boost::bind(&FileInput::set_too_large,
+                                         this, true));
     setImplementation(impl_);
 }
 
@@ -152,6 +157,9 @@ AbstractInput::State FileInput::state() const {
     bool empty = file_upload_->empty();
     if (empty) {
         set_error_message(tr("wc.wbi.Error_empty"));
+    }
+    if (too_large_) {
+        set_error_message(tr("wc.wbi.Error_too_large"));
     }
     return empty ? EMPTY : VALID;
 }
