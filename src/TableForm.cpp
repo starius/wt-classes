@@ -29,6 +29,8 @@ const int TF_NAME_COLUMN = 0;
 const int TF_INPUT_COLUMN = 1;
 const int TF_DESCRIPTION_COLUMN = 2;
 const int TF_COLUMN_SPAN = 3;
+const int TF_COMMENT_COLUMN = TF_INPUT_COLUMN;
+const int TF_COMMENT_COLUMN_SPAN = 2;
 
 TableForm::TableForm(WContainerWidget* parent):
     WTable(parent) {
@@ -74,6 +76,9 @@ WContainerWidget* TableForm::item(const WString& name,
     if (input) {
         inputs_.push_back(input);
         input_cell->addWidget(input);
+        comment_cell(input)->setColumnSpan(TF_COMMENT_COLUMN_SPAN);
+        comment_cell(input)->setStyleClass("wt_tableform_comment");
+        comment_cell(input)->hide();
     }
     return input_cell;
 }
@@ -92,8 +97,22 @@ void TableForm::foreach(const boost::function<void(WWidget*)>& f) {
     }
 }
 
+void TableForm::set_comment(WWidget* input, const WString& message) {
+    comment_cell(input)->clear();
+    if (message.empty()) {
+        comment_cell(input)->hide();
+    } else {
+        comment_cell(input)->addWidget(new WText(message));
+        comment_cell(input)->show();
+    }
+}
+
 WTableRow* TableForm::parent_row_(WWidget* input) {
     return rowAt(downcast<WTableCell*>(input->parent())->row());
+}
+
+WTableCell* TableForm::comment_cell(WWidget* input) {
+    return elementAt(parent_row_(input)->rowNum() + 1, TF_COMMENT_COLUMN);
 }
 
 }

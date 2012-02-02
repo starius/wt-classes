@@ -32,7 +32,7 @@ Example:
  - Cell with name of field: wt_tableform_name
  - Cell with description of field: wt_tableform_description
  - Cell with input widget: wt_tableform_input
-
+ - Cell with comment: wt_tableform_comment
 \ingroup util
 */
 class TableForm : public WTable {
@@ -62,10 +62,16 @@ public:
     */
     void foreach(const boost::function<void(WWidget*)>& f);
 
+    /** Set comment to the input.
+    To remove the comment, pass empty message string.
+    */
+    void set_comment(WWidget* input, const WString& message);
+
 private:
     std::vector<WWidget*> inputs_;
 
     WTableRow* parent_row_(WWidget* input);
+    WTableCell* comment_cell(WWidget* input);
 };
 
 }
