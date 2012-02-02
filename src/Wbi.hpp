@@ -156,6 +156,9 @@ public:
 
     /** Return the state of the agrument.
     By default return AbstractInput::VALID.
+
+    When reimplementing this method, use set_error_message() is the returned
+    state is not VALID.
     */
     virtual State state() const;
 
@@ -177,13 +180,13 @@ protected:
     void add_args_impl(const ArgUser& f) const;
 
     /** Set error message */
-    void set_error_message(const WString& error_message) {
+    void set_error_message(const WString& error_message) const {
         error_message_ = error_message;
     }
 
 private:
     bool required_;
-    WString error_message_;
+    mutable WString error_message_;
 };
 
 /** Abstract input wrapping WFormWidget.

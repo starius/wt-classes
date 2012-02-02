@@ -10,6 +10,8 @@
 
     <message id='wc.wbi.Cancel'>Cancel</message>
     <message id='wc.wbi.Download'>Download</message>
+    <message id='wc.wbi.Error_empty'>The field cannot be empty</message>
+    <message id='wc.wbi.Error_invalid'>The input is invalid</message>
     <message id='wc.wbi.Finished'>Finished</message>
     <message id='wc.wbi.Inputs'>Inputs</message>
     <message id='wc.wbi.New'>New</message>

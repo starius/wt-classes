@@ -109,11 +109,13 @@ FormWidgetInput::FormWidgetInput(WFormWidget* widget,
 AbstractInput::State FormWidgetInput::state() const {
     WFormWidget* fw = const_cast<WFormWidget*>(form_widget()); // FIXME
     WValidator::State validator_state = fw->validate();
-    AbstractInput::State result = INVALID;
-    if (validator_state == WValidator::Valid) {
-        result = VALID;
+    AbstractInput::State result = VALID;
+    if (validator_state == WValidator::Invalid) {
+        result = INVALID;
+        set_error_message(tr("wc.wbi.Error_invalid"));
     } else if (validator_state == WValidator::InvalidEmpty) {
         result = EMPTY;
+        set_error_message(tr("wc.wbi.Error_empty"));
     }
     return result;
 }
@@ -147,7 +149,11 @@ FileInput::FileInput(const std::string& option_name):
 }
 
 AbstractInput::State FileInput::state() const {
-    return file_upload_->empty() ? EMPTY : VALID;
+    bool empty = file_upload_->empty();
+    if (empty) {
+        set_error_message(tr("wc.wbi.Error_empty"));
+    }
+    return empty ? EMPTY : VALID;
 }
 
 void FileInput::set_option() {
