@@ -67,7 +67,7 @@ dist_dir = $(fullname)
 dist_tar = $(fullname).tar.gz
 
 doc_examples = examples/xxd-wt.cpp.ex examples/swfstore.cpp.ex \
-	examples/gather.cpp.ex examples/swfstore.cpp
+	examples/gather.cpp.ex $(examples_cpp)
 
 .PHONY: build
 build: build-lib examples

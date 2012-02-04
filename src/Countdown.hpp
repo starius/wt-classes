@@ -33,6 +33,8 @@ You may use WTimer to update the page periodically.
 
 By default, the widget counts up from now.
 
+\include examples/countdown.cpp
+
 \ingroup time
 */
 class Countdown : public WContainerWidget {
