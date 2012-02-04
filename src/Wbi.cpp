@@ -422,7 +422,7 @@ const char* AbstractTask::state_to_string() {
     return state_to_string(state());
 }
 
-void AbstractTask::update_error_message(AbstractInput* input)
+void AbstractTask::update_error_message(AbstractInput* /* input */)
 { }
 
 bool AbstractTask::check_inputs() {
