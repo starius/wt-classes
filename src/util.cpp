@@ -9,6 +9,7 @@
 
 #include <boost/filesystem.hpp>
 #include <boost/bind.hpp>
+#include <boost/algorithm/string/replace.hpp>
 
 #include <Wt/WApplication>
 #include <Wt/WEnvironment>
@@ -42,6 +43,13 @@ std::string unique_filename() {
     using namespace boost::filesystem;
     const char* const model = "wt-classes-%%%%-%%%%-%%%%-%%%%";
     return unique_path(temp_directory_path() / model).string();
+}
+
+std::string stringify(const std::string& value) {
+    std::string copy(value);
+    boost::replace_all(copy, "\\", "\\\\");
+    boost::replace_all(copy, "\"", "\\\"");
+    return "\"" + copy + "\"";
 }
 
 }
