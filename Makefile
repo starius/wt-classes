@@ -106,7 +106,9 @@ installdirs:
 	$(INSTALL) -d $(DESTDIR)$(examplesdocdir)
 
 .PHONY: install-buildless
-install-buildless: $(headers) locales-test.py $$(mans) installdirs
+install-buildless: $(headers) locales-test.py $$(mans) \
+		$$(locales) $$(css) \
+		installdirs
 	$(INSTALL_DATA) $(headers) $(DESTDIR)$(includedir)$(includesubdir)
 	$(INSTALL_PROGRAM) locales-test.py $(DESTDIR)$(bindir)/locales-test
 	$(INSTALL_DATA) locales-test.1 $(DESTDIR)$(mandir)/man1/
