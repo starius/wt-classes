@@ -92,6 +92,16 @@ Steps:
 */
 std::string stringify(const std::string& value);
 
+/** Read a configuration property.
+The convenience method for readConfigurationProperty().
+On error, \p def value is returned.
+
+\attention wApp should be defined, else the default would be returned.
+
+\ingroup util
+*/
+std::string config_value(const std::string& name, const std::string& def = "");
+
 }
 
 }

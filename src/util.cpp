@@ -52,6 +52,14 @@ std::string stringify(const std::string& value) {
     return "\"" + copy + "\"";
 }
 
+std::string config_value(const std::string& name, const std::string& def) {
+    std::string value = def;
+    if (wApp) {
+        wApp->readConfigurationProperty(name, value);
+    }
+    return value;
+}
+
 }
 
 }
