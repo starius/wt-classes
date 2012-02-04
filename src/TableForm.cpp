@@ -35,9 +35,8 @@ const int TF_COMMENT_COLUMN_SPAN = 2;
 TableForm::TableForm(WContainerWidget* parent):
     WTable(parent) {
     setStyleClass("wt_tableform");
-    std::string resourcesURL = "resources/";
-    wApp->readConfigurationProperty("resourcesURL", resourcesURL);
-    wApp->useStyleSheet(resourcesURL + "Wc/css/table_form.css");
+    wApp->useStyleSheet(config_value("resourcesURL", "resources/") +
+                        "Wc/css/table_form.css");
 }
 
 void TableForm::section(const WString& header) {
