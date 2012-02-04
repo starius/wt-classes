@@ -25,6 +25,7 @@ struct Matrix3x3;
 class SWFStore;
 class Gather;
 class FilterResource;
+class Countdown;
 
 class AbstractArgument;
 class AbstractInput;
