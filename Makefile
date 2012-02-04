@@ -53,6 +53,7 @@ examplesdocdir = $(docdir)/examples
 exampleslibreldir = $(call relpath,$(exampleslibdir),$(examplesdocdir))
 
 css = $(wildcard css/*.css)
+js = $(sort $(wildcard js/*.js) js/jquery.countdown.js)
 pys = locales-test.py
 locales = $(wildcard locales/wtclasses*.xml)
 project_files = Doxyfile.in *.inc LICENSE Makefile VERSION SONAME \
@@ -60,7 +61,7 @@ project_files = Doxyfile.in *.inc LICENSE Makefile VERSION SONAME \
 man_rests = locales-test.1.rst
 mans = $(man_rests:.rst=)
 
-dist_files = $(sources) $(headers) $(project_files) $(css) $(locales) \
+dist_files = $(sources) $(headers) $(project_files) $(css) $(js) $(locales) \
 	$(pys) $(examples_cpp) $(man_rests)
 dist_dir = $(fullname)
 dist_tar = $(fullname).tar.gz
@@ -101,19 +102,21 @@ installdirs:
 	$(INSTALL) -d $(DESTDIR)$(bindir)
 	$(INSTALL) -d $(DESTDIR)$(datadir)/Wt/Wc/locales
 	$(INSTALL) -d $(DESTDIR)$(datadir)/Wt/resources/Wc/css
+	$(INSTALL) -d $(DESTDIR)$(datadir)/Wt/resources/Wc/js
 	$(INSTALL) -d $(DESTDIR)$(mandir)/man1
 	$(INSTALL) -d $(DESTDIR)$(exampleslibdir)
 	$(INSTALL) -d $(DESTDIR)$(examplesdocdir)
 
 .PHONY: install-buildless
 install-buildless: $(headers) locales-test.py $$(mans) \
-		$$(locales) $$(css) \
+		$$(locales) $$(css) $$(js) \
 		installdirs
 	$(INSTALL_DATA) $(headers) $(DESTDIR)$(includedir)$(includesubdir)
 	$(INSTALL_PROGRAM) locales-test.py $(DESTDIR)$(bindir)/locales-test
 	$(INSTALL_DATA) locales-test.1 $(DESTDIR)$(mandir)/man1/
 	$(INSTALL_DATA) $(locales) $(DESTDIR)$(datadir)/Wt/Wc/locales/
 	$(INSTALL_DATA) $(css) $(DESTDIR)$(datadir)/Wt/resources/Wc/css/
+	$(INSTALL_DATA) $(js) $(DESTDIR)$(datadir)/Wt/resources/Wc/js/
 
 .PHONY: install-lib
 install-lib: build-lib install-buildless installdirs
@@ -187,4 +190,10 @@ examples/swfstore.cpp.ex: examples/swfstore.cpp
 
 examples/gather.cpp.ex: examples/swfstore.cpp
 	egrep -iv 'bind|button|text|click|\<k\>' $< > $@
+
+.SECONDARY: js/jquery.countdown.js
+js/jquery.countdown.js:
+	wget http://keith-wood.name/zip/jquery.countdown.package-1.5.11.zip -O c.zip
+	unzip -o c.zip $(@F) -d $(@D)
+	rm c.zip
 

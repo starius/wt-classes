@@ -17,3 +17,5 @@ examples/*.ex
 locales-test.1
 Doxyfile
 
+js/jquery.countdown.js
+
