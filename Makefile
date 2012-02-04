@@ -163,11 +163,12 @@ locales: locales-test.py
 	./locales-test.py --prefix=wc --sections time wbi
 
 .PHONY: examples
-examples: $$(examples_binaries)
+examples: $(DYNAMIC_LIB_PATH)
+	$(MAKE) install-lib DESTDIR=. prefix=/usr
+	$(MAKE) $(examples_binaries)
 
 %.wt: %.cpp $(DYNAMIC_LIB_PATH)
 ifeq (,$(EXAMPLES_SYSTEM_LIB))
-	$(MAKE) install-lib DESTDIR=. prefix=/usr
 	$(CXX) -L./usr/lib -I./usr/include \
 		$(LIBS) -lwtclasses -lwthttp $< -o $@
 else
