@@ -14,6 +14,7 @@
 
 using namespace Wt;
 using namespace Wt::Wc;
+using namespace Wt::Wc::td;
 
 class CountdownApp : public WApplication {
 public:
@@ -46,6 +47,15 @@ public:
         WDateTime next_new_year(WDate(WDate::currentDate().year() + 1, 1, 1));
         countdown->set_until(next_new_year);
         new WText(" until new year (UTC)", root());
+        //
+        new WBreak(root());
+        new WText("Countdowns, connected through JavaScript: ", root());
+        Countdown* a = new Countdown(root());
+        a->set_until(5 * SECOND);
+        new WText(" and ", root());
+        Countdown* b = new Countdown(root());
+        b->pause();
+        a->expired().connect(b, &Countdown::resume);
     }
 };
 
