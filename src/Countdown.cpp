@@ -44,7 +44,6 @@ private:
 Countdown::Countdown(WContainerWidget* parent):
     WContainerWidget(parent),
     view_(0),
-    js_(wApp->environment().javaScript()),
     since_(now()) {
     setInline(true);
     wApp->require(config_value("resourcesURL", "resources/") +
@@ -52,7 +51,7 @@ Countdown::Countdown(WContainerWidget* parent):
     apply_js("{since: 0, compact: true}");
     set_format();
     set_time_separator();
-    if (!js_) {
+    if (!wApp->environment().javaScript()) {
         view_ = new View(this);
     }
 }
@@ -180,7 +179,7 @@ std::string Countdown::duration_for_js(const TimeDuration& duration) {
 }
 
 void Countdown::apply_js(const std::string& args) {
-    if (js_) {
+    if (!view_) {
         doJavaScript("$(" + jsRef() + ").countdown(" + args + ");");
     }
 }

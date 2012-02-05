@@ -139,7 +139,6 @@ private:
     class View;
 
     View* view_;
-    bool js_;
     Wt::WDateTime since_;
     Wt::WDateTime until_;
     std::string format_;
