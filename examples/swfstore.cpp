@@ -12,6 +12,7 @@
 #include <Wt/WPushButton>
 #include <Wt/WText>
 #include <Wt/WFileResource>
+#include <Wt/WLogger>
 #include <Wt/Wc/SWFStore.hpp>
 #include <Wt/Wc/Gather.hpp>
 

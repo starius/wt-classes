@@ -11,6 +11,7 @@
 #include <boost/filesystem.hpp>
 
 #include <Wt/WApplication>
+#include <Wt/WLogger>
 
 #include "FilterResource.hpp"
 #include "util.hpp"
