@@ -25,7 +25,7 @@ void post(const boost::function<void()>& func, WApplication* app) {
     if (!app) {
         app = wApp;
     }
-    WServer* server = app->environment().server();
+    WServer* server = downcast<WServer*>(app->environment().server());
     server->post(app->sessionId(), func);
 }
 
