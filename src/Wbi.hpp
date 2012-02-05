@@ -20,6 +20,7 @@
 #include <Wt/WCompositeWidget>
 
 #include "global.hpp"
+#include "Countdown.hpp"
 
 namespace Wt {
 
@@ -976,6 +977,23 @@ private:
     std::set<AbstractTask*> running_;
 
     void try_to_run();
+};
+
+/** A countup, displaying the time, spent by the task.
+
+\ingroup wbi
+\ingroup time
+*/
+class TaskCountup : public Countdown {
+public:
+    /** Constructor */
+    TaskCountup(AbstractTask* task, WContainerWidget* parent = 0);
+
+private:
+    AbstractTask* task_;
+    RunState prev_state_;
+
+    void changed_handler();
 };
 
 }

@@ -509,9 +509,13 @@ void TableTask::update_error_message(AbstractInput* input) {
     impl->inputs_->set_comment(input, message);
 }
 
+bool waiting_state(RunState state) {
+    return state == WORKING || state == QUEUED;
+}
+
 void TableTask::changed_handler() {
     TTImpl* impl = downcast<TTImpl*>(implementation());
-    bool cancel = state() == WORKING || state() == QUEUED;
+    bool cancel = waiting_state(state());
     bool run = !cancel;
     impl->run_->setHidden(!run, WAnimation());
     impl->cancel_->setHidden(!cancel, WAnimation());
@@ -674,6 +678,25 @@ void TaskNumberQueue::try_to_run() {
             running_.insert(task);
         }
     }
+}
+
+TaskCountup::TaskCountup(AbstractTask* task, WContainerWidget* parent):
+    Countdown(parent),
+    task_(task),
+    prev_state_(NEW) {
+    task_->changed().connect(this, &TaskCountup::changed_handler);
+    hide();
+}
+
+void TaskCountup::changed_handler() {
+    if (waiting_state(task_->state()) && !waiting_state(prev_state_)) {
+        resume();
+        set_since(td::now());
+        show();
+    } else if (!waiting_state(task_->state()) && waiting_state(prev_state_)) {
+        pause();
+    }
+    prev_state_ = task_->state();
 }
 
 }

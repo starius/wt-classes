@@ -43,6 +43,7 @@ class AbstractRunner;
 class ForkingRunner;
 class AbstractQueue;
 class TaskNumberQueue;
+class TaskCountup;
 
 namespace url {
 
