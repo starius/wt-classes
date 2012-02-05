@@ -138,11 +138,41 @@ std::string Countdown::current_text() const {
 }
 
 TimeDuration Countdown::current_duration() const {
-    TimeDuration r =  since_.isNull() ? until_ - now() : now() - since();
+    WDateTime n = paused_.isValid() ? paused_ :
+                  lapped_.isValid() ? lapped_ : now();
+    TimeDuration r = since_.isValid() ? n - since_ : until_ - n;
     if (r.is_negative()) {
         r = 0 * SECOND;
     }
     return r;
+}
+
+void Countdown::pause() {
+    apply_js("'pause'");
+    paused_ = now();
+    lapped_ = WDateTime();
+    update_view();
+}
+
+void Countdown::lap() {
+    apply_js("'lap'");
+    paused_ = WDateTime();
+    lapped_ = now();
+    update_view();
+}
+
+void Countdown::resume() {
+    apply_js("'resume'");
+    if (paused_.isValid()) {
+        if (since_.isValid()) {
+            since_ += now() - paused_;
+        } else {
+            until_ -= now() - paused_;
+        }
+    }
+    paused_ = WDateTime();
+    lapped_ = WDateTime();
+    update_view();
 }
 
 std::string Countdown::duration_for_js(const TimeDuration& duration) {

@@ -126,6 +126,15 @@ public:
     */
     td::TimeDuration current_duration() const;
 
+    /** Stop the countdown but don't clear it */
+    void pause();
+
+    /** Stop the display but continue the countdown */
+    void lap();
+
+    /** Restart a paused or lap countdown */
+    void resume();
+
 private:
     class View;
 
@@ -135,6 +144,8 @@ private:
     Wt::WDateTime until_;
     std::string format_;
     std::string time_separator_;
+    Wt::WDateTime paused_;
+    Wt::WDateTime lapped_;
 
     static std::string duration_for_js(const td::TimeDuration& duration);
     void apply_js(const std::string& args);
