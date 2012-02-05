@@ -109,7 +109,7 @@ public:
 
     /** Utility method used to schedule a function.
     \note The function would be executed in "raw" thread of io service.
-        Consider using of poster() wrapper for \p func.
+        Consider using of bound_post() wrapper for \p func.
     */
     void schedule(const td::TimeDuration& wait,
                   const boost::function<void()>& func);
