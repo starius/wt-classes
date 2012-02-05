@@ -27,12 +27,24 @@ using namespace td;
 class Countdown::View : public WViewWidget {
 public:
     View(Countdown* parent):
-        WViewWidget(parent)
+        WViewWidget(parent),
+        since_(now())
     { }
+
+    Wt::WDateTime since_;
+    Wt::WDateTime until_;
+    std::string format_;
+    std::string time_separator_;
+    Wt::WDateTime paused_;
+    Wt::WDateTime lapped_;
+
+    std::string current_text() const;
+
+    td::TimeDuration current_duration() const;
 
 protected:
     WWidget* renderView() {
-        return new WText(countdown()->current_text());
+        return new WText(current_text());
     }
 
 private:
@@ -43,17 +55,16 @@ private:
 
 Countdown::Countdown(WContainerWidget* parent):
     WContainerWidget(parent),
-    view_(0),
-    since_(now()) {
+    view_(0) {
     setInline(true);
     wApp->require(config_value("resourcesURL", "resources/") +
                   "Wc/js/jquery.countdown.js");
     apply_js("{since: 0, compact: true}");
-    set_format();
-    set_time_separator();
     if (!wApp->environment().javaScript()) {
         view_ = new View(this);
     }
+    set_format();
+    set_time_separator();
 }
 
 void Countdown::set_since(const WDateTime& since) {
@@ -63,9 +74,11 @@ void Countdown::set_since(const WDateTime& since) {
 void Countdown::set_since(const TimeDuration& since) {
     change("since", duration_for_js(since));
     change("until", "null");
-    since_ = now() + since;
-    until_ = WDateTime();
-    update_view();
+    if (view_) {
+        view_->since_ = now() + since;
+        view_->until_ = WDateTime();
+        update_view();
+    }
 }
 
 void Countdown::set_until(const WDateTime& until) {
@@ -75,21 +88,27 @@ void Countdown::set_until(const WDateTime& until) {
 void Countdown::set_until(const TimeDuration& until) {
     change("until", duration_for_js(until));
     change("since", "null");
-    until_ = now() + until;
-    since_ = WDateTime();
-    update_view();
+    if (view_) {
+        view_->until_ = now() + until;
+        view_->since_ = WDateTime();
+        update_view();
+    }
 }
 
 void Countdown::set_format(const std::string& format) {
     change("format", format, /* stringify_value */ true);
-    format_ = format;
-    update_view();
+    if (view_) {
+        view_->format_ = format;
+        update_view();
+    }
 }
 
 void Countdown::set_time_separator(const std::string& time_separator) {
     change("timeSeparator", time_separator, /* stringify_value */ true);
-    time_separator_ = time_separator;
-    update_view();
+    if (view_) {
+        view_->time_separator_ = time_separator;
+        update_view();
+    }
 }
 
 void Countdown::change(const std::string& name, const std::string& value,
@@ -106,7 +125,7 @@ const int PERIOD_LENGTH = 7;
 const char* const COMPACT_LABELS = "ymwd";
 const int COMPACT_LABELS_LENGTH = 4;
 
-std::string Countdown::current_text() const {
+std::string Countdown::View::current_text() const {
     TimeDuration remaining_duration = current_duration();
     std::string result;
     int i = 0;
@@ -136,7 +155,7 @@ std::string Countdown::current_text() const {
     return result;
 }
 
-TimeDuration Countdown::current_duration() const {
+TimeDuration Countdown::View::current_duration() const {
     WDateTime n = paused_.isValid() ? paused_ :
                   lapped_.isValid() ? lapped_ : now();
     TimeDuration r = since_.isValid() ? n - since_ : until_ - n;
@@ -148,30 +167,36 @@ TimeDuration Countdown::current_duration() const {
 
 void Countdown::pause() {
     apply_js("'pause'");
-    paused_ = now();
-    lapped_ = WDateTime();
-    update_view();
+    if (view_) {
+        view_->paused_ = now();
+        view_->lapped_ = WDateTime();
+        update_view();
+    }
 }
 
 void Countdown::lap() {
     apply_js("'lap'");
-    paused_ = WDateTime();
-    lapped_ = now();
-    update_view();
+    if (view_) {
+        view_->paused_ = WDateTime();
+        view_->lapped_ = now();
+        update_view();
+    }
 }
 
 void Countdown::resume() {
     apply_js("'resume'");
-    if (paused_.isValid()) {
-        if (since_.isValid()) {
-            since_ += now() - paused_;
-        } else {
-            until_ -= now() - paused_;
+    if (view_) {
+        if (view_->paused_.isValid()) {
+            if (view_->since_.isValid()) {
+                view_->since_ += now() - view_->paused_;
+            } else {
+                view_->until_ -= now() - view_->paused_;
+            }
         }
+        view_->paused_ = WDateTime();
+        view_->lapped_ = WDateTime();
+        update_view();
     }
-    paused_ = WDateTime();
-    lapped_ = WDateTime();
-    update_view();
 }
 
 std::string Countdown::duration_for_js(const TimeDuration& duration) {
