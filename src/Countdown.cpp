@@ -49,7 +49,7 @@ Countdown::Countdown(WContainerWidget* parent):
     setInline(true);
     wApp->require(config_value("resourcesURL", "resources/") +
                   "Wc/js/jquery.countdown.js");
-    doJavaScript("$(" + jsRef() + ").countdown({since: 0, compact: true});");
+    apply_js("{since: 0, compact: true}");
     set_format();
     set_time_separator();
     if (!js_) {
@@ -95,11 +95,8 @@ void Countdown::set_time_separator(const std::string& time_separator) {
 
 void Countdown::change(const std::string& name, const std::string& value,
                        bool stringify_value) {
-    if (js_) {
-        doJavaScript("$(" + jsRef() + ")"
-                     ".countdown('change', '" + name + "', " +
-                     (stringify_value ? stringify(value) : value) + ");");
-    }
+    apply_js("'change', '" + name + "', " +
+             (stringify_value ? stringify(value) : value));
 }
 
 const char PERIOD_LETTERS[] = "YOWDHMS";
@@ -150,6 +147,12 @@ TimeDuration Countdown::current_duration() const {
 
 std::string Countdown::duration_for_js(const TimeDuration& duration) {
     return TO_S(duration.total_nanoseconds()) + "/1.e9";
+}
+
+void Countdown::apply_js(const std::string& args) {
+    if (js_) {
+        doJavaScript("$(" + jsRef() + ").countdown(" + args + ");");
+    }
 }
 
 void Countdown::update_view() {

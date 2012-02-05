@@ -137,6 +137,7 @@ private:
     std::string time_separator_;
 
     static std::string duration_for_js(const td::TimeDuration& duration);
+    void apply_js(const std::string& args);
     void update_view();
 };
 
