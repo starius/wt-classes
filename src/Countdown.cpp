@@ -58,6 +58,9 @@ Countdown::Countdown(WContainerWidget* parent):
     view_(0),
     expired_(this, "expired", /* collectSlotJavaScript */ true) {
     setInline(true);
+    implementJavaScript(&Countdown::pause, wrap_js("'pause'"));
+    implementJavaScript(&Countdown::lap, wrap_js("'lap'"));
+    implementJavaScript(&Countdown::resume, wrap_js("'resume'"));
     wApp->require(config_value("resourcesURL", "resources/") +
                   "Wc/js/jquery.countdown.js");
     apply_js("{since: 0, compact: true}");
