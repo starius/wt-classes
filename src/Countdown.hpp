@@ -99,10 +99,21 @@ public:
     /** Restart a paused or lap countdown */
     void resume();
 
+    /** JavaScript signal, emitted when the countdown expires.
+    This JavaScript signal collects javascript specified for connected slots
+    or learned by stateless slot learning.
+
+    \see "alwaysExpire" parameter of jquery.countdown
+    */
+    JSignal<>& expired() {
+        return expired_;
+    }
+
 private:
     class View;
 
     View* view_;
+    JSignal<> expired_;
 
     static std::string duration_for_js(const td::TimeDuration& duration);
     void apply_js(const std::string& args);

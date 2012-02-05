@@ -55,11 +55,13 @@ private:
 
 Countdown::Countdown(WContainerWidget* parent):
     WContainerWidget(parent),
-    view_(0) {
+    view_(0),
+    expired_(this, "expired", /* collectSlotJavaScript */ true) {
     setInline(true);
     wApp->require(config_value("resourcesURL", "resources/") +
                   "Wc/js/jquery.countdown.js");
     apply_js("{since: 0, compact: true}");
+    change("onExpiry", "function() {" + expired_.createCall() + "}");
     if (!wApp->environment().javaScript()) {
         view_ = new View(this);
     }
