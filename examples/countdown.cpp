@@ -9,6 +9,7 @@
 #include <Wt/WText>
 #include <Wt/WBreak>
 #include <Wt/WDate>
+#include <Wt/WPushButton>
 #include <Wt/Wc/Countdown.hpp>
 
 using namespace Wt;
@@ -19,8 +20,24 @@ public:
     CountdownApp(const WEnvironment& env):
         WApplication(env) {
         new WText("Standard count-up: ", root());
-        new Countdown(root());
+        Countdown* from_now = new Countdown(root());
         new WText(" from this application creation time", root());
+        WPushButton* pause = new WPushButton("Pause", root());
+        WPushButton* lap = new WPushButton("Lap", root());
+        WPushButton* resume = new WPushButton("Resume", root());
+        resume->hide();
+        pause->clicked().connect(from_now, &Countdown::pause);
+        pause->clicked().connect(pause, &WWidget::hide);
+        pause->clicked().connect(lap, &WWidget::hide);
+        pause->clicked().connect(resume, &WWidget::show);
+        lap->clicked().connect(from_now, &Countdown::lap);
+        lap->clicked().connect(lap, &WWidget::hide);
+        lap->clicked().connect(pause, &WWidget::hide);
+        lap->clicked().connect(resume, &WWidget::show);
+        resume->clicked().connect(from_now, &Countdown::resume);
+        resume->clicked().connect(resume, &WWidget::hide);
+        resume->clicked().connect(pause, &WWidget::show);
+        resume->clicked().connect(lap, &WWidget::show);
         //
         new WBreak(root());
         new WText("Change time separator: ", root());
