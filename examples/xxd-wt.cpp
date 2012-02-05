@@ -37,6 +37,7 @@ public:
         task->set_queue(&queue);
         bits->checked().connect(boost::bind(&WLineEdit::setText, cols, "6"));
         bits->unChecked().connect(boost::bind(&WLineEdit::setText, cols, "16"));
+        new TaskCountup(task, root());
     }
 };
 
