@@ -11,6 +11,7 @@ Dependencies:
 
 Build-only dependencies:
  * rst2man (used to build manpage)
+ * wget to get jquery.countdown.js (already included in a distribution tar file)
 
 Recommendations:
  * YUI library >= 2.8.0 for SWFStore
