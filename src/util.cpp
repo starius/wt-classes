@@ -15,6 +15,8 @@
 #include <Wt/WEnvironment>
 #include <Wt/WServer>
 
+#include "util.hpp"
+
 namespace Wt {
 
 namespace Wc {
