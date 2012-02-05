@@ -205,8 +205,12 @@ std::string Countdown::duration_for_js(const TimeDuration& duration) {
 
 void Countdown::apply_js(const std::string& args) {
     if (!view_) {
-        doJavaScript("$(" + jsRef() + ").countdown(" + args + ");");
+        doJavaScript(wrap_js(args));
     }
+}
+
+std::string Countdown::wrap_js(const std::string& args) const {
+    return "$(" + jsRef() + ").countdown(" + args + ");";
 }
 
 void Countdown::update_view() {
