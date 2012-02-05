@@ -64,55 +64,71 @@ for filename in os.listdir('locales'):
         if message.tag != 'message':
             print filename, Id, 'Error: wrong tag "%s"' % message.tag
         if text and '\n' not in text and (text[0] == ' ' or text[-1] == ' '):
-            print filename, Id, 'Error: message should not start or end with space'
+            print filename, Id, \
+                    'Error: message should not start or end with space'
         if Id in ids:
-            print filename, Id, 'Error: duplicate message'
+            print filename, Id, \
+                    'Error: duplicate message'
         ids.add(Id)
         id2text[Id] = text
         if not Id.startswith('Wt.') and not Id.startswith(args.prefix):
-            print filename, Id, 'Error: message id should start with Wt. or %s' % args.prefix
+            print filename, Id, \
+                'Error: message id should start with Wt. or %s' % args.prefix
         if Id.startswith('Wt.'):
             if Id not in wt_ids:
                 if wt_ids:
-                    print filename, Id, 'Error: unknown Wt message (old wt.xml?)'
+                    print filename, Id, \
+                            'Error: unknown Wt message (old wt.xml?)'
                 else:
-                    print filename, Id, 'Error: unknown Wt message (provide --wt option)'
+                    print filename, Id, \
+                            'Error: unknown Wt message (provide --wt option)'
         else:
             try:
                 prefix, section, id = Id.split('.')
             except:
-                print filename, Id, "Error: can't match to %ssection.id" % args.prefix
+                print filename, Id, \
+                        "Error: can't match to %ssection.id" % args.prefix
             message.section = section
             if section not in sections:
                 print filename, Id, 'Error: unknown section "%s"' % section
             if '-' in id:
                 print filename, Id, 'Error: id should not contain "-"'
-            if text and id[0].islower() != text[0].islower() and text[0].isalpha():
-                print filename, Id, 'Error: id should start with letter of same case as message'
+            if text and id[0].islower() != text[0].islower() and \
+                    text[0].isalpha():
+                print filename, Id, \
+                    'Error: id should start with letter of same case as message'
             if '${' in text and not id.endswith('_template'):
-                print filename, Id, 'Error: id of template message should end with "_template"'
+                print filename, Id, \
+                    'Error: id of template message should end with "_template"'
             if hasattr(prev_message, 'section'):
-                if prev_message.section != section and '\n\n' not in prev_message.tail:
-                    print filename, 'Error: sections %s and %s should be separated by empty line' % \
+                if prev_message.section != section and \
+                        '\n\n' not in prev_message.tail:
+                    print filename, 'Error: sections %s and %s should be ' + \
+                        'separated by empty line' % \
                         (prev_message.section, section)
                 elif prev_message.section == section:
                     if '\n\n' in prev_message.tail:
-                        print filename, 'Error: section %s should not be separated with empty line near %s' % \
+                        print filename, 'Error: section %s should not be ' + \
+                            'separated with empty line near %s' % \
                             (section, Id)
                     if '\n' in prev_message.text and '\n' not in message.text:
-                        print filename, 'Error: non-multiline message %s follows multimessages' % Id
+                        print filename, 'Error: non-multiline message %s ' + \
+                            'follows multimessages' % Id
                     if '\n' in prev_message.text and '\n' in message.text \
                         and prev_message.get('id') > Id and not 'board' in Id:
-                        print filename, 'Error: multiline messages %s and %s are unordered' % \
+                        print filename, 'Error: multiline messages ' + \
+                            '%s and %s are unordered' % \
                             (prev_message.get('id'), Id)
 
         prev_message = message
 
     short_messages = [m.get('id').lower() for m in messages
-        if m.text and '\n' not in m.text and m.get('id').startswith(args.prefix)]
+        if m.text and '\n' not in m.text and
+            m.get('id').startswith(args.prefix)]
     for m1, m2 in zip(short_messages, sorted(short_messages)):
         if m1 != m2:
-            print filename, 'Error: messages are unsorted, started from %s != %s' % (m1, m2)
+            print filename, \
+                'Error: messages are unsorted, started from %s != %s' % (m1, m2)
 
 all_ids = reduce(lambda a,b:a|b, filename2ids.values(), set())
 cleaner = re.compile(r'{.+}|<.+>|%s.{1,8};' % ampersand)
