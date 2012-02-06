@@ -125,7 +125,7 @@ void Countdown::set_time_separator(const std::string& time_separator) {
 void Countdown::change(const std::string& name, const std::string& value,
                        bool stringify_value) {
     apply_js("'change', '" + name + "', " +
-             (stringify_value ? stringify(value) : value));
+             (stringify_value ? WWebWidget::jsStringLiteral(value) : value));
 }
 
 const char PERIOD_LETTERS[] = "YOWDHMS";

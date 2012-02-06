@@ -45,13 +45,6 @@ std::string unique_filename() {
     return unique_path(temp_directory_path() / model).string();
 }
 
-std::string stringify(const std::string& value) {
-    std::string copy(value);
-    boost::replace_all(copy, "\\", "\\\\");
-    boost::replace_all(copy, "\"", "\\\"");
-    return "\"" + copy + "\"";
-}
-
 std::string config_value(const std::string& name, const std::string& def) {
     std::string value = def;
     if (wApp) {

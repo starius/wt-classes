@@ -75,16 +75,6 @@ Boost.Filesystem's unique_path is used
 */
 std::string unique_filename();
 
-/** Stringify a string.
-Steps:
- - escape backslashes,
- - escape double quotes,
- - surround with double quotes.
-
-\ingroup util
-*/
-std::string stringify(const std::string& value);
-
 /** Read a configuration property.
 The convenience method for readConfigurationProperty().
 On error, \p def value is returned.
