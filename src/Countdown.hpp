@@ -108,6 +108,9 @@ public:
     /** Restart a paused or lap countdown */
     void resume();
 
+    /** Restart a paused or lap countdown after the duration */
+    void resume(const td::TimeDuration& duration);
+
     /** JavaScript signal, emitted when the countdown expires.
     This JavaScript signal collects javascript specified for connected slots
     or learned by stateless slot learning.

@@ -37,6 +37,7 @@ public:
     std::string time_separator_;
     Wt::WDateTime paused_;
     Wt::WDateTime lapped_;
+    Wt::WDateTime resumed_;
 
     std::string current_text() const;
 
@@ -171,6 +172,8 @@ TimeDuration Countdown::View::current_duration() const {
         n = paused_;
     } else if (lapped_.isValid() && lapped_ <= now()) {
         n = lapped_;
+    } else if (resumed_.isValid() && resumed_ >= now()) {
+        n = resumed_;
     }
     TimeDuration r = since_.isValid() ? n - since_ : until_ - n;
     if (r.is_negative()) {
@@ -188,6 +191,7 @@ void Countdown::pause(const td::TimeDuration& duration) {
     if (view_) {
         view_->paused_ = now() + duration;
         view_->lapped_ = WDateTime();
+        view_->resumed_ = WDateTime();
         update_view();
     }
 }
@@ -201,22 +205,28 @@ void Countdown::lap(const td::TimeDuration& duration) {
     if (view_) {
         view_->paused_ = WDateTime() + duration;
         view_->lapped_ = now();
+        view_->resumed_ = WDateTime();
         update_view();
     }
 }
 
 void Countdown::resume() {
-    apply_js("'resume'");
+    resume(TD_NULL);
+}
+
+void Countdown::resume(const td::TimeDuration& duration) {
+    apply_js("'resume'", duration);
     if (view_) {
         if (view_->paused_.isValid()) {
             if (view_->since_.isValid()) {
-                view_->since_ += now() - view_->paused_;
+                view_->since_ += now() + duration - view_->paused_;
             } else {
-                view_->until_ -= now() - view_->paused_;
+                view_->until_ -= now() + duration - view_->paused_;
             }
         }
         view_->paused_ = WDateTime();
         view_->lapped_ = WDateTime();
+        view_->resumed_ = now() + duration;
         update_view();
     }
 }
