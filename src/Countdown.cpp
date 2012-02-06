@@ -166,8 +166,12 @@ std::string Countdown::View::current_text() const {
 }
 
 TimeDuration Countdown::View::current_duration() const {
-    WDateTime n = paused_.isValid() ? paused_ :
-                  lapped_.isValid() ? lapped_ : now();
+    WDateTime n = now();
+    if (paused_.isValid() && paused_ <= now()) {
+        n = paused_;
+    } else if (lapped_.isValid() && lapped_ <= now()) {
+        n = lapped_;
+    }
     TimeDuration r = since_.isValid() ? n - since_ : until_ - n;
     if (r.is_negative()) {
         r = TD_NULL;
@@ -176,18 +180,26 @@ TimeDuration Countdown::View::current_duration() const {
 }
 
 void Countdown::pause() {
-    apply_js("'pause'");
+    pause(TD_NULL);
+}
+
+void Countdown::pause(const td::TimeDuration& duration) {
+    apply_js("'pause'", duration);
     if (view_) {
-        view_->paused_ = now();
+        view_->paused_ = now() + duration;
         view_->lapped_ = WDateTime();
         update_view();
     }
 }
 
 void Countdown::lap() {
-    apply_js("'lap'");
+    lap(TD_NULL);
+}
+
+void Countdown::lap(const td::TimeDuration& duration) {
+    apply_js("'lap'", duration);
     if (view_) {
-        view_->paused_ = WDateTime();
+        view_->paused_ = WDateTime() + duration;
         view_->lapped_ = now();
         update_view();
     }
@@ -225,6 +237,14 @@ std::string Countdown::duration_for_js(const TimeDuration& duration) {
 void Countdown::apply_js(const std::string& args) {
     if (!view_) {
         doJavaScript(wrap_js(args));
+    }
+}
+
+void Countdown::apply_js(const std::string& args,
+                         const td::TimeDuration& duration) {
+    if (!view_) {
+        doJavaScript("setTimeout(function() {" + wrap_js(args) +
+                     "}, " + TO_S(duration.total_milliseconds()) + ");");
     }
 }
 

@@ -96,8 +96,14 @@ public:
     /** Stop the countdown but don't clear it */
     void pause();
 
+    /** Stop the countdown but don't clear it after the duration */
+    void pause(const td::TimeDuration& duration);
+
     /** Stop the display but continue the countdown */
     void lap();
+
+    /** Stop the display but continue the countdown after the duration */
+    void lap(const td::TimeDuration& duration);
 
     /** Restart a paused or lap countdown */
     void resume();
@@ -118,6 +124,7 @@ private:
 
     static std::string duration_for_js(const td::TimeDuration& duration);
     void apply_js(const std::string& args);
+    void apply_js(const std::string& args, const td::TimeDuration& duration);
     std::string wrap_js(const std::string& args) const;
     void update_view();
 };
