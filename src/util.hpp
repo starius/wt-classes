@@ -48,8 +48,8 @@ bool isinstance(const S* object) {
 */
 #define TO_S(x) boost::lexical_cast<std::string>(x)
 
-/** Return the same function, but being called through post().
-post() is bound with \p func and wApp and resultion function
+/** Return the same function, but being called through WServer::post().
+All needed arguments are bound and new function
 object is returned.
 
 \ingroup util

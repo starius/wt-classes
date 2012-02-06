@@ -21,16 +21,14 @@ namespace Wt {
 
 namespace Wc {
 
-void post(const boost::function<void()>& func, WApplication* app) {
-    if (!app) {
-        app = wApp;
-    }
-    WServer* server = downcast<WServer*>(app->environment().server());
-    server->post(app->sessionId(), func);
+void post(WServer* server, const std::string& app,
+          const boost::function<void()>& func) {
+    server->post(app, func);
 }
 
 boost::function<void()> bound_post(boost::function<void()> func) {
-    return boost::bind(post, func, wApp);
+    WServer* server = downcast<WServer*>(wApp->environment().server());
+    return boost::bind(post, server, wApp->sessionId(), func);
 }
 
 void updates_trigger() {
