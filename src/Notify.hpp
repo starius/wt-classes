@@ -136,7 +136,7 @@ private:
 
     void stop_listenning(Widget* widget, const std::string& app_id);
 
-    static void notify_widgets(Widgets widgets, EventPtr event);
+    void notify_widgets(EventPtr event);
 
     friend class Widget;
 };

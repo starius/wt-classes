@@ -38,9 +38,8 @@ void Server::emit(EventPtr event) {
     if (it != o2w_.end()) {
         BOOST_FOREACH (const typename A2W::value_type& a2w, it->second) {
             const std::string& app_id = a2w.first;
-            const Widgets& widgets = a2w.second;
-            server_->post(app_id, boost::bind(&Server::notify_widgets,
-                                              widgets, event));
+            server_->post(app_id, boost::bind(&Server::notify_widgets, this,
+                                              event));
         }
     }
 }
@@ -66,7 +65,10 @@ void Server::stop_listenning(Widget* widget, const std::string& app_id) {
     }
 }
 
-void Server::notify_widgets(Widgets widgets, EventPtr event) {
+void Server::notify_widgets(EventPtr event) {
+    mutex_.lock();
+    Widgets widgets = o2w_[event->key()][wApp->sessionId()];
+    mutex_.unlock();
     BOOST_FOREACH (Widget* widget, widgets) {
         widget->notify(event);
     }
