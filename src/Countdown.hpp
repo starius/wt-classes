@@ -33,6 +33,14 @@ You may use WTimer to update the page periodically.
 
 By default, the widget counts up from now.
 
+\note Creating already paused or lap countdown,
+    be sure to pause() or lap() it before set_until().
+    Creating already paused or lap countup,
+    be sure to pause() or lap() it after set_since()
+    (if any; remember, that the constructor does set_since())
+    Otherwise it can have time to tick one time.
+    See the following example.
+
 \include examples/countdown.cpp
 
 \ingroup time
