@@ -56,7 +56,7 @@ private:
 Countdown::Countdown(WContainerWidget* parent):
     WContainerWidget(parent),
     view_(0),
-    expired_(this, "expired", /* collectSlotJavaScript */ true) {
+    expired_(0) {
     setInline(true);
     implementJavaScript(&Countdown::pause, wrap_js("'pause'"));
     implementJavaScript(&Countdown::lap, wrap_js("'lap'"));
@@ -64,12 +64,17 @@ Countdown::Countdown(WContainerWidget* parent):
     wApp->require(config_value("resourcesURL", "resources/") +
                   "Wc/js/jquery.countdown.js");
     apply_js("{since: 0, compact: true}");
-    change("onExpiry", "function() {" + expired_.createCall() + "}");
     if (!wApp->environment().javaScript()) {
         view_ = new View(this);
     }
     set_format();
     set_time_separator();
+}
+
+Countdown::~Countdown() {
+    if (expired_) {
+        delete expired_;
+    }
 }
 
 void Countdown::set_since(const WDateTime& since) {
@@ -202,6 +207,15 @@ void Countdown::resume() {
         view_->lapped_ = WDateTime();
         update_view();
     }
+}
+
+JSignal<>& Countdown::expired() {
+    if (!expired_) {
+        expired_ = new JSignal<>(this, "expired",
+                                 /* collectSlotJavaScript */ true);
+        change("onExpiry", "function() {" + expired_->createCall() + "}");
+    }
+    return *expired_;
 }
 
 std::string Countdown::duration_for_js(const TimeDuration& duration) {

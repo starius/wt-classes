@@ -42,6 +42,9 @@ public:
     /** Constructor */
     Countdown(WContainerWidget* parent = 0);
 
+    /** Destructor */
+    ~Countdown();
+
     /** Set the time to count up from.
     \note Setting \c since or \c until, you invalidate another one.
     */
@@ -105,15 +108,13 @@ public:
 
     \see "alwaysExpire" parameter of jquery.countdown
     */
-    JSignal<>& expired() {
-        return expired_;
-    }
+    JSignal<>& expired();
 
 private:
     class View;
 
     View* view_;
-    JSignal<> expired_;
+    JSignal<>* expired_;
 
     static std::string duration_for_js(const td::TimeDuration& duration);
     void apply_js(const std::string& args);
