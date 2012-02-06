@@ -103,21 +103,21 @@ for filename in os.listdir('locales'):
             if hasattr(prev_message, 'section'):
                 if prev_message.section != section and \
                         '\n\n' not in prev_message.tail:
-                    print filename, 'Error: sections %s and %s should be ' + \
-                        'separated by empty line' % \
+                    print filename, ('Error: sections %s and %s should be ' + \
+                        'separated by empty line') % \
                         (prev_message.section, section)
                 elif prev_message.section == section:
                     if '\n\n' in prev_message.tail:
-                        print filename, 'Error: section %s should not be ' + \
-                            'separated with empty line near %s' % \
+                        print filename, ('Error: section %s should not be ' + \
+                            'separated with empty line near %s') % \
                             (section, Id)
                     if '\n' in prev_message.text and '\n' not in message.text:
-                        print filename, 'Error: non-multiline message %s ' + \
-                            'follows multimessages' % Id
+                        print filename, ('Error: non-multiline message %s ' + \
+                            'follows multimessages') % Id
                     if '\n' in prev_message.text and '\n' in message.text \
                         and prev_message.get('id') > Id and not 'board' in Id:
-                        print filename, 'Error: multiline messages ' + \
-                            '%s and %s are unordered' % \
+                        print filename, ('Error: multiline messages ' + \
+                            '%s and %s are unordered') % \
                             (prev_message.get('id'), Id)
 
         prev_message = message
