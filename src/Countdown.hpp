@@ -116,6 +116,10 @@ public:
     or learned by stateless slot learning.
 
     \see "alwaysExpire" parameter of jquery.countdown
+
+    \note This works only in JavaScript version.
+        Since this relies on javascript, there are no guarantees
+        of correctness and accuracy of this signal.
     */
     JSignal<>& expired();
 
