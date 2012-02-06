@@ -64,6 +64,17 @@ public:
         Countdown* five = new Countdown(root());
         five->pause(5 * SECOND);
         five->resume(10 * SECOND);
+        //
+        new WBreak(root());
+        new WText("Already paused countdown ", root());
+        Countdown* paused_countdown = new Countdown(root());
+        paused_countdown->pause(); // before set_until()
+        paused_countdown->set_until(SECOND);
+        new WText(" and already paused countup ", root());
+        Countdown* paused_countup = new Countdown(root());
+        paused_countup->set_since(-SECOND);
+        paused_countup->pause(); // after set_since()
+        new WText(". They should display 1 s constantly.", root());
     }
 };
 
