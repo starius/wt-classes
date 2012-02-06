@@ -16,9 +16,9 @@ import argparse
 
 ampersand = '-locales_test_ampersand'
 
-def locales_test(args):
+def locales_test(wt, prefix, sections):
     wt_ids = set()
-    for wt_xml in (args.wt or []):
+    for wt_xml in (wt or []):
         try:
             wt_messages = parse(wt_xml).getroot()
             for message in wt_messages:
@@ -26,8 +26,6 @@ def locales_test(args):
         except:
             print 'Error: provide correct wt.xml file through --wt option'
             quit()
-
-    sections = args.sections
 
     filename2ids = {}
     id2text = {}
@@ -63,9 +61,9 @@ def locales_test(args):
                         'Error: duplicate message'
             ids.add(Id)
             id2text[Id] = text
-            if not Id.startswith('Wt.') and not Id.startswith(args.prefix):
+            if not Id.startswith('Wt.') and not Id.startswith(prefix):
                 print filename, Id, \
-                    'Error: message id should start with Wt. or %s' % args.prefix
+                    'Error: message id should start with Wt. or %s' % prefix
             if Id.startswith('Wt.'):
                 if Id not in wt_ids:
                     if wt_ids:
@@ -76,10 +74,10 @@ def locales_test(args):
                                 'Error: unknown Wt message (provide --wt option)'
             else:
                 try:
-                    prefix, section, id = Id.split('.')
+                    prefix_copy, section, id = Id.split('.')
                 except:
                     print filename, Id, \
-                            "Error: can't match to %ssection.id" % args.prefix
+                            "Error: can't match to %ssection.id" % prefix
                 message.section = section
                 if section not in sections:
                     print filename, Id, 'Error: unknown section "%s"' % section
@@ -116,7 +114,7 @@ def locales_test(args):
 
         short_messages = [m.get('id').lower() for m in messages
             if m.text and '\n' not in m.text and
-                m.get('id').startswith(args.prefix)]
+                m.get('id').startswith(prefix)]
         for m1, m2 in zip(short_messages, sorted(short_messages)):
             if m1 != m2:
                 print filename, \
@@ -133,7 +131,7 @@ def locales_test(args):
                 continue
             print filename, 'Warning: id "%s" not found' % Id
 
-    l9n_re = re.compile(r'"(%s\.[^"]+)"' % re.escape(args.prefix))
+    l9n_re = re.compile(r'"(%s\.[^"]+)"' % re.escape(prefix))
     used_ids = set()
 
     for root, dirnames, filenames in os.walk('src'):
@@ -157,7 +155,7 @@ def main():
     p.add_argument('--sections', help='The list of allowed sections', nargs='+',
             required=True)
     args = p.parse_args()
-    locales_test(args)
+    locales_test(args.wt, args.prefix, args.sections)
 
 if __name__ == '__main__':
     try:
