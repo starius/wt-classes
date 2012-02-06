@@ -170,7 +170,7 @@ TimeDuration Countdown::View::current_duration() const {
                   lapped_.isValid() ? lapped_ : now();
     TimeDuration r = since_.isValid() ? n - since_ : until_ - n;
     if (r.is_negative()) {
-        r = 0 * SECOND;
+        r = TD_NULL;
     }
     return r;
 }
