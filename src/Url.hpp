@@ -63,11 +63,6 @@ public:
     /** Return if this part of an url meets the node */
     virtual bool meet(const std::string& part) const = 0;
 
-    /** Set value.
-    If check is true, the value is checked using meet() before setting.
-    */
-    void set_value(const std::string& v, bool check = false);
-
     /** Get value */
     const std::string& value() const {
         return value_;
@@ -103,9 +98,17 @@ public:
         return opened_;
     }
 
+protected:
+    /** Set value.
+    If check is true, the value is checked using meet() before setting.
+    */
+    void set_value(const std::string& v, bool check = false);
+
 private:
     Signal<> opened_;
     std::string value_;
+
+    friend class Parser;
 };
 
 /** Predefined part of an URL.

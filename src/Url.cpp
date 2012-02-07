@@ -27,12 +27,6 @@ Node::Node(WObject* parent):
     WObject(parent)
 { }
 
-void Node::set_value(const std::string& v, bool check) {
-    if (!check || meet(v)) {
-        value_ = v;
-    }
-}
-
 void Node::write_to(std::ostream& path) const {
     path << value_ << '/';
 }
@@ -77,6 +71,12 @@ void Node::open(bool change_path) {
         wApp->setInternalPath(full_path());
     }
     opened_.emit();
+}
+
+void Node::set_value(const std::string& v, bool check) {
+    if (!check || meet(v)) {
+        value_ = v;
+    }
 }
 
 PredefinedNode::PredefinedNode(const std::string& predefined, WObject* parent):
