@@ -85,7 +85,7 @@ public:
     void set_value(const std::string& v, bool check = false);
 
     /** Get value */
-    const std::string value() const {
+    const std::string& value() const {
         return value_;
     }
 
