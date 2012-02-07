@@ -22,11 +22,79 @@ namespace Wt {
 
 namespace Wc {
 
+/** Namespace for dealing with internal paths */
+namespace url {
+
 /** \defgroup url URL-related
 Classes for URL rules.
 This classes allow you to keep all url-related code in one place.
 
-Example:
+\note Before reading the rest of this documentation,
+    read about internal paths in the Wt documentation.
+
+<h3>node</h3>
+
+Every internal path is represented as a Node in a tree.
+For example, internal path "/about/license/" is a child of "/about/".
+
+To create a child node, just pass parent node to the constructor of a child.
+Constructors of nodes of some types take additional arguments.
+
+Each node has a \ref Node::value() "value", the string,
+representing the last part of that internal path.
+For example, the value of "/about/license/" is "license".
+
+There are several types of node:
+ - PredefinedNode (value is constant),
+ - IntegerNode (value represents an integer),
+ - StringNode (value represents a string),
+ - Parser (value is an empty string; is the root of that tree of nodes).
+
+IntegerNode and StringNode are mutable.
+Their value (integer or string) can be changed.
+This occurs while \ref Parser::open() "url openning".
+Parser sets values of all nodes, involved into internal path parsed.
+You can get the value using StringNode::string() or IntegerNode::integer(),
+or general method Node::value().
+To set the value (to get WLink's involving it), use StringNode::set_string()
+of IntegerNode::set_integer_value().
+
+After the creation of nodes, connect their \ref Node::opened() "opened()"
+signal to appropriate slots.
+For example, let internal path "/user/" be the list of users.
+In this case, connect its opened() signal to the function,
+displaying the list of users.
+It is beyond this documentation, how to write this function.
+
+When you need the internal path, use Node::link() method.
+There are methods get_link() in IntegerNode and StringNode, setting
+the value and returning the link at once.
+You can simulate the openning of an internal path,
+using Node::open() method.
+
+<h3>parser</h3>
+
+Parser is the root in internal path tree.
+It corresponds to the internal path "/" (main page of an application).
+Nodes of other type are direct or indirect children of Parser node.
+
+All created nodes should be bound to session.
+You can create your own class, inherited from Parser,
+which would create all child nodes, and bind an instance
+of that class to an instance of WApplication.
+Nodes will be needed to get internal paths, e.g. for WAnchor.
+So it is better to provide public access to them.
+
+You should connect wApp->internalPathChanged()
+to Parser::open() to make it aware of internal path changes.
+
+In the end of the constructor of WApplication's descendant
+(or in other function, creating application for WServer)
+pass internalPath() to Parser::open() to process initial internal path
+(internal path, being set while application creation).
+
+<h3>Short example</h3>
+
 \code
 Parser* parser = new Parser(wApp);
 wApp->internalPathChanged().connect(parser, &Parser::open);
@@ -36,13 +104,33 @@ IntegerNode* user_profile = new IntegerNode(users);
 user_profile->opened().connect(...); // show user profile for "/user/xxx/"
 \endcode
 
-Living example:
+<h3>Detailed example</h3>
+
+In the example bellow, main features of this module are demonstrated:
+ - tree of internal path nodes,
+ - connection of Node::opened() to function, displaying something,
+ - Parser is also a Node, it corresponds to the main page,
+ - use of Parser::open(),
+ - referring internal paths.
+
+It is a model of content and user oriented site.
+
+Each user has integer identifier.
+User profile is shown in internal path like "/user/123/".
+The list of users is shown in "/user/".
+
+"/about/" represents a list of available articles.
+Each article is identified with a string.
+Article page is "/about/article-name/".
+
+The main page contain references to the list of articles and the list of users.
+Every page has a reference to the main page on top.
+
+User identifiers and article names are generated randomly.
+
 \include examples/url.cpp
 
 */
-
-/** Namespace for dealing with internal paths */
-namespace url {
 
 /** Part of URL.
 This class represents a node in url parsing tree.
