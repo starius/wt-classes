@@ -173,14 +173,19 @@ public:
 };
 
 /** Path parser.
+In addition, it is the root url node ("index" page, internal path "/").
+All other nodes should be children (direct or indirect) of this node.
+
 This object should be bound to session.
 
 \ingroup url
 */
-class Parser : public WObject {
+class Parser : public Node {
 public:
     /** Constructor */
     Parser(WObject* parent = 0);
+
+    bool meet(const std::string& part) const;
 
     /** Parse the internal path.
     Set values to all non-predefined nodes and return last node.

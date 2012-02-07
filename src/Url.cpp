@@ -51,7 +51,6 @@ void Node::write_all_to(std::ostream& path) const {
 
 std::string Node::full_path() const {
     std::stringstream ss;
-    ss << '/';
     write_all_to(ss);
     return ss.str();
 }
@@ -137,14 +136,18 @@ WLink StringNode::get_link(const std::string& v) {
 }
 
 Parser::Parser(WObject* parent):
-    WObject(parent)
+    Node(parent)
 { }
+
+bool Parser::meet(const std::string& part) const {
+    return part.empty();
+}
 
 Node* Parser::parse(const std::string& path) {
     using namespace boost::algorithm;
     std::vector<std::string> parts;
     split(parts, path, is_any_of("/"), token_compress_on);
-    WObject* node = this;
+    Node* node = this;
     BOOST_FOREACH (const std::string& part, parts) {
         if (part.empty()) {
             continue;
@@ -153,7 +156,7 @@ Node* Parser::parse(const std::string& path) {
         BOOST_FOREACH (WObject* o, node->children()) {
             if (isinstance<Node>(o) && downcast<Node*>(o)->meet(part)) {
                 next = true;
-                node = o;
+                node = downcast<Node*>(o);
                 downcast<Node*>(o)->set_value(part);
                 break;
             }
@@ -162,7 +165,7 @@ Node* Parser::parse(const std::string& path) {
             return 0;
         }
     }
-    return node == this ? 0 : downcast<Node*>(node);
+    return node;
 }
 
 void Parser::open(const std::string& path) {
