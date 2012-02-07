@@ -35,6 +35,10 @@ users->opened().connect(...);        // show user list for "/user/"
 IntegerNode* user_profile = new IntegerNode(users);
 user_profile->opened().connect(...); // show user profile for "/user/xxx/"
 \endcode
+
+Living example:
+\include examples/url.cpp
+
 */
 
 /** Namespace for dealing with internal paths */
