@@ -126,6 +126,14 @@ bool StringNode::meet(const std::string&) const {
     return true;
 }
 
+void StringNode::set_string(const std::string& string) {
+    set_value(string);
+}
+
+const std::string& StringNode::string() const {
+    return value();
+}
+
 std::string StringNode::get_full_path(const std::string& v) {
     set_value(v);
     return full_path();

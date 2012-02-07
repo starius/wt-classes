@@ -169,6 +169,12 @@ public:
 
     bool meet(const std::string& part) const;
 
+    /** Set value */
+    void set_string(const std::string& string);
+
+    /** Get value */
+    const std::string& string() const;
+
     /** Set value and return full internal path to this node */
     std::string get_full_path(const std::string& v);
 
