@@ -40,26 +40,6 @@ user_profile->opened().connect(...); // show user profile for "/user/xxx/"
 /** Namespace for dealing with internal paths */
 namespace url {
 
-/** Path parser.
-This object should be bound to session.
-
-\ingroup url
-*/
-class Parser : public WObject {
-public:
-    /** Constructor */
-    Parser(WObject* parent = 0);
-
-    /** Parse the internal path.
-    Set values to all non-predefined nodes and return last node.
-    If node is undefined, returns 0.
-    */
-    Node* parse(const std::string& path);
-
-    /** Parse the internal path and open correcponding path node */
-    void open(const std::string& path);
-};
-
 /** Part of URL.
 This class represents a node in url parsing tree.
 
@@ -190,6 +170,26 @@ public:
 
     /** Set value and return a link to this node */
     WLink get_link(const std::string& v);
+};
+
+/** Path parser.
+This object should be bound to session.
+
+\ingroup url
+*/
+class Parser : public WObject {
+public:
+    /** Constructor */
+    Parser(WObject* parent = 0);
+
+    /** Parse the internal path.
+    Set values to all non-predefined nodes and return last node.
+    If node is undefined, returns 0.
+    */
+    Node* parse(const std::string& path);
+
+    /** Parse the internal path and open correcponding path node */
+    void open(const std::string& path);
 };
 
 }

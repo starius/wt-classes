@@ -23,42 +23,6 @@ namespace Wc {
 
 namespace url {
 
-Parser::Parser(WObject* parent):
-    WObject(parent)
-{ }
-
-Node* Parser::parse(const std::string& path) {
-    using namespace boost::algorithm;
-    std::vector<std::string> parts;
-    split(parts, path, is_any_of("/"), token_compress_on);
-    WObject* node = this;
-    BOOST_FOREACH (const std::string& part, parts) {
-        if (part.empty()) {
-            continue;
-        }
-        bool next = false;
-        BOOST_FOREACH (WObject* o, node->children()) {
-            if (isinstance<Node>(o) && downcast<Node*>(o)->meet(part)) {
-                next = true;
-                node = o;
-                downcast<Node*>(o)->set_value(part);
-                break;
-            }
-        }
-        if (!next) {
-            return 0;
-        }
-    }
-    return node == this ? 0 : downcast<Node*>(node);
-}
-
-void Parser::open(const std::string& path) {
-    Node* node = parse(path);
-    if (node) {
-        node->open();
-    }
-}
-
 Node::Node(WObject* parent):
     WObject(parent)
 { }
@@ -170,6 +134,42 @@ std::string StringNode::get_full_path(const std::string& v) {
 
 WLink StringNode::get_link(const std::string& v) {
     return WLink(WLink::InternalPath, get_full_path(v));
+}
+
+Parser::Parser(WObject* parent):
+    WObject(parent)
+{ }
+
+Node* Parser::parse(const std::string& path) {
+    using namespace boost::algorithm;
+    std::vector<std::string> parts;
+    split(parts, path, is_any_of("/"), token_compress_on);
+    WObject* node = this;
+    BOOST_FOREACH (const std::string& part, parts) {
+        if (part.empty()) {
+            continue;
+        }
+        bool next = false;
+        BOOST_FOREACH (WObject* o, node->children()) {
+            if (isinstance<Node>(o) && downcast<Node*>(o)->meet(part)) {
+                next = true;
+                node = o;
+                downcast<Node*>(o)->set_value(part);
+                break;
+            }
+        }
+        if (!next) {
+            return 0;
+        }
+    }
+    return node == this ? 0 : downcast<Node*>(node);
+}
+
+void Parser::open(const std::string& path) {
+    Node* node = parse(path);
+    if (node) {
+        node->open();
+    }
 }
 
 }
