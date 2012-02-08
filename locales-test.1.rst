@@ -3,7 +3,7 @@
 ==============
 
 ----------------------------------------------
-checks xml-based localizations used by Wt apps
+checks XML-based localizations used by Wt apps
 ----------------------------------------------
 
 :Author:         Boris Nagaev <bnagaev@gmail.com>
@@ -32,12 +32,12 @@ Options
 Description
 -----------
 The **locales-test** command provides a tool
-to check xml-based localizations of Wt apps.
+to check XML-based localizations of Wt apps.
 
-Wt applications use xml-based localization files.
+Wt applications use XML-based localization files.
 These files consist of **messages**.
-A message consists of **message identifier** and **mesage translation**.
-Each locale is represented with one xml file (**localization**).
+A message consists of **message identifier** and **message translation**.
+Each locale is represented with one XML file (**localization**).
 Message identifiers are the same in all the localizations,
 while message translations are different.
 For more information about localization of Wt applications,
@@ -47,7 +47,7 @@ Wt does not require much from message identifiers and message order.
 To reduce to a system, this tool makes demands:
 
  * message identifier should be like ``prefix.SECTION.ID``
-   (prefix and setion list are provided as command line options)
+   (prefix and section list are provided as command line options)
  * first letter of message identifier should be of the same case,
    as message translation
  * words inside message identifier should be separated with "_",
@@ -61,7 +61,7 @@ To reduce to a system, this tool makes demands:
  * no tabs are allowed
  * Wt itself translations are in the beginning and need not be sorted
 
-If **--wt** option is provided, this file is used to check traslations
+If **--wt** option is provided, this file is used to check translations
 of Wt messages itself (e.g. "Wt.WDatePicker.Close").
 
 To use message translations in Wt app, **Wt::WString::tr()** function is used.
