@@ -13,6 +13,7 @@
 #include <boost/lexical_cast.hpp>
 
 #include <Wt/WGlobal>
+#include <Wt/WDateTime>
 
 namespace Wt {
 
@@ -84,6 +85,9 @@ On error, \p def value is returned.
 \ingroup util
 */
 std::string config_value(const std::string& name, const std::string& def = "");
+
+/** Current datetime */
+WDateTime now();
 
 }
 

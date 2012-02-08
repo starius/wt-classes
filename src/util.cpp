@@ -53,6 +53,10 @@ std::string config_value(const std::string& name, const std::string& def) {
     return value;
 }
 
+WDateTime now() {
+    return WDateTime::currentDateTime();
+}
+
 }
 
 }

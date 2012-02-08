@@ -691,7 +691,7 @@ TaskCountup::TaskCountup(AbstractTask* task, WContainerWidget* parent):
 void TaskCountup::changed_handler() {
     if (waiting_state(task_->state()) && !waiting_state(prev_state_)) {
         resume();
-        set_since(td::now());
+        set_since(now());
         show();
     } else if (!waiting_state(task_->state()) && waiting_state(prev_state_)) {
         pause();

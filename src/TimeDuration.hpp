@@ -107,9 +107,6 @@ WDateTime& operator -=(WDateTime& a, const TimeDuration& b);
 /** Multiply the datetime */
 TimeDuration operator *(const double& b, const TimeDuration& a);
 
-/** Current datetime */
-WDateTime now();
-
 /** Return random time duration from open interval [min, max).
 
 \ingroup util

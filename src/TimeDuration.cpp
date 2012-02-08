@@ -92,10 +92,6 @@ TimeDuration operator *(const double& b, const TimeDuration& a) {
     return a * b;
 }
 
-WDateTime now() {
-    return WDateTime::currentDateTime();
-}
-
 TimeDuration rand_range(const TimeDuration& start, const TimeDuration& stop) {
     unsigned int start_int = start.total_milliseconds();
     unsigned int stop_int = stop.total_milliseconds();
