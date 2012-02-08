@@ -37,6 +37,21 @@ public:
 
     /** Constructor */
     TimeDuration(const boost::posix_time::time_duration& duration);
+
+    /** Convert to string */
+    operator std::string() const;
+
+    /** Divide the time duration */
+    TimeDuration operator /(const double& b) const;
+
+    /** Multiply the time duration */
+    TimeDuration operator *(const double& b) const;
+
+    /** Divide the datetime */
+    double operator /(const TimeDuration& b) const;
+
+    /** Get the total number of minutes */
+    long total_minutes() const;
 };
 
 /** Null time duration.
@@ -59,9 +74,6 @@ const TimeDuration DAY = HOUR * 24;
 /** One week */
 const TimeDuration WEEK = DAY * 7;
 
-/** Convert time duration to string */
-std::string td2str(const TimeDuration& td);
-
 /** Return time duration between two datetimes */
 TimeDuration operator -(const WDateTime& a, const WDateTime& b);
 
@@ -77,23 +89,11 @@ WDateTime& operator +=(WDateTime& a, const TimeDuration& b);
 /** Decrease the datetime by the time duration */
 WDateTime& operator -=(WDateTime& a, const TimeDuration& b);
 
-/** Divide the datetime */
-TimeDuration operator /(const TimeDuration& a, const double& b);
-
-/** Multiply the datetime */
-TimeDuration operator *(const TimeDuration& a, const double& b);
-
 /** Multiply the datetime */
 TimeDuration operator *(const double& b, const TimeDuration& a);
 
-/** Divide the datetime */
-double operator /(const TimeDuration& a, const TimeDuration& b);
-
 /** Current datetime */
 WDateTime now();
-
-/** Get the total number of minutes */
-long total_minutes(const TimeDuration& t);
 
 /** Return random time duration from open interval [min, max).
 

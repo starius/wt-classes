@@ -27,8 +27,24 @@ TimeDuration::TimeDuration(const ptime::time_duration& duration):
     ptime::time_duration(duration)
 { }
 
-std::string td2str(const TimeDuration& td) {
-    return ptime::to_simple_string(ptime::seconds(td.total_seconds()));
+TimeDuration::operator std::string() const {
+    return ptime::to_simple_string(ptime::seconds(total_seconds()));
+}
+
+TimeDuration TimeDuration::operator /(const double& b) const {
+    return ptime::milliseconds(double(total_milliseconds()) /  b);
+}
+
+TimeDuration TimeDuration::operator *(const double& b) const {
+    return ptime::milliseconds(double(total_milliseconds()) *  b);
+}
+
+double TimeDuration::operator /(const TimeDuration& b) const {
+    return double(total_milliseconds()) / double(b.total_milliseconds());
+}
+
+long TimeDuration::total_minutes() const {
+    return total_seconds() / 60;
 }
 
 TimeDuration operator -(const WDateTime& a, const WDateTime& b) {
@@ -52,28 +68,12 @@ WDateTime& operator -=(WDateTime& a, const TimeDuration& b) {
     return a = a - b;
 }
 
-TimeDuration operator /(const TimeDuration& a, const double& b) {
-    return ptime::milliseconds(double(a.total_milliseconds()) /  b);
-}
-
-TimeDuration operator *(const TimeDuration& a, const double& b) {
-    return ptime::milliseconds(double(a.total_milliseconds()) *  b);
-}
-
 TimeDuration operator *(const double& b, const TimeDuration& a) {
     return a * b;
 }
 
-double operator /(const TimeDuration& a, const TimeDuration& b) {
-    return double(a.total_milliseconds()) / double(b.total_milliseconds());
-}
-
 WDateTime now() {
     return WDateTime::currentDateTime();
-}
-
-long total_minutes(const TimeDuration& t) {
-    return t.total_seconds() / 60;
 }
 
 TimeDuration rand_range(const TimeDuration& start, const TimeDuration& stop) {
