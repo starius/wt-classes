@@ -26,7 +26,7 @@ Classes and typedef simplifying time management.
 */
 namespace td {
 
-/** Time duartion */
+/** Time duration */
 typedef boost::posix_time::time_duration TimeDuration;
 
 /** Null time duration.
