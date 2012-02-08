@@ -25,7 +25,7 @@ def locales_test(wt, prefix, sections):
                 wt_ids.add(message.get('id'))
         except:
             print 'Error: provide correct wt.xml file through --wt option'
-            quit()
+            return
 
     filename2ids = {}
     id2text = {}
