@@ -65,6 +65,10 @@ class PlanningServer;
 
 }
 
+namespace td {
+class TimeDuration;
+}
+
 }
 
 }

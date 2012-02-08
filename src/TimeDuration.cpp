@@ -18,6 +18,15 @@ namespace td {
 
 namespace ptime = boost::posix_time;
 
+TimeDuration::TimeDuration():
+    ptime::time_duration(/* hours */ 0, /* minutes */ 0, /* seconds */ 0,
+                                 /* fractional_seconds */ 0)
+{ }
+
+TimeDuration::TimeDuration(const ptime::time_duration& duration):
+    ptime::time_duration(duration)
+{ }
+
 std::string td2str(const TimeDuration& td) {
     return ptime::to_simple_string(ptime::seconds(td.total_seconds()));
 }
@@ -27,7 +36,8 @@ TimeDuration operator -(const WDateTime& a, const WDateTime& b) {
 }
 
 WDateTime operator +(const WDateTime& a, const TimeDuration& b) {
-    return WDateTime::fromPosixTime(a.toPosixTime() + b);
+    return WDateTime::fromPosixTime(a.toPosixTime() +
+                                    static_cast<const TimeDuration::Base&>(b));
 }
 
 WDateTime operator -(const WDateTime& a, const TimeDuration& b) {
