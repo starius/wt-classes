@@ -70,7 +70,7 @@ public:
         Countdown* paused_countdown = new Countdown(root());
         paused_countdown->pause(); // before set_until()
         paused_countdown->set_until(SECOND);
-        new WText(" and already paused countup ", root());
+        new WText(" and already paused count-up ", root());
         Countdown* paused_countup = new Countdown(root());
         paused_countup->set_since(-SECOND);
         paused_countup->pause(); // after set_since()

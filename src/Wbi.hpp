@@ -155,7 +155,7 @@ public:
         return error_message_;
     }
 
-    /** Return the state of the agrument.
+    /** Return the state of the argument.
     By default return AbstractInput::VALID.
 
     When reimplementing this method, use set_error_message() is the returned
@@ -515,7 +515,7 @@ public:
     */
     virtual ~FileOutput();
 
-    /** Get temponary file name */
+    /** Get temporary file name */
     const std::string& temp_file() const;
 
     /** Get mime-type for a downloaded file */
@@ -561,7 +561,7 @@ private:
 
 /** Output file argument.
 This argument allows the user to download and view the file.
-File is openned in a new tab of a web-browser.
+File is opened in a new tab of a web-browser.
 
 \ingroup wbi
 */
@@ -611,7 +611,7 @@ public:
     /** Constructor */
     AbstractTask(WContainerWidget* p = 0);
 
-    /** Add input agrument to the program.
+    /** Add input argument to the program.
     Argument is added to the vector of arguments which is used by visit_args().
 
     This method calls add_input_impl().
@@ -619,7 +619,7 @@ public:
     void add_input(AbstractInput* input, const WString& name,
                    const WString& description = "");
 
-    /** Add output agrument to the program.
+    /** Add output argument to the program.
     Argument is added to the vector of arguments which is used by visit_args().
 
     This method calls add_output_impl().
@@ -849,7 +849,7 @@ private:
 
 Currently it is implemented using system() function.
 Uses kill command and $$ shell expression.
-To create temponary pid file, unique_name() is used.
+To create temporary pid file, unique_name() is used.
 It seems to work only under UNIX.
 
 \ingroup wbi
@@ -934,7 +934,7 @@ protected:
     virtual void add_impl(AbstractTask* task) = 0;
 
     /** Implementation of remove().
-    This method is called when the task is finished or cancelled.
+    This method is called when the task is finished or canceled.
     The task may be in queue or running.
     */
     virtual void remove_impl(AbstractTask* task) = 0;
@@ -979,7 +979,7 @@ private:
     void try_to_run();
 };
 
-/** A countup, displaying the time, spent by the task.
+/** A count-up, displaying the time, spent by the task.
 
 \ingroup wbi
 \ingroup time

@@ -52,7 +52,7 @@ There are several types of node:
 
 IntegerNode and StringNode are mutable.
 Their value (integer or string) can be changed.
-This occurs while \ref Parser::open() "url openning".
+This occurs while \ref Parser::open() "url opening".
 Parser sets values of all nodes, involved into internal path parsed.
 You can get the value using StringNode::string() or IntegerNode::integer(),
 or general method Node::value().
@@ -69,7 +69,7 @@ It is beyond this documentation, how to write this function.
 When you need the internal path, use Node::link() method.
 There are methods get_link() in IntegerNode and StringNode, setting
 the value and returning the link at once.
-You can simulate the openning of an internal path,
+You can simulate the opening of an internal path,
 using Node::open() method.
 
 <h3>parser</h3>
@@ -294,7 +294,7 @@ public:
     */
     Node* parse(const std::string& path);
 
-    /** Parse the internal path and open correcponding path node */
+    /** Parse the internal path and open corresponding path node */
     void open(const std::string& path);
 };
 

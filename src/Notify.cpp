@@ -21,11 +21,11 @@ Event::operator Event::Key() const {
 Widget::Widget(const Event::Key& key, Server* server, const std::string& a):
     key_(key), server_(server),
     app_id_(a.empty() ? wApp->sessionId() : a) {
-    server_->start_listenning(this, app_id_);
+    server_->start_listening(this, app_id_);
 }
 
 Widget::~Widget() {
-    server_->stop_listenning(this, app_id_);
+    server_->stop_listening(this, app_id_);
 }
 
 Server::Server(WServer* server):
@@ -48,12 +48,12 @@ void Server::emit(Event* event) {
     emit(EventPtr(event));
 }
 
-void Server::start_listenning(Widget* widget, const std::string& app_id) {
+void Server::start_listening(Widget* widget, const std::string& app_id) {
     boost::mutex::scoped_lock lock(mutex_);
     o2w_[widget->key()][app_id].push_back(widget);
 }
 
-void Server::stop_listenning(Widget* widget, const std::string& app_id) {
+void Server::stop_listening(Widget* widget, const std::string& app_id) {
     boost::mutex::scoped_lock lock(mutex_);
     Widgets& widgets = o2w_[widget->key()][app_id];
     widgets.erase(std::find(widgets.begin(), widgets.end(), widget));

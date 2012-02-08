@@ -20,7 +20,7 @@ namespace Wt {
 
 namespace Wc {
 
-/** A countdown (or countup) to a given time.
+/** A countdown (or count-up) to a given time.
 The widget is implemented as a div,
 displayed inline (see setInline(true)).
 
@@ -35,7 +35,7 @@ By default, the widget counts up from now.
 
 \note Creating already paused or lap countdown,
     be sure to pause() or lap() it before set_until().
-    Creating already paused or lap countup,
+    Creating already paused or lap count-up,
     be sure to pause() or lap() it after set_since()
     (if any; remember, that the constructor does set_since())
     Otherwise it can have time to tick one time.
@@ -93,9 +93,9 @@ public:
     void set_time_separator(const std::string& time_separator = ":");
 
     /** Low-level method to change settings of jquery countdown.
-    \param name Name of the setting. Is always stringified by the method.
+    \param name Name of the setting. It is always stringified.
     \param value Value of the setting.
-    \param stringify_value If the value should be stringified by the method.
+    \param stringify_value If the value should be stringified.
     For HTML-version, does nothing.
     */
     void change(const std::string& name, const std::string& value,
@@ -120,13 +120,13 @@ public:
     void resume(const td::TimeDuration& duration);
 
     /** JavaScript signal, emitted when the countdown expires.
-    This JavaScript signal collects javascript specified for connected slots
+    This JavaScript signal collects JavaScript specified for connected slots
     or learned by stateless slot learning.
 
     \see "alwaysExpire" parameter of jquery.countdown
 
     \note This works only in JavaScript version.
-        Since this relies on javascript, there are no guarantees
+        Since this relies on JavaScript, there are no guarantees
         of correctness and accuracy of this signal.
     */
     JSignal<>& expired();

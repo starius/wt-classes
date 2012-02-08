@@ -19,7 +19,7 @@ namespace Wc {
 
 /** A widget storing persistent data, using the Flash Player.
 This class uses YUI: SWFStore.
-By default, javascript files are downloaded from yui.yahooapis.com.
+By default, JavaScript files are downloaded from yui.yahooapis.com.
 
 It is not a visual component, and does not generally require a visible SWF.
 
@@ -71,7 +71,7 @@ public:
     /** Fetches the data by a key.
     \param key The key.
     \param def The default value returned if there is no such key.
-    Since this requires a javascript call,
+    Since this requires a JavaScript call,
     the result can't be returned immediately.
 
     Instead, value() is emitted with the key and the value.

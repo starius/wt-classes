@@ -58,7 +58,7 @@ public:
     task is finished and notification server is emitted with current event.
     Using immediately = false makes sense only from Task::process().
     This can be useful if new added task depends on
-    uncommited results of current task.
+    uncommitted results of current task.
     */
     bool add(TaskPtr task, const WDateTime& when, bool immediately = true);
 

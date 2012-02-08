@@ -25,7 +25,7 @@ class TimeDurationWidgetImpl;
 */
 class TimeDurationWidget : public WCompositeWidget {
 public:
-    /** Time duration (convience typedef) */
+    /** Time duration (convenience typedef) */
     typedef td::TimeDuration TimeDuration;
 
     /** Constructor.

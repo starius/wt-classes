@@ -21,7 +21,7 @@ namespace Wc {
 /** \defgroup gather Gathering tools
 A set of tools to gather information of user's computer/browser/ip.
 
-This may ne usefull for fighting against virtuals or
+This may be useful for fighting against virtuals or
 prevention of counter cheating.
 
 \attention In some countries you should notify a user about using
@@ -75,7 +75,7 @@ public:
     /** Max allowed length of data value */
     const static unsigned int MAX_SIZE = 240;
 
-    /** Mim significant sum of \ref significance() "significances" */
+    /** Min significant sum of \ref significance() "significances" */
     const static int MIN_SIGNIFICANT = 100;
 
     /** Function to be applied to each peace of information discovered */

@@ -35,7 +35,7 @@ When event is thrown, the only widgets with this key are notified.
 
 Create instance of class Server and bind it to WServer.
 Inherit widgets from class Widget and implement notify() method.
-Use Server::emit() method to notify all widgets, listenning
+Use Server::emit() method to notify all widgets, listening
 to this event.
 
 To execute some actions scheduling, use PlanningServer class.
@@ -132,9 +132,9 @@ private:
     boost::mutex mutex_;
     WServer* server_;
 
-    void start_listenning(Widget* widget, const std::string& app_id);
+    void start_listening(Widget* widget, const std::string& app_id);
 
-    void stop_listenning(Widget* widget, const std::string& app_id);
+    void stop_listening(Widget* widget, const std::string& app_id);
 
     void notify_widgets(EventPtr event);
 
