@@ -41,11 +41,26 @@ public:
     /** Convert to string */
     operator std::string() const;
 
+    /** Addition operator */
+    TimeDuration operator +(const TimeDuration& b) const;
+
+    /** Subtraction operator */
+    TimeDuration operator -(const TimeDuration& b) const;
+
+    /** Unary minus operator */
+    TimeDuration operator -() const;
+
     /** Divide the time duration */
     TimeDuration operator /(const double& b) const;
 
+    /** Divide the time duration */
+    TimeDuration operator /(int b) const;
+
     /** Multiply the time duration */
     TimeDuration operator *(const double& b) const;
+
+    /** Multiply the time duration */
+    TimeDuration operator *(int b) const;
 
     /** Divide the datetime */
     double operator /(const TimeDuration& b) const;

@@ -31,12 +31,32 @@ TimeDuration::operator std::string() const {
     return ptime::to_simple_string(ptime::seconds(total_seconds()));
 }
 
+TimeDuration TimeDuration::operator +(const TimeDuration& b) const {
+    return static_cast<const Base&>(*this) + static_cast<const Base&>(b);
+}
+
+TimeDuration TimeDuration::operator -(const TimeDuration& b) const {
+    return static_cast<const Base&>(*this) - static_cast<const Base&>(b);
+}
+
+TimeDuration TimeDuration::operator -() const {
+    return TimeDuration() - *this;
+}
+
 TimeDuration TimeDuration::operator /(const double& b) const {
     return ptime::milliseconds(double(total_milliseconds()) /  b);
 }
 
+TimeDuration TimeDuration::operator /(int b) const {
+    return static_cast<const Base&>(*this) / b;
+}
+
 TimeDuration TimeDuration::operator *(const double& b) const {
     return ptime::milliseconds(double(total_milliseconds()) *  b);
+}
+
+TimeDuration TimeDuration::operator *(int b) const {
+    return static_cast<const Base&>(*this) * b;
 }
 
 double TimeDuration::operator /(const TimeDuration& b) const {
