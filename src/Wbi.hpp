@@ -30,6 +30,90 @@ namespace Wc {
 Classes to simplify creation of a WebUI for programs
 running from command line.
 
+This module is the layer between Wt user interface widgets
+and command line options of a program.
+
+<h3>task</h3>
+
+The central class of this module is \ref AbstractTask "a task".
+It is connected with:
+ - \ref AbstractArgument "arguments",
+ - \ref AbstractRunner "runner of the task",
+ - \ref AbstractQueue "task queue",
+ - \ref TaskCountup "time count-up".
+
+In UI, the task is represented as a complex widget,
+all arguments are parented into the task.
+
+At any moment, the task (and the runner) is in some \ref RunState "state".
+Changes of task state are followed by \ref AbstractTask::changed "the signal".
+
+<h3>arguments</h3>
+
+Each \ref AbstractArgument "argument" represents
+an argument of a command, as well as widgets, needed
+to input the information from user or to show it to him.
+
+Base class of an argument is WCompositeWidget.
+
+While creating of the command to be executed, all the arguments are asked
+\ref AbstractArgument::add_args "to be added" to the command line.
+Most of arguments are paired (e.g., "-o", "main.o").
+Normally, the name of an option (e.g., "-o") is passed to the constructor
+of the argument.
+
+Arguments are divided into two groups:
+\ref AbstractInput "input arguments" and
+\ref AbstractOutput "output arguments".
+
+Input arguments are divided into
+\ref AbstractInput::is_required "required and optional".
+An optional input can be left \ref AbstractInput::EMPTY "empty"
+(or with its default value).
+In case of an error, input should set appropriate
+\ref AbstractInput::error_message "error message"
+to be shown by the task to the user.
+Use AbstractTask::add_input() to add input argument to the task.
+
+\ref AbstractOutput "Output argument" represents the information,
+returned by the program.
+Some outputs can be checked or unchecked, so only needed part of the output
+is produced.
+Use AbstractTask::add_output() to add output argument to the task.
+
+<h3>runner</h3>
+
+\ref AbstractRunner "A runner" is a class, dealing with actual executing.
+It takes the task and add all its arguments to the command line.
+Use AbstractTask::set_runner() to set the runner to the task.
+
+Currently, there is only one implementation of a runner: ForkingRunner.
+It calls a program using system() function.
+Program name is passed to the constructor of ForkingRunner.
+Maybe in the future other runner types would be implemented,
+for example, a runner, passing command line directly to Python interpreter.
+
+<h3>task queue (optional)</h3>
+
+\ref AbstractQueue "Task queue" can be used to control the launch of a program.
+A queue can hold over the task is state prior to the runner calling.
+Use AbstractTask::set_queue() to let the queue control the task.
+
+There is one queue implemented: TaskNumberQueue.
+It controls the number of tasks running, putting extra tasks to the queue.
+
+<h3>count-up (optional)</h3>
+
+TaskCountup is a widget, showing the time from task start.
+It is not located inside task widget, it is up to you where to put it.
+Just pass the task to TaskCountup constructor.
+
+<h3>example</h3>
+
+The code below creates Web UI for \c xxd.
+The command is like "xxd < in > out".
+\c sleep command was added to simulate time consuming task.
+
 \include examples/xxd-wt.cpp.ex
 */
 
