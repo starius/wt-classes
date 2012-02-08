@@ -14,7 +14,7 @@
 #include <Wt/WString>
 #include <Wt/WDateTime>
 
-#include "TimeDuration.hpp"
+#include "global.hpp"
 
 namespace Wt {
 

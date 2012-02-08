@@ -11,6 +11,7 @@
 #include <Wt/WDate>
 #include <Wt/WPushButton>
 #include <Wt/Wc/Countdown.hpp>
+#include <Wt/Wc/TimeDuration.hpp>
 
 using namespace Wt;
 using namespace Wt::Wc;

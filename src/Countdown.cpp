@@ -16,6 +16,7 @@
 #include <Wt/WText>
 
 #include "Countdown.hpp"
+#include "TimeDuration.hpp"
 #include "util.hpp"
 
 namespace Wt {
