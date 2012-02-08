@@ -77,7 +77,7 @@ def locales_test(wt, prefix, sections):
                     prefix_copy, section, id = Id.split('.')
                 except:
                     print filename, Id, \
-                            "Error: can't match to %ssection.id" % prefix
+                            "Error: can't match to %s.section.id" % prefix
                 message.section = section
                 if section not in sections:
                     print filename, Id, 'Error: unknown section "%s"' % section
