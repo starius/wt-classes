@@ -33,7 +33,8 @@ public:
         users_->opened().connect(this, &App::show_users);
         user_profile_->opened().connect(this, &App::show_user_profile);
         //
-        WAnchor* main = new WAnchor(parser_->link(), root());
+        WAnchor* main = new WAnchor(root());
+        main->setLink(parser_->link());
         main->setText("Main page");
         contents_ = new WContainerWidget(root());
         //
@@ -43,10 +44,12 @@ public:
 
     void show_main() {
         contents_->clear();
-        WAnchor* about = new WAnchor(about_->link(), contents_);
+        WAnchor* about = new WAnchor(contents_);
+        about->setLink(about_->link());
         about->setText(about_->full_path());
         new WBreak(contents_);
-        WAnchor* users = new WAnchor(users_->link(), contents_);
+        WAnchor* users = new WAnchor(contents_);
+        users->setLink(users_->link());
         users->setText(users_->full_path());
     }
 
@@ -56,7 +59,8 @@ public:
         for (int i = 0; i < 10; ++i) {
             new WBreak(contents_);
             std::string id = Wt::WRandom::generateId();
-            WAnchor* smth = new WAnchor(about_smth_->get_link(id), contents_);
+            WAnchor* smth = new WAnchor(contents_);
+            smth->setLink(about_smth_->get_link(id));
             smth->setText(about_smth_->get_full_path(id));
         }
     }
@@ -73,7 +77,8 @@ public:
         for (int i = 0; i < 10; ++i) {
             new WBreak(contents_);
             int id = abs(Wt::WRandom::get());
-            WAnchor* user = new WAnchor(user_profile_->get_link(id), contents_);
+            WAnchor* user = new WAnchor(contents_);
+            user->setLink(user_profile_->get_link(id));
             user->setText(user_profile_->get_full_path(id));
         }
     }
