@@ -37,7 +37,7 @@ LFLAGS += -O3
 endif
 INSTALL = install
 INSTALL_PROGRAM = $(INSTALL)
-INSTALL_DATA = ${INSTALL} -m 644
+INSTALL_DATA = $(INSTALL) -m 644
 RST2MAN = rst2man
 
 sources = $(sort $(wildcard src/*.cpp) $(wildcard src/*/*.cpp))
