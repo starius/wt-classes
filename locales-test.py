@@ -14,6 +14,7 @@ import os
 import sys
 import re
 import argparse
+import glob
 
 ampersand = '-locales_test_ampersand'
 
@@ -51,19 +52,16 @@ def locales_test(wt, prefix, sections):
     filename2ids = {}
     id2text = {}
 
-    for filename in os.listdir('locales'):
-        if not filename.endswith('.xml'):
-            continue
+    for filename in glob.glob('locales/*.xml'):
         ids = filename2ids[filename] = set()
-        path = os.path.join('locales', filename)
-        xml_file = codecs.open(path, 'r', 'utf-8')
+        xml_file = codecs.open(filename, 'r', 'utf-8')
         if xml_file.read().count('\t'):
             e('no tabs are allowed', file=filename)
         xml_file.seek(0)
         for line_index, line in enumerate(xml_file):
             if len(line) > 120:
                 e('the line is too long', file=filename, line=line_index)
-        contents = open(path).read().replace('&', ampersand).replace('if:', '')
+        contents = open(filename).read().replace('&', ampersand).replace('if:', '')
         xml_file = StringIO(contents)
         messages = parse(xml_file).getroot()
         prev_message = None
