@@ -34,6 +34,8 @@ def get_wt_ids(wt_files, e):
     for wt_xml in wt_files:
         try:
             wt_messages = parse(wt_xml).getroot()
+            if wt_messages.get('id') != 'messages':
+                e('incorrent Wt XML file', file=wt_xml.name)
             for message in wt_messages:
                 wt_ids.add(message.get('id'))
         except:
