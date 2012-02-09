@@ -51,6 +51,8 @@ examples_binaries = $(examples_cpp:.cpp=.wt)
 exampleslibdir = $(libdir)/$(name)/examples
 examplesdocdir = $(docdir)/examples
 exampleslibreldir = $(call relpath,$(exampleslibdir),$(examplesdocdir))
+referencelink = $(docdir)/reference
+referencedir = $(datadir)/$(name)/reference
 
 css = $(wildcard css/*.css)
 js = $(sort $(wildcard js/*.js) js/jquery.countdown.js)
@@ -106,6 +108,7 @@ installdirs:
 	$(INSTALL) -d $(DESTDIR)$(mandir)/man1
 	$(INSTALL) -d $(DESTDIR)$(exampleslibdir)
 	$(INSTALL) -d $(DESTDIR)$(examplesdocdir)
+	$(INSTALL) -d $(DESTDIR)$(referencedir)
 
 .PHONY: install-buildless
 install-buildless: $(headers) locales-test.py $$(mans) \
@@ -132,8 +135,14 @@ install-examples: examples installdirs
 	ln -f -s $(addprefix $(exampleslibreldir)/,$(notdir $(examples_binaries))) \
 		$(DESTDIR)$(examplesdocdir)
 
+.PHONY: install-doc
+install-doc: doc
+	cp -r doc/* $(DESTDIR)$(referencedir)
+	ln -f -s $(call relpath,$(referencedir),$(dir $(referencelink))) \
+		$(DESTDIR)$(referencelink)
+
 .PHONY: install
-install: install-lib install-buildless install-examples
+install: install-lib install-buildless install-examples install-doc
 
 .PHONY: dist
 dist: $$(dist_files)
