@@ -43,6 +43,19 @@ def get_wt_ids(wt_files, e):
             e('incorrent Wt XML file', file=wt_xml.name)
     return wt_ids
 
+def get_messages(filename, e):
+    xml_file = codecs.open(filename, 'r', 'utf-8')
+    if xml_file.read().count('\t'):
+        e('no tabs are allowed', file=filename)
+    xml_file.seek(0)
+    for line_index, line in enumerate(xml_file):
+        if len(line) > 120:
+            e('the line is too long', file=filename, line=line_index)
+    contents = open(filename).read().replace('&', ampersand).replace('if:', '')
+    xml_file = StringIO(contents)
+    messages = parse(xml_file).getroot()
+    return messages
+
 def locales_test(wt, prefix, sections):
     def e(*args, **kwargs):
         error(sys.stderr, *args, **kwargs)
@@ -54,16 +67,7 @@ def locales_test(wt, prefix, sections):
 
     for filename in glob.glob('locales/*.xml'):
         ids = filename2ids[filename] = set()
-        xml_file = codecs.open(filename, 'r', 'utf-8')
-        if xml_file.read().count('\t'):
-            e('no tabs are allowed', file=filename)
-        xml_file.seek(0)
-        for line_index, line in enumerate(xml_file):
-            if len(line) > 120:
-                e('the line is too long', file=filename, line=line_index)
-        contents = open(filename).read().replace('&', ampersand).replace('if:', '')
-        xml_file = StringIO(contents)
-        messages = parse(xml_file).getroot()
+        messages = get_messages(filename, e)
         prev_message = None
         for message in messages:
             Id = message.get('id')
