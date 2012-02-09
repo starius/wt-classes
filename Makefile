@@ -130,8 +130,8 @@ install-lib: build-lib install-buildless installdirs
 
 .PHONY: install-examples
 install-examples: examples installdirs
-	$(INSTALL) $(examples_binaries) $(DESTDIR)$(exampleslibdir)
-	$(INSTALL) $(examples_cpp) $(DESTDIR)$(examplesdocdir)
+	$(INSTALL_PROGRAM) $(examples_binaries) $(DESTDIR)$(exampleslibdir)
+	$(INSTALL_DATA) $(examples_cpp) $(DESTDIR)$(examplesdocdir)
 	ln -f -s $(addprefix $(exampleslibreldir)/,$(notdir $(examples_binaries))) \
 		$(DESTDIR)$(examplesdocdir)
 
