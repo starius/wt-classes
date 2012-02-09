@@ -18,6 +18,7 @@ import glob
 from functools import partial
 
 ampersand = '-locales_test_ampersand'
+cleaner = re.compile(r'{.+}|<.+>|%s.{1,8};' % ampersand)
 
 def error(stream, message, type='error', file=None, line=None, id=None):
     if id:
@@ -139,7 +140,6 @@ def locales_test(wt, prefix, sections):
                 partial(e, file=filename))
 
     all_ids = reduce(lambda a,b:a|b, filename2ids.values(), set())
-    cleaner = re.compile(r'{.+}|<.+>|%s.{1,8};' % ampersand)
 
     for filename, ids in filename2ids.items():
         for Id in all_ids - ids:
