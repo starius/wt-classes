@@ -17,9 +17,9 @@
 using namespace Wt;
 using namespace Wt::Wc::url;
 
-class App : public WApplication {
+class UrlApp : public WApplication {
 public:
-    App(const WEnvironment& env):
+    UrlApp(const WEnvironment& env):
         WApplication(env) {
         parser_ = new Parser(this);
         about_ = new PredefinedNode("about", parser_);
@@ -27,11 +27,11 @@ public:
         users_ = new PredefinedNode("user", parser_);
         user_profile_ = new IntegerNode(users_);
         //
-        parser_->opened().connect(this, &App::show_main);
-        about_->opened().connect(this, &App::show_about);
-        about_smth_->opened().connect(this, &App::show_about_smth);
-        users_->opened().connect(this, &App::show_users);
-        user_profile_->opened().connect(this, &App::show_user_profile);
+        parser_->opened().connect(this, &UrlApp::show_main);
+        about_->opened().connect(this, &UrlApp::show_about);
+        about_smth_->opened().connect(this, &UrlApp::show_about_smth);
+        users_->opened().connect(this, &UrlApp::show_users);
+        user_profile_->opened().connect(this, &UrlApp::show_user_profile);
         //
         WAnchor* main = new WAnchor(root());
         main->setLink(parser_->link());
@@ -100,7 +100,7 @@ private:
 };
 
 WApplication* createApplication(const WEnvironment& env) {
-    return new App(env);
+    return new UrlApp(env);
 }
 
 int main(int argc, char** argv) {
