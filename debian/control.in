@@ -4,6 +4,7 @@ Maintainer: Boris Nagaev <bnagaev@gmail.com>
 Build-Depends: debhelper (>= 7.0.50~), libboost-filesystem-dev (>= 1.44),
  libwt-dev (>= 3.1.11), libwthttp-dev,
  python-docutils,
+ doxygen,
  python (>=2.7) | python-argparse
 Standards-Version: 3.8.4
 Section: libs
