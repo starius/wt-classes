@@ -123,6 +123,7 @@ def analyze_messages(messages, ids, id2text, wt_ids, prefix, sections, e):
     for m1, m2 in zip(short_messages, sorted(short_messages)):
         if m1 != m2:
             e('messages are unsorted, started from %s != %s' % (m1, m2))
+            break
 
 def locales_test(wt, prefix, sections):
     def e(*args, **kwargs):
