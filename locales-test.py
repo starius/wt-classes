@@ -29,19 +29,22 @@ def error(stream, message, type='error', file=None, line=None, id=None):
         stream.write(' ')
     stream.write(type + ': ' + message + "\n")
 
-def locales_test(wt, prefix, sections):
-    def e(*args, **kwargs):
-        error(sys.stderr, *args, **kwargs)
-
+def get_wt_ids(wt_files, e):
     wt_ids = set()
-    for wt_xml in (wt or []):
+    for wt_xml in wt_files:
         try:
             wt_messages = parse(wt_xml).getroot()
             for message in wt_messages:
                 wt_ids.add(message.get('id'))
         except:
             e('provide correct wt.xml file through --wt option')
-            return
+    return wt_ids
+
+def locales_test(wt, prefix, sections):
+    def e(*args, **kwargs):
+        error(sys.stderr, *args, **kwargs)
+
+    wt_ids = get_wt_ids(wt or [], e)
 
     filename2ids = {}
     id2text = {}
