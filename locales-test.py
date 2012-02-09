@@ -107,6 +107,22 @@ def analyze_message(message, prev_message, ids, wt_ids, prefix, sections, e):
                     e('multiline messages %s and %s are unordered' %
                             (prev_message.get('id'), Id))
 
+def analyze_messages(messages, ids, id2text, wt_ids, prefix, sections, e):
+    prev_message = None
+    for message in messages:
+        Id = message.get('id')
+        text = message.text
+        id2text[Id] = text
+        analyze_message(message, prev_message, ids, wt_ids, prefix,
+                sections, partial(e, id=Id))
+        prev_message = message
+    short_messages = [m.get('id').lower() for m in messages
+        if m.text and '\n' not in m.text and
+            m.get('id').startswith(prefix)]
+    for m1, m2 in zip(short_messages, sorted(short_messages)):
+        if m1 != m2:
+            e('messages are unsorted, started from %s != %s' % (m1, m2))
+
 def locales_test(wt, prefix, sections):
     def e(*args, **kwargs):
         error(sys.stderr, *args, **kwargs)
@@ -119,22 +135,8 @@ def locales_test(wt, prefix, sections):
     for filename in glob.glob('locales/*.xml'):
         ids = filename2ids[filename] = set()
         messages = get_messages(filename, e)
-        prev_message = None
-        for message in messages:
-            Id = message.get('id')
-            text = message.text
-            id2text[Id] = text
-            analyze_message(message, prev_message, ids, wt_ids, prefix,
-                    sections, partial(e, file=filename, id=Id))
-            prev_message = message
-
-        short_messages = [m.get('id').lower() for m in messages
-            if m.text and '\n' not in m.text and
-                m.get('id').startswith(prefix)]
-        for m1, m2 in zip(short_messages, sorted(short_messages)):
-            if m1 != m2:
-                e('messages are unsorted, started from %s != %s' % (m1, m2),
-                        file=filename)
+        analyze_messages(messages, ids, id2text, wt_ids, prefix, sections,
+                partial(e, file=filename))
 
     all_ids = reduce(lambda a,b:a|b, filename2ids.values(), set())
     cleaner = re.compile(r'{.+}|<.+>|%s.{1,8};' % ampersand)
