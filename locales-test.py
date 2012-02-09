@@ -39,7 +39,7 @@ def get_wt_ids(wt_files, e):
             for message in wt_messages:
                 wt_ids.add(message.get('id'))
         except:
-            e('provide correct wt.xml file through --wt option')
+            e('incorrent Wt XML file', file=wt_xml.name)
     return wt_ids
 
 def locales_test(wt, prefix, sections):
