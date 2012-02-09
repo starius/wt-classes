@@ -42,6 +42,15 @@ Description: utility classes used by Wt applications [examples]
  The package contains examples of using wt-classes library:
  * xxd-wt: web interface for xxd program
 
+Package: libwtclasses-doc
+Section: doc
+Architecture: any
+Depends: ${misc:Depends}
+Recommends: doc-base
+Suggests: libwtclasses-dev
+Description: utility classes used by Wt applications [doc]
+ The package contains documentation.
+
 Package: wtclasses-progs
 Section: devel
 Architecture: any
