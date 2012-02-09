@@ -15,6 +15,7 @@ import sys
 import re
 import argparse
 import glob
+from functools import partial
 
 ampersand = '-locales_test_ampersand'
 
@@ -56,6 +57,56 @@ def get_messages(filename, e):
     messages = parse(xml_file).getroot()
     return messages
 
+def analyze_message(message, prev_message, ids, wt_ids, prefix, sections, e):
+    Id = message.get('id')
+    if not message.text:
+        message.text = ''
+    text = message.text
+    if message.tag != 'message':
+        e('wrong tag "%s"' % message.tag, file=filename, id=Id)
+    if text and '\n' not in text and (text[0] == ' ' or text[-1] == ' '):
+        e('message should not start or end with space')
+    if Id in ids:
+        e('duplicate message')
+    ids.add(Id)
+    if not Id.startswith('Wt.') and not Id.startswith(prefix):
+        e('message id should start with Wt. or %s' % prefix)
+    if Id.startswith('Wt.'):
+        if Id not in wt_ids:
+            if wt_ids:
+                e('unknown Wt message (old wt.xml?)')
+            else:
+                e('unknown Wt message (provide --wt option)')
+    else:
+        try:
+            prefix_copy, section, id = Id.split('.')
+        except:
+            e("can't match to %s.section.id" % prefix)
+        message.section = section
+        if section not in sections:
+            e('unknown section "%s"' % section)
+        if '-' in id:
+            e('id should not contain "-"')
+        if text and id[0].islower() != text[0].islower() and \
+                text[0].isalpha():
+            e('id should start with letter of same case as message')
+        if '${' in text and not id.endswith('_template'):
+            e('id of template message should end with "_template"')
+        if hasattr(prev_message, 'section'):
+            if prev_message.section != section and \
+                    '\n\n' not in prev_message.tail:
+                e('separate sections %s and %s with empty line' %
+                        (prev_message.section, section))
+            elif prev_message.section == section:
+                if '\n\n' in prev_message.tail:
+                    e('do not separate section %s' % section)
+                if '\n' in prev_message.text and '\n' not in message.text:
+                    e('non-multiline message after multiline messages')
+                if '\n' in prev_message.text and '\n' in message.text \
+                    and prev_message.get('id') > Id and not 'board' in Id:
+                    e('multiline messages %s and %s are unordered' %
+                            (prev_message.get('id'), Id))
+
 def locales_test(wt, prefix, sections):
     def e(*args, **kwargs):
         error(sys.stderr, *args, **kwargs)
@@ -71,66 +122,10 @@ def locales_test(wt, prefix, sections):
         prev_message = None
         for message in messages:
             Id = message.get('id')
-            if not message.text:
-                message.text = ''
             text = message.text
-            if message.tag != 'message':
-                e('wrong tag "%s"' % message.tag, file=filename, id=Id)
-            if text and '\n' not in text and (text[0] == ' ' or text[-1] == ' '):
-                e('message should not start or end with space',
-                        file=filename, id=Id)
-            if Id in ids:
-                e('duplicate message', file=filename, id=Id)
-            ids.add(Id)
             id2text[Id] = text
-            if not Id.startswith('Wt.') and not Id.startswith(prefix):
-                e('message id should start with Wt. or %s' % prefix,
-                        file=filename, id=Id)
-            if Id.startswith('Wt.'):
-                if Id not in wt_ids:
-                    if wt_ids:
-                        e('unknown Wt message (old wt.xml?)',
-                                file=filename, id=Id)
-                    else:
-                        e('unknown Wt message (provide --wt option)',
-                                file=filename, id=Id)
-            else:
-                try:
-                    prefix_copy, section, id = Id.split('.')
-                except:
-                    e("can't match to %s.section.id" % prefix,
-                            file=filename, id=Id)
-                message.section = section
-                if section not in sections:
-                    e('unknown section "%s"' % section, file=filename, id=Id)
-                if '-' in id:
-                    e('id should not contain "-"', file=filename, id=Id)
-                if text and id[0].islower() != text[0].islower() and \
-                        text[0].isalpha():
-                    e('id should start with letter of same case as message',
-                            file=filename, id=Id)
-                if '${' in text and not id.endswith('_template'):
-                    e('id of template message should end with "_template"',
-                            file=filename, id=Id)
-                if hasattr(prev_message, 'section'):
-                    if prev_message.section != section and \
-                            '\n\n' not in prev_message.tail:
-                        e('separate sections %s and %s with empty line' %
-                                (prev_message.section, section),
-                                file=filename, id=Id)
-                    elif prev_message.section == section:
-                        if '\n\n' in prev_message.tail:
-                            e('do not separate section %s' % section,
-                                    file=filename, id=Id)
-                        if '\n' in prev_message.text and '\n' not in message.text:
-                            e('non-multiline message after multiline messages',
-                                    file=filename, id=Id)
-                        if '\n' in prev_message.text and '\n' in message.text \
-                            and prev_message.get('id') > Id and not 'board' in Id:
-                            e('multiline messages %s and %s are unordered' %
-                                    (prev_message.get('id'), Id),
-                                    file=filename, id=Id)
-
+            analyze_message(message, prev_message, ids, wt_ids, prefix,
+                    sections, partial(e, file=filename, id=Id))
             prev_message = message
 
         short_messages = [m.get('id').lower() for m in messages
