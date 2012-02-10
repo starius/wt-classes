@@ -1,3 +1,12 @@
+2012-02-10:
+    * install doxygen-generated documentation through ``make install''
+
+2012-02-08:
+    * TimeDuration is a class, not a typedef
+
+2012-02-05:
+    * add TaskCountup
+
 2012-02-04:
     * add Countdown
 
