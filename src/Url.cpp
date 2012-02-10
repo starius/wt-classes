@@ -180,6 +180,8 @@ void Parser::open(const std::string& path) {
     Node* node = parse(path);
     if (node) {
         node->open();
+    } else {
+        error404().emit();
     }
 }
 

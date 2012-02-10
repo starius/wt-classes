@@ -296,6 +296,14 @@ public:
 
     /** Parse the internal path and open corresponding path node */
     void open(const std::string& path);
+
+    /** Signal emitted when wrong internal path is opened */
+    Signal<>& error404() {
+        return error404_;
+    }
+
+private:
+    Signal<> error404_;
 };
 
 }
