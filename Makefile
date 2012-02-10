@@ -46,8 +46,9 @@ objects = $(subst src/,$(BUILD)/,$(sources:.cpp=.o))
 
 includesubdir = /Wt/Wc
 
-examples_cpp = $(wildcard examples/*.cpp)
+examples_cpp = $(sort $(wildcard examples/*.cpp) examples/all.cpp)
 examples_binaries = $(examples_cpp:.cpp=.wt)
+examples_source = $(filter-out examples/all.cpp,$(examples_cpp))
 exampleslibdir = $(libdir)/$(name)/examples
 examplesdocdir = $(docdir)/examples
 exampleslibreldir = $(call relpath,$(exampleslibdir),$(examplesdocdir))
@@ -56,15 +57,16 @@ referencedir = $(datadir)/$(name)/reference
 
 css = $(wildcard css/*.css)
 js = $(sort $(wildcard js/*.js) js/jquery.countdown.js)
-pys = locales-test.py
+pys = locales-test.py examples/make-all.py
 locales = $(wildcard locales/wtclasses*.xml)
 project_files = Doxyfile.in *.inc LICENSE Makefile VERSION SONAME \
 	Changelog AUTHORS README NEWS INSTALL
 man_rests = locales-test.1.rst
 mans = $(man_rests:.rst=)
+templates = examples/all.cpp.in
 
 dist_files = $(sources) $(headers) $(project_files) $(css) $(js) $(locales) \
-	$(pys) $(examples_cpp) $(man_rests)
+	$(pys) $(examples_source) $(man_rests) $(templates)
 dist_dir = $(fullname)
 dist_tar = $(fullname).tar.gz
 
@@ -200,6 +202,10 @@ examples/swfstore.cpp.ex: examples/swfstore.cpp
 
 examples/gather.cpp.ex: examples/swfstore.cpp
 	egrep -iv 'bind|button|text|click|\<k\>' $< > $@
+
+examples/all.cpp: $$(examples_source) examples/all.cpp.in
+	sed '/int main/,/^}/d' $(examples_source) > $@
+	cat examples/all.cpp.in | python examples/make-all.py >> $@
 
 .SECONDARY: js/jquery.countdown.js
 js/jquery.countdown.js:

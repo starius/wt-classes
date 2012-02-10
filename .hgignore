@@ -14,6 +14,7 @@ doc-source
 usr
 examples/*.wt
 examples/*.ex
+examples/all.cpp
 locales-test.1
 Doxyfile
 

@@ -1,0 +1,43 @@
+/*
+ * wt-classes, utility classes used by Wt applications
+ * Copyright (C) 2011 Boris Nagaev
+ *
+ * See the LICENSE file for terms of use.
+ */
+
+class AllApp : public WApplication {
+public:
+    AllApp(const WEnvironment& env):
+        WApplication(env) {
+        %(anchors)s
+    }
+};
+
+WApplication* createAllApp(const WEnvironment& env) {
+    return new AllApp(env);
+}
+
+class AllServer : public WServer {
+public:
+    AllServer():
+        swfstore_("application/x-shockwave-flash", SWFSTORE_FILE) {
+        addResource(&swfstore_, "/swfstore.swf");
+        addResource(&storage_whitelist_, "/storage-whitelist.xml");
+        %(entrypoints)s
+        addEntryPoint(Wt::Application, createAllApp);
+    }
+
+private:
+    WFileResource swfstore_;
+    WFileResource storage_whitelist_; // 404 Not Found
+};
+
+int main(int argc, char** argv) {
+    AllServer server;
+    server.setServerConfiguration(argc, argv);
+    if (server.start()) {
+        Wt::WServer::waitForShutdown();
+        server.stop();
+    }
+}
+
