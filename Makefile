@@ -144,7 +144,13 @@ install-doc: doc
 		$(DESTDIR)$(referencelink)
 
 .PHONY: install
-install: install-lib install-buildless install-examples install-doc
+install: install-lib install-buildless
+ifeq (,$(INSTALL_NO_EXAMPLES))
+	$(MAKE) install-examples
+endif
+ifeq (,$(INSTALL_NO_DOC))
+	$(MAKE) install-doc
+endif
 
 .PHONY: dist
 dist: $$(dist_files)
