@@ -41,11 +41,11 @@ public:
     }
 };
 
-WApplication* createApplication(const WEnvironment& env) {
+WApplication* createXxdApp(const WEnvironment& env) {
     return new XxdApp(env);
 }
 
 int main(int argc, char** argv) {
-    return WRun(argc, argv, &createApplication);
+    return WRun(argc, argv, &createXxdApp);
 }
 

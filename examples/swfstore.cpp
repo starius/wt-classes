@@ -44,7 +44,7 @@ public:
     }
 };
 
-WApplication* createApplication(const WEnvironment& env) {
+WApplication* createSWFStoreApp(const WEnvironment& env) {
     return new SWFStoreApp(env);
 }
 
@@ -57,7 +57,7 @@ public:
         swfstore_("application/x-shockwave-flash", SWFSTORE_FILE) {
         addResource(&swfstore_, "/swfstore.swf");
         addResource(&storage_whitelist_, "/storage-whitelist.xml");
-        addEntryPoint(Wt::Application, createApplication);
+        addEntryPoint(Wt::Application, createSWFStoreApp);
     }
 
 private:

@@ -79,11 +79,11 @@ public:
     }
 };
 
-WApplication* createApplication(const WEnvironment& env) {
+WApplication* createCountdownApp(const WEnvironment& env) {
     return new CountdownApp(env);
 }
 
 int main(int argc, char** argv) {
-    return WRun(argc, argv, &createApplication);
+    return WRun(argc, argv, &createCountdownApp);
 }
 

@@ -99,11 +99,11 @@ private:
     IntegerNode* user_profile_;
 };
 
-WApplication* createApplication(const WEnvironment& env) {
+WApplication* createUrlApp(const WEnvironment& env) {
     return new UrlApp(env);
 }
 
 int main(int argc, char** argv) {
-    return WRun(argc, argv, &createApplication);
+    return WRun(argc, argv, &createUrlApp);
 }
 
