@@ -5,7 +5,30 @@ namespace Wc {
 
 /** \mainpage wt-classes
 
-\attention Add locales/wtclasses to WMessageResourceBundle.
+<h3>locales</h3>
+
+\note wt-classes does not load its l10n xml files by itself.
+This should be done from an application.
+
+The path to these files is like /usr/share/Wt/Wc/locales/wtclasses.xml.
+
+For wt-classes examples: be sure to <b>set approot to /usr/share/Wt/Wc/</b>.
+
+If you are developing an application, using wt-classes,
+it is up to you how to manage this situation.
+You can create a symlink to Wc/locales from your own locales/ directory.
+Do not copy or link wtclasses.xml file, since names of files for other languages
+would duffer from wtclasses.xml.
+
+<h3>resources</h3>
+
+All resources of wt-classes are located under resources/Wc/ directory.
+If you get Wt resources working, resources of wt-classes are likely
+to work too.
+
+For wt-classes examples: be sure to <b>set docroot to /usr/share/Wt/</b>.
+
+See special note about resources for SWFStore.
 
 */
 
