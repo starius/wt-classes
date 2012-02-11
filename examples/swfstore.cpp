@@ -53,8 +53,9 @@ const char* SWFSTORE_FILE = "/usr/share/javascript/yui/swfstore/swfstore.swf";
 
 class SWFStoreServer : public WServer {
 public:
-    SWFStoreServer():
+    SWFStoreServer(int argc, char** argv):
         swfstore_("application/x-shockwave-flash", SWFSTORE_FILE) {
+        setServerConfiguration(argc, argv);
         addResource(&swfstore_, "/swfstore.swf");
         addResource(&storage_whitelist_, "/storage-whitelist.xml");
         addEntryPoint(Wt::Application, createSWFStoreApp);
@@ -66,8 +67,7 @@ private:
 };
 
 int main(int argc, char** argv) {
-    SWFStoreServer server;
-    server.setServerConfiguration(argc, argv);
+    SWFStoreServer server(argc, argv);
     if (server.start()) {
         Wt::WServer::waitForShutdown();
         server.stop();

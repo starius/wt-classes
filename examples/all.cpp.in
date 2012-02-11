@@ -19,8 +19,9 @@ WApplication* createAllApp(const WEnvironment& env) {
 
 class AllServer : public WServer {
 public:
-    AllServer():
+    AllServer(int argc, char** argv):
         swfstore_("application/x-shockwave-flash", SWFSTORE_FILE) {
+        setServerConfiguration(argc, argv);
         addResource(&swfstore_, "/swfstore.swf");
         addResource(&storage_whitelist_, "/storage-whitelist.xml");
         %(entrypoints)s
@@ -33,8 +34,7 @@ private:
 };
 
 int main(int argc, char** argv) {
-    AllServer server;
-    server.setServerConfiguration(argc, argv);
+    AllServer server(argc, argv);
     if (server.start()) {
         Wt::WServer::waitForShutdown();
         server.stop();
