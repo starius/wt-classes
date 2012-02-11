@@ -1,3 +1,6 @@
+2012-02-11:
+    * version 1.2.0 released
+
 2012-02-10:
     * install doxygen-generated documentation through ``make install''
 
