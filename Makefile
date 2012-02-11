@@ -60,7 +60,7 @@ js = $(sort $(wildcard js/*.js) js/jquery.countdown.js)
 pys = locales-test.py examples/make-all.py
 locales = $(wildcard locales/wtclasses*.xml)
 project_files = Doxyfile.in *.inc LICENSE Makefile VERSION SONAME \
-	Changelog AUTHORS README NEWS INSTALL
+	Changelog AUTHORS README NEWS INSTALL main.doc
 man_rests = locales-test.1.rst
 mans = $(man_rests:.rst=)
 templates = examples/all.cpp.in
