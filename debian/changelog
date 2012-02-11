@@ -1,3 +1,16 @@
+libwtclasses (1.2.0-1) unstable; urgency=low
+
+  * new upstream (1.2.0)
+  * update package description with time-related, URL and Notify modules
+  * depends on Wt 3.2.0 (however, the script can be applied for 3.1.10)
+  * add YUI lib to recommendations
+  * copyright note about js/jquery.countdown.js
+  * add doxygen to build-deps
+  * add libwtclasses-doc package
+  * fix possible-unindented-list-in-extended-description
+
+ -- Boris Nagaev <bnagaev@gmail.com>  Sat, 11 Feb 2012 22:13:53 +0400
+
 libwtclasses (1.1.5-1) unstable; urgency=low
 
   * new upstream (1.1.5)
