@@ -184,52 +184,33 @@ TimeDuration Countdown::View::current_duration() const {
 }
 
 void Countdown::pause() {
-    pause(TD_NULL);
+    apply_js("'pause'");
+    pause_html(TD_NULL);
 }
 
 void Countdown::pause(const td::TimeDuration& duration) {
     apply_js("'pause'", duration);
-    if (view_) {
-        view_->paused_ = now() + duration;
-        view_->lapped_ = WDateTime();
-        view_->resumed_ = WDateTime();
-        update_view();
-    }
+    pause_html(duration);
 }
 
 void Countdown::lap() {
-    lap(TD_NULL);
+    apply_js("'lap'");
+    lap_html(TD_NULL);
 }
 
 void Countdown::lap(const td::TimeDuration& duration) {
     apply_js("'lap'", duration);
-    if (view_) {
-        view_->paused_ = WDateTime() + duration;
-        view_->lapped_ = now();
-        view_->resumed_ = WDateTime();
-        update_view();
-    }
+    lap_html(duration);
 }
 
 void Countdown::resume() {
-    resume(TD_NULL);
+    apply_js("'resume'");
+    resume_html(TD_NULL);
 }
 
 void Countdown::resume(const td::TimeDuration& duration) {
     apply_js("'resume'", duration);
-    if (view_) {
-        if (view_->paused_.isValid()) {
-            if (view_->since_.isValid()) {
-                view_->since_ += now() + duration - view_->paused_;
-            } else {
-                view_->until_ -= now() + duration - view_->paused_;
-            }
-        }
-        view_->paused_ = WDateTime();
-        view_->lapped_ = WDateTime();
-        view_->resumed_ = now() + duration;
-        update_view();
-    }
+    resume_html(duration);
 }
 
 JSignal<>& Countdown::expired() {
@@ -266,6 +247,40 @@ std::string Countdown::wrap_js(const std::string& args) const {
 void Countdown::update_view() {
     if (view_) {
         view_->update();
+    }
+}
+
+void Countdown::pause_html(const td::TimeDuration& duration) {
+    if (view_) {
+        view_->paused_ = now() + duration;
+        view_->lapped_ = WDateTime();
+        view_->resumed_ = WDateTime();
+        update_view();
+    }
+}
+
+void Countdown::lap_html(const td::TimeDuration& duration) {
+    if (view_) {
+        view_->paused_ = WDateTime() + duration;
+        view_->lapped_ = now();
+        view_->resumed_ = WDateTime();
+        update_view();
+    }
+}
+
+void Countdown::resume_html(const td::TimeDuration& duration) {
+    if (view_) {
+        if (view_->paused_.isValid()) {
+            if (view_->since_.isValid()) {
+                view_->since_ += now() + duration - view_->paused_;
+            } else {
+                view_->until_ -= now() + duration - view_->paused_;
+            }
+        }
+        view_->paused_ = WDateTime();
+        view_->lapped_ = WDateTime();
+        view_->resumed_ = now() + duration;
+        update_view();
     }
 }
 

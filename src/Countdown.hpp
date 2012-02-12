@@ -142,6 +142,9 @@ private:
     void apply_js(const std::string& args, const td::TimeDuration& duration);
     std::string wrap_js(const std::string& args) const;
     void update_view();
+    void pause_html(const td::TimeDuration& duration);
+    void lap_html(const td::TimeDuration& duration);
+    void resume_html(const td::TimeDuration& duration);
 };
 
 }
