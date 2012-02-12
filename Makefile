@@ -96,7 +96,7 @@ doc: locales-test.1 Doxyfile $$(doc_examples)
 	$(MAKE) install-buildless DESTDIR=./doc-source prefix=/usr
 	doxygen
 
-Doxyfile: Doxyfile.in
+Doxyfile: Doxyfile.in VERSION
 	sed 's@{PROJECT_NUMBER}@$(VERSION)@g' < $< > $@
 
 .PHONY: installdirs
