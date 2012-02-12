@@ -140,6 +140,7 @@ install-examples: examples installdirs
 .PHONY: install-doc
 install-doc: doc
 	cp -r doc/* $(DESTDIR)$(referencedir)
+	rm -f $(DESTDIR)$(referencelink)
 	ln -f -s $(call relpath,$(referencedir),$(dir $(referencelink))) \
 		$(DESTDIR)$(referencelink)
 
