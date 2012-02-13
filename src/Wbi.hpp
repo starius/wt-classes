@@ -5,8 +5,8 @@
  * See the LICENSE file for terms of use.
  */
 
-#ifndef WT_WBI_HPP_
-#define WT_WBI_HPP_
+#ifndef WC_WBI_HPP_
+#define WC_WBI_HPP_
 
 #include <string>
 #include <vector>

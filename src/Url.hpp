@@ -5,8 +5,8 @@
  * See the LICENSE file for terms of use.
  */
 
-#ifndef WT_URL_HPP_
-#define WT_URL_HPP_
+#ifndef WC_URL_HPP_
+#define WC_URL_HPP_
 
 #include <string>
 #include <ostream>

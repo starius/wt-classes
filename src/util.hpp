@@ -5,8 +5,8 @@
  * See the LICENSE file for terms of use.
  */
 
-#ifndef WT_UTIL_HPP_
-#define WT_UTIL_HPP_
+#ifndef WC_UTIL_HPP_
+#define WC_UTIL_HPP_
 
 #include <boost/cast.hpp>
 #include <boost/function.hpp>

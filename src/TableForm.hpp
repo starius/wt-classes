@@ -5,8 +5,8 @@
  * See the LICENSE file for terms of use.
  */
 
-#ifndef WT_TABLE_FORM_HPP_
-#define WT_TABLE_FORM_HPP_
+#ifndef WC_TABLE_FORM_HPP_
+#define WC_TABLE_FORM_HPP_
 
 #include <vector>
 #include <boost/function.hpp>
