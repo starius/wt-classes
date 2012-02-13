@@ -51,6 +51,30 @@ public:
     /** The key, entered by user */
     virtual std::string user_key() const = 0;
 
+    /** Get if keys are trimmed before compare */
+    bool is_compare_trimmed() const {
+        return is_compare_trimmed_;
+    }
+
+    /** Set if keys are trimmed before compare.
+    Defaults to true.
+    */
+    void set_compare_trimmed(bool compare_trimmed) {
+        is_compare_trimmed_ = compare_trimmed;
+    }
+
+    /** Get if keys are lowcased before compare */
+    bool is_compare_nocase() const {
+        return is_compare_nocase_;
+    }
+
+    /** Set if keys are lowcased before compare.
+    Defaults to true.
+    */
+    void set_compare_nocase(bool compare_nocase) {
+        is_compare_nocase_ = compare_nocase;
+    }
+
 protected:
     /** Update the widget with new secret key (implementation).
     This method should setImplementation(), or update existing one.
@@ -64,7 +88,11 @@ protected:
 
 private:
     std::string true_key_;
-    bool passed_;
+    bool passed_: 1;
+    bool is_compare_trimmed_: 1;
+    bool is_compare_nocase_: 1;
+
+    std::string prepare_key(const std::string& key) const;
 };
 
 }
