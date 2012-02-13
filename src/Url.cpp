@@ -58,12 +58,11 @@ Node* Node::node_parent() const {
 }
 
 Parser* Node::parser() const {
-    const Node* node = this;
-    while (Node* parent = node->node_parent()) {
-        node = parent;
+    Node* node = const_cast<Node*>(this);
+    while (!isinstance<Parser>(node) && isinstance<Node>(node)) {
+        node = node->node_parent();
     }
-    WObject* parent = node->parent();
-    return isinstance<Parser>(parent) ? downcast<Parser*>(parent) : 0;
+    return node ? downcast<Parser*>(node) : 0;
 }
 
 void Node::open(bool change_path) {
