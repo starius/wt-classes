@@ -144,7 +144,7 @@ For example, for internal path \c "/user/1/", there are two nodes:
 class Node : public WObject {
 public:
     /** Constructor.
-    \param parent Node or Parser.
+    \param parent Node (Parser or other Node)
     */
     Node(WObject* parent = 0);
 
