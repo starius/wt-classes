@@ -20,7 +20,8 @@ PaintedCaptcha::PaintedCaptcha(WContainerWidget* parent):
     AbstractCaptcha(parent),
     passed_(false),
     is_compare_trimmed_(true),
-    is_compare_nocase_(true) {
+    is_compare_nocase_(true),
+    key_length_(6) {
     update_impl();
 }
 
@@ -41,13 +42,18 @@ const std::string& PaintedCaptcha::user_key() const {
     // FIXME
 }
 
+void PaintedCaptcha::set_key_length(int key_length) {
+    key_length_ = key_length;
+    update_impl();
+}
+
 void PaintedCaptcha::update_impl() {
     true_key_ = random_key();
     // TODO
 }
 
 std::string PaintedCaptcha::random_key() const {
-    return WRandom::generateId(6);
+    return WRandom::generateId(key_length());
 }
 
 std::string PaintedCaptcha::prepare_key(const std::string& key) const {

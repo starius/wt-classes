@@ -66,6 +66,16 @@ public:
         is_compare_nocase_ = compare_nocase;
     }
 
+    /** Get secret key length */
+    int key_length() const {
+        return key_length_;
+    }
+
+    /** Set secret key length and update secret key.
+    Defaults to 6.
+    */
+    void set_key_length(int key_length);
+
 protected:
     void update_impl();
 
@@ -77,6 +87,7 @@ private:
     bool passed_: 1;
     bool is_compare_trimmed_: 1;
     bool is_compare_nocase_: 1;
+    int key_length_;
 
     std::string prepare_key(const std::string& key) const;
 };
