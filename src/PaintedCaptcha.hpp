@@ -40,7 +40,7 @@ public:
     }
 
     /** The key, entered by user */
-    const std::string& user_key() const;
+    std::string user_key() const;
 
     /** Get if keys are trimmed before compare */
     bool is_compare_trimmed() const {
@@ -83,6 +83,8 @@ protected:
     std::string random_key() const;
 
 private:
+    class Impl;
+
     std::string true_key_;
     bool passed_: 1;
     bool is_compare_trimmed_: 1;
@@ -90,6 +92,7 @@ private:
     int key_length_;
 
     std::string prepare_key(const std::string& key) const;
+    Impl* get_impl();
 };
 
 }

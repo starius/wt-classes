@@ -8,13 +8,49 @@
 #include <boost/algorithm/string/trim.hpp>
 #include <boost/algorithm/string/case_conv.hpp>
 
+#include <Wt/WContainerWidget>
+#include <Wt/WRasterImage>
+#include <Wt/WImage>
+#include <Wt/WPainter>
+#include <Wt/WLineEdit>
 #include <Wt/WRandom>
 
 #include "PaintedCaptcha.hpp"
+#include "util.hpp"
 
 namespace Wt {
 
 namespace Wc {
+
+const int PAINTED_CAPTCHA_WIDTH = 100;
+const int PAINTED_CAPTCHA_HEIGHT = 50;
+
+class PaintedCaptcha::Impl : public WContainerWidget {
+public:
+    Impl():
+        raster_image_("png", PAINTED_CAPTCHA_WIDTH, PAINTED_CAPTCHA_HEIGHT),
+        image_(&raster_image_, this),
+        edit_(this) {
+        edit_.setInline(false);
+    }
+
+    void set_key(const std::string& key) {
+        raster_image_.clear();
+        WPainter painter(&raster_image_);
+        painter.drawText(0, 0, PAINTED_CAPTCHA_WIDTH, PAINTED_CAPTCHA_HEIGHT,
+                         AlignCenter | AlignMiddle, key);
+        raster_image_.WResource::setChanged();
+    }
+
+    std::string user_key() const {
+        return edit_.text().toUTF8();
+    }
+
+private:
+    WRasterImage raster_image_;
+    WImage image_;
+    WLineEdit edit_;
+};
 
 PaintedCaptcha::PaintedCaptcha(WContainerWidget* parent):
     AbstractCaptcha(parent),
@@ -38,8 +74,13 @@ WValidator::State PaintedCaptcha::validate() {
     return result;
 }
 
-const std::string& PaintedCaptcha::user_key() const {
-    // FIXME
+std::string PaintedCaptcha::user_key() const {
+    PaintedCaptcha* t = const_cast<PaintedCaptcha*>(this);
+    Impl* impl = 0;
+    if (t->implementation()) {
+        impl = t->get_impl();
+    }
+    return impl ? impl->user_key() : "";
 }
 
 void PaintedCaptcha::set_key_length(int key_length) {
@@ -49,7 +90,10 @@ void PaintedCaptcha::set_key_length(int key_length) {
 
 void PaintedCaptcha::update_impl() {
     true_key_ = random_key();
-    // TODO
+    if (!implementation()) {
+        setImplementation(new Impl());
+    }
+    get_impl()->set_key(true_key());
 }
 
 std::string PaintedCaptcha::random_key() const {
@@ -66,6 +110,10 @@ std::string PaintedCaptcha::prepare_key(const std::string& key) const {
         to_lower(result);
     }
     return result;
+}
+
+PaintedCaptcha::Impl* PaintedCaptcha::get_impl() {
+    return downcast<Impl*>(implementation());
 }
 
 }
