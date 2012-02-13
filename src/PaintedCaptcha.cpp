@@ -5,6 +5,7 @@
  * See the LICENSE file for terms of use.
  */
 
+#include <boost/array.hpp>
 #include <boost/algorithm/string/trim.hpp>
 #include <boost/algorithm/string/case_conv.hpp>
 
@@ -16,6 +17,7 @@
 #include <Wt/WRandom>
 
 #include "PaintedCaptcha.hpp"
+#include "rand.hpp"
 #include "util.hpp"
 
 namespace Wt {
@@ -24,6 +26,27 @@ namespace Wc {
 
 const int PAINTED_CAPTCHA_WIDTH = 100;
 const int PAINTED_CAPTCHA_HEIGHT = 50;
+const int PAINTED_CAPTCHA_MIN_SIZE = 10;
+const int PAINTED_CAPTCHA_MAX_SIZE = 25;
+
+const boost::array<WFont::Style, 3> STYLES =
+{{ WFont::NormalStyle, WFont::Italic, WFont::Oblique }};
+
+const boost::array<WFont::Variant, 2> VARIANTS =
+{{ WFont::NormalVariant, WFont::SmallCaps }};
+
+const boost::array<WFont::GenericFamily, 2> FAMILIES =
+{{ WFont::SansSerif, WFont::Cursive }};
+
+WFont random_font() {
+    WFont font;
+    font.setStyle(STYLES[rr(STYLES.size())]); // FIXME
+    font.setVariant(VARIANTS[rr(VARIANTS.size())]); // FIXME
+    font.setFamily(FAMILIES[rr(FAMILIES.size())]); // FIXME
+    font.setSize(drr(PAINTED_CAPTCHA_MIN_SIZE, PAINTED_CAPTCHA_MAX_SIZE));
+    font.setWeight(WFont::Value, rr(100, 900));
+    return font;
+}
 
 class PaintedCaptcha::Impl : public WContainerWidget {
 public:
@@ -37,6 +60,7 @@ public:
     void set_key(const std::string& key) {
         raster_image_.clear();
         WPainter painter(&raster_image_);
+        painter.setFont(random_font());
         painter.drawText(0, 0, PAINTED_CAPTCHA_WIDTH, PAINTED_CAPTCHA_HEIGHT,
                          AlignCenter | AlignMiddle, key);
         raster_image_.WResource::setChanged();
