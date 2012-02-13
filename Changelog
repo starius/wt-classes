@@ -1,5 +1,6 @@
 2012-02-13:
     * rename "gather" documentation module to "protection"
+    * add class AbstractCaptcha
 
 2012-02-11:
     * version 1.2.0 released

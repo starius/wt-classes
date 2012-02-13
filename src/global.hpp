@@ -24,6 +24,7 @@ struct ThreeWPoints;
 struct Matrix3x3;
 class SWFStore;
 class Gather;
+class AbstractCaptcha;
 class FilterResource;
 class Countdown;
 
