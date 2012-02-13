@@ -32,13 +32,13 @@ public:
         since_(now())
     { }
 
-    Wt::WDateTime since_;
-    Wt::WDateTime until_;
+    WDateTime since_;
+    WDateTime until_;
     std::string format_;
     std::string time_separator_;
-    Wt::WDateTime paused_;
-    Wt::WDateTime lapped_;
-    Wt::WDateTime resumed_;
+    WDateTime paused_;
+    WDateTime lapped_;
+    WDateTime resumed_;
 
     std::string current_text() const;
 
