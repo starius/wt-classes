@@ -59,11 +59,8 @@ protected:
 
     /** Generate new random secret key.
     Implementing the method, you should get random numbers from Wt::WRandom.
-
-    \note You are unlikely to call this method,
-        since it is called from update().
     */
-    virtual void new_true_key() = 0;
+    virtual std::string random_key() const = 0;
 
 private:
     std::string true_key_;

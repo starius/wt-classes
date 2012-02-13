@@ -31,7 +31,7 @@ WValidator::State AbstractCaptcha::validate() {
 }
 
 void AbstractCaptcha::update() {
-    new_true_key();
+    true_key_ = random_key();
     update_impl();
 }
 
