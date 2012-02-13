@@ -18,28 +18,27 @@ namespace Wt {
 
 namespace Wc {
 
-/** \defgroup gather Gathering tools
-A set of tools to gather information of user's computer/browser/ip.
+/** \defgroup protection Tools to protect the application from misuse
+These tools may be useful for fighting against bots,
+virtuals or counter cheating.
 
-This may be useful for fighting against virtuals or
-prevention of counter cheating.
-
-\attention In some countries you should notify a user about using
-    such tools and/or storing gathered information.
-    Maybe, there are countries where it is illegal to use such tools.
-
-Example of gathering:
-\include examples/swfstore.cpp
-This example combines swfstore and gathering.
+The example below combines swfstore and gathering.
 See Gather and SWFStore for more information.
 
 Visit the page twice in several browsers and it should print the same
 random identifier (swfstore).
+\include examples/swfstore.cpp
 
 */
 
 /** Utility class for gathering information about a user.
+A set of tools to gather information of user's computer/browser/ip.
+
 This class needs the fully created WApplication::instance().
+
+\attention In some countries you should notify a user about using
+    such tools and/or storing gathered information.
+    Maybe, there are countries where it is illegal to use such tools.
 
 \include examples/gather.cpp.ex
 Possible output:
@@ -55,7 +54,7 @@ Possible output:
 [info] "Gathered: type=20, value=M5dTk9WPiDPD4Xxx"
 </pre>
 
-\ingroup gather
+\ingroup protection
 */
 class Gather : public WObject {
 public:

@@ -41,7 +41,7 @@ SWFStore example:
 \include examples/swfstore.cpp.ex
 
 \ingroup util
-\ingroup gather
+\ingroup protection
 */
 class SWFStore : public WContainerWidget {
 public:
