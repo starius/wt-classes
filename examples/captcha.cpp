@@ -5,6 +5,8 @@
  * See the LICENSE file for terms of use.
  */
 
+#include <boost/bind.hpp>
+
 #include <Wt/WApplication>
 #include <Wt/WPushButton>
 #include <Wt/WText>
@@ -17,19 +19,11 @@ class CaptchaApp : public WApplication {
 public:
     CaptchaApp(const WEnvironment& env):
         WApplication(env) {
-        captcha_ = new PaintedCaptcha(root());
+        AbstractCaptcha* captcha = new PaintedCaptcha(root());
         WPushButton* check = new WPushButton("Check", root());
-        result_ = new WText(root());
-        check->clicked().connect(captcha_, &AbstractCaptcha::check);
-        captcha_->solved().connect(this, &CaptchaApp::solve_captcha);
-    }
-
-private:
-    AbstractCaptcha* captcha_;
-    WText* result_;
-
-    void solve_captcha() {
-        result_->setText("Ok");
+        WText* result = new WText(root());
+        check->clicked().connect(captcha, &AbstractCaptcha::check);
+        captcha->solved().connect(boost::bind(&WText::setText, result, "Ok"));
     }
 };
 
