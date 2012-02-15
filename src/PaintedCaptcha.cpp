@@ -14,6 +14,7 @@
 #include <Wt/WImage>
 #include <Wt/WPainter>
 #include <Wt/WLineEdit>
+#include <Wt/WPushButton>
 #include <Wt/WRandom>
 
 #include "PaintedCaptcha.hpp"
@@ -50,11 +51,13 @@ WFont random_font() {
 
 class PaintedCaptcha::Impl : public WContainerWidget {
 public:
-    Impl():
+    Impl(PaintedCaptcha* captcha):
         raster_image_("png", PAINTED_CAPTCHA_WIDTH, PAINTED_CAPTCHA_HEIGHT),
         image_(&raster_image_, this),
-        edit_(this) {
-        edit_.setInline(false);
+        edit_(this),
+        update_(tr("wc.common.Update"), this) {
+        image_.setInline(false);
+        update_.clicked().connect(captcha, &AbstractCaptcha::update);
     }
 
     void set_key(const std::string& key) {
@@ -74,6 +77,7 @@ private:
     WRasterImage raster_image_;
     WImage image_;
     WLineEdit edit_;
+    WPushButton update_;
 };
 
 PaintedCaptcha::PaintedCaptcha(WContainerWidget* parent):
@@ -101,7 +105,7 @@ void PaintedCaptcha::set_key_length(int key_length) {
 void PaintedCaptcha::update_impl() {
     true_key_ = random_key();
     if (!implementation()) {
-        setImplementation(new Impl());
+        setImplementation(new Impl(this));
     }
     get_impl()->set_key(true_key());
 }

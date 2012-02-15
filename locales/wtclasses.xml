@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <messages nplurals='2' plural="n==1 ? 0 : 1">
 
+    <message id='wc.common.Update'>Update</message>
+
     <message id='wc.time.days'>days</message>
     <message id='wc.time.hours'>hours</message>
     <message id='wc.time.interval_template'>from ${min} to ${max}</message>

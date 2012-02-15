@@ -178,7 +178,7 @@ check: locales
 
 .PHONY: locales
 locales: locales-test.py
-	./locales-test.py --prefix=wc --sections time wbi
+	./locales-test.py --prefix=wc --sections common time wbi
 
 .PHONY: examples
 examples: $(DYNAMIC_LIB_PATH)

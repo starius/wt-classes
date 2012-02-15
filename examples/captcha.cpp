@@ -19,6 +19,8 @@ class CaptchaApp : public WApplication {
 public:
     CaptchaApp(const WEnvironment& env):
         WApplication(env) {
+        messageResourceBundle().use(Wt::WApplication::appRoot() +
+                                    "locales/wtclasses");
         WPushButton* update = new WPushButton("Update", root());
         AbstractCaptcha* captcha = new PaintedCaptcha(root());
         WPushButton* check = new WPushButton("Check", root());
