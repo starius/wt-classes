@@ -37,6 +37,10 @@ public:
 
     If the test was passed once for the widget,
     it is considered passed before a call of update().
+
+    \note If previous call to check() has not been resulted
+        in call to solve() or update() (i.e., a check is in progress),
+        this method does not call check_impl().
     */
     void check();
 
@@ -64,7 +68,8 @@ protected:
 
 private:
     Signal<> solved_;
-    bool is_solved_;
+    bool in_progress_: 1;
+    bool is_solved_: 1;
 };
 
 }
