@@ -19,9 +19,12 @@ class CaptchaApp : public WApplication {
 public:
     CaptchaApp(const WEnvironment& env):
         WApplication(env) {
+        WPushButton* update = new WPushButton("Update", root());
         AbstractCaptcha* captcha = new PaintedCaptcha(root());
         WPushButton* check = new WPushButton("Check", root());
         WText* result = new WText(root());
+        update->clicked().connect(captcha, &AbstractCaptcha::update);
+        update->clicked().connect(boost::bind(&WText::setText, result, ""));
         check->clicked().connect(captcha, &AbstractCaptcha::check);
         captcha->solved().connect(boost::bind(&WText::setText, result, "Ok"));
     }
