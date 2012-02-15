@@ -82,7 +82,7 @@ PaintedCaptcha::PaintedCaptcha(WContainerWidget* parent):
     is_compare_trimmed_(true),
     is_compare_nocase_(true),
     key_length_(6) {
-    update_impl();
+    update();
 }
 
 WValidator::State PaintedCaptcha::validate() {
@@ -109,7 +109,7 @@ std::string PaintedCaptcha::user_key() const {
 
 void PaintedCaptcha::set_key_length(int key_length) {
     key_length_ = key_length;
-    update_impl();
+    update();
 }
 
 void PaintedCaptcha::update_impl() {
