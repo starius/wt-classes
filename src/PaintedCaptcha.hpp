@@ -26,15 +26,6 @@ public:
     /** Constructor */
     PaintedCaptcha(WContainerWidget* parent = 0);
 
-    /** Return correctness of the key, entered by user.
-    If user-entered key is invalid (and non-empty),
-    this also calls update_impl() to prevent brute-force attacks.
-
-    If the true key is entered, this is memorized and the widget
-    is disabled for editing (see WWidget::disable()).
-    */
-    WValidator::State validate();
-
     /** Randomly created secret key.
     The purpose of user is to guess this key.
     */
@@ -82,6 +73,8 @@ public:
 protected:
     void update_impl();
 
+    void check_impl();
+
     /** Generate new random secret key */
     std::string random_key() const;
 
@@ -89,7 +82,6 @@ private:
     class Impl;
 
     std::string true_key_;
-    bool passed_: 1;
     bool is_compare_trimmed_: 1;
     bool is_compare_nocase_: 1;
     int key_length_;

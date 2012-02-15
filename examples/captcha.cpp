@@ -20,25 +20,16 @@ public:
         captcha_ = new PaintedCaptcha(root());
         WPushButton* check = new WPushButton("Check", root());
         result_ = new WText(root());
-        check->clicked().connect(this, &CaptchaApp::check_captcha);
+        check->clicked().connect(captcha_, &AbstractCaptcha::check);
+        captcha_->solved().connect(this, &CaptchaApp::solve_captcha);
     }
 
 private:
     AbstractCaptcha* captcha_;
     WText* result_;
 
-    void check_captcha() {
-        switch (captcha_->validate()) {
-        case WValidator::Valid:
-            result_->setText("Ok");
-            break;
-        case WValidator::InvalidEmpty:
-            result_->setText("Empty");
-            break;
-        case WValidator::Invalid:
-            result_->setText("Invalid");
-            break;
-        }
+    void solve_captcha() {
+        result_->setText("Ok");
     }
 };
 

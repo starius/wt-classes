@@ -78,24 +78,10 @@ private:
 
 PaintedCaptcha::PaintedCaptcha(WContainerWidget* parent):
     AbstractCaptcha(parent),
-    passed_(false),
     is_compare_trimmed_(true),
     is_compare_nocase_(true),
     key_length_(6) {
     update();
-}
-
-WValidator::State PaintedCaptcha::validate() {
-    WValidator::State result = WValidator::InvalidEmpty;
-    if (passed_ || prepare_key(user_key()) == prepare_key(true_key())) {
-        result = WValidator::Valid;
-        passed_ = true;
-        disable();
-    } else if (!user_key().empty()) {
-        update();
-        result = WValidator::Invalid;
-    }
-    return result;
 }
 
 std::string PaintedCaptcha::user_key() const {
@@ -118,6 +104,14 @@ void PaintedCaptcha::update_impl() {
         setImplementation(new Impl());
     }
     get_impl()->set_key(true_key());
+}
+
+void PaintedCaptcha::check_impl() {
+    if (prepare_key(user_key()) == prepare_key(true_key())) {
+        solve();
+    } else {
+        update();
+    }
 }
 
 std::string PaintedCaptcha::random_key() const {
