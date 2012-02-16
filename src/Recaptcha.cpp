@@ -13,6 +13,7 @@
 #include <Wt/WEnvironment>
 #include <Wt/WContainerWidget>
 #include <Wt/WLineEdit>
+#include <Wt/WPushButton>
 #include <Wt/Http/Client>
 #include <Wt/Http/Message>
 
@@ -56,6 +57,8 @@ void Recaptcha::update_impl() {
                      "$(" + challenge_field_->jsRef() + ")"
                      ".val(Recaptcha.get_challenge());"
                      "}});");
+        WPushButton* u = new WPushButton(tr("wc.common.Update"), get_impl());
+        u->clicked().connect(this, &AbstractCaptcha::update);
     }
 }
 
