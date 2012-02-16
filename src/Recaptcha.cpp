@@ -65,18 +65,21 @@ void Recaptcha::update_impl() {
                      "}});");
         WPushButton* u = new WPushButton(tr("wc.common.Update"), get_impl());
         u->clicked().connect(this, &AbstractCaptcha::update);
+        WPushButton* get_image = new WPushButton(get_impl());
+        get_image->addStyleClass("recaptcha_only_if_audio");
+        get_image->setText(tr("wc.captcha.Get_image"));
+        get_image->clicked().connect("function() {"
+                                     "Recaptcha.switch_type('image') }");
+        WPushButton* get_audio = new WPushButton(get_impl());
+        get_audio->addStyleClass("recaptcha_only_if_image");
+        get_audio->setText(tr("wc.captcha.Get_audio"));
+        get_audio->clicked().connect("function() {"
+                                     "Recaptcha.switch_type('audio') }");
     }
 }
 
 // TODO:
 // HTML version
-
-// TODO:
-// While theming does give you many options, you need to follow some user interface consistency rules:
-// You must state that you are using reCAPTCHA near the CAPTCHA widget.
-// You must provide a visible button that calls the reload function.
-// You must provide a way for visually impaired users to access an audio CAPTCHA.
-// You must provide alt text for any images that you use as buttons in the reCAPTCHA widget.
 
 void Recaptcha::check_impl() {
     if (js()) {
