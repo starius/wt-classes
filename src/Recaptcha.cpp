@@ -14,6 +14,7 @@
 #include <Wt/WContainerWidget>
 #include <Wt/WLineEdit>
 #include <Wt/WPushButton>
+#include <Wt/WText>
 #include <Wt/Http/Client>
 #include <Wt/Http/Message>
 
@@ -42,8 +43,9 @@ void Recaptcha::update_impl() {
     if (!implementation()) {
         setImplementation(new WContainerWidget());
     }
+    get_impl()->clear();
+    new WText("reCAPTCHA", get_impl());
     if (js()) {
-        get_impl()->clear();
         WContainerWidget* image = new WContainerWidget(get_impl());
         image->setId("recaptcha_image");
         response_field_ = new WLineEdit(get_impl());
