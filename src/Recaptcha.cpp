@@ -41,6 +41,7 @@ Recaptcha::Recaptcha(const std::string& public_key,
 
 Recaptcha::~Recaptcha() {
     doJavaScript("Recaptcha.destroy();");
+    doJavaScript("clearTimeout($(" + jsRef() + ").data('timer'));");
 }
 
 void Recaptcha::update_impl() {
@@ -58,11 +59,7 @@ void Recaptcha::update_impl() {
         doJavaScript("$(" + challenge_field_->jsRef() + ").hide();");
         response_field_->setId("recaptcha_response_field");
         doJavaScript("Recaptcha.create('" + public_key_  + "', '',"
-                     "{theme: 'custom',"
-                     "callback: function() {" +
-                     "$(" + challenge_field_->jsRef() + ")"
-                     ".val(Recaptcha.get_challenge());"
-                     "}});");
+                     "{theme: 'custom'});");
         WPushButton* u = new WPushButton(tr("wc.common.Update"), get_impl());
         u->clicked().connect(this, &AbstractCaptcha::update);
         WPushButton* get_image = new WPushButton(get_impl());
@@ -75,6 +72,12 @@ void Recaptcha::update_impl() {
         get_audio->setText(tr("wc.captcha.Get_audio"));
         get_audio->clicked().connect("function() {"
                                      "Recaptcha.switch_type('audio') }");
+        doJavaScript("clearTimeout($(" + jsRef() + ").data('timer'));");
+        doJavaScript("$(" + jsRef() + ").data('timer',"
+                     "setInterval(function() {"
+                     "$(" + challenge_field_->jsRef() + ")"
+                     ".val(Recaptcha.get_challenge());"
+                     "}, 200));");
     }
 }
 
