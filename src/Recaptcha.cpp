@@ -39,6 +39,10 @@ Recaptcha::Recaptcha(const std::string& public_key,
     update_impl();
 }
 
+Recaptcha::~Recaptcha() {
+    doJavaScript("Recaptcha.destroy();");
+}
+
 void Recaptcha::update_impl() {
     if (!implementation()) {
         setImplementation(new WContainerWidget());

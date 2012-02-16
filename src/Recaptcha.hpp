@@ -28,6 +28,9 @@ public:
     Recaptcha(const std::string& public_key, const std::string& private_key,
               WContainerWidget* parent = 0);
 
+    /** Destructor */
+    ~Recaptcha();
+
 protected:
     void update_impl();
     void check_impl();
