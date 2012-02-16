@@ -46,6 +46,7 @@ private:
     WContainerWidget* get_impl();
     void http_done(const boost::system::error_code& e,
                    const Http::Message& message);
+    void add_buttons();
 };
 
 }

@@ -60,18 +60,7 @@ void Recaptcha::update_impl() {
         response_field_->setId("recaptcha_response_field");
         doJavaScript("Recaptcha.create('" + public_key_  + "', '',"
                      "{theme: 'custom'});");
-        WPushButton* u = new WPushButton(tr("wc.common.Update"), get_impl());
-        u->clicked().connect(this, &AbstractCaptcha::update);
-        WPushButton* get_image = new WPushButton(get_impl());
-        get_image->addStyleClass("recaptcha_only_if_audio");
-        get_image->setText(tr("wc.captcha.Get_image"));
-        get_image->clicked().connect("function() {"
-                                     "Recaptcha.switch_type('image') }");
-        WPushButton* get_audio = new WPushButton(get_impl());
-        get_audio->addStyleClass("recaptcha_only_if_image");
-        get_audio->setText(tr("wc.captcha.Get_audio"));
-        get_audio->clicked().connect("function() {"
-                                     "Recaptcha.switch_type('audio') }");
+        add_buttons();
         doJavaScript("clearTimeout($(" + jsRef() + ").data('timer'));");
         doJavaScript("$(" + jsRef() + ").data('timer',"
                      "setInterval(function() {"
@@ -118,6 +107,21 @@ void Recaptcha::http_done(const boost::system::error_code& e,
         update();
     }
     updates_poster(WServer::instance(), wApp);
+}
+
+void Recaptcha::add_buttons() {
+    WPushButton* u = new WPushButton(tr("wc.common.Update"), get_impl());
+    u->clicked().connect(this, &AbstractCaptcha::update);
+    WPushButton* get_image = new WPushButton(get_impl());
+    get_image->addStyleClass("recaptcha_only_if_audio");
+    get_image->setText(tr("wc.captcha.Get_image"));
+    get_image->clicked().connect("function() {"
+                                 "Recaptcha.switch_type('image') }");
+    WPushButton* get_audio = new WPushButton(get_impl());
+    get_audio->addStyleClass("recaptcha_only_if_image");
+    get_audio->setText(tr("wc.captcha.Get_audio"));
+    get_audio->clicked().connect("function() {"
+                                 "Recaptcha.switch_type('audio') }");
 }
 
 }
