@@ -12,7 +12,9 @@
 #include <Wt/WApplication>
 #include <Wt/WEnvironment>
 #include <Wt/WContainerWidget>
+#include <Wt/WTemplate>
 #include <Wt/WLineEdit>
+#include <Wt/WTextArea>
 #include <Wt/WPushButton>
 #include <Wt/WText>
 #include <Wt/Http/Client>
@@ -67,27 +69,34 @@ void Recaptcha::update_impl() {
                      "$(" + challenge_field_->jsRef() + ")"
                      ".val(Recaptcha.get_challenge());"
                      "}, 200));");
+    } else {
+        WTemplate* iframe = new WTemplate(get_impl());
+        iframe->setTemplateText("<iframe src='http://www.google.com/recaptcha/"
+                                "api/noscript?k=" + public_key_ +
+                                "' height='300' width='500' frameborder='0'>"
+                                "</iframe>", XHTMLUnsafeText);
+        WTextArea* ta = new WTextArea(get_impl());
+        ta->setColumns(40);
+        ta->setRows(3);
+        challenge_field_ = ta;
+        response_field_ = new WLineEdit("manual_challenge", get_impl());
+        response_field_->hide();
     }
 }
 
-// TODO:
-// HTML version
-
 void Recaptcha::check_impl() {
-    if (js()) {
-        std::string challenge = challenge_field_->text().toUTF8();
-        std::string response = response_field_->text().toUTF8();
-        boost::replace_all(response, " ", "+"); // TODO url encode
-        const std::string& remoteip = wApp->environment().clientAddress();
-        Http::Message m;
-        m.setHeader("Content-Type", "application/x-www-form-urlencoded");
-        m.addBodyText("privatekey=" + private_key_ + "&");
-        m.addBodyText("remoteip=" + remoteip + "&");
-        m.addBodyText("challenge=" + challenge + "&"); // TODO url encode
-        m.addBodyText("response=" + response + "&"); // TODO url encode
-        if (!http_->post("http://www.google.com/recaptcha/api/verify", m)) {
-            update();
-        }
+    std::string challenge = challenge_field_->valueText().toUTF8();
+    std::string response = response_field_->text().toUTF8();
+    boost::replace_all(response, " ", "+"); // TODO url encode
+    const std::string& remoteip = wApp->environment().clientAddress();
+    Http::Message m;
+    m.setHeader("Content-Type", "application/x-www-form-urlencoded");
+    m.addBodyText("privatekey=" + private_key_ + "&");
+    m.addBodyText("remoteip=" + remoteip + "&");
+    m.addBodyText("challenge=" + challenge + "&"); // TODO url encode
+    m.addBodyText("response=" + response + "&"); // TODO url encode
+    if (!http_->post("http://www.google.com/recaptcha/api/verify", m)) {
+        update();
     }
 }
 

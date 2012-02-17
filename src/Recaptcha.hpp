@@ -40,7 +40,7 @@ private:
     std::string public_key_;
     std::string private_key_;
     WLineEdit* response_field_;
-    WLineEdit* challenge_field_;
+    WFormWidget* challenge_field_;
 
     bool js() const;
     WContainerWidget* get_impl();
