@@ -685,6 +685,9 @@ enum RunState {
 
 /** Abstract base class of form for web-based interface of a program.
 
+\section CSS
+ - Message (error or warning): wc_task_message
+
 \ingroup wbi
 */
 class AbstractTask : public WCompositeWidget {
