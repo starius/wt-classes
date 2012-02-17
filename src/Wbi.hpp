@@ -115,6 +115,10 @@ The command is like "xxd < in > out".
 \c sleep command was added to simulate time consuming task.
 
 \include examples/xxd-wt.cpp.ex
+
+Detailed example:
+
+\include examples/xxd-wt.cpp
 */
 
 /** Abstract base class for any command-line argument of a program.
