@@ -791,6 +791,13 @@ public:
         validator_ = validator;
     }
 
+    /** Set message (error or warning).
+    The message is shown to user.
+
+    This method is implemented in set_message_impl().
+    */
+    void set_message(const WString& message);
+
 protected:
     /** Runner running the task */
     AbstractRunner* runner_;
@@ -818,12 +825,12 @@ protected:
     */
     bool check_task();
 
-    /** Set message (error or warning).
+    /** Set message (error or warning) (implementation).
     The message is shown to user.
 
     By default, does nothing.
     */
-    virtual void set_message(const WString& message);
+    virtual void set_message_impl(const WString& message);
 
 private:
     ChangedSignal changed_;
@@ -857,7 +864,7 @@ protected:
 
     void update_error_message(AbstractInput* input);
 
-    void set_message(const WString& message);
+    void set_message_impl(const WString& message);
 
 private:
     void changed_handler();

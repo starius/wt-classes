@@ -422,6 +422,10 @@ const char* AbstractTask::state_to_string() {
     return state_to_string(state());
 }
 
+void AbstractTask::set_message(const WString& message) {
+    set_message_impl(message);
+}
+
 void AbstractTask::update_error_message(AbstractInput* /* input */)
 { }
 
@@ -443,7 +447,7 @@ bool AbstractTask::check_task() {
     return inputs_accepted && validator_accepted;
 }
 
-void AbstractTask::set_message(const WString& /* message */)
+void AbstractTask::set_message_impl(const WString& /* message */)
 { }
 
 void AbstractTask::changed_emitter() {
@@ -522,7 +526,7 @@ void TableTask::update_error_message(AbstractInput* input) {
     impl->inputs_->set_comment(input, message);
 }
 
-void TableTask::set_message(const WString& message) {
+void TableTask::set_message_impl(const WString& message) {
     TTImpl* impl = downcast<TTImpl*>(implementation());
     impl->message_->setText(message);
 }
