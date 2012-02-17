@@ -71,10 +71,18 @@ public:
         Countdown* paused_countdown = new Countdown(root());
         paused_countdown->pause(); // before set_until()
         paused_countdown->set_until(SECOND);
+        new WText(" and ", root());
+        Countdown* paused_countdown2 = new Countdown(root());
+        paused_countdown2->set_until(SECOND);
+        paused_countdown2->pause(); // after set_until()
         new WText(" and already paused count-up ", root());
         Countdown* paused_countup = new Countdown(root());
         paused_countup->set_since(-SECOND);
         paused_countup->pause(); // after set_since()
+        new WText(" and ", root());
+        Countdown* paused_countup2 = new Countdown(root());
+        paused_countup2->pause(); // before set_since()
+        paused_countup2->set_since(-SECOND);
         new WText(". They should display 1 s constantly.", root());
     }
 };
