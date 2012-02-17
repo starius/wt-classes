@@ -18,6 +18,16 @@ using namespace Wt::Wc;
 
 TaskNumberQueue queue(2);
 
+bool validate(AbstractTask* task, WCheckBox* bits, WCheckBox* ps) {
+    if (bits->isChecked() && ps->isChecked()) {
+        task->set_message("Postscript style can not be mixed with Bits style");
+        return false;
+    } else {
+        task->set_message("");
+        return true;
+    }
+}
+
 class XxdApp : public WApplication {
 public:
     XxdApp(const WEnvironment& env):
@@ -41,6 +51,7 @@ public:
         bits->unChecked().connect(boost::bind(&WLineEdit::setText, cols, "16"));
         ps->checked().connect(boost::bind(&WLineEdit::setText, cols, "30"));
         ps->unChecked().connect(boost::bind(&WLineEdit::setText, cols, "16"));
+        task->set_validator(boost::bind(validate, task, bits, ps));
         new TaskCountup(task, root());
     }
 };
