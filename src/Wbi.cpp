@@ -375,7 +375,7 @@ void AbstractTask::set_queue(AbstractQueue* queue) {
 }
 
 void AbstractTask::run() {
-    if (check_inputs()) {
+    if (check_task()) {
         if (queue_) {
             queue_->add(this);
             changed_.emit();
@@ -437,6 +437,12 @@ bool AbstractTask::check_inputs() {
     return accepted;
 }
 
+bool AbstractTask::check_task() {
+    bool inputs_accepted = check_inputs();
+    bool validator_accepted = validator_.empty() || validator_();
+    return inputs_accepted && validator_accepted;
+}
+
 void AbstractTask::set_message(const WString& /* message */)
 { }
 
@@ -450,7 +456,7 @@ void AbstractTask::changed_emitter() {
 }
 
 void AbstractTask::run_impl(bool check) {
-    if (!check || check_inputs()) {
+    if (!check || check_task()) {
         if (runner_) {
             runner_->run();
         }

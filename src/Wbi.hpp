@@ -692,6 +692,9 @@ public:
     /** Signal emitted after task state changing */
     typedef Signal<> ChangedSignal;
 
+    /** Validator functor */
+    typedef boost::function<bool()> Validator;
+
     /** Constructor */
     AbstractTask(WContainerWidget* p = 0);
 
@@ -771,6 +774,20 @@ public:
     /** \copybrief state_to_string(RunState) */
     const char* state_to_string();
 
+    /** Set validator.
+    Validator is applied to check validness of set of agruments.
+    Unless it returns true, task is interrupted.
+    Inputs should be also \ref AbstractInput::accepted() "accepted".
+
+    This can be used to implement complex validation, for example,
+    if one (not necessary all) of the input arguments is needed.
+
+    If error or warning has occured, call set_message().
+    */
+    void set_validator(const Validator& validator) {
+        validator_ = validator;
+    }
+
 protected:
     /** Runner running the task */
     AbstractRunner* runner_;
@@ -793,6 +810,11 @@ protected:
     /** Update error messages of inputs and return if they are all accepted */
     bool check_inputs();
 
+    /** Update error messages and return if the task is accepted.
+    This implies check_inputs().
+    */
+    bool check_task();
+
     /** Set message (error or warning).
     The message is shown to user.
 
@@ -805,6 +827,7 @@ private:
     std::vector<AbstractArgument*> args_;
     AbstractQueue* queue_;
     bool queued_;
+    Validator validator_;
 
     void changed_emitter();
     void run_impl(bool check);
