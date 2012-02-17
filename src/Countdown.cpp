@@ -89,8 +89,10 @@ void Countdown::set_since(const WDateTime& since) {
 }
 
 void Countdown::set_since(const TimeDuration& since) {
+    before_time_change();
     change("since", duration_for_js(since));
     change("until", "null");
+    after_time_change();
     if (view_) {
         view_->since_ = current_time() + since;
         view_->until_ = WDateTime();
@@ -103,8 +105,10 @@ void Countdown::set_until(const WDateTime& until) {
 }
 
 void Countdown::set_until(const TimeDuration& until) {
+    before_time_change();
     change("until", duration_for_js(until));
     change("since", "null");
+    after_time_change();
     if (view_) {
         view_->until_ = current_time() + until;
         view_->since_ = WDateTime();
@@ -306,15 +310,32 @@ void Countdown::resume_html(const td::TimeDuration& duration) {
 }
 
 std::string Countdown::pause_js() const {
-    return wrap_js("'pause'");
+    return wrap_js("'pause'") +
+           "$(" + jsRef() + ").data('interrupted', 'pause');";
 }
 
 std::string Countdown::lap_js() const {
-    return wrap_js("'lap'");
+    return wrap_js("'lap'") +
+           "$(" + jsRef() + ").data('interrupted', 'lap');";
 }
 
 std::string Countdown::resume_js() const {
-    return wrap_js("'resume'");
+    return wrap_js("'resume'") +
+           "$(" + jsRef() + ").data('interrupted', null);";
+}
+
+void Countdown::before_time_change() {
+    do_js("if ($(" + jsRef() + ").data('interrupted')) {" +
+          wrap_js("'resume'") +
+          "}");
+}
+
+void Countdown::after_time_change() {
+    do_js("if ($(" + jsRef() + ").data('interrupted') == 'pause') {" +
+          wrap_js("'pause'") +
+          "} else if ($(" + jsRef() + ").data('interrupted') == 'lap') {" +
+          wrap_js("'lap'") +
+          "}");
 }
 
 }
