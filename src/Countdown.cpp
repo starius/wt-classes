@@ -65,9 +65,9 @@ Countdown::Countdown(WContainerWidget* parent):
     view_(0),
     expired_(0) {
     setInline(true);
-    implementJavaScript(&Countdown::pause, wrap_js("'pause'"));
-    implementJavaScript(&Countdown::lap, wrap_js("'lap'"));
-    implementJavaScript(&Countdown::resume, wrap_js("'resume'"));
+    implementJavaScript(&Countdown::pause, pause_js());
+    implementJavaScript(&Countdown::lap, lap_js());
+    implementJavaScript(&Countdown::resume, resume_js());
     wApp->require(config_value("resourcesURL", "resources/") +
                   "Wc/js/jquery.countdown.js");
     apply_js("{since: 0, compact: true}");
@@ -189,32 +189,32 @@ TimeDuration Countdown::View::current_duration() const {
 }
 
 void Countdown::pause() {
-    do_js(wrap_js("'pause'"));
+    do_js(pause_js());
     pause_html(TD_NULL);
 }
 
 void Countdown::pause(const td::TimeDuration& duration) {
-    do_js(wrap_js("'pause'"), duration);
+    do_js(pause_js(), duration);
     pause_html(duration);
 }
 
 void Countdown::lap() {
-    do_js(wrap_js("'lap'"));
+    do_js(lap_js());
     lap_html(TD_NULL);
 }
 
 void Countdown::lap(const td::TimeDuration& duration) {
-    do_js(wrap_js("'lap'"), duration);
+    do_js(lap_js(), duration);
     lap_html(duration);
 }
 
 void Countdown::resume() {
-    do_js(wrap_js("'resume'"));
+    do_js(resume_js());
     resume_html(TD_NULL);
 }
 
 void Countdown::resume(const td::TimeDuration& duration) {
-    do_js(wrap_js("'resume'"), duration);
+    do_js(resume_js(), duration);
     resume_html(duration);
 }
 
@@ -305,6 +305,16 @@ void Countdown::resume_html(const td::TimeDuration& duration) {
     }
 }
 
+std::string Countdown::pause_js() const {
+    return wrap_js("'pause'");
+}
+
+std::string Countdown::lap_js() const {
+    return wrap_js("'lap'");
+}
+
+std::string Countdown::resume_js() const {
+    return wrap_js("'resume'");
 }
 
 }

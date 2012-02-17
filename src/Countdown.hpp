@@ -170,6 +170,9 @@ private:
     void pause_html(const td::TimeDuration& duration);
     void lap_html(const td::TimeDuration& duration);
     void resume_html(const td::TimeDuration& duration);
+    std::string pause_js() const;
+    std::string lap_js() const;
+    std::string resume_js() const;
 };
 
 }
