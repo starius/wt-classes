@@ -161,6 +161,8 @@ private:
 
     WDateTime current_time() const;
     static std::string duration_for_js(const td::TimeDuration& duration);
+    void do_js(const std::string& js);
+    void do_js(const std::string& js, const td::TimeDuration& duration);
     void apply_js(const std::string& args);
     void apply_js(const std::string& args, const td::TimeDuration& duration);
     std::string wrap_js(const std::string& args) const;

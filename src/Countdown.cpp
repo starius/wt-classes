@@ -189,32 +189,32 @@ TimeDuration Countdown::View::current_duration() const {
 }
 
 void Countdown::pause() {
-    apply_js("'pause'");
+    do_js(wrap_js("'pause'"));
     pause_html(TD_NULL);
 }
 
 void Countdown::pause(const td::TimeDuration& duration) {
-    apply_js("'pause'", duration);
+    do_js(wrap_js("'pause'"), duration);
     pause_html(duration);
 }
 
 void Countdown::lap() {
-    apply_js("'lap'");
+    do_js(wrap_js("'lap'"));
     lap_html(TD_NULL);
 }
 
 void Countdown::lap(const td::TimeDuration& duration) {
-    apply_js("'lap'", duration);
+    do_js(wrap_js("'lap'"), duration);
     lap_html(duration);
 }
 
 void Countdown::resume() {
-    apply_js("'resume'");
+    do_js(wrap_js("'resume'"));
     resume_html(TD_NULL);
 }
 
 void Countdown::resume(const td::TimeDuration& duration) {
-    apply_js("'resume'", duration);
+    do_js(wrap_js("'resume'"), duration);
     resume_html(duration);
 }
 
@@ -239,18 +239,26 @@ std::string Countdown::duration_for_js(const TimeDuration& duration) {
     return TO_S(duration.total_nanoseconds()) + "/1.e9";
 }
 
-void Countdown::apply_js(const std::string& args) {
+void Countdown::do_js(const std::string& js) {
     if (!view_) {
-        doJavaScript(wrap_js(args));
+        doJavaScript(js);
     }
+}
+
+void Countdown::do_js(const std::string& js, const td::TimeDuration& duration) {
+    if (!view_) {
+        doJavaScript("setTimeout(function() {" + js +
+                     "}, " + TO_S(duration.total_milliseconds()) + ");");
+    }
+}
+
+void Countdown::apply_js(const std::string& args) {
+    do_js(wrap_js(args));
 }
 
 void Countdown::apply_js(const std::string& args,
                          const td::TimeDuration& duration) {
-    if (!view_) {
-        doJavaScript("setTimeout(function() {" + wrap_js(args) +
-                     "}, " + TO_S(duration.total_milliseconds()) + ");");
-    }
+    do_js(wrap_js(args), duration);
 }
 
 std::string Countdown::wrap_js(const std::string& args) const {
@@ -295,6 +303,8 @@ void Countdown::resume_html(const td::TimeDuration& duration) {
         view_->resumed_ = current_time() + duration;
         update_view();
     }
+}
+
 }
 
 }
