@@ -793,6 +793,13 @@ protected:
     /** Update error messages of inputs and return if they are all accepted */
     bool check_inputs();
 
+    /** Set message (error or warning).
+    The message is shown to user.
+
+    By default, does nothing.
+    */
+    virtual void set_message(const WString& message);
+
 private:
     ChangedSignal changed_;
     std::vector<AbstractArgument*> args_;
@@ -823,6 +830,8 @@ protected:
                          const WString& description = "");
 
     void update_error_message(AbstractInput* input);
+
+    void set_message(const WString& message);
 
 private:
     void changed_handler();

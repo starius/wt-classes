@@ -437,6 +437,9 @@ bool AbstractTask::check_inputs() {
     return accepted;
 }
 
+void AbstractTask::set_message(const WString& /* message */)
+{ }
+
 void AbstractTask::changed_emitter() {
     BOOST_FOREACH (AbstractArgument* arg, args_) {
         if (isinstance<AbstractOutput>(arg)) {
@@ -467,6 +470,8 @@ public:
         cancel_->hide();
         new WBreak(this);
         state_ = new WText(this);
+        new WBreak(this);
+        message_ = new WText(this);
     }
 
 private:
@@ -475,6 +480,7 @@ private:
     WPushButton* run_;
     WPushButton* cancel_;
     WText* state_;
+    WText* message_;
 
     friend class TableTask;
 };
@@ -507,6 +513,11 @@ void TableTask::update_error_message(AbstractInput* input) {
     const WString& message = input->accepted() ? WString::Empty :
                              input->error_message();
     impl->inputs_->set_comment(input, message);
+}
+
+void TableTask::set_message(const WString& message) {
+    TTImpl* impl = downcast<TTImpl*>(implementation());
+    impl->message_->setText(message);
 }
 
 bool waiting_state(RunState state) {
