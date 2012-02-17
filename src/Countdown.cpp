@@ -16,7 +16,6 @@
 #include <Wt/WText>
 
 #include "Countdown.hpp"
-#include "TimeDuration.hpp"
 #include "util.hpp"
 
 namespace Wt {
@@ -29,7 +28,7 @@ class Countdown::View : public WViewWidget {
 public:
     View(Countdown* parent):
         WViewWidget(parent),
-        since_(now())
+        since_(current_time())
     { }
 
     WDateTime since_;
@@ -53,10 +52,16 @@ private:
     Countdown* countdown() {
         return downcast<Countdown*>(parent());
     }
+
+    WDateTime current_time() const {
+        return const_cast<View*>(this)->countdown()->current_time();
+    }
 };
 
 Countdown::Countdown(WContainerWidget* parent):
     WContainerWidget(parent),
+    unit_(SECOND / 10),
+    now_(now()),
     view_(0),
     expired_(0) {
     setInline(true);
@@ -80,28 +85,28 @@ Countdown::~Countdown() {
 }
 
 void Countdown::set_since(const WDateTime& since) {
-    set_since(since - now());
+    set_since(since - current_time());
 }
 
 void Countdown::set_since(const TimeDuration& since) {
     change("since", duration_for_js(since));
     change("until", "null");
     if (view_) {
-        view_->since_ = now() + since;
+        view_->since_ = current_time() + since;
         view_->until_ = WDateTime();
         update_view();
     }
 }
 
 void Countdown::set_until(const WDateTime& until) {
-    set_until(until - now());
+    set_until(until - current_time());
 }
 
 void Countdown::set_until(const TimeDuration& until) {
     change("until", duration_for_js(until));
     change("since", "null");
     if (view_) {
-        view_->until_ = now() + until;
+        view_->until_ = current_time() + until;
         view_->since_ = WDateTime();
         update_view();
     }
@@ -168,12 +173,12 @@ std::string Countdown::View::current_text() const {
 }
 
 TimeDuration Countdown::View::current_duration() const {
-    WDateTime n = now();
-    if (paused_.isValid() && paused_ <= now()) {
+    WDateTime n = current_time();
+    if (paused_.isValid() && paused_ <= current_time()) {
         n = paused_;
-    } else if (lapped_.isValid() && lapped_ <= now()) {
+    } else if (lapped_.isValid() && lapped_ <= current_time()) {
         n = lapped_;
-    } else if (resumed_.isValid() && resumed_ >= now()) {
+    } else if (resumed_.isValid() && resumed_ >= current_time()) {
         n = resumed_;
     }
     TimeDuration r = since_.isValid() ? n - since_ : until_ - n;
@@ -222,6 +227,14 @@ JSignal<>& Countdown::expired() {
     return *expired_;
 }
 
+WDateTime Countdown::current_time() const {
+    WDateTime n = now();
+    if (n - now_ > unit_) {
+        now_ = n;
+    }
+    return now_;
+}
+
 std::string Countdown::duration_for_js(const TimeDuration& duration) {
     return TO_S(duration.total_nanoseconds()) + "/1.e9";
 }
@@ -252,7 +265,7 @@ void Countdown::update_view() {
 
 void Countdown::pause_html(const td::TimeDuration& duration) {
     if (view_) {
-        view_->paused_ = now() + duration;
+        view_->paused_ = current_time() + duration;
         view_->lapped_ = WDateTime();
         view_->resumed_ = WDateTime();
         update_view();
@@ -262,7 +275,7 @@ void Countdown::pause_html(const td::TimeDuration& duration) {
 void Countdown::lap_html(const td::TimeDuration& duration) {
     if (view_) {
         view_->paused_ = WDateTime() + duration;
-        view_->lapped_ = now();
+        view_->lapped_ = current_time();
         view_->resumed_ = WDateTime();
         update_view();
     }
@@ -272,14 +285,14 @@ void Countdown::resume_html(const td::TimeDuration& duration) {
     if (view_) {
         if (view_->paused_.isValid()) {
             if (view_->since_.isValid()) {
-                view_->since_ += now() + duration - view_->paused_;
+                view_->since_ += current_time() + duration - view_->paused_;
             } else {
-                view_->until_ -= now() + duration - view_->paused_;
+                view_->until_ -= current_time() + duration - view_->paused_;
             }
         }
         view_->paused_ = WDateTime();
         view_->lapped_ = WDateTime();
-        view_->resumed_ = now() + duration;
+        view_->resumed_ = current_time() + duration;
         update_view();
     }
 }

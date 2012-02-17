@@ -15,6 +15,7 @@
 #include <Wt/WDateTime>
 
 #include "global.hpp"
+#include "TimeDuration.hpp"
 
 namespace Wt {
 
@@ -131,12 +132,34 @@ public:
     */
     JSignal<>& expired();
 
+    /** Get min time duration considered significant */
+    const td::TimeDuration unit() const {
+        return unit_;
+    }
+
+    /** Set min time duration considered significant.
+    Since time changes while the request is processed,
+    countdown may have enough time to tick one time,
+    causing already-paused countdowns to display wrong value.
+
+    To address this problem, current time is memorized and considered
+    constant during unit().
+
+    Defaults to 100ms.
+    */
+    void set_unit(const td::TimeDuration unit) {
+        unit_ = unit;
+    }
+
 private:
     class View;
 
+    td::TimeDuration unit_;
+    mutable WDateTime now_;
     View* view_;
     JSignal<>* expired_;
 
+    WDateTime current_time() const;
     static std::string duration_for_js(const td::TimeDuration& duration);
     void apply_js(const std::string& args);
     void apply_js(const std::string& args, const td::TimeDuration& duration);
