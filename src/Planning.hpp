@@ -33,7 +33,7 @@ typedef boost::shared_ptr<const Task> TaskPtr ;
 class Task : public Event {
 public:
     /** Task processing method.
-    This method could use \c planning_server to add itself or other tasks.
+    This method could use \c server to add itself or other tasks.
     \attention This method must not throw exceptions!
     */
     virtual void process(TaskPtr task, PlanningServer* server) const = 0;
