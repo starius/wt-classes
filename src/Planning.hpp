@@ -54,6 +54,10 @@ public:
 
     The task is executed at <tt>when + delay()</tt>.
 
+    \note If the number of total milliseconds of the duration exceeds the
+    size of \c int, the duration is decreased to fit into this size (INT_MAX).
+    If sizeof(int) is 4, max duration is about 24.8 days.
+
     If immediately is false, the task would be added after currently running
     task is finished and notification server is emitted with current event.
     Using immediately = false makes sense only from Task::process().

@@ -5,6 +5,7 @@
  * See the LICENSE file for terms of use.
  */
 
+#include <climits>
 #include <vector>
 #include <utility>
 #include <boost/bind.hpp>
@@ -59,6 +60,9 @@ bool PlanningServer::add(Task* task, WDateTime when, bool immediately) {
 void PlanningServer::schedule(const td::TimeDuration& wait,
                               const boost::function<void()>& func) {
     int ms = wait.total_milliseconds();
+    if (ms < 0) {
+        ms = INT_MAX;
+    }
     io_->schedule(ms, func);
 }
 
