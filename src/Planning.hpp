@@ -77,6 +77,7 @@ public:
 
     /** Set delay.
     \see add()
+    Defaults to zero delay.
     \note This does not affect already added tasks.
     */
     void set_delay(const td::TimeDuration& value) {
