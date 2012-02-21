@@ -26,6 +26,7 @@ public:
         WText* result = new WText(root());
         check->clicked().connect(captcha, &AbstractCaptcha::check);
         captcha->solved().connect(boost::bind(&WText::setText, result, "Ok"));
+        captcha->fault().connect(boost::bind(&WText::setText, result, _1));
     }
 };
 
