@@ -26,8 +26,16 @@ and call check() instead of that slot.
 */
 class AbstractCaptcha : public WCompositeWidget {
 public:
+    /** The signal emitted if the response is erroneous.
+    The first argument is error message.
+    */
+    typedef Signal<WString> FaultSignal;
+
     /** Constructor */
     AbstractCaptcha(WContainerWidget* parent = 0);
+
+    /** Destructor */
+    ~AbstractCaptcha();
 
     /** Check correctness of the key, entered by user.
     In case the test is passed, solved() is emitted
@@ -52,6 +60,9 @@ public:
         return solved_;
     }
 
+    /** Return the signal emitted if the response is erroneous */
+    FaultSignal& fault();
+
 protected:
     /** Update the widget with new secret key (implementation).
     This method should setImplementation(), or update existing one.
@@ -68,6 +79,7 @@ protected:
 
 private:
     Signal<> solved_;
+    FaultSignal* fault_;
     bool in_progress_: 1;
     bool is_solved_: 1;
 };

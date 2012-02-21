@@ -13,9 +13,17 @@ namespace Wc {
 
 AbstractCaptcha::AbstractCaptcha(WContainerWidget* parent):
     WCompositeWidget(parent),
+    fault_(0),
     in_progress_(false),
     is_solved_(false)
 { }
+
+AbstractCaptcha::~AbstractCaptcha() {
+    if (fault_) {
+        delete fault_;
+        fault_ = 0;
+    }
+}
 
 void AbstractCaptcha::check() {
     if (is_solved_) {
@@ -30,6 +38,13 @@ void AbstractCaptcha::update() {
     in_progress_ = false;
     is_solved_ = false;
     update_impl();
+}
+
+AbstractCaptcha::FaultSignal& AbstractCaptcha::fault() {
+    if (!fault_) {
+        fault_ = new FaultSignal(this);
+    }
+    return *fault_;
 }
 
 void AbstractCaptcha::solve() {
