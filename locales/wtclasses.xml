@@ -3,6 +3,8 @@
 
     <message id='wc.captcha.Get_audio'>Get audio</message>
     <message id='wc.captcha.Get_image'>Get image</message>
+    <message id='wc.captcha.Internal_error'>Internal error</message>
+    <message id='wc.captcha.Wrong_response'>Wrong response</message>
 
     <message id='wc.common.Update'>Update</message>
 

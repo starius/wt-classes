@@ -96,7 +96,7 @@ void Recaptcha::check_impl() {
     m.addBodyText("challenge=" + challenge + "&"); // TODO url encode
     m.addBodyText("response=" + response + "&"); // TODO url encode
     if (!http_->post("http://www.google.com/recaptcha/api/verify", m)) {
-        update();
+        mistake(tr("wc.captcha.Internal_error"));
     }
 }
 
@@ -110,10 +110,14 @@ WContainerWidget* Recaptcha::get_impl() {
 
 void Recaptcha::http_done(const boost::system::error_code& e,
                           const Http::Message& response) {
-    if (!e && boost::starts_with(response.body(), "true")) {
+    if (e) {
+        mistake(tr("wc.captcha.Internal_error"));
+    } else if (boost::starts_with(response.body(), "true")) {
         solve();
+    } else if (boost::contains(response.body(), "incorrect-captcha-sol")) {
+        mistake(tr("wc.captcha.Wrong_response"));
     } else {
-        update();
+        mistake(tr("wc.captcha.Internal_error"));
     }
     updates_poster(WServer::instance(), wApp);
 }

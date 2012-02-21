@@ -114,7 +114,7 @@ void PaintedCaptcha::check_impl() {
     if (prepare_key(user_key()) == prepare_key(true_key())) {
         solve();
     } else {
-        update();
+        mistake(tr("wc.captcha.Wrong_response"));
     }
 }
 
