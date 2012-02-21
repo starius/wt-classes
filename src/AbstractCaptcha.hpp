@@ -41,7 +41,7 @@ public:
     In case the test is passed, solved() is emitted
     (not necessarily immediately).
 
-    Otherwise update() is called.
+    Otherwise update() is called and fault() is emitted.
 
     If the test was passed once for the widget,
     it is considered passed before a call of update().
@@ -71,6 +71,12 @@ protected:
 
     /** You should call this method from check_impl() if the test is passed */
     void solve();
+
+    /** You should call this method from check_impl() on error.
+    \param message Error message
+    This method updates the test and emits fault(), if exposed.
+    */
+    void mistake(const WString& message = "");
 
     /** Check correctness of the key, entered by user (implementation).
     If the test is passed, call solve(), otherwise update().

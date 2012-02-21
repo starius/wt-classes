@@ -53,6 +53,13 @@ void AbstractCaptcha::solve() {
     solved_.emit();
 }
 
+void AbstractCaptcha::mistake(const WString& message) {
+    update();
+    if (fault_) {
+        fault_->emit(message);
+    }
+}
+
 }
 
 }
