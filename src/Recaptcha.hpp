@@ -31,6 +31,12 @@ public:
     /** Destructor */
     ~Recaptcha();
 
+    /** Set the type of the CAPTCHA to 'image' */
+    void get_image();
+
+    /** Set the type of the CAPTCHA to 'audio' */
+    void get_audio();
+
 protected:
     void update_impl();
     void check_impl();

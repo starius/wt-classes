@@ -46,6 +46,14 @@ Recaptcha::~Recaptcha() {
     doJavaScript("clearTimeout($(" + jsRef() + ").data('timer'));");
 }
 
+void Recaptcha::get_image() {
+    doJavaScript("Recaptcha.switch_type('image');");
+}
+
+void Recaptcha::get_audio() {
+    doJavaScript("Recaptcha.switch_type('audio');");
+}
+
 void Recaptcha::update_impl() {
     if (!implementation()) {
         setImplementation(new WContainerWidget());
@@ -128,13 +136,11 @@ void Recaptcha::add_buttons() {
     WPushButton* get_image = new WPushButton(get_impl());
     get_image->addStyleClass("recaptcha_only_if_audio");
     get_image->setText(tr("wc.captcha.Get_image"));
-    get_image->clicked().connect("function() {"
-                                 "Recaptcha.switch_type('image') }");
+    get_image->clicked().connect(this, &Recaptcha::get_image);
     WPushButton* get_audio = new WPushButton(get_impl());
     get_audio->addStyleClass("recaptcha_only_if_image");
     get_audio->setText(tr("wc.captcha.Get_audio"));
-    get_audio->clicked().connect("function() {"
-                                 "Recaptcha.switch_type('audio') }");
+    get_audio->clicked().connect(this, &Recaptcha::get_audio);
 }
 
 }
