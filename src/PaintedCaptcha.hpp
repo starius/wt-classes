@@ -70,6 +70,9 @@ public:
     */
     void set_key_length(int key_length);
 
+    /** Enable or disable update button */
+    void set_buttons(bool enabled);
+
 protected:
     void update_impl();
 

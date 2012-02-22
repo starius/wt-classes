@@ -52,12 +52,13 @@ WFont random_font() {
 class PaintedCaptcha::Impl : public WContainerWidget {
 public:
     Impl(PaintedCaptcha* captcha):
+        captcha_(captcha),
         raster_image_("png", PAINTED_CAPTCHA_WIDTH, PAINTED_CAPTCHA_HEIGHT),
         image_(&raster_image_, this),
         edit_(this),
-        update_(tr("wc.common.Update"), this) {
+        update_(0) {
         image_.setInline(false);
-        update_.clicked().connect(captcha, &AbstractCaptcha::update);
+        set_buttons(true);
     }
 
     void set_key(const std::string& key) {
@@ -73,11 +74,23 @@ public:
         return edit_.text().toUTF8();
     }
 
+    void set_buttons(bool enabled) {
+        if (!enabled && update_) {
+            removeWidget(update_);
+            delete update_;
+            update_ = 0;
+        } else if (enabled && !update_) {
+            update_ = new WPushButton(tr("wc.common.Update"), this);
+            update_->clicked().connect(captcha_, &AbstractCaptcha::update);
+        }
+    }
+
 private:
+    PaintedCaptcha* captcha_;
     WRasterImage raster_image_;
     WImage image_;
     WLineEdit edit_;
-    WPushButton update_;
+    WPushButton* update_;
 };
 
 PaintedCaptcha::PaintedCaptcha(WContainerWidget* parent):
@@ -100,6 +113,10 @@ std::string PaintedCaptcha::user_key() const {
 void PaintedCaptcha::set_key_length(int key_length) {
     key_length_ = key_length;
     update();
+}
+
+void PaintedCaptcha::set_buttons(bool enabled) {
+    get_impl()->set_buttons(enabled);
 }
 
 void PaintedCaptcha::update_impl() {
