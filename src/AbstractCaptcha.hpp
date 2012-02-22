@@ -73,6 +73,16 @@ public:
     */
     virtual void set_buttons(bool enabled);
 
+    /** Replace build-in input widget.
+    Some implementations provide an input widget to enter a response.
+    That input widget will be removed and new input will be used.
+
+    \note Ownership of ithe input is not transferred.
+
+    Default implementation of this method does nothing.
+    */
+    virtual void set_input(WFormWidget* input);
+
 protected:
     /** Update the widget with new secret key (implementation).
     This method should setImplementation(), or update existing one.
