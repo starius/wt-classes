@@ -33,7 +33,10 @@ Recaptcha::Recaptcha(const std::string& public_key,
     AbstractCaptcha(parent),
     buttons_enabled_(true),
     public_key_(public_key),
-    private_key_(private_key) {
+    private_key_(private_key),
+    input_(0),
+    response_field_(0),
+    challenge_field_(0) {
     wApp->enableUpdates();
     wApp->require("http://www.google.com/recaptcha/api/js/recaptcha_ajax.js",
                   "Recaptcha");
@@ -60,6 +63,11 @@ void Recaptcha::set_buttons(bool enabled) {
     update();
 }
 
+void Recaptcha::set_input(WFormWidget* input) {
+    input_ = input;
+    update();
+}
+
 void Recaptcha::update_impl() {
     if (!implementation()) {
         setImplementation(new WContainerWidget());
@@ -70,7 +78,7 @@ void Recaptcha::update_impl() {
     if (js()) {
         WContainerWidget* image = new WContainerWidget(get_impl());
         image->setId("recaptcha_image");
-        response_field_ = new WLineEdit(get_impl());
+        response_field_ = input_ ? input_ : new WLineEdit(get_impl());
         challenge_field_ = new WLineEdit(get_impl());
         // not challenge_field_->hide() to get its .text()
         doJavaScript("$(" + challenge_field_->jsRef() + ").hide();");
@@ -92,10 +100,14 @@ void Recaptcha::update_impl() {
                                 "api/noscript?k=" + public_key_ +
                                 "' height='300' width='500' frameborder='0'>"
                                 "</iframe>", XHTMLUnsafeText);
-        WTextArea* ta = new WTextArea(get_impl());
-        ta->setColumns(40);
-        ta->setRows(3);
-        challenge_field_ = ta;
+        if (input_) {
+            challenge_field_ = input_;
+        } else {
+            WTextArea* ta = new WTextArea(get_impl());
+            ta->setColumns(40);
+            ta->setRows(3);
+            challenge_field_ = ta;
+        }
         response_field_ = new WLineEdit("manual_challenge", get_impl());
         response_field_->hide();
     }
@@ -103,7 +115,7 @@ void Recaptcha::update_impl() {
 
 void Recaptcha::check_impl() {
     std::string challenge = challenge_field_->valueText().toUTF8();
-    std::string response = response_field_->text().toUTF8();
+    std::string response = response_field_->valueText().toUTF8();
     boost::replace_all(response, " ", "+"); // TODO url encode
     const std::string& remoteip = wApp->environment().clientAddress();
     Http::Message m;

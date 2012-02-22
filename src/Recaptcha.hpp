@@ -49,6 +49,8 @@ public:
     */
     void set_buttons(bool enabled);
 
+    void set_input(WFormWidget* input);
+
 protected:
     void update_impl();
     void check_impl();
@@ -58,7 +60,8 @@ private:
     Http::Client* http_;
     std::string public_key_;
     std::string private_key_;
-    WLineEdit* response_field_;
+    WFormWidget* input_;
+    WFormWidget* response_field_;
     WFormWidget* challenge_field_;
 
     bool js() const;
