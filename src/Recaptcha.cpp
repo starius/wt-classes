@@ -31,6 +31,7 @@ Recaptcha::Recaptcha(const std::string& public_key,
                      const std::string& private_key,
                      WContainerWidget* parent):
     AbstractCaptcha(parent),
+    buttons_enabled_(true),
     public_key_(public_key),
     private_key_(private_key) {
     wApp->enableUpdates();
@@ -54,6 +55,11 @@ void Recaptcha::get_audio() {
     doJavaScript("Recaptcha.switch_type('audio');");
 }
 
+void Recaptcha::set_buttons(bool enabled) {
+    buttons_enabled_ = enabled;
+    update();
+}
+
 void Recaptcha::update_impl() {
     if (!implementation()) {
         setImplementation(new WContainerWidget());
@@ -70,7 +76,9 @@ void Recaptcha::update_impl() {
         response_field_->setId("recaptcha_response_field");
         doJavaScript("Recaptcha.create('" + public_key_  + "', '',"
                      "{theme: 'custom'});");
-        add_buttons();
+        if (buttons_enabled_) {
+            add_buttons();
+        }
         doJavaScript("clearTimeout($(" + jsRef() + ").data('timer'));");
         doJavaScript("$(" + jsRef() + ").data('timer',"
                      "setInterval(function() {"

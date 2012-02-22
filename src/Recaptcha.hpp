@@ -37,11 +37,21 @@ public:
     /** Set the type of the CAPTCHA to 'audio' */
     void get_audio();
 
+    /** Enable or disable buttons.
+    Buttons affected are "Update" button, "Get image" and "Get audio".
+
+    According to reCAPTCHA rules, you must provide these buttons (AJAX version).
+    Button "Get image" should be of CSS class "recaptcha_only_if_audio".
+    Button "Get audio" should be of CSS class "recaptcha_only_if_image".
+    */
+    void set_buttons(bool enabled);
+
 protected:
     void update_impl();
     void check_impl();
 
 private:
+    bool buttons_enabled_;
     Http::Client* http_;
     std::string public_key_;
     std::string private_key_;
