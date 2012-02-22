@@ -55,8 +55,8 @@ public:
         captcha_(captcha),
         raster_image_("png", PAINTED_CAPTCHA_WIDTH, PAINTED_CAPTCHA_HEIGHT),
         image_(&raster_image_, this),
-        edit_(this),
         update_(0) {
+        edit_ = new WLineEdit(this);
         image_.setInline(false);
         set_buttons(true);
     }
@@ -71,7 +71,7 @@ public:
     }
 
     std::string user_key() const {
-        return edit_.text().toUTF8();
+        return edit_->valueText().toUTF8();
     }
 
     void set_buttons(bool enabled) {
@@ -85,11 +85,19 @@ public:
         }
     }
 
+    void set_input(WFormWidget* input) {
+        if (edit_->parent() == this) {
+            removeWidget(edit_);
+            delete edit_;
+        }
+        edit_ = input;
+    }
+
 private:
     PaintedCaptcha* captcha_;
     WRasterImage raster_image_;
     WImage image_;
-    WLineEdit edit_;
+    WFormWidget* edit_;
     WPushButton* update_;
 };
 
@@ -117,6 +125,10 @@ void PaintedCaptcha::set_key_length(int key_length) {
 
 void PaintedCaptcha::set_buttons(bool enabled) {
     get_impl()->set_buttons(enabled);
+}
+
+void PaintedCaptcha::set_input(WFormWidget* input) {
+    get_impl()->set_input(input);
 }
 
 void PaintedCaptcha::update_impl() {

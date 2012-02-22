@@ -73,6 +73,8 @@ public:
     /** Enable or disable update button */
     void set_buttons(bool enabled);
 
+    void set_input(WFormWidget* input);
+
 protected:
     void update_impl();
 
