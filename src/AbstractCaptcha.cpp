@@ -47,6 +47,9 @@ AbstractCaptcha::FaultSignal& AbstractCaptcha::fault() {
     return *fault_;
 }
 
+void AbstractCaptcha::set_buttons(bool)
+{ }
+
 void AbstractCaptcha::solve() {
     in_progress_ = false;
     is_solved_ = true;

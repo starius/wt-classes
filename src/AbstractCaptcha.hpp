@@ -63,6 +63,16 @@ public:
     /** Return the signal emitted if the response is erroneous */
     FaultSignal& fault();
 
+    /** Enable or disable buttons.
+    Buttons (like Update button) can be added by implementations.
+    You can disable them and add your own.
+
+    By default, buttons is enabled.
+
+    Default implementation of this method does nothing.
+    */
+    virtual void set_buttons(bool enabled);
+
 protected:
     /** Update the widget with new secret key (implementation).
     This method should setImplementation(), or update existing one.
