@@ -65,7 +65,8 @@ void Recaptcha::update_impl() {
         setImplementation(new WContainerWidget());
     }
     get_impl()->clear();
-    new WText("reCAPTCHA", get_impl());
+    WText* title = new WText("reCAPTCHA", get_impl());
+    title->addStyleClass("wc_recaptcha_title");
     if (js()) {
         WContainerWidget* image = new WContainerWidget(get_impl());
         image->setId("recaptcha_image");

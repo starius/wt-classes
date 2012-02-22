@@ -20,6 +20,9 @@ namespace Wc {
 
 /** reCAPTCHA widget.
 
+<h3>CSS</h3>
+Text "reCAPTCHA" above the image: \c wc_recaptcha_title.
+
 \ingroup protection
 */
 class Recaptcha : public AbstractCaptcha {
