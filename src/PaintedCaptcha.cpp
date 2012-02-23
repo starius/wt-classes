@@ -58,6 +58,7 @@ public:
         update_(0) {
         edit_ = new WLineEdit(this);
         image_.setInline(false);
+        image_.resize(PAINTED_CAPTCHA_WIDTH, PAINTED_CAPTCHA_HEIGHT);
         set_buttons(true);
     }
 
