@@ -19,6 +19,10 @@ namespace Wt {
 namespace Wc {
 
 /** reCAPTCHA widget.
+To use this class, you should provide keys for Recaptcha API.
+These keys can be generated on http://www.google.com/recaptcha
+
+\note Multiple instances of Recaptcha on same page are not allowed.
 
 <h3>CSS</h3>
 Text "reCAPTCHA" above the image: \c wc_recaptcha_title.
