@@ -39,6 +39,7 @@ See the following example.
 \include examples/countdown.cpp
 
 \ingroup time
+\ingroup bindings
 */
 class Countdown : public WContainerWidget {
 public:

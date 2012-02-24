@@ -38,7 +38,7 @@ public:
 };
 \endcode
 
-\ingroup util
+\ingroup bindings
 */
 class FilterResource : public WFileResource {
 public:

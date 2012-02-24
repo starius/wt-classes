@@ -40,8 +40,8 @@ actions if needed.
 SWFStore example:
 \include examples/swfstore.cpp.ex
 
-\ingroup util
 \ingroup protection
+\ingroup bindings
 */
 class SWFStore : public WContainerWidget {
 public:

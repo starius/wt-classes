@@ -3,6 +3,11 @@ namespace Wt {
 
 namespace Wc {
 
+/** \defgroup bindings Bindings to non-Wt code
+This combined module consists of classes, usings some other
+programs, plugins, public API, etc.
+*/
+
 /** \mainpage wt-classes
 
 <h3>locales</h3>

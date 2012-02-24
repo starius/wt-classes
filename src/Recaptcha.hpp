@@ -28,6 +28,7 @@ These keys can be generated on http://www.google.com/recaptcha
 Text "reCAPTCHA" above the image: \c wc_recaptcha_title.
 
 \ingroup protection
+\ingroup bindings
 */
 class Recaptcha : public AbstractCaptcha {
 public:
