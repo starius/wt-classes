@@ -1,5 +1,6 @@
 2012-02-24:
     * add docs module "random"
+    * add members of "td" namespace to "time" docs module
 
 2012-02-18:
     * add -ps parameter (xxd example)

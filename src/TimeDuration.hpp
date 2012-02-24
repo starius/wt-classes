@@ -26,7 +26,10 @@ Classes and typedef simplifying time management.
 */
 namespace td {
 
-/** Time duration */
+/** Time duration.
+
+\ingroup time
+*/
 class TimeDuration : public boost::posix_time::time_duration {
 public:
     /** Base class */
@@ -71,45 +74,81 @@ public:
 
 /** Null time duration.
 Valid time duration, 0 seconds.
+
+\ingroup time
 */
 const TimeDuration TD_NULL = boost::posix_time::seconds(0);
 
-/** One second */
+/** One second.
+
+\ingroup time
+*/
 const TimeDuration SECOND = boost::posix_time::seconds(1);
 
-/** One minute */
+/** One minute.
+
+\ingroup time
+*/
 const TimeDuration MINUTE = SECOND * 60;
 
-/** One hour */
+/** One hour.
+
+\ingroup time
+*/
 const TimeDuration HOUR = MINUTE * 60;
 
-/** One day */
+/** One day.
+
+\ingroup time
+*/
 const TimeDuration DAY = HOUR * 24;
 
-/** One week */
+/** One week.
+
+\ingroup time
+*/
 const TimeDuration WEEK = DAY * 7;
 
-/** Return time duration between two datetimes */
+/** Return time duration between two datetimes.
+
+\ingroup time
+*/
 TimeDuration operator -(const WDateTime& a, const WDateTime& b);
 
-/** Increase the datetime by the time duration */
+/** Increase the datetime by the time duration.
+
+\ingroup time
+*/
 WDateTime operator +(const WDateTime& a, const TimeDuration& b);
 
-/** Decrease the datetime by the time duration */
+/** Decrease the datetime by the time duration.
+
+\ingroup time
+*/
 WDateTime operator -(const WDateTime& a, const TimeDuration& b);
 
-/** Increase the datetime by the time duration */
+/** Increase the datetime by the time duration.
+
+\ingroup time
+*/
 WDateTime& operator +=(WDateTime& a, const TimeDuration& b);
 
-/** Decrease the datetime by the time duration */
+/** Decrease the datetime by the time duration.
+
+\ingroup time
+*/
 WDateTime& operator -=(WDateTime& a, const TimeDuration& b);
 
-/** Multiply the datetime */
+/** Multiply the datetime.
+
+\ingroup time
+*/
 TimeDuration operator *(const double& b, const TimeDuration& a);
 
 /** Return random time duration from open interval [min, max).
 
 \ingroup rand
+\ingroup time
 */
 TimeDuration rand_range(const TimeDuration& start, const TimeDuration& stop);
 
