@@ -1,6 +1,17 @@
+2012-02-18:
+    * add -ps parameter (xxd example)
+
+2012-02-17:
+    * add error message and custom validator of task (Wbi)
+    * move install-related code to Install.inc (Makefile)
+
+2012-02-16:
+    * add draft of Recaptcha
+
 2012-02-13:
     * rename "gather" documentation module to "protection"
     * add class AbstractCaptcha
+    * add class PaintedCaptcha
 
 2012-02-11:
     * version 1.2.0 released
