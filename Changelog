@@ -1,3 +1,6 @@
+2012-02-26:
+    * add ``suffix'' argument to ForkingRunner's constructor
+
 2012-02-24:
     * add docs module "random"
     * add members of "td" namespace to "time" docs module

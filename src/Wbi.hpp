@@ -993,9 +993,10 @@ It seems to work only under UNIX.
 class ForkingRunner : public AbstractRunner {
 public:
     /** Constructor.
-    \param command Command to use (program name)
+    \param command Command to use (part of command preceding the arguments)
+    \param suffix  Part of command following the arguments
     */
-    ForkingRunner(const std::string& command);
+    ForkingRunner(const std::string& command, const std::string& suffix = "");
 
     /** Destructor.
      - If state is WORKING, call cancel_impl()
@@ -1015,6 +1016,7 @@ protected:
 
 private:
     std::string command_;
+    std::string suffix_;
     std::string pid_file_;
     boost::thread thread_;
 

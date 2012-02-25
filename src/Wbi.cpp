@@ -590,8 +590,9 @@ void AbstractRunner::set_task(AbstractTask* task) {
     set_state(NEW);
 }
 
-ForkingRunner::ForkingRunner(const std::string& command):
-    command_(command), pid_file_(FileOutput::unique_name())
+ForkingRunner::ForkingRunner(const std::string& command,
+                             const std::string& suffix):
+    command_(command), suffix_(suffix), pid_file_(FileOutput::unique_name())
 { }
 
 ForkingRunner::~ForkingRunner() {
@@ -637,6 +638,7 @@ std::string ForkingRunner::command() const {
     std::stringstream cmd;
     cmd << command_ << " ";
     task()->visit_args(boost::bind(arg_to_stream, boost::ref(cmd), _1, _2));
+    cmd << suffix_ << " ";
     std::stringstream cmd_wrapper;
     cmd_wrapper << "echo $$ > " << pid_file_ << ";";
     cmd_wrapper << "exec sh -c " << ForkingRunner::escape_arg(cmd.str()) << ";";
