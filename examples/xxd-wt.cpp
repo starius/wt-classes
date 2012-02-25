@@ -45,7 +45,7 @@ public:
         WCheckBox* ps = new WCheckBox();
         task->add_input(new BoolInput(ps, "-ps"), "Postscript style");
         task->add_output(new ViewFileOutput(">"), "Hex dump");
-        task->set_runner(new ForkingRunner("sleep 5; xxd"));
+        task->set_runner(new ForkingRunner("sleep 2; xxd", "; sleep 3"));
         task->set_queue(&queue);
         bits->checked().connect(boost::bind(&WLineEdit::setText, cols, "6"));
         bits->unChecked().connect(boost::bind(&WLineEdit::setText, cols, "16"));
