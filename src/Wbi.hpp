@@ -708,6 +708,8 @@ public:
     /** Add input argument to the program.
     Argument is added to the vector of arguments which is used by visit_args().
 
+    Form takes ownership of the argument.
+
     This method calls add_input_impl().
     */
     void add_input(AbstractInput* input, const WString& name,
@@ -715,6 +717,8 @@ public:
 
     /** Add output argument to the program.
     Argument is added to the vector of arguments which is used by visit_args().
+
+    Form takes ownership of the argument.
 
     This method calls add_output_impl().
     */
@@ -730,6 +734,8 @@ public:
 
     /** Set the task queue.
     State must be UNSET or NEW.
+
+    Ownership is not transferred.
     */
     void set_queue(AbstractQueue* queue);
 
