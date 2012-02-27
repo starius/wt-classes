@@ -3,6 +3,7 @@ Priority: extra
 Maintainer: Boris Nagaev <bnagaev@gmail.com>
 Build-Depends: debhelper (>= 7.0.50~), libboost-filesystem-dev (>= 1.44),
  libwt-dev (>= 3.2.0), libwthttp-dev,
+ libssl-dev,
  python-docutils,
  doxygen,
  python (>=2.7) | python-argparse
