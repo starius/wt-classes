@@ -1,3 +1,6 @@
+2012-02-28:
+    * md5(), openssl dependency
+
 2012-02-27:
     * rename README to README.rst (rest format)
 

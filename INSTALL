@@ -7,6 +7,7 @@ $ make install
 Dependencies:
  * libboost >= 1.44 (libboost-system, libboost-filesystem, libboost-thread)
  * witty library (>=3.1.11)
+ * openssl library (for md5)
  * python, containing argparse module (used by Makefile and locales-test)
 
 Build-only dependencies:

@@ -89,6 +89,13 @@ std::string config_value(const std::string& name, const std::string& def = "");
 /** Current datetime */
 WDateTime now();
 
+/** Compute the MD5 message digest of the data (hex).
+OpenSSL is used.
+
+\ingroup util
+*/
+std::string md5(const std::string& data);
+
 }
 
 }

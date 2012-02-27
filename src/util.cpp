@@ -7,10 +7,12 @@
 
 #define BOOST_FILESYSTEM_VERSION 3
 
+#include <sstream>
 #include <boost/filesystem.hpp>
 #include <boost/bind.hpp>
 #include <boost/algorithm/string/replace.hpp>
 
+#include <openssl/md5.h>
 #include <Wt/WApplication>
 #include <Wt/WEnvironment>
 #include <Wt/WServer>
@@ -55,6 +57,22 @@ std::string config_value(const std::string& name, const std::string& def) {
 
 WDateTime now() {
     return WDateTime::currentDateTime();
+}
+
+std::string md5(const std::string& data) {
+    const unsigned char* d;
+    d = reinterpret_cast<const unsigned char*>(data.c_str());
+    unsigned long n = data.size();
+    unsigned char* digest = MD5(d, n, NULL);
+    std::stringstream result;
+    result << std::hex;
+    result.width(2);
+    result.fill('0');
+    for (int i = 0; i < MD5_DIGEST_LENGTH; ++i) {
+        result.width(2);
+        result << static_cast<unsigned int>(digest[i]);
+    }
+    return result.str();
 }
 
 }
