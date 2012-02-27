@@ -13,6 +13,8 @@ namespace Wc {
 
 /** \defgroup rand Random numbers
 Functions to generate random variables.
+
+\see rand_range()
 */
 
 /** Return random number.

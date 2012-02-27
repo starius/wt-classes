@@ -147,7 +147,6 @@ TimeDuration operator *(const double& b, const TimeDuration& a);
 
 /** Return random time duration from open interval [min, max).
 
-\ingroup rand
 \ingroup time
 */
 TimeDuration rand_range(const TimeDuration& start, const TimeDuration& stop);
