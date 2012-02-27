@@ -1,3 +1,6 @@
+2012-02-27:
+    * rename README to README.rst (rest format)
+
 2012-02-26:
     * add ``suffix'' argument to ForkingRunner's constructor
 
