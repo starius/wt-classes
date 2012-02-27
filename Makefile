@@ -39,6 +39,7 @@ INSTALL = install
 INSTALL_PROGRAM = $(INSTALL)
 INSTALL_DATA = $(INSTALL) -m 644
 RST2MAN = rst2man
+HAVE_DOT = NO
 
 sources = $(sort $(wildcard src/*.cpp) $(wildcard src/*/*.cpp))
 headers = $(sort $(wildcard src/*.hpp) $(wildcard src/*/*.hpp))
@@ -97,7 +98,7 @@ doc: locales-test.1 Doxyfile $$(doc_examples)
 	doxygen
 
 Doxyfile: Doxyfile.in VERSION
-	sed 's@{PROJECT_NUMBER}@$(VERSION)@g' < $< > $@
+	sed 's@{PROJECT_NUMBER}@$(VERSION)@g;s@{HAVE_DOT}@$(HAVE_DOT)@g' < $< > $@
 
 include Install.inc
 
