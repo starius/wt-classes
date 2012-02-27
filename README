@@ -1,8 +1,10 @@
+===================================================
 wt-classes, utility classes used by Wt applications
-------------------------------------------
+===================================================
 
-Description:
-******************************
+Description
+-----------
+
 wt-classes library is a C++ library for web applications,
 based on Wt library.
 
@@ -19,12 +21,14 @@ The library provides several useful modules and scripts:
 
  * locales-test: checks xml-based localizations used by Wt apps
 
-Installation:
-******************************
+Installation
+------------
+
 see INSTALL file
 
-Useful links:
-******************************
+Useful links
+------------
+
 For more information please visit:
  * Distributed version control system of wt-classes:
     https://bitbucket.org/starius/wt-classes/
@@ -37,6 +41,7 @@ For more information please visit:
  * Boost homepage:
     http://boost.org/
 
-------------------------------------------
+----
+
 Boris Nagaev <bnagaev@gmail.com>
 
