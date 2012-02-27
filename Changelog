@@ -1,5 +1,6 @@
 2012-02-28:
     * md5(), openssl dependency
+    * urlencode(), curl dependency
 
 2012-02-27:
     * rename README to README.rst (rest format)

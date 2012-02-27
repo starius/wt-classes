@@ -13,6 +13,7 @@
 #include <boost/algorithm/string/replace.hpp>
 
 #include <openssl/md5.h>
+#include <curl/curl.h>
 #include <Wt/WApplication>
 #include <Wt/WEnvironment>
 #include <Wt/WServer>
@@ -73,6 +74,19 @@ std::string md5(const std::string& data) {
         result << static_cast<unsigned int>(digest[i]);
     }
     return result.str();
+}
+
+std::string urlencode(const std::string& url) {
+    std::string result;
+    CURL* curl_handle = curl_easy_init();
+    char* encoded = curl_easy_escape(curl_handle,
+                                     url.c_str(), url.size());
+    if (encoded) {
+        result = encoded;
+        curl_free(encoded);
+    }
+    curl_easy_cleanup(curl_handle);
+    return result;
 }
 
 }

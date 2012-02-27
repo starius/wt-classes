@@ -26,6 +26,7 @@ LINK = g++
 LIBS += -lboost_signals -lboost_system
 LIBS += -lwt
 LIBS += -lssl
+LIBS += -lcurl
 CXXFLAGS += -pipe -Wall -W -fPIC
 CXXFLAGS += -I$(BUILD) -Isrc
 LFLAGS += -shared
