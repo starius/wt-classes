@@ -6,7 +6,6 @@
  */
 
 #include <boost/algorithm/string/predicate.hpp>
-#include <boost/algorithm/string/replace.hpp>
 
 #include <Wt/WServer>
 #include <Wt/WApplication>
@@ -116,14 +115,13 @@ void Recaptcha::update_impl() {
 void Recaptcha::check_impl() {
     std::string challenge = challenge_field_->valueText().toUTF8();
     std::string response = response_field_->valueText().toUTF8();
-    boost::replace_all(response, " ", "+"); // TODO url encode
     const std::string& remoteip = wApp->environment().clientAddress();
     Http::Message m;
     m.setHeader("Content-Type", "application/x-www-form-urlencoded");
     m.addBodyText("privatekey=" + private_key_ + "&");
     m.addBodyText("remoteip=" + remoteip + "&");
-    m.addBodyText("challenge=" + challenge + "&"); // TODO url encode
-    m.addBodyText("response=" + response + "&"); // TODO url encode
+    m.addBodyText("challenge=" + urlencode(challenge) + "&");
+    m.addBodyText("response=" + urlencode(response) + "&");
     if (!http_->post("http://www.google.com/recaptcha/api/verify", m)) {
         mistake(tr("wc.captcha.Internal_error"));
     }
