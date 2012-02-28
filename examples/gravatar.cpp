@@ -12,6 +12,7 @@
 #include <Wt/WSlider>
 #include <Wt/WButtonGroup>
 #include <Wt/WRadioButton>
+#include <Wt/WCheckBox>
 #include <Wt/WBreak>
 #include <Wt/Wc/GravatarImage.hpp>
 
@@ -85,7 +86,12 @@ public:
         rating->setCheckedButton(rating->button(GravatarImage::G));
         rating->checkedChanged().connect(boost::bind(set_rating,
                                          gravatar, rating));
-        // TODO: set_force_default
+        new WBreak(root());
+        WCheckBox* fd = new WCheckBox("Force default", root());
+        fd->checked().connect(boost::bind(&GravatarImage::set_force_default,
+                                          gravatar, true));
+        fd->unChecked().connect(boost::bind(&GravatarImage::set_force_default,
+                                            gravatar, false));
         // TODO: set_secure_requests
     }
 };
