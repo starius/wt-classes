@@ -6,6 +6,7 @@ sed '/WLink/d' -i src/Url.hpp                  # remove methods returning WLink
 sed 's/link/full_path/g' -i examples/url.cpp   # use string instead of WLink
 sed 's/setLink/setRefInternalPath/g' -i examples/url.cpp
 rm src/Recaptcha.?pp                           # depends on Http::Client
+rm examples/recaptcha.cpp
 sed 's/WLink/std::string/g' -i src/GravatarImage.?pp
 sed 's/link.url()/link/g' -i src/GravatarImage.cpp
 sed 's/setImageLink/setImageRef/g' -i src/GravatarImage.cpp
