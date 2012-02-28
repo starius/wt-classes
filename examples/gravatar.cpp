@@ -92,7 +92,14 @@ public:
                                           gravatar, true));
         fd->unChecked().connect(boost::bind(&GravatarImage::set_force_default,
                                             gravatar, false));
-        // TODO: set_secure_requests
+        new WBreak(root());
+        WCheckBox* sr = new WCheckBox("Use https", root());
+        sr->setTristate();
+        sr->setCheckState(PartiallyChecked);
+        sr->checked().connect(boost::bind(&GravatarImage::set_secure_requests,
+                                          gravatar, GravatarImage::ALWAYS));
+        sr->unChecked().connect(boost::bind(&GravatarImage::set_secure_requests,
+                                            gravatar, GravatarImage::NEVER));
     }
 };
 
