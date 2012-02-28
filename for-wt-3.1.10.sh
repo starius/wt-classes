@@ -10,3 +10,9 @@ sed 's/WLink/std::string/g' -i src/GravatarImage.?pp
 sed 's/link.url()/link/g' -i src/GravatarImage.cpp
 sed 's/setImageLink/setImageRef/g' -i src/GravatarImage.cpp
 
+# remove PaintedCaptcha::set_input
+sed 's/valueText()/text()/g' -i src/PaintedCaptcha.cpp
+sed 's/WFormWidget\* edit_/WLineEdit\* edit_/g' -i src/PaintedCaptcha.cpp
+sed '/set_input/,/^ \{0,4\}}/d' -i src/PaintedCaptcha.cpp
+sed '/set_input/d' -i src/PaintedCaptcha.hpp
+
