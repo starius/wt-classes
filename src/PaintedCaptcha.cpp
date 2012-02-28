@@ -54,7 +54,7 @@ public:
     Impl(PaintedCaptcha* captcha):
         captcha_(captcha),
         raster_image_("png", PAINTED_CAPTCHA_WIDTH, PAINTED_CAPTCHA_HEIGHT),
-        image_(&raster_image_, this),
+        image_(&raster_image_, /* altText */ "", this),
         update_(0) {
         edit_ = new WLineEdit(this);
         image_.setInline(false);
