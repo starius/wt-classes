@@ -35,6 +35,10 @@ void set_default(GravatarImage* gravatar, WButtonGroup* builtin,
     }
 }
 
+void set_rating(GravatarImage* gravatar, WButtonGroup* rating) {
+    gravatar->set_rating(GravatarImage::Rating(rating->checkedId()));
+}
+
 class GravatarApp : public WApplication {
 public:
     GravatarApp(const WEnvironment& env):
@@ -72,7 +76,15 @@ public:
         builtin->setCheckedButton(builtin->button(GravatarImage::DEFAULT));
         builtin->checkedChanged().connect(boost::bind(set_default,
                                           gravatar, builtin, custom_url));
-        // TODO: set_rating
+        new WBreak(root());
+        WButtonGroup* rating = new WButtonGroup(this);
+        rating->addButton(new WRadioButton("G", root()), GravatarImage::G);
+        rating->addButton(new WRadioButton("PG", root()), GravatarImage::PG);
+        rating->addButton(new WRadioButton("R", root()), GravatarImage::R);
+        rating->addButton(new WRadioButton("X", root()), GravatarImage::X);
+        rating->setCheckedButton(rating->button(GravatarImage::G));
+        rating->checkedChanged().connect(boost::bind(set_rating,
+                                         gravatar, rating));
         // TODO: set_force_default
         // TODO: set_secure_requests
     }
