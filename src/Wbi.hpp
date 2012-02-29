@@ -378,7 +378,7 @@ public:
     TextFileInput(const std::string& option_name);
 
 protected:
-    /** Text are widget to enter text */
+    /** Textarea widget to enter text */
     WTextArea* text_area_;
 
     /** \copydoc form_widget()
