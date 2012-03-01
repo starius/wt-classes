@@ -5,9 +5,9 @@
 using namespace Wt;
 using namespace Wt::Wc;
 
-class XxdApp : public WApplication {
+class XxdLiteApp : public WApplication {
 public:
-    XxdApp(const WEnvironment& env):
+    XxdLiteApp(const WEnvironment& env):
         WApplication(env) {
         enableUpdates(true);
         messageResourceBundle().use(Wt::WApplication::appRoot() +
@@ -20,11 +20,11 @@ public:
     }
 };
 
-WApplication* createXxdApp(const WEnvironment& env) {
-    return new XxdApp(env);
+WApplication* createXxdLiteApp(const WEnvironment& env) {
+    return new XxdLiteApp(env);
 }
 
 int main(int argc, char** argv) {
-    return WRun(argc, argv, &createXxdApp);
+    return WRun(argc, argv, &createXxdLiteApp);
 }
 

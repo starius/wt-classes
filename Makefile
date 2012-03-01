@@ -73,7 +73,7 @@ dist_files = $(sources) $(headers) $(project_files) $(css) $(js) $(locales) \
 dist_dir = $(fullname)
 dist_tar = $(fullname).tar.gz
 
-doc_examples = examples/xxd-wt.cpp.ex examples/swfstore.cpp.ex \
+doc_examples = examples/swfstore.cpp.ex \
 	examples/gather.cpp.ex $(examples_cpp)
 
 .PHONY: build

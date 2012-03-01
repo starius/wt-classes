@@ -114,7 +114,7 @@ The code below creates Web UI for \c xxd.
 The command is like "xxd < in > out".
 \c sleep command was added to simulate time consuming task.
 
-\include examples/xxd-wt.cpp.ex
+\include examples/xxd-wt-lite.cpp
 
 Detailed example:
 
