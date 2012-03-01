@@ -134,7 +134,7 @@ def get_file_names(masks, default_dir, default_mask):
                 fnmatch.filter(filenames, default_mask)]
             for root, dirnames, filenames in os.walk(default_dir)])
 
-def locales_test(wt, prefix, sections, sources):
+def locales_test(prefix, sections, wt=None, sources=None):
     def e(*args, **kwargs):
         error(sys.stderr, *args, **kwargs)
 
@@ -183,7 +183,7 @@ def main():
             required=True)
     p.add_argument('--sources', help='C++ sources', metavar='FILE', nargs='*')
     args = p.parse_args()
-    locales_test(args.wt, args.prefix, args.sections, args.sources)
+    locales_test(args.prefix, args.sections, wt=args.wt, sources=args.sources)
 
 if __name__ == '__main__':
     try:
