@@ -12,7 +12,7 @@ checks XML-based localizations used by Wt apps
 
 Synopsis
 --------
-**locales-test** [-h] [--wt *wt.xml*] --prefix *prefix* --sections *sections*...
+**locales-test** [-h] [options] --prefix *prefix* --sections *sections*...
 
 Options
 -------
