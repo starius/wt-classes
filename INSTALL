@@ -1,6 +1,8 @@
 wt-classes, utility classes used by Wt applications
 ------------------------------------------
 
+(Optional) to configure the library, use configure.py
+
 Compile and install wt-classes library:
 $ make install
 

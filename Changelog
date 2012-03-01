@@ -1,3 +1,6 @@
+2012-03-02:
+    * add configure script
+
 2012-03-01:
     * publish file upload and text area from file inputs of Wbi
     * add --locales and --sources options to locales-test
