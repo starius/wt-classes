@@ -343,6 +343,11 @@ public:
 
     State state() const;
 
+    /** Get file upload */
+    WFileUpload* file_upload() {
+        return file_upload_;
+    }
+
 protected:
     /** Implementation widget */
     WContainerWidget* impl_;
