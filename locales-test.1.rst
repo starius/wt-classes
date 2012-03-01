@@ -19,15 +19,15 @@ Options
 -h
     show help message and exit
 
---wt *wt.xml* [*auth.xml*]
-    path to wt.xml and optionally auth.xml
-    (original xml files, from Wt library)
-
 --prefix *prefix*
     current project prefix
 
 --sections *sections*...
     list of allowed sections
+
+--wt *wt.xml* [*auth.xml*]
+    path to wt.xml and optionally auth.xml
+    (original xml files, from Wt library)
 
 --sources *sources*...
     list of C++ source files (or name masks).
