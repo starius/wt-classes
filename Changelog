@@ -4,6 +4,7 @@
     * add Russian translation
     * exit status for locales-test
     * add more information about the library
+    * add examples tab to the documentation
 
 2012-02-28:
     * md5(), openssl dependency

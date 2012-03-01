@@ -1,0 +1,39 @@
+/*
+ * wt-classes, utility classes used by Wt applications
+ * Copyright (C) 2011 Boris Nagaev
+ *
+ * See the LICENSE file for terms of use.
+ */
+
+namespace Wt {
+
+namespace Wc {
+
+/** \example examples/captcha.cpp
+This is an example of how to use the Wt::Wc::PaintedCaptcha class.
+*/
+
+/** \example examples/recaptcha.cpp
+This is an example of how to use the Wt::Wc::Recaptcha class.
+*/
+
+/** \example examples/url.cpp
+This is an example of how to use the \ref url module.
+*/
+
+/** \example examples/gravatar.cpp
+This is an example of how to use the Wt::Wc::GravatarImage class.
+*/
+
+/** \example examples/swfstore.cpp
+This is an example of how to use the Wt::Wc::SWFStore class and \ref protection.
+*/
+
+/** \example examples/countdown.cpp
+This is an example of how to use the Wt::Wc::Countdown class.
+*/
+
+}
+
+}
+

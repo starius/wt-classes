@@ -1,0 +1,106 @@
+/*
+ * wt-classes, utility classes used by Wt applications
+ * Copyright (C) 2011 Boris Nagaev
+ *
+ * See the LICENSE file for terms of use.
+ */
+
+/** \example examples/xxd-wt.cpp
+This is an example of how to use the \ref wbi. It creates a web interface
+for \c xxd program. \c xxd is a program, that can make a hexdump.
+
+Line by line description:
+
+\dontinclude examples/xxd-wt.cpp
+
+Include headers:
+\skip include
+\until Wbi.hpp
+
+Use Wt an Wt::Wc namespaces:
+\skip using namespace
+\until Wt::Wc
+
+Create task queue controlling the number of tasks running at the same time:
+\skipline queue
+
+A function, checking that Postscript style is not mixed with Bits style.
+These styles of \c xxd are incompatible.
+\skip validate
+\until }
+\until }
+\until }
+
+A function, generating filename to download output file.
+It takes the filename of input file and adds ".xxd"
+\skip name_gen
+\until return
+\until }
+
+Application class, inherited from WApplication
+\skipline XxdApp
+
+Constructor
+\skipline XxdApp
+
+Enables server-initiated updates.
+When task state is changed at server-side,
+it should be refrected on client-side.
+\skipline enableUpdates
+
+Add translation files of wt-classes:
+\skip messageResourceBundle
+\until locales
+
+Create task form:
+\skipline new TableTask
+
+Create file input argument of the task:
+\skipline new FileInput
+
+Add the file input to the task:
+\skipline Binary file
+
+Add an argument for the number of octets per line:
+\skip cols
+\until add_input
+
+Add an argument for Bits style of \c xxd:
+\skip bits
+\until add_input
+
+Add an argument for Postscript style of \c xxd:
+\skip ps
+\until add_input
+
+Create output argument:
+\skipline new ViewFileOutput
+
+Set name_gen() as a function, generating suggested filename:
+\skipline set_suggested_gen
+
+Add the output argument to the task:
+\skipline add_output
+
+Add forking task runner.
+The runner sleeps, runs a task and then sleep again
+to create the appearance of long calculations.
+\skipline set_runner
+
+Add the queue for thh task:
+\skipline set_queue
+
+Set default value of "octets per line" for Bits style and Postscript style:
+\skip bits->checked
+\until ps->unChecked
+
+Set validate() as a task validator:
+\skipline set_validator
+
+Add count-up for the task:
+\skipline TaskCountup
+
+Source code of xxd-wt example:
+
+*/
+
