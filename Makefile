@@ -60,11 +60,11 @@ referencedir = $(datadir)/$(name)/reference
 
 css = $(wildcard css/*.css)
 js = $(sort $(wildcard js/*.js) js/jquery.countdown.js)
-pys = locales-test.py examples/make-all.py
+pys = locales-test/locales-test.py examples/make-all.py
 locales = $(wildcard locales/wtclasses*.xml)
 project_files = Doxyfile.in *.inc LICENSE Makefile VERSION SONAME \
 	Changelog AUTHORS README.rst NEWS INSTALL *.doc */*.doc configure.py
-man_rests = locales-test.1.rst
+man_rests = locales-test/locales-test.1.rst
 mans = $(man_rests:.rst=)
 templates = examples/all.cpp.in
 
@@ -95,7 +95,7 @@ $(STATIC_LIB_PATH): $$(objects)
 	ar rcs $@ $^
 
 .PHONY: doc
-doc: locales-test.1 Doxyfile $$(doc_examples)
+doc: locales-test/locales-test.1 Doxyfile $$(doc_examples)
 	$(MAKE) install-buildless DESTDIR=./doc-source prefix=/usr
 	doxygen
 
@@ -108,8 +108,8 @@ include Install.inc
 check: locales
 
 .PHONY: locales
-locales: locales-test.py
-	./locales-test.py --prefix=wc --sections captcha common time wbi
+locales: locales-test/locales-test.py
+	./$< --prefix=wc --sections captcha common time wbi
 
 .PHONY: examples
 examples: $(DYNAMIC_LIB_PATH)
@@ -128,7 +128,7 @@ endif
 clean:
 	rm -fr debug release usr libwtclasses* doc* examples/*.wt
 
-locales-test.1: locales-test.1.rst
+locales-test/locales-test.1: locales-test/locales-test.1.rst
 	$(RST2MAN) $< > $@
 
 examples/swfstore.cpp.ex: examples/swfstore.cpp

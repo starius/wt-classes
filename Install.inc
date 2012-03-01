@@ -12,12 +12,13 @@ installdirs:
 	$(INSTALL) -d $(DESTDIR)$(referencedir)
 
 .PHONY: install-buildless
-install-buildless: $(headers) locales-test.py $$(mans) \
+install-buildless: $(headers) locales-test/locales-test.py $$(mans) \
 		$$(locales) $$(css) $$(js) \
 		installdirs
 	$(INSTALL_DATA) $(headers) $(DESTDIR)$(includedir)$(includesubdir)
-	$(INSTALL_PROGRAM) locales-test.py $(DESTDIR)$(bindir)/locales-test
-	$(INSTALL_DATA) locales-test.1 $(DESTDIR)$(mandir)/man1/
+	$(INSTALL_PROGRAM) locales-test/locales-test.py \
+		$(DESTDIR)$(bindir)/locales-test
+	$(INSTALL_DATA) locales-test/locales-test.1 $(DESTDIR)$(mandir)/man1/
 	$(INSTALL_DATA) $(locales) $(DESTDIR)$(datadir)/Wt/Wc/locales/
 	$(INSTALL_DATA) $(css) $(DESTDIR)$(datadir)/Wt/resources/Wc/css/
 	$(INSTALL_DATA) $(js) $(DESTDIR)$(datadir)/Wt/resources/Wc/js/
