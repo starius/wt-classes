@@ -34,10 +34,6 @@ You may use WTimer to update the page periodically.
 
 By default, the widget counts up from now.
 
-See the following example.
-
-\include examples/countdown.cpp
-
 \ingroup time
 \ingroup bindings
 */

@@ -19,9 +19,6 @@ namespace Wc {
 
 For more information, see http://gravatar.com/site/implement/images/
 
-Example:
-\include examples/gravatar.cpp
-
 \ingroup bindings
 */
 class GravatarImage : public WImage {

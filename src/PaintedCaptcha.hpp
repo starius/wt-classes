@@ -16,9 +16,6 @@ namespace Wc {
 
 /** Captcha widget using WPaintedWidget.
 
-Example:
-\include examples/captcha.cpp
-
 \ingroup protection
 */
 class PaintedCaptcha : public AbstractCaptcha {
