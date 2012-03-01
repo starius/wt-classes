@@ -11,6 +11,7 @@
 #include <Wt/WIntValidator>
 #include <Wt/WLineEdit>
 #include <Wt/WCheckBox>
+#include <Wt/WFileUpload>
 #include <Wt/Wc/Wbi.hpp>
 
 using namespace Wt;
@@ -28,6 +29,15 @@ bool validate(AbstractTask* task, WCheckBox* bits, WCheckBox* ps) {
     }
 }
 
+std::string name_gen(FileInput* input) {
+    std::string input_file = input->file_upload()->clientFileName().toUTF8();
+    if (input_file.empty()) {
+        input_file = "example.txt";
+    }
+    input_file += ".xxd";
+    return input_file;
+}
+
 class XxdApp : public WApplication {
 public:
     XxdApp(const WEnvironment& env):
@@ -36,7 +46,8 @@ public:
         messageResourceBundle().use(Wt::WApplication::appRoot() +
                                     "locales/wtclasses");
         TableTask* task = new TableTask(root());
-        task->add_input(new FileInput("<"), "Binary file");
+        FileInput* input = new FileInput("<");
+        task->add_input(input, "Binary file");
         WLineEdit* cols = new WLineEdit("16");
         cols->setValidator(new WIntValidator(1, 256));
         task->add_input(new LineEditInput(cols, "-c"), "Octets per line");
@@ -44,7 +55,9 @@ public:
         task->add_input(new BoolInput(bits, "-b"), "Bits");
         WCheckBox* ps = new WCheckBox();
         task->add_input(new BoolInput(ps, "-ps"), "Postscript style");
-        task->add_output(new ViewFileOutput(">"), "Hex dump");
+        ViewFileOutput* output = new ViewFileOutput(">");
+        output->set_suggested_gen(boost::bind(name_gen, input));
+        task->add_output(output, "Hex dump");
         task->set_runner(new ForkingRunner("sleep 2; xxd", "; sleep 3"));
         task->set_queue(&queue);
         bits->checked().connect(boost::bind(&WLineEdit::setText, cols, "6"));

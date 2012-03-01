@@ -131,11 +131,6 @@ clean:
 locales-test.1: locales-test.1.rst
 	$(RST2MAN) $< > $@
 
-examples/xxd-wt.cpp.ex: examples/xxd-wt.cpp
-	sed '/bool validate/,/^}/d' < $< | \
-		egrep -iv 'que|[/ ]\*|bits|ps|cols|valid|box|line|bind' | \
-		sed '/^$$/N;/^\n$$/D' > $@
-
 examples/swfstore.cpp.ex: examples/swfstore.cpp
 	egrep -iv 'gather' $< > $@
 
