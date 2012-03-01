@@ -382,6 +382,11 @@ public:
     */
     TextFileInput(const std::string& option_name);
 
+    /** Get text area */
+    WTextArea* text_area() {
+        return text_area_;
+    }
+
 protected:
     /** Textarea widget to enter text */
     WTextArea* text_area_;
