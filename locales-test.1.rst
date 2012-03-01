@@ -33,6 +33,10 @@ Options
     list of C++ source files (or name masks).
     Default all .cpp/.hpp inside src/ directory
 
+--locales *locale.xml*...
+    list of XML locale files (or name masks).
+    Default all .xml files inside locales/ directory
+
 Description
 -----------
 The **locales-test** command provides a tool

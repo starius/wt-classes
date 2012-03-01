@@ -134,7 +134,7 @@ def get_file_names(masks, default_dir, default_mask):
                 fnmatch.filter(filenames, default_mask)]
             for root, dirnames, filenames in os.walk(default_dir)])
 
-def locales_test(prefix, sections, wt=None, sources=None):
+def locales_test(prefix, sections, wt=None, sources=None, locales=None):
     def e(*args, **kwargs):
         error(sys.stderr, *args, **kwargs)
 
@@ -143,7 +143,7 @@ def locales_test(prefix, sections, wt=None, sources=None):
     filename2ids = {}
     id2text = {}
 
-    for filename in glob.glob('locales/*.xml'):
+    for filename in get_file_names(locales, 'locales', '*.xml'):
         ids = filename2ids[filename] = set()
         messages = get_messages(filename, e)
         analyze_messages(messages, ids, id2text, wt_ids, prefix, sections,
@@ -182,8 +182,10 @@ def main():
     p.add_argument('--sections', help='The list of allowed sections', nargs='+',
             required=True)
     p.add_argument('--sources', help='C++ sources', metavar='FILE', nargs='*')
+    p.add_argument('--locales', help='Locale files', metavar='FILE', nargs='*')
     args = p.parse_args()
-    locales_test(args.prefix, args.sections, wt=args.wt, sources=args.sources)
+    locales_test(args.prefix, args.sections, wt=args.wt, sources=args.sources,
+            locales=args.locales)
 
 if __name__ == '__main__':
     try:
