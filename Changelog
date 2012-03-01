@@ -3,6 +3,7 @@
     * add --locales and --sources options to locales-test
     * add Russian translation
     * exit status for locales-test
+    * add more information about the library
 
 2012-02-28:
     * md5(), openssl dependency

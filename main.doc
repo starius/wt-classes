@@ -10,6 +10,42 @@ programs, plugins, public API, etc.
 
 /** \mainpage wt-classes
 
+Wt-classes is a C++ library with utility classes used by
+<a href="http://webtoolkit.eu">Wt</a> applications. Wt
+is a C++ library for developing web applications.
+
+Wt itself lacks some components, which are needed for many projects.
+For example, there is no class representing time duration in Wt.
+It is represented as a number of seconds, milliseconds or minutes.
+Some features of Wt are too low-level (for example, internal path handling).
+There are a few bindings of Wt to other code
+(development of bindings is unlikely a purpose of Wt itself).
+
+This wt-classes library is intended to be a good extension for Wt.
+It adds high level classes and bindings to programs, plugins and public API.
+Wt-classes is compatible with Wt:
+it <i>uses</i> Wt instead of <i>forking</i> it.
+All members of wt-classes live in Wt::Wc namespace,
+headers are in <Wt/Wc/*.hpp> files.
+
+<h3>benefits</h3>
+
+ - compatibily with Wt
+ - good collection of common classes, in addition to Wt
+ - growing number of bindings.
+   Looking for a binding of Wt to Gravatar? Here you are
+
+See Modules tab to view a complete list of wt-classes features
+
+<h3>installation</h3>
+
+See INSTALL file
+
+<h3>license</h3>
+
+Wt-classes is free software.
+For more information see LICENSE file
+
 <h3>locales</h3>
 
 \note wt-classes does not load its l10n xml files by itself.
