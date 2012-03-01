@@ -27,7 +27,7 @@ Options
 
 --wt *wt.xml* [*auth.xml*]
     path to wt.xml and optionally auth.xml
-    (original xml files, from Wt library)
+    (original XML files, from Wt library)
 
 --sources *sources*...
     list of C++ source files (or name masks).
