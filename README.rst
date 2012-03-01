@@ -26,6 +26,12 @@ Installation
 
 see INSTALL file
 
+License
+-------
+
+Wt-classes is free software.
+For more information see LICENSE file
+
 Useful links
 ------------
 
