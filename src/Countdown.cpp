@@ -222,13 +222,31 @@ void Countdown::resume(const td::TimeDuration& duration) {
     resume_html(duration);
 }
 
-JSignal<>* Countdown::expired() {
+JSignal<>* Countdown::Expired::operator->() const {
+    return countdown->expired_;
+}
+
+JSignal<>& Countdown::Expired::operator*() const {
+    return *countdown->expired_;
+}
+
+Countdown::Expired::operator JSignal<>*() const {
+    return countdown->expired_;
+}
+
+Countdown::Expired::~Expired() {
+    countdown->change("onExpiry", "function() {" +
+                      countdown->expired_->createCall() + "}");
+}
+
+Countdown::Expired Countdown::expired() {
     if (!expired_) {
         expired_ = new JSignal<>(this, "expired",
                                  /* collectSlotJavaScript */ true);
-        change("onExpiry", "function() {" + expired_->createCall() + "}");
     }
-    return expired_;
+    Expired result;
+    result.countdown = this;
+    return result;
 }
 
 WDateTime Countdown::current_time() const {

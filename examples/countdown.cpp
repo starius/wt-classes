@@ -57,8 +57,6 @@ public:
         Countdown* b = new Countdown(root());
         b->pause();
         a->expired()->connect(b, &Countdown::resume);
-        // FIXME This does not work due to stateless JavaScript implementation
-        // of Countdown::resume(), see http://redmine.emweb.be/issues/1157
         //
         new WBreak(root());
         new WText("Countdown, paused in 5 s, resumed in 10 s: ", root());

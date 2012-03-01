@@ -115,6 +115,18 @@ public:
     /** Restart a paused or lap countdown after the duration */
     void resume(const td::TimeDuration& duration);
 
+#ifndef DOXYGEN_ONLY
+private:
+    struct Expired {
+        Countdown* countdown;
+        JSignal<>* operator->() const;
+        JSignal<>& operator*() const;
+        operator JSignal<>*() const;
+        ~Expired();
+    };
+#endif
+
+public:
     /** JavaScript signal, emitted when the countdown expires.
     This JavaScript signal collects JavaScript specified for connected slots
     or learned by stateless slot learning.
@@ -125,7 +137,11 @@ public:
         Since this relies on JavaScript, there are no guarantees
         of correctness and accuracy of this signal.
     */
+#ifdef DOXYGEN_ONLY
     JSignal<>* expired();
+#else
+    Expired expired();
+#endif
 
     /** Get min time duration considered significant */
     const td::TimeDuration unit() const {
