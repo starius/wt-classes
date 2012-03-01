@@ -125,7 +125,7 @@ public:
         Since this relies on JavaScript, there are no guarantees
         of correctness and accuracy of this signal.
     */
-    JSignal<>& expired();
+    JSignal<>* expired();
 
     /** Get min time duration considered significant */
     const td::TimeDuration unit() const {

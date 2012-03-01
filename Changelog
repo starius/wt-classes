@@ -1,5 +1,6 @@
 2012-03-02:
     * add configure script
+    * BREAK countdown->expired() returns a pointer, not a reference
 
 2012-03-01:
     * publish file upload and text area from file inputs of Wbi

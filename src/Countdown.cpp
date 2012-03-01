@@ -222,13 +222,13 @@ void Countdown::resume(const td::TimeDuration& duration) {
     resume_html(duration);
 }
 
-JSignal<>& Countdown::expired() {
+JSignal<>* Countdown::expired() {
     if (!expired_) {
         expired_ = new JSignal<>(this, "expired",
                                  /* collectSlotJavaScript */ true);
         change("onExpiry", "function() {" + expired_->createCall() + "}");
     }
-    return *expired_;
+    return expired_;
 }
 
 WDateTime Countdown::current_time() const {
