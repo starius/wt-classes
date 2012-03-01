@@ -20,7 +20,11 @@ from functools import partial
 ampersand = '-locales_test_ampersand'
 cleaner = re.compile(r'{.+}|<.+>|%s.{1,8};' % ampersand)
 
+error_code = 0
+
 def error(stream, message, type='error', file=None, line=None, id=None):
+    if type == 'error':
+        globals()['error_code'] = 10
     if id:
         if file:
             stream.write(file + ': ')
@@ -186,6 +190,8 @@ def main():
     args = p.parse_args()
     locales_test(args.prefix, args.sections, wt=args.wt, sources=args.sources,
             locales=args.locales)
+    if globals()['error_code']:
+        sys.exit(globals()['error_code'])
 
 if __name__ == '__main__':
     try:

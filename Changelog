@@ -2,6 +2,7 @@
     * publish file upload and text area from file inputs of Wbi
     * add --locales and --sources options to locales-test
     * add Russian translation
+    * exit status for locales-test
 
 2012-02-28:
     * md5(), openssl dependency
