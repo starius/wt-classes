@@ -29,6 +29,10 @@ Options
 --sections *sections*...
     list of allowed sections
 
+--sources *sources*...
+    list of C++ source files (or name masks).
+    Default all .cpp/.hpp inside src/ directory
+
 Description
 -----------
 The **locales-test** command provides a tool

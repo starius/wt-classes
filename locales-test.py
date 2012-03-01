@@ -125,7 +125,16 @@ def analyze_messages(messages, ids, id2text, wt_ids, prefix, sections, e):
             e('messages are unsorted, started from %s != %s' % (m1, m2))
             break
 
-def locales_test(wt, prefix, sections):
+def get_file_names(masks, default_dir, default_mask):
+    if masks:
+        return reduce(lambda a,b:a+b, map(glob.glob, masks))
+    else:
+        return reduce(lambda a,b:a+b,
+            [[os.path.join(root, filename) for filename in
+                fnmatch.filter(filenames, default_mask)]
+            for root, dirnames, filenames in os.walk(default_dir)])
+
+def locales_test(wt, prefix, sections, sources):
     def e(*args, **kwargs):
         error(sys.stderr, *args, **kwargs)
 
@@ -154,13 +163,11 @@ def locales_test(wt, prefix, sections):
     l9n_re = re.compile(r'"(%s\.[^"]+)"' % re.escape(prefix))
     used_ids = set()
 
-    for root, dirnames, filenames in os.walk('src'):
-        for filename in fnmatch.filter(filenames, '*.?pp'):
-            path = os.path.join(root, filename)
-            for match in re.findall(l9n_re, open(path).read()):
-                used_ids.add(match)
-                if match not in all_ids:
-                    e("can't find message for the id", file=path, id=match)
+    for path in get_file_names(sources, 'src', '*.?pp'):
+        for match in re.findall(l9n_re, open(path).read()):
+            used_ids.add(match)
+            if match not in all_ids:
+                e("can't find message for the id", file=path, id=match)
 
     for Id in all_ids - used_ids:
         if not Id.startswith('Wt.'):
@@ -174,8 +181,9 @@ def main():
             required=True)
     p.add_argument('--sections', help='The list of allowed sections', nargs='+',
             required=True)
+    p.add_argument('--sources', help='C++ sources', metavar='FILE', nargs='*')
     args = p.parse_args()
-    locales_test(args.wt, args.prefix, args.sections)
+    locales_test(args.wt, args.prefix, args.sections, args.sources)
 
 if __name__ == '__main__':
     try:
