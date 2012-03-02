@@ -60,7 +60,7 @@ referencedir = $(datadir)/$(name)/reference
 
 css = $(wildcard css/*.css)
 js = $(sort $(wildcard js/*.js) js/jquery.countdown.js)
-pys = locales-test/locales-test.py examples/make-all.py
+pys = locales-test/locales-test examples/make-all.py
 locales = $(wildcard locales/wtclasses*.xml)
 project_files = Doxyfile.in *.inc LICENSE Makefile VERSION SONAME \
 	Changelog AUTHORS README.rst NEWS INSTALL *.doc */*.doc configure.py
@@ -108,7 +108,7 @@ include Install.inc
 check: locales
 
 .PHONY: locales
-locales: locales-test/locales-test.py
+locales: locales-test/locales-test
 	./$< --prefix=wc --sections captcha common time wbi
 
 .PHONY: examples
