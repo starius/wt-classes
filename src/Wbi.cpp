@@ -268,7 +268,9 @@ WContainerWidget* AbstractOutput::container() {
 }
 
 void AbstractOutput::finished_handler() {
-    finished_handler_impl();
+    if (is_needed()) {
+        finished_handler_impl();
+    }
 }
 
 void AbstractOutput::add_args_impl(const ArgUser& f) const {

@@ -568,6 +568,7 @@ public:
     bool is_needed() const;
 
     /** This method is triggered when the program is finished.
+    If not is_needed(), this method does nothing.
     The implementation of this method is finished_handler_impl()
     */
     void finished_handler();
