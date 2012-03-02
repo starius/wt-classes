@@ -5,6 +5,7 @@ syntax: glob
 *.orig
 *.org
 
+build/
 debug/
 release/
 doc/
