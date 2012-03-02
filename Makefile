@@ -131,6 +131,9 @@ clean:
 locales-test/locales-test.1: locales-test/locales-test.1.rst
 	$(RST2MAN) $< > $@
 
+locales-test/setup.py: locales-test/setup.py.in VERSION
+	sed 's@{VERSION}@$(VERSION)@g' < $< > $@
+
 examples/swfstore.cpp.ex: examples/swfstore.cpp
 	egrep -iv 'gather' $< > $@
 

@@ -4,13 +4,9 @@
 # See the LICENSE file for terms of use.
 
 from distutils.core import setup
-import os.path as p
-import os
-
-version_file = p.join(os.pardir, p.dirname(__file__), 'VERSION')
 
 setup(name='locales-test',
-    version=open(version_file).read().strip(),
+    version='{VERSION}',
     description='Test of xml-based localizations used by Wt apps',
     author='Boris Nagaev',
     author_email='bnagaev@gmail.com',
