@@ -2,6 +2,7 @@
     * add configure script
     * BREAK countdown->expired() returns a pointer, not a reference
     * add setup.py for locales-test
+    * version 1.3.0 released
 
 2012-03-01:
     * publish file upload and text area from file inputs of Wbi
