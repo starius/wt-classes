@@ -271,6 +271,12 @@ void AbstractOutput::finished_handler() {
     finished_handler_impl();
 }
 
+void AbstractOutput::add_args_impl(const ArgUser& f) const {
+    if (is_needed()) {
+        add_option(f);
+    }
+}
+
 FileOutput::FileOutput(const std::string& option_name,
                        const FileOutput::NameGen& temp_gen,
                        const std::string& download_mime):

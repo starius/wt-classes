@@ -576,6 +576,9 @@ protected:
     /** Implementation of finished_handler() */
     virtual void finished_handler_impl() = 0;
 
+    /** Call the function for each of adding arguments, if is_needed() */
+    void add_args_impl(const ArgUser& f) const;
+
     /** Implementation */
     WContainerWidget* container();
 
