@@ -154,14 +154,16 @@ FileInput::FileInput(const std::string& option_name):
 }
 
 AbstractInput::State FileInput::state() const {
-    bool empty = file_upload_->empty();
-    if (empty) {
+    State result = VALID;
+    if (file_upload_->empty()) {
         set_error_message(tr("wc.wbi.Error_empty"));
+        result = EMPTY;
     }
     if (too_large_) {
         set_error_message(tr("wc.wbi.Error_too_large"));
+        result = INVALID;
     }
-    return empty ? EMPTY : VALID;
+    return result;
 }
 
 void FileInput::set_option() {
