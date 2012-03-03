@@ -182,6 +182,15 @@ TextFileInput::TextFileInput(const std::string& option_name):
                                          tr("wc.wbi.Error_too_large")));
 }
 
+AbstractInput::State TextFileInput::state() const {
+    State result = FileInput::state();
+    if (result == EMPTY && !text_area_->text().empty()) {
+        set_error_message("");
+        result = VALID;
+    }
+    return result;
+}
+
 void TextFileInput::uploaded_handler() {
     std::string filename = file_upload_->spoolFileName();
     std::ifstream file(filename.c_str());

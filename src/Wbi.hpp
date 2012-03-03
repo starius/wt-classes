@@ -382,6 +382,8 @@ public:
     */
     TextFileInput(const std::string& option_name);
 
+    State state() const;
+
     /** Get text area */
     WTextArea* text_area() {
         return text_area_;
