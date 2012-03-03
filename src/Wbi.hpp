@@ -535,9 +535,7 @@ public:
 
     The default value is true.
     */
-    void set_selectable(bool value) {
-        selectable_ = value;
-    }
+    void set_selectable(bool value);
 
     /** Get if the checkbox is checked by default.
     \sa set_selected_by_default()
@@ -551,9 +549,7 @@ public:
 
     The default value is true.
     */
-    void set_selected_by_default(bool value) {
-        selected_by_default_ = value;
-    }
+    void set_selected_by_default(bool value);
 
     /** Get if the checkbox is checked.
     This make sense only if is_selectable() == true.
@@ -589,6 +585,7 @@ private:
     bool selected_;
 
     void select_handler();
+    void update_checkbox();
 };
 
 /** Output file argument.

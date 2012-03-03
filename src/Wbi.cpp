@@ -246,12 +246,19 @@ AbstractOutput::AbstractOutput(const std::string& option_name):
     selected_(selected_by_default_) {
     setImplementation(new WContainerWidget());
     WCheckBox* box = new WCheckBox();
-    box->setChecked(selected_by_default_);
-    box->setEnabled(selectable_);
-    if (selectable_) {
-        box->changed().connect(this, &AbstractOutput::select_handler);
-    }
+    box->changed().connect(this, &AbstractOutput::select_handler);
     container()->addWidget(box);
+    update_checkbox();
+}
+
+void AbstractOutput::set_selectable(bool value) {
+    selectable_ = value;
+    update_checkbox();
+}
+
+void AbstractOutput::set_selected_by_default(bool value) {
+    selected_by_default_ = value;
+    update_checkbox();
 }
 
 bool AbstractOutput::is_needed() const {
@@ -261,6 +268,15 @@ bool AbstractOutput::is_needed() const {
 void AbstractOutput::select_handler() {
     WCheckBox* box = downcast<WCheckBox*>(sender());
     selected_ = box->isChecked();
+}
+
+void AbstractOutput::update_checkbox() {
+    WWidget* widget = container()->widget(0);
+    if (isinstance<WCheckBox>(widget)) {
+        WCheckBox* box = downcast<WCheckBox*>(widget);
+        box->setChecked(selected_by_default_);
+        box->setEnabled(selectable_);
+    }
 }
 
 WContainerWidget* AbstractOutput::container() {
