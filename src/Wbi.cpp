@@ -204,6 +204,9 @@ WFormWidget* TextFileInput::form_widget_impl() {
 
 void TextFileInput::set_option() {
     std::string filename = file_upload_->spoolFileName();
+    if (filename.empty()) {
+        filename = unique_filename();
+    }
     std::ofstream file(filename.c_str());
     file << text_area_->text().toUTF8();
     file.close();
