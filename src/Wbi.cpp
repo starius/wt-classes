@@ -639,7 +639,7 @@ void ForkingRunner::run_impl() {
 void ForkingRunner::cancel_impl() {
     thread_.interrupt();
     std::stringstream cmd;
-    cmd << "kill -9 `cat " << pid_file_ << "`";
+    cmd << "pkill -9 -P `cat " << pid_file_ << "`";
     system(cmd.str().c_str());
 }
 
