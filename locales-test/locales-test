@@ -62,11 +62,21 @@ def get_messages(filename, e):
     messages = parse(xml_file).getroot()
     return messages
 
+def full(message):
+    result = []
+    def traverse(elem):
+        if elem.text:
+            result.append(elem.text)
+        for child in elem:
+            traverse(child)
+        if elem is not message and elem.tail:
+            result.append(elem.tail)
+    traverse(message)
+    return ''.join(result)
+
 def analyze_message(message, prev_message, ids, wt_ids, prefix, sections, e):
     Id = message.get('id')
-    if not message.text:
-        message.text = ''
-    text = message.text
+    text = full(message)
     if message.tag != 'message':
         e('wrong tag "%s"' % message.tag, file=filename, id=Id)
     if text and '\n' not in text and (text[0] == ' ' or text[-1] == ' '):
@@ -105,9 +115,9 @@ def analyze_message(message, prev_message, ids, wt_ids, prefix, sections, e):
             elif prev_message.section == section:
                 if '\n\n' in prev_message.tail:
                     e('do not separate section %s' % section)
-                if '\n' in prev_message.text and '\n' not in message.text:
+                if '\n' in full(prev_message) and '\n' not in full(message):
                     e('non-multiline message after multiline messages')
-                if '\n' in prev_message.text and '\n' in message.text \
+                if '\n' in full(prev_message) and '\n' in full(message) \
                     and prev_message.get('id') > Id and not 'board' in Id:
                     e('multiline messages %s and %s are unordered' %
                             (prev_message.get('id'), Id))
@@ -116,13 +126,13 @@ def analyze_messages(messages, ids, id2text, wt_ids, prefix, sections, e):
     prev_message = None
     for message in messages:
         Id = message.get('id')
-        text = message.text
+        text = full(message)
         id2text[Id] = text
         analyze_message(message, prev_message, ids, wt_ids, prefix,
                 sections, partial(e, id=Id))
         prev_message = message
     short_messages = [m.get('id').lower() for m in messages
-        if m.text and '\n' not in m.text and
+        if full(m) and '\n' not in full(m) and
             m.get('id').startswith(prefix)]
     for m1, m2 in zip(short_messages, sorted(short_messages)):
         if m1 != m2:
