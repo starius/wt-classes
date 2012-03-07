@@ -997,7 +997,7 @@ private:
 /** Task runner, starting a waiting thread and a process.
 
 Currently it is implemented using system() function.
-Uses kill command and $$ shell expression.
+Uses pkill command and $$ shell expression.
 To create temporary pid file, unique_name() is used.
 It seems to work only under UNIX.
 
