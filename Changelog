@@ -1,3 +1,6 @@
+2012-03-07:
+    * ForkingRunner can be killed with a custom signal
+
 2012-03-06:
     *  join text of internal elements (locales-test)
 
