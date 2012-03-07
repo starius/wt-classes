@@ -380,8 +380,8 @@ void ViewFileOutput::finished_handler_impl() {
 AbstractTask::AbstractTask(WContainerWidget* p):
     WCompositeWidget(p), runner_(0), queue_(0), queued_(false) {
     if (wApp->updatesEnabled()) {
-        changed_.connect(boost::bind(&updates_poster,
-                                     WServer::instance(), wApp));
+        bound_trigger_updates_ = bound_post(updates_trigger);
+        changed_.connect(this, &AbstractTask::trigger_updates);
     }
 }
 
@@ -506,6 +506,10 @@ void AbstractTask::run_impl(bool check) {
     changed_.emit();
 }
 
+void AbstractTask::trigger_updates() {
+    bound_trigger_updates_();
+}
+
 class TTImpl : public WContainerWidget {
 public:
     TTImpl() {
@@ -584,9 +588,10 @@ void TableTask::changed_handler() {
 
 AbstractRunner::AbstractRunner():
     state_(UNSET),
-    task_(0),
-    server_(WServer::instance()), session_id_(wApp->sessionId())
-{ }
+    task_(0) {
+    bound_finished_handler_ = bound_post(boost::bind(
+            &AbstractRunner::finished_handler, this));
+}
 
 AbstractRunner::~AbstractRunner() {
     remove_from_queue();
@@ -613,8 +618,7 @@ RunState AbstractRunner::state() const {
 void AbstractRunner::finish() {
     set_state(FINISHED);
     remove_from_queue();
-    server_->post(session_id_,
-                  boost::bind(&AbstractTask::changed_emitter, task()));
+    bound_finished_handler_();
 }
 
 void AbstractRunner::remove_from_queue() {
@@ -626,6 +630,10 @@ void AbstractRunner::remove_from_queue() {
 void AbstractRunner::set_task(AbstractTask* task) {
     task_ = task;
     set_state(NEW);
+}
+
+void AbstractRunner::finished_handler() {
+    task()->changed_emitter();
 }
 
 ForkingRunner::ForkingRunner(const std::string& command,
@@ -692,12 +700,13 @@ void ForkingRunner::start_process(std::string cmd) {
 }
 
 AbstractQueue::AbstractQueue(WObject* p):
-    WObject(p), server_(0)
+    WObject(p)
 { }
 
 void AbstractQueue::add(AbstractTask* task) {
     mutex_.lock();
-    task2session_[task] = wApp->sessionId();
+    task2run_[task] = bound_post(boost::bind(&AbstractTask::run_impl,
+                                 task, /* check */ true));
     add_impl(task);
     mutex_.unlock();
 }
@@ -705,14 +714,12 @@ void AbstractQueue::add(AbstractTask* task) {
 void AbstractQueue::remove(AbstractTask* task) {
     mutex_.lock();
     remove_impl(task);
-    task2session_.erase(task);
+    task2run_.erase(task);
     mutex_.unlock();
 }
 
 void AbstractQueue::run_task(AbstractTask* task) {
-    WServer* s = server_ ? server_ : WServer::instance();
-    s->post(task2session_[task], boost::bind(&AbstractTask::run_impl,
-            task, /* check */ true));
+    task2run_[task]();
 }
 
 TaskNumberQueue::TaskNumberQueue(int max_tasks, WObject* p):

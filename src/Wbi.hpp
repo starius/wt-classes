@@ -702,6 +702,8 @@ enum RunState {
 
 /** Abstract base class of form for web-based interface of a program.
 
+\note This method must be called from a code, where wApp macro is defined.
+
 \section CSS
  - Message (error or warning): wc_task_message
 
@@ -861,9 +863,11 @@ private:
     AbstractQueue* queue_;
     bool queued_;
     Validator validator_;
+    boost::function<void()> bound_trigger_updates_;
 
     void changed_emitter();
     void run_impl(bool check);
+    void trigger_updates();
 
     friend class AbstractRunner;
     friend class AbstractQueue;
@@ -977,12 +981,12 @@ protected:
 private:
     RunState state_;
     AbstractTask* task_;
-    WServer* server_;
-    std::string session_id_;
+    boost::function<void()> bound_finished_handler_;
 
     void emit() const;
 
     void set_task(AbstractTask* task);
+    void finished_handler();
 
     friend class AbstractTask;
 };
@@ -1057,6 +1061,8 @@ public:
     /** Add new task to queue.
     This method should be called from the session of the task.
     The implementation of this method is add_impl().
+
+    \note This method must be called from a code, where wApp macro is defined.
     */
     void add(AbstractTask* task);
 
@@ -1064,15 +1070,6 @@ public:
     The implementation of this method is remove_impl().
     */
     void remove(AbstractTask* task);
-
-    /** Set server.
-    The server is used to perform WServer::post().
-
-    If value was not set, WServer::instance() is called each time.
-    */
-    void set_server(WServer* server) {
-        server_ = server;
-    }
 
 protected:
     /** Mutex.
@@ -1105,9 +1102,7 @@ private:
     Entry is added before calling add_impl()
     and removed after calling remove_impl().
     */
-    std::map<AbstractTask*, std::string> task2session_;
-
-    WServer* server_;
+    std::map<AbstractTask*, boost::function<void()> > task2run_;
 };
 
 /** Queue controlling the number of tasks running at the same time.
