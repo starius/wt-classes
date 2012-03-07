@@ -1088,12 +1088,6 @@ protected:
     */
     boost::mutex mutex_;
 
-    /** Map task to session id.
-    Entry is added before calling add_impl()
-    and removed after calling remove_impl().
-    */
-    std::map<AbstractTask*, std::string> task2session_;
-
     /** Implementation of add() */
     virtual void add_impl(AbstractTask* task) = 0;
 
@@ -1114,6 +1108,12 @@ protected:
     }
 
 private:
+    /** Map task to session id.
+    Entry is added before calling add_impl()
+    and removed after calling remove_impl().
+    */
+    std::map<AbstractTask*, std::string> task2session_;
+
     WServer* server_;
 };
 
