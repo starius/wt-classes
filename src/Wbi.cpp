@@ -520,7 +520,7 @@ public:
         state_ = new WText(this);
         new WBreak(this);
         message_ = new WText(this);
-        message_->addStyleClass("wc_task_message");
+        message_->setStyleClass("wc_task_message");
     }
 
 private:
