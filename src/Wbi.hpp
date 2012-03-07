@@ -900,7 +900,9 @@ Destructor of the class should kill working treads/processes if any.
 */
 class AbstractRunner : public WObject {
 public:
-    /** Constructor */
+    /** Constructor.
+    A runner must be created from a code, where wApp macro is defined.
+    */
     AbstractRunner();
 
     /** Destructor.
@@ -910,15 +912,6 @@ public:
 
     /** Get state */
     RunState state() const;
-
-    /** Set server.
-    The server is used to perform WServer::post().
-
-    Default value is WServer::instance() calculated once, by the constructor.
-    */
-    void set_server(WServer* server) {
-        server_ = server;
-    }
 
 protected:
     /** Method to be called when the program is finished.
