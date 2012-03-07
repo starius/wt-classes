@@ -17,3 +17,7 @@ sed 's/WFormWidget\* edit_/WLineEdit\* edit_/g' -i src/PaintedCaptcha.cpp
 sed '/set_input/,/^ \{0,4\}}/d' -i src/PaintedCaptcha.cpp
 sed '/set_input/d' -i src/PaintedCaptcha.hpp
 
+# patch debian files
+sed 's/libwt\(.\+\)(\(.\+ \)\?\([0-9.]\+\))/libwt\1(\23.1.10)/g' \
+    -i debian/control.in
+
