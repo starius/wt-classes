@@ -103,6 +103,13 @@ cURL is used.
 */
 std::string urlencode(const std::string& url);
 
+/** Hides or shows the widget.
+This is a workaround for Wt 3.1.10 setHidden changes and forgotten default.
+
+\ingroup util
+*/
+void set_hidden(WWidget* widget, bool hidden);
+
 }
 
 }

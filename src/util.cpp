@@ -89,6 +89,14 @@ std::string urlencode(const std::string& url) {
     return result;
 }
 
+void set_hidden(WWidget* widget, bool hidden) {
+    if (hidden) {
+        widget->hide();
+    } else {
+        widget->show();
+    }
+}
+
 }
 
 }

@@ -577,8 +577,8 @@ void TableTask::changed_handler() {
     TTImpl* impl = downcast<TTImpl*>(implementation());
     bool cancel = waiting_state(state());
     bool run = !cancel;
-    impl->run_->setHidden(!run, WAnimation());
-    impl->cancel_->setHidden(!cancel, WAnimation());
+    set_hidden(impl->run_, !run);
+    set_hidden(impl->cancel_, !cancel);
     impl->state_->setText(tr("wc.wbi.State_is").arg(tr(state_to_string())));
 }
 
