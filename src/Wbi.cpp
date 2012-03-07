@@ -630,7 +630,8 @@ void AbstractRunner::set_task(AbstractTask* task) {
 
 ForkingRunner::ForkingRunner(const std::string& command,
                              const std::string& suffix):
-    command_(command), suffix_(suffix), pid_file_(FileOutput::unique_name())
+    command_(command), suffix_(suffix), pid_file_(FileOutput::unique_name()),
+    signal_(9)
 { }
 
 ForkingRunner::~ForkingRunner() {
@@ -653,7 +654,7 @@ void ForkingRunner::run_impl() {
 void ForkingRunner::cancel_impl() {
     thread_.interrupt();
     std::stringstream cmd;
-    cmd << "pkill -9 -P `cat " << pid_file_ << "`";
+    cmd << "pkill -" << signal_ << " -P `cat " << pid_file_ << "`";
     system(cmd.str().c_str());
 }
 

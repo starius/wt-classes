@@ -1023,6 +1023,18 @@ public:
     */
     static std::string escape_arg(const std::string& arg);
 
+    /** Get the signal, sent to the task to cancel it */
+    int signal() const {
+        return signal_;
+    }
+
+    /** Set the signal, sent to the task to cancel it.
+    Defaults to 9 (SIGKILL).
+    */
+    void set_signal(int signal) {
+        signal_ = signal;
+    }
+
 protected:
     void run_impl();
     void cancel_impl();
@@ -1032,6 +1044,7 @@ private:
     std::string suffix_;
     std::string pid_file_;
     boost::thread thread_;
+    int signal_;
 
     std::string command() const;
     void start_process(std::string cmd);
