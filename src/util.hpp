@@ -108,9 +108,8 @@ OpenSSL is used.
 std::string md5(const std::string& data);
 
 /** URL-encodes string.
-If it failed, returns empty string.
 
-cURL is used.
+\ingroup util
 */
 std::string urlencode(const std::string& url);
 

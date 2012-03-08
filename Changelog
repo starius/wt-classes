@@ -2,6 +2,7 @@
     * BREAK rand() rename to rr()
     * do not require boost-filesystem v3 (v2 is enough)
     * rename downcast DOWNCAST, downcast is deprecated
+    * urlencode(), no curl dependency
 
 2012-03-07:
     * ForkingRunner can be killed with a custom signal

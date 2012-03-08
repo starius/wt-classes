@@ -10,7 +10,6 @@ Dependencies:
  * libboost >= 1.42 (libboost-system, libboost-filesystem, libboost-thread)
  * witty library (>=3.1.11)
  * openssl library (for md5)
- * curl library (for urlencode)
  * python, containing argparse module (used by Makefile and locales-test)
 
 Build-only dependencies:

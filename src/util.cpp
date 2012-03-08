@@ -15,10 +15,10 @@
 #include <fstream>
 #include <boost/filesystem.hpp>
 #include <boost/bind.hpp>
+#include <boost/foreach.hpp>
 #include <boost/algorithm/string/replace.hpp>
 
 #include <openssl/md5.h>
-#include <curl/curl.h>
 #include <Wt/WApplication>
 #include <Wt/WEnvironment>
 #include <Wt/WServer>
@@ -112,16 +112,17 @@ std::string md5(const std::string& data) {
 }
 
 std::string urlencode(const std::string& url) {
-    std::string result;
-    CURL* curl_handle = curl_easy_init();
-    char* encoded = curl_easy_escape(curl_handle,
-                                     url.c_str(), url.size());
-    if (encoded) {
-        result = encoded;
-        curl_free(encoded);
+    std::stringstream result;
+    result.setf(std::ios::hex | std::ios::uppercase);
+    BOOST_FOREACH (char c, url) {
+        if (isalnum(c) && (0 < c && c < 127)) {
+            result.put(c);
+        } else {
+            result.put('%');
+            result << c;
+        }
     }
-    curl_easy_cleanup(curl_handle);
-    return result;
+    return result.str();
 }
 
 void set_hidden(WWidget* widget, bool hidden) {
