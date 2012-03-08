@@ -97,7 +97,10 @@ On error, \p def value is returned.
 */
 std::string config_value(const std::string& name, const std::string& def = "");
 
-/** Current datetime */
+/** Current datetime.
+
+\ingroup util
+*/
 WDateTime now();
 
 /** Compute the MD5 message digest of the data (hex).
