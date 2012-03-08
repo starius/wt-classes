@@ -13,6 +13,7 @@
 #include <Wt/WText>
 #include <Wt/WRandom>
 #include <Wt/Wc/Url.hpp>
+#include <Wt/Wc/rand.hpp>
 
 using namespace Wt;
 using namespace Wt::Wc::url;
@@ -76,7 +77,7 @@ public:
         new WText("Items:", contents_);
         for (int i = 0; i < 10; ++i) {
             new WBreak(contents_);
-            int id = abs(Wt::WRandom::get());
+            int id = abs(rr());
             WAnchor* user = new WAnchor(contents_);
             user->setLink(user_profile_->get_link(id));
             user->setText(user_profile_->get_full_path(id));
