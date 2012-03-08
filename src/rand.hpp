@@ -21,7 +21,7 @@ Functions to generate random variables.
 
 \ingroup rand
 */
-unsigned int rand();
+unsigned int rr();
 
 /** Return random number from open interval [0, stop).
 
