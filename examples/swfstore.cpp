@@ -54,7 +54,8 @@ const char* SWFSTORE_FILE = "/usr/share/javascript/yui/swfstore/swfstore.swf";
 class SWFStoreServer : public WServer {
 public:
     SWFStoreServer(int argc, char** argv):
-        swfstore_("application/x-shockwave-flash", SWFSTORE_FILE) {
+        swfstore_("application/x-shockwave-flash", SWFSTORE_FILE),
+        storage_whitelist_("", "") {
         setServerConfiguration(argc, argv);
         addResource(&swfstore_, "/swfstore.swf");
         addResource(&storage_whitelist_, "/storage-whitelist.xml");

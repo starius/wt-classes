@@ -21,7 +21,7 @@ namespace Wt {
 namespace Wc {
 
 FilterResource::FilterResource(const WString& cmd, WObject* parent):
-    WFileResource(parent), cmd_(cmd)
+    WFileResource("text/plain", "file.txt", parent), cmd_(cmd)
 { }
 
 FilterResource::~FilterResource() {

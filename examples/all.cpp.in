@@ -20,7 +20,8 @@ WApplication* createAllApp(const WEnvironment& env) {
 class AllServer : public WServer {
 public:
     AllServer(int argc, char** argv):
-        swfstore_("application/x-shockwave-flash", SWFSTORE_FILE) {
+        swfstore_("application/x-shockwave-flash", SWFSTORE_FILE),
+        storage_whitelist_("", "") {
         setServerConfiguration(argc, argv);
         addResource(&swfstore_, "/swfstore.swf");
         addResource(&storage_whitelist_, "/storage-whitelist.xml");
