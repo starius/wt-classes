@@ -7,7 +7,7 @@ Compile and install wt-classes library:
 $ make install
 
 Dependencies:
- * libboost >= 1.44 (libboost-system, libboost-filesystem, libboost-thread)
+ * libboost >= 1.42 (libboost-system, libboost-filesystem, libboost-thread)
  * witty library (>=3.1.11)
  * openssl library (for md5)
  * curl library (for urlencode)

@@ -5,7 +5,10 @@
  * See the LICENSE file for terms of use.
  */
 
+#include <boost/version.hpp>
+#if BOOST_VERSION >= 104400
 #define BOOST_FILESYSTEM_VERSION 3
+#endif
 
 #include <cstdlib>
 #include <cstdio>
@@ -341,7 +344,11 @@ std::string FileOutput::unique_name() {
 }
 
 std::string FileOutput::temp_notdir() const {
+#if BOOST_FILESYSTEM_VERSION == 3
     return boost::filesystem::path(temp_file()).filename().string();
+#else
+    return boost::filesystem::path(temp_file()).filename();
+#endif
 }
 
 void FileOutput::set_option() {
