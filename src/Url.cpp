@@ -54,7 +54,7 @@ WLink Node::link() const {
 }
 
 Node* Node::node_parent() const {
-    return isinstance<Node>(parent()) ? downcast<Node*>(parent()) : 0;
+    return isinstance<Node>(parent()) ? DOWNCAST<Node*>(parent()) : 0;
 }
 
 Parser* Node::parser() const {
@@ -62,7 +62,7 @@ Parser* Node::parser() const {
     while (!isinstance<Parser>(node) && isinstance<Node>(node)) {
         node = node->node_parent();
     }
-    return node ? downcast<Parser*>(node) : 0;
+    return node ? DOWNCAST<Parser*>(node) : 0;
 }
 
 void Node::open(bool change_path) {
@@ -161,10 +161,10 @@ Node* Parser::parse(const std::string& path) {
         }
         bool next = false;
         BOOST_FOREACH (WObject* o, node->children()) {
-            if (isinstance<Node>(o) && downcast<Node*>(o)->meet(part)) {
+            if (isinstance<Node>(o) && DOWNCAST<Node*>(o)->meet(part)) {
                 next = true;
-                node = downcast<Node*>(o);
-                downcast<Node*>(o)->set_value(part);
+                node = DOWNCAST<Node*>(o);
+                DOWNCAST<Node*>(o)->set_value(part);
                 break;
             }
         }

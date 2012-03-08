@@ -132,7 +132,7 @@ bool Recaptcha::js() const {
 }
 
 WContainerWidget* Recaptcha::get_impl() {
-    return downcast<WContainerWidget*>(implementation());
+    return DOWNCAST<WContainerWidget*>(implementation());
 }
 
 void Recaptcha::http_done(const boost::system::error_code& e,

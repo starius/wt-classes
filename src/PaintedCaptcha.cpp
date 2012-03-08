@@ -165,7 +165,7 @@ std::string PaintedCaptcha::prepare_key(const std::string& key) const {
 }
 
 PaintedCaptcha::Impl* PaintedCaptcha::get_impl() {
-    return downcast<Impl*>(implementation());
+    return DOWNCAST<Impl*>(implementation());
 }
 
 }

@@ -124,7 +124,7 @@ AbstractInput::State FormWidgetInput::state() const {
 }
 
 WFormWidget* FormWidgetInput::form_widget_impl() {
-    return downcast<WFormWidget*>(implementation());
+    return DOWNCAST<WFormWidget*>(implementation());
 }
 
 LineEditInput::LineEditInput(WLineEdit* widget, const std::string& option_name):
@@ -132,11 +132,11 @@ LineEditInput::LineEditInput(WLineEdit* widget, const std::string& option_name):
 { }
 
 WLineEdit* LineEditInput::line_edit() {
-    return downcast<WLineEdit*>(form_widget());
+    return DOWNCAST<WLineEdit*>(form_widget());
 }
 
 const WLineEdit* LineEditInput::line_edit() const {
-    return downcast<const WLineEdit*>(form_widget());
+    return DOWNCAST<const WLineEdit*>(form_widget());
 }
 
 void LineEditInput::set_option() {
@@ -240,11 +240,11 @@ BoolInput::BoolInput(WCheckBox* widget, const std::string& name,
 }
 
 WCheckBox* BoolInput::check_box() {
-    return downcast<WCheckBox*>(form_widget());
+    return DOWNCAST<WCheckBox*>(form_widget());
 }
 
 const WCheckBox* BoolInput::check_box() const {
-    return downcast<const WCheckBox*>(form_widget());
+    return DOWNCAST<const WCheckBox*>(form_widget());
 }
 
 void BoolInput::set_option() {
@@ -283,21 +283,21 @@ bool AbstractOutput::is_needed() const {
 }
 
 void AbstractOutput::select_handler() {
-    WCheckBox* box = downcast<WCheckBox*>(sender());
+    WCheckBox* box = DOWNCAST<WCheckBox*>(sender());
     selected_ = box->isChecked();
 }
 
 void AbstractOutput::update_checkbox() {
     WWidget* widget = container()->widget(0);
     if (isinstance<WCheckBox>(widget)) {
-        WCheckBox* box = downcast<WCheckBox*>(widget);
+        WCheckBox* box = DOWNCAST<WCheckBox*>(widget);
         box->setChecked(selected_by_default_);
         box->setEnabled(selectable_);
     }
 }
 
 WContainerWidget* AbstractOutput::container() {
-    return downcast<WContainerWidget*>(implementation());
+    return DOWNCAST<WContainerWidget*>(implementation());
 }
 
 void AbstractOutput::finished_handler() {
@@ -478,7 +478,7 @@ bool AbstractTask::check_inputs() {
     bool accepted = true;
     BOOST_FOREACH (AbstractArgument* arg, args_) {
         if (isinstance<AbstractInput>(arg)) {
-            AbstractInput* input = downcast<AbstractInput*>(arg);
+            AbstractInput* input = DOWNCAST<AbstractInput*>(arg);
             accepted = accepted && input->accepted();
             update_error_message(input);
         }
@@ -498,7 +498,7 @@ void AbstractTask::set_message_impl(const WString& /* message */)
 void AbstractTask::changed_emitter() {
     BOOST_FOREACH (AbstractArgument* arg, args_) {
         if (isinstance<AbstractOutput>(arg)) {
-            downcast<AbstractOutput*>(arg)->finished_handler();
+            DOWNCAST<AbstractOutput*>(arg)->finished_handler();
         }
     }
     changed_.emit();
@@ -556,27 +556,27 @@ TableTask::TableTask(WContainerWidget* p):
 
 void TableTask::add_input_impl(AbstractInput* input, const WString& name,
                                const WString& description) {
-    TTImpl* impl = downcast<TTImpl*>(implementation());
+    TTImpl* impl = DOWNCAST<TTImpl*>(implementation());
     bool row = !input->large();
     impl->inputs_->item(name, description, input->form_widget(), input, row);
 }
 
 void TableTask::add_output_impl(AbstractOutput* output, const WString& name,
                                 const WString& description) {
-    TTImpl* impl = downcast<TTImpl*>(implementation());
+    TTImpl* impl = DOWNCAST<TTImpl*>(implementation());
     bool row = !output->large();
     impl->outputs_->item(name, description, 0, output, row);
 }
 
 void TableTask::update_error_message(AbstractInput* input) {
-    TTImpl* impl = downcast<TTImpl*>(implementation());
+    TTImpl* impl = DOWNCAST<TTImpl*>(implementation());
     const WString& message = input->accepted() ? WString::Empty :
                              input->error_message();
     impl->inputs_->set_comment(input, message);
 }
 
 void TableTask::set_message_impl(const WString& message) {
-    TTImpl* impl = downcast<TTImpl*>(implementation());
+    TTImpl* impl = DOWNCAST<TTImpl*>(implementation());
     impl->message_->setText(message);
 }
 
@@ -585,7 +585,7 @@ bool waiting_state(RunState state) {
 }
 
 void TableTask::changed_handler() {
-    TTImpl* impl = downcast<TTImpl*>(implementation());
+    TTImpl* impl = DOWNCAST<TTImpl*>(implementation());
     bool cancel = waiting_state(state());
     bool run = !cancel;
     set_hidden(impl->run_, !run);

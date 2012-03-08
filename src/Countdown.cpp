@@ -50,7 +50,7 @@ protected:
 
 private:
     Countdown* countdown() {
-        return downcast<Countdown*>(parent());
+        return DOWNCAST<Countdown*>(parent());
     }
 
     WDateTime current_time() const {

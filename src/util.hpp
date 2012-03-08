@@ -39,9 +39,16 @@ bool isinstance(const S* object) {
 
 /** Downcasting operator.
 
+\deprecated Use DOWNCAST
 \ingroup util
 */
 #define downcast boost::polymorphic_downcast
+
+/** Downcasting operator.
+
+\ingroup util
+*/
+#define DOWNCAST boost::polymorphic_downcast
 
 /** Ugly macro converting any type to std::string using boost::lexical_cast.
 

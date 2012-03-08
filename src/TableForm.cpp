@@ -107,7 +107,7 @@ void TableForm::set_comment(WWidget* input, const WString& message) {
 }
 
 WTableRow* TableForm::parent_row_(WWidget* input) {
-    return rowAt(downcast<WTableCell*>(input->parent())->row());
+    return rowAt(DOWNCAST<WTableCell*>(input->parent())->row());
 }
 
 WTableCell* TableForm::comment_cell(WWidget* input) {

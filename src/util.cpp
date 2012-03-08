@@ -36,7 +36,7 @@ void post(WServer* server, const std::string& app,
 }
 
 boost::function<void()> bound_post(boost::function<void()> func) {
-    WServer* server = downcast<WServer*>(wApp->environment().server());
+    WServer* server = DOWNCAST<WServer*>(wApp->environment().server());
     return boost::bind(post, server, wApp->sessionId(), func);
 }
 
