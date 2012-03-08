@@ -20,6 +20,8 @@ Build-only dependencies:
 Recommendations:
  * YUI library >= 2.8.0 for SWFStore
 
+To exclude openssl dependency, apply script no-openssl.sh
+
 To build wt-classes against Wt 3.1.10, before build
 apply script for-wt-3.1.10.sh
 
