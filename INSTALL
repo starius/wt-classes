@@ -25,6 +25,9 @@ To exclude openssl dependency, apply script no-openssl.sh
 To build wt-classes against Wt 3.1.10, before build
 apply script for-wt-3.1.10.sh
 
+To build wt-classes against Wt 3.1.2, before build
+apply script for-wt-3.1.2.sh
+
 To install locales-test:
 # easy_install locales-test
  or
