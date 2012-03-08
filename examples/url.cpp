@@ -16,6 +16,7 @@
 #include <Wt/Wc/rand.hpp>
 
 using namespace Wt;
+using namespace Wt::Wc;
 using namespace Wt::Wc::url;
 
 class UrlApp : public WApplication {
