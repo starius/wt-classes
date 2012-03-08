@@ -983,8 +983,6 @@ private:
     AbstractTask* task_;
     boost::function<void()> bound_finished_handler_;
 
-    void emit() const;
-
     void set_task(AbstractTask* task);
     void finished_handler();
 
