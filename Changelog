@@ -1,3 +1,6 @@
+2012-03-09:
+    * version 1.3.5.2 released (from now it is a native debian package)
+
 2012-03-08:
     * BREAK rand() rename to rr()
     * do not require boost-filesystem v3 (v2 is enough)

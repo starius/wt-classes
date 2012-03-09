@@ -1,3 +1,10 @@
+libwtclasses (1.3.5.2) unstable; urgency=low
+
+  * add target debian, building files in debian/ directory
+  * use native format instead of quilt
+
+ -- Boris Nagaev <bnagaev@gmail.com>  Fri, 09 Mar 2012 16:12:30 +0400
+
 libwtclasses (1.3.5-1) unstable; urgency=low
 
   * new upstream (1.3.5)
