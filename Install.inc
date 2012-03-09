@@ -69,12 +69,3 @@ debian/libwtclasses$(SONAME).install: debian/libwtclassesSONAME.install.in
 .PHONY: debian
 debian: debian/control debian/libwtclasses$$(SONAME).install
 
-.PHONY: deb
-deb:
-	$(MAKE) dist
-	cp -fl $(dist_tar) $(name)_$(VERSION).orig.tar.gz
-	cp -flr debian $(dist_dir)
-	cd $(dist_dir) && $(MAKE) debian
-	cd $(dist_dir)/debian/ && rm -f *.in
-	cd $(dist_dir) && debuild
-

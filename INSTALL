@@ -33,6 +33,8 @@ To install locales-test:
  or
 # pip install locales-test
 
+To get debian packages, run ``make debian'', followed by ``debuild''.
+
 ------------------------------------------
 Boris Nagaev <bnagaev@gmail.com>
 
