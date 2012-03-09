@@ -59,17 +59,22 @@ dist: $$(dist_files)
 	cp --parents $^ $(dist_dir)
 	tar -czf $(dist_tar) $(addprefix $(dist_dir)/, $(dist_files))
 
+debian/control: debian/control.in
+	sed -e 's@SONAME@$(SONAME)@g' -e '/DESCR/r debian/descr.in' -e '/DESCR/d' \
+		< $< > $@
+
+debian/libwtclasses$(SONAME).install: debian/libwtclassesSONAME.install.in
+	cp -fl $< $@
+
+.PHONY: debian
+debian: debian/control debian/libwtclasses$$(SONAME).install
+
 .PHONY: deb
 deb:
 	$(MAKE) dist
 	cp -fl $(dist_tar) $(name)_$(VERSION).orig.tar.gz
-	rm -rf $(dist_dir)/debian
-	mkdir -p $(dist_dir)/debian
-	cp -flr debian/* $(dist_dir)/debian
-	sed -e 's@SONAME@$(SONAME)@g' -e '/DESCR/r debian/descr.in' -e '/DESCR/d' \
-		< debian/control.in > $(dist_dir)/debian/control
-	cp -fl debian/libwtclassesSONAME.install.in \
-		$(dist_dir)/debian/libwtclasses$(SONAME).install
+	cp -flr debian $(dist_dir)
+	cd $(dist_dir) && $(MAKE) debian
 	cd $(dist_dir)/debian/ && rm -f *.in
 	cd $(dist_dir) && debuild
 
