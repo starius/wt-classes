@@ -6,6 +6,7 @@ Build-Depends: debhelper (>= 7.0.50~), libboost-filesystem-dev (>= 1.42),
  libssl-dev,
  python-docutils,
  doxygen,
+ wget, unzip,
  python (>=2.7) | python-argparse
 Standards-Version: 3.8.4
 Section: libs
