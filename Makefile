@@ -23,9 +23,9 @@ STATIC_LIB_PATH = ./$(BUILD)/$(STATIC_LIB)
 
 CXX = g++
 LINK = g++
-LIBS += -lboost_signals -lboost_system
-LIBS += -lboost_filesystem -lboost_thread
 LIBS += -lwt
+LIBS += -lboost_filesystem -lboost_thread
+LIBS += -lboost_signals -lboost_system
 LIBS += -lssl
 CXXFLAGS += -pipe -Wall -W -fPIC
 CXXFLAGS += -I$(BUILD) -Isrc
@@ -88,7 +88,7 @@ $(BUILD)/%.o: src/$$*.cpp $$(headers)
 
 $(DYNAMIC_LIB_PATH): $$(objects)
 	mkdir -p $(dir $@)
-	$(LINK) $(LFLAGS) $(LIBS) $(objects) -Wl,-soname,$(DYNAMIC_LIB_SONAME) -o $@
+	$(LINK) $(LFLAGS) $(objects) $(LIBS) -Wl,-soname,$(DYNAMIC_LIB_SONAME) -o $@
 
 $(STATIC_LIB_PATH): $$(objects)
 	mkdir -p $(dir $@)
@@ -119,9 +119,9 @@ examples: $(DYNAMIC_LIB_PATH)
 %.wt: %.cpp $(DYNAMIC_LIB_PATH)
 ifeq (,$(EXAMPLES_SYSTEM_LIB))
 	$(CXX) -L./usr/lib -I./usr/include \
-		$(LIBS) -lwtclasses -lwthttp $< -o $@
+		$< -lwtclasses -lwthttp $(LIBS) -o $@
 else
-	$(CXX) $(LIBS) -lwtclasses -lwthttp $< -o $@
+	$(CXX) $< -lwtclasses -lwthttp $(LIBS) -o $@
 endif
 
 .PHONY: clean
