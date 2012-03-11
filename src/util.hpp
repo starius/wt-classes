@@ -123,6 +123,12 @@ This is a workaround for Wt 3.1.10 setHidden changes and forgotten default.
 */
 void set_hidden(WWidget* widget, bool hidden);
 
+/** Return stringified bool ("true" or "false").
+
+\ingroup util
+*/
+std::string bool_to_string(bool value);
+
 }
 
 }

@@ -8,6 +8,7 @@
 #include <Wt/WApplication>
 
 #include "SWFStore.hpp"
+#include "util.hpp"
 
 namespace Wt {
 
@@ -55,10 +56,6 @@ void SWFStore::get_value_of(const std::string& key, const std::string& def) {
     async_do("var value = $(" + jsRef() + ").data('swfstore')"
              ".getValueOf('" + key + "') || '" + def + "';" +
              value_.createCall("'" + key + "'", "value"));
-}
-
-std::string SWFStore::bool_to_string(bool value) {
-    return value ? "true" : "false";
 }
 
 void SWFStore::async_do(const std::string& js) {

@@ -133,6 +133,10 @@ void set_hidden(WWidget* widget, bool hidden) {
     }
 }
 
+std::string bool_to_string(bool value) {
+    return value ? "true" : "false";
+}
+
 }
 
 }

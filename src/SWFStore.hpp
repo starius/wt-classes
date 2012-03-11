@@ -83,9 +83,6 @@ public:
         return value_;
     }
 
-    /** Return stringified bool ("true" or "false") */
-    static std::string bool_to_string(bool value);
-
 private:
     JSignal<std::string, WString> value_;
 
