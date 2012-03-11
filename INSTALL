@@ -35,6 +35,12 @@ To install locales-test:
 
 To get debian packages, run ``make debian'', followed by ``debuild''.
 
+For Ubuntu, you can get the packages, lacking some classes or features (in order
+to be compatible with outdated Wt versions from Ubuntu distributions):
+$ sudo add-apt-repository ppa:starius/wc
+$ sudo apt-get update
+$ sudo apt-get install '.*wtclasses.*'
+
 ------------------------------------------
 Boris Nagaev <bnagaev@gmail.com>
 
