@@ -134,6 +134,10 @@ locales-test/locales-test.1: locales-test/locales-test.1.rst
 locales-test/setup.py: locales-test/setup.py.in VERSION
 	sed 's@{VERSION}@$(VERSION)@g' < $< > $@
 
+locales-test/locales-test: locales-test/locales-test.in VERSION
+	sed 's@{VERSION}@$(VERSION)@g' < $< > $@
+	chmod +x $@
+
 examples/swfstore.cpp.ex: examples/swfstore.cpp
 	egrep -iv 'gather' $< > $@
 

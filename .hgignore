@@ -23,4 +23,5 @@ Doxyfile
 js/jquery.countdown.js
 
 locales-test/setup.py
+locales-test/locales-test
 
