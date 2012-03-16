@@ -24,7 +24,7 @@
     <message id='wc.wbi.Finished'>Завершено</message>
     <message id='wc.wbi.Inputs'>Входы</message>
     <message id='wc.wbi.New'>Новое</message>
-    <message id='wc.wbi.Outputs'>Выходы</message>
+    <message id='wc.wbi.Outputs'>Результаты</message>
     <message id='wc.wbi.Queued'>Отложено</message>
     <message id='wc.wbi.Run'>Запуск</message>
     <message id='wc.wbi.State_is'>Состояние: {1}</message>
