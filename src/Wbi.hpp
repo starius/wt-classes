@@ -706,6 +706,7 @@ enum RunState {
 
 \section CSS
  - Message (error or warning): wc_task_message
+ - State (working, finished etc): wc_wbi_state
 
 \ingroup wbi
 */

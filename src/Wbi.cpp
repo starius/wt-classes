@@ -529,6 +529,7 @@ public:
         cancel_->hide();
         new WBreak(this);
         state_ = new WText(this);
+        state_->setStyleClass("wc_wbi_state");
         new WBreak(this);
         message_ = new WText(this);
         message_->setStyleClass("wc_task_message");
