@@ -22,7 +22,10 @@ cleaner = re.compile(r'{.+}|<.+>|%s.{1,8};' % ampersand)
 
 error_code = 0
 
-def error(stream, message, type='error', file=None, line=None, id=None):
+def error(stream, message, type='error', file=None, line=None, id=None,
+        warnings=True):
+    if type == 'warning' and not warnings:
+        return
     if type == 'error':
         globals()['error_code'] = 10
     if id:
@@ -148,8 +151,10 @@ def get_file_names(masks, default_dir, default_mask):
                 fnmatch.filter(filenames, default_mask)]
             for root, dirnames, filenames in os.walk(default_dir)])
 
-def locales_test(prefix, sections, wt=None, sources=None, locales=None):
+def locales_test(prefix, sections, wt=None, sources=None, locales=None,
+        warnings=True):
     def e(*args, **kwargs):
+        kwargs['warnings'] = warnings
         error(sys.stderr, *args, **kwargs)
 
     wt_ids = get_wt_ids(wt or [], e)
@@ -198,9 +203,10 @@ def main():
             required=True)
     p.add_argument('--sources', help='C++ sources', metavar='FILE', nargs='*')
     p.add_argument('--locales', help='Locale files', metavar='FILE', nargs='*')
+    p.add_argument('--no-warn', help='Turn warnings off', action='store_true')
     args = p.parse_args()
     locales_test(args.prefix, args.sections, wt=args.wt, sources=args.sources,
-            locales=args.locales)
+            locales=args.locales, warnings=not args.no_warn)
     if globals()['error_code']:
         sys.exit(globals()['error_code'])
 
