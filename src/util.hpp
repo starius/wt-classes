@@ -15,7 +15,11 @@
 #include <Wt/WGlobal>
 #include <Wt/WDateTime>
 
+#include "global.hpp"
+
 namespace Wt {
+
+class WIOService; // FIXME http://redmine.emweb.be/issues/1189
 
 namespace Wc {
 
@@ -128,6 +132,18 @@ void set_hidden(WWidget* widget, bool hidden);
 \ingroup util
 */
 std::string bool_to_string(bool value);
+
+/** Utility method used to schedule a function.
+\attention The function would be executed in "raw" thread of io service.
+    Consider using of bound_post() wrapper for \p func.
+\note If the number of total milliseconds of the duration exceeds the
+    size of \c int, the duration is decreased to fit into this size (INT_MAX).
+    If sizeof(int) is 4, max duration is about 24.8 days.
+\see WIOService::schedule()
+\ingroup util
+*/
+void schedule_action(WIOService* io, const td::TimeDuration& wait,
+                     const boost::function<void()>& func);
 
 }
 

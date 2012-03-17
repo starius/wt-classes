@@ -8,14 +8,17 @@
 #ifndef WC_PLANNING_SERVER_HPP_
 #define WC_PLANNING_SERVER_HPP_
 
+#include <boost/function.hpp>
+
 #include <Wt/WObject>
 #include <Wt/WDateTime>
-#include <Wt/WIOService>
 
 #include "Notify.hpp"
 #include "TimeDuration.hpp"
 
 namespace Wt {
+
+class WIOService; // FIXME http://redmine.emweb.be/issues/1189
 
 namespace Wc {
 
@@ -54,15 +57,13 @@ public:
 
     The task is executed at <tt>when + delay()</tt>.
 
-    \note If the number of total milliseconds of the duration exceeds the
-    size of \c int, the duration is decreased to fit into this size (INT_MAX).
-    If sizeof(int) is 4, max duration is about 24.8 days.
-
     If immediately is false, the task would be added after currently running
     task is finished and notification server is emitted with current event.
     Using immediately = false makes sense only from Task::process().
     This can be useful if new added task depends on
     uncommitted results of current task.
+
+    \see schedule
     */
     bool add(TaskPtr task, const WDateTime& when, bool immediately = true);
 
@@ -113,8 +114,8 @@ public:
     }
 
     /** Utility method used to schedule a function.
-    \note The function would be executed in "raw" thread of io service.
-        Consider using of bound_post() wrapper for \p func.
+    This is a method for convenience.
+    \see schedule_action
     */
     void schedule(const td::TimeDuration& wait,
                   const boost::function<void()>& func);

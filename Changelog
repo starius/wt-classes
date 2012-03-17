@@ -1,5 +1,6 @@
 2012-03-17:
     * add option --no-warn to locales-test
+    * add function schedule_action()
 
 2012-03-11:
     * version 1.3.5.5 released

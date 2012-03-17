@@ -11,6 +11,7 @@
 #endif
 
 #include <sstream>
+#include <climits>
 #include <cstdio>
 #include <fstream>
 #include <boost/filesystem.hpp>
@@ -22,9 +23,11 @@
 #include <Wt/WApplication>
 #include <Wt/WEnvironment>
 #include <Wt/WServer>
+#include <Wt/WIOService>
 
 #include "util.hpp"
 #include "rand.hpp"
+#include "TimeDuration.hpp"
 
 namespace Wt {
 
@@ -135,6 +138,15 @@ void set_hidden(WWidget* widget, bool hidden) {
 
 std::string bool_to_string(bool value) {
     return value ? "true" : "false";
+}
+
+void schedule_action(WIOService* io, const td::TimeDuration& wait,
+                     const boost::function<void()>& func) {
+    int ms = wait.total_milliseconds();
+    if (ms < 0) {
+        ms = INT_MAX;
+    }
+    io->schedule(ms, func);
 }
 
 }
