@@ -22,7 +22,7 @@ sed '/namespace Wc {/rpatches/post' -i src/Wbi.cpp
 sed 's@updates_trigger@boost::bind(\&WApplication::triggerUpdate, wApp)@' \
     -i src/Wbi.cpp
 sed '/updates_poster/,/^$/d' -i src/util.?pp # remove updates_poster()
-sed '/bound_post/,/^$/d' -i src/util.?pp # remove bound_post()
+sed '/bound_post(boost::function/,/^$/d' -i src/util.?pp # remove bound_post()
 sed '/void post/,/^$/d' -i src/util.cpp # remove post()
 
 sed 's@Wt::WApplication::appRoot() +@@' -i examples/*.cpp # no appRoot
