@@ -3,7 +3,7 @@
 rm src/Planning.?pp                            # depends on WIOService
 sed '/void schedule_action/,/^$/d' -i src/util.?pp # remove schedule_action()
 sed '/WIOService/d' -i src/util.cpp            # no WIOService
-sed '/WLink /,/}/d' -i src/Url.cpp             # remove methods returning WLink
+sed '/WLink/,/^$/d' -i src/Url.cpp             # remove methods returning WLink
 sed '/WLink/d' -i src/Url.hpp                  # remove methods returning WLink
 sed 's/link/full_path/g' -i examples/url.cpp   # use string instead of WLink
 sed 's/setLink/setRefInternalPath/g' -i examples/url.cpp

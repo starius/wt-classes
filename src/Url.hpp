@@ -300,6 +300,11 @@ public:
     */
     void open(const std::string& path);
 
+    /** Parse the internal path and open corresponding path node.
+    This is an overloaded method for convenience.
+    */
+    void open(const WLink& internal_path);
+
     /** Signal emitted when wrong internal path is opened */
     Signal<>& error404() {
         return error404_;

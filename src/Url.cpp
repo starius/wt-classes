@@ -184,6 +184,10 @@ void Parser::open(const std::string& path) {
     }
 }
 
+void Parser::open(const WLink& internal_path) {
+    open(internal_path.internalPath().toUTF8());
+}
+
 }
 
 }
