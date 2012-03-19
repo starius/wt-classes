@@ -1,3 +1,6 @@
+2012-03-19:
+    * change default value, node.open(change_path = true)
+
 2012-03-17:
     * add option --no-warn to locales-test
     * add function schedule_action()

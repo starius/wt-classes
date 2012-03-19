@@ -178,7 +178,7 @@ Node* Parser::parse(const std::string& path) {
 void Parser::open(const std::string& path) {
     Node* node = parse(path);
     if (node) {
-        node->open();
+        node->open(/* change_path */ false);
     } else {
         error404().emit();
     }

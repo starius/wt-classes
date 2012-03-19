@@ -179,7 +179,7 @@ public:
     /** Emit signal.
     \param change_path Whether internal path of wApp should be changed.
     */
-    void open(bool change_path = false);
+    void open(bool change_path = true);
 
     /** Signal emitted when url is opened */
     Signal<>& opened() {
@@ -294,7 +294,10 @@ public:
     */
     Node* parse(const std::string& path);
 
-    /** Parse the internal path and open corresponding path node */
+    /** Parse the internal path and open corresponding path node.
+    This method does not change URL in address line
+    (Node::open() is called with change_path = false).
+    */
     void open(const std::string& path);
 
     /** Signal emitted when wrong internal path is opened */
