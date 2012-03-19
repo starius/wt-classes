@@ -67,7 +67,7 @@ Parser* Node::parser() const {
 
 void Node::open(bool change_path) {
     if (change_path) {
-        wApp->setInternalPath(full_path());
+        wApp->setInternalPath(full_path(), /*emitChange */ false);
     }
     opened_.emit();
 }
