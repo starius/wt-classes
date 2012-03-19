@@ -167,7 +167,7 @@ public:
     /** Return full internal path to this node */
     std::string full_path() const;
 
-    /** Return a link to this node */
+    /** Return an internal path link to this node */
     WLink link() const;
 
     /** Return parent of type Node or 0 */
@@ -243,7 +243,7 @@ public:
     /** Set value and return full internal path to this node */
     std::string get_full_path(long long v);
 
-    /** Set value and return a link to this node */
+    /** Set value and return an internal path link to this node */
     WLink get_link(long long v);
 };
 
@@ -269,7 +269,7 @@ public:
     /** Set value and return full internal path to this node */
     std::string get_full_path(const std::string& v);
 
-    /** Set value and return a link to this node */
+    /** Set value and return an internal path link to this node */
     WLink get_link(const std::string& v);
 };
 
