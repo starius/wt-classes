@@ -696,7 +696,8 @@ std::string ForkingRunner::command() const {
     cmd << suffix_ << " ";
     std::stringstream cmd_wrapper;
     cmd_wrapper << "echo $$ > " << pid_file_ << ";";
-    cmd_wrapper << "exec sh -c " << ForkingRunner::escape_arg(cmd.str()) << ";";
+    cmd_wrapper << "exec bash -c " << ForkingRunner::escape_arg(cmd.str());
+    cmd_wrapper << ";";
     return cmd_wrapper.str();
 }
 

@@ -1,3 +1,6 @@
+2012-03-21:
+    * use "bash -c" instead of "sh -c" in ForkingRunner to allow "&>"
+
 2012-03-19:
     * change default value, node.open(change_path = true)
 

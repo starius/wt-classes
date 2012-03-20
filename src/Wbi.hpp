@@ -994,6 +994,7 @@ private:
 
 Currently it is implemented using system() function.
 Uses pkill command and $$ shell expression.
+Command "bash -c" is used as "sh -c".
 To create temporary pid file, unique_name() is used.
 It seems to work only under UNIX.
 
