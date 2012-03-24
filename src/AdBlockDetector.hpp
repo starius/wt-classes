@@ -50,6 +50,12 @@ public:
     /** A shared pointer to Libs */
     typedef boost::shared_ptr<Libs> LibsPtr;
 
+    /** A collection of strings */
+    typedef std::vector<std::string> Strings;
+
+    /** A shared pointer to Strings */
+    typedef boost::shared_ptr<Strings> StringsPtr;
+
     /** Constructor.
     \param parent Parent widget.
     \param call_start If the widgets should be automatically start().
@@ -112,6 +118,33 @@ public:
         regular_libs_ = regular_libs;
     }
 
+    /** Get the collection of URL parts of local images checked.
+    These image paths are used by default implementation of image_path().
+
+    By default, the following path parts are used
+    (this list is based on http://antiblock.org):
+     - /ad/side_
+     - /adseo.
+     - /adzone_
+     - /external/ad/ad
+     - /getmarketplaceads.
+     - /popunderking.
+     - /simpleadvert/ad
+     - /top_ads/ad
+     - _adwrap.
+     - /160x600.
+
+    \attention See banner_libs().
+    */
+    StringsPtr image_paths() {
+        return image_paths_;
+    }
+
+    /** Set the collection of URL parts of local images checked */
+    void set_image_paths(StringsPtr image_paths) {
+        image_paths_ = image_paths;
+    }
+
     /** Create widgets, needed for the check.
     You don't need to call this method,
     if AdBlockDetector() was constructed with call_start=true.
@@ -133,16 +166,28 @@ protected:
     virtual void set_js_params(std::string& url, std::string& symbol,
                                bool banner) const;
 
+    /** Return local URL for image checked.
+    \param banner If the image should be ads image or normal image.
+
+    The default implementation of the method select random image from
+    image_paths() for banner=true.
+    The URL is prepended and appended with random strings.
+    */
+    virtual std::string image_path(bool banner) const;
+
 private:
     JSignal<std::string> signal_;
-    bool local_banner_image_ : 1;
-    bool local_regular_image_ : 1;
+    bool local_banner_image_;
+    bool local_regular_image_;
     bool remote_banner_js_ : 1;
     bool remote_regular_js_ : 1;
     bool banner_ids_hidden_ : 1;
     LibsPtr banner_libs_;
     LibsPtr regular_libs_;
-    // TODO: hidden ids, images
+    StringsPtr image_paths_;
+    WResource* banner_image_;
+    WResource* regular_image_;
+    // TODO: hidden ids
 
     void signal_handler(std::string name);
 

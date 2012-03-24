@@ -29,7 +29,7 @@ sed 's@Wt::WApplication::appRoot() +@@' -i examples/*.cpp # no appRoot
 
 # no WRandom
 sed '/Wt\/WRandom/d' -i src/*.cpp examples/*.cpp
-sed 's@\(Wt::\)\?WRandom::generateId()@"r" + TO_S(rand())@' \
+sed 's@\(Wt::\)\?WRandom::generateId()@("r" + TO_S(rand()))@' \
     -i src/*.cpp examples/*.cpp
 sed '1i#include "rand.hpp"' -i src/Gather.cpp
 sed '1i#include <Wt/Wc/util.hpp>' -i `grep TO_S -l examples/*.cpp`
