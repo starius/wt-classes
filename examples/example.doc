@@ -33,6 +33,10 @@ This is an example of how to use the Wt::Wc::SWFStore class and \ref protection.
 This is an example of how to use the Wt::Wc::Countdown class.
 */
 
+/** \example examples/abdetector.cpp
+This is an example of how to use the Wt::Wc::AdBlockDetector class.
+*/
+
 }
 
 }

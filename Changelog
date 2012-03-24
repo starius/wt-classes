@@ -1,3 +1,6 @@
+2012-03-24:
+    * add class AdBlockDetector
+
 2012-03-21:
     * use "bash -c" instead of "sh -c" in ForkingRunner to allow "&>"
 

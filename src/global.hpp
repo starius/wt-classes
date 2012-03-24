@@ -31,6 +31,7 @@ class Recaptcha;
 class FilterResource;
 class Countdown;
 class GravatarImage;
+class AdBlockDetector;
 
 class AbstractArgument;
 class AbstractInput;
