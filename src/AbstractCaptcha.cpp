@@ -50,7 +50,7 @@ AbstractCaptcha::FaultSignal& AbstractCaptcha::fault() {
 void AbstractCaptcha::set_buttons(bool)
 { }
 
-void AbstractCaptcha::set_input(WFormWidget* input)
+void AbstractCaptcha::set_input(WFormWidget* /* input */)
 { }
 
 void AbstractCaptcha::solve() {
