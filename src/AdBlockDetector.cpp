@@ -12,6 +12,7 @@
 #include <Wt/WWebWidget>
 #include <Wt/WResource>
 #include <Wt/WImage>
+#include <Wt/WText>
 #include <Wt/WRandom>
 
 #include "AdBlockDetector.hpp"
@@ -56,6 +57,17 @@ struct DefaultLists {
         i("/top_ads/ad");
         i("_adwrap.");
         i("/160x600.");
+        html_ids = boost::make_shared<AdBlockDetector::Strings>();
+        h("ad-sponsors");
+        h("adBlock125");
+        h("advertising-banner");
+        h("home-rectangle-ad");
+        h("priceGrabberAd");
+        h("tmglBannerAd");
+        h("topAdvBox");
+        h("ad");
+        h("ads");
+        h("adsense");
     }
 
     void b(const std::string& url, const std::string& symbol) {
@@ -70,9 +82,14 @@ struct DefaultLists {
         image_paths->push_back(part);
     }
 
+    void h(const std::string& html_id) {
+        html_ids->push_back(html_id);
+    }
+
     AdBlockDetector::LibsPtr banner_libs;
     AdBlockDetector::LibsPtr regular_libs;
     AdBlockDetector::StringsPtr image_paths;
+    AdBlockDetector::StringsPtr html_ids;
 } default_lists;
 
 static const unsigned char gif1x1[] = {
@@ -113,9 +130,11 @@ AdBlockDetector::AdBlockDetector(WContainerWidget* parent, bool call_start):
     remote_banner_js_(false),
     remote_regular_js_(false),
     banner_ids_hidden_(false),
+    regular_ids_hidden_(false),
     banner_libs_(default_lists.banner_libs),
     regular_libs_(default_lists.regular_libs),
     image_paths_(default_lists.image_paths),
+    html_ids_(default_lists.html_ids),
     banner_image_(new ReporterResource(&local_banner_image_, this)),
     regular_image_(new ReporterResource(&local_regular_image_, this)) {
     if (call_start) {
@@ -131,7 +150,8 @@ bool AdBlockDetector::has_adblock(bool true_if_maybe) const {
     if (wApp->environment().ajax()) {
         adblock |= remote_regular_js_ && !remote_banner_js_;
         maybe |= !remote_banner_js_;
-        adblock |= banner_ids_hidden_;
+        adblock |= banner_ids_hidden_ && !regular_ids_hidden_;
+        maybe |= banner_ids_hidden_;
     }
     return adblock || (maybe && true_if_maybe);
 }
@@ -145,6 +165,8 @@ void AdBlockDetector::start() {
         signal_.connect(this, &AdBlockDetector::signal_handler);
         check_remote_js(true);
         check_remote_js(false);
+        check_hidden(true);
+        check_hidden(false);
     }
 }
 
@@ -168,6 +190,17 @@ std::string AdBlockDetector::image_path(bool banner) const {
     return result;
 }
 
+std::string AdBlockDetector::html_id(bool banner) const {
+    std::string result;
+    if (banner) {
+        const Strings& ids = *html_ids_;
+        result = ids[rr(ids.size())];
+    } else {
+        result = WRandom::generateId(); // TODO length = rr(5,15)
+    }
+    return result;
+}
+
 void AdBlockDetector::signal_handler(std::string name) {
     if (name == "remote_regular_js") {
         remote_regular_js_ = true;
@@ -175,6 +208,8 @@ void AdBlockDetector::signal_handler(std::string name) {
         remote_banner_js_ = true;
     } else if (name == "banner_ids_hidden") {
         banner_ids_hidden_ = true;
+    } else if (name == "regular_ids_hidden") {
+        regular_ids_hidden_ = true;
     }
 }
 
@@ -189,6 +224,16 @@ void AdBlockDetector::check_remote_js(bool banner) {
                  "if (typeof " + js_symbol + " != 'undefined') {" +
                  signal_.createCall(WWebWidget::jsStringLiteral(name)) +
                  "}});");
+}
+
+void AdBlockDetector::check_hidden(bool banner) {
+    WText* text = new WText(" ", this);
+    text->setId(html_id(banner));
+    std::string name = banner ? "banner" : "regular";
+    name += "_ids_hidden";
+    doJavaScript("if ($(" + text->jsRef() + ").css('display') == 'none') {" +
+                 signal_.createCall(WWebWidget::jsStringLiteral(name)) +
+                 "}");
 }
 
 }

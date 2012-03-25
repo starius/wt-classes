@@ -145,6 +145,33 @@ public:
         image_paths_ = image_paths;
     }
 
+    /** Get the collection of IDs of HTML elements to be checked.
+    These IDs are used by default implementation of html_id().
+
+    By default, the following IDs of HTML elements are used
+    (this list is based on http://antiblock.org):
+     - ad-sponsors
+     - adBlock125
+     - advertising-banner
+     - home-rectangle-ad
+     - priceGrabberAd
+     - tmglBannerAd
+     - topAdvBox
+     - ad
+     - ads
+     - adsense
+
+    \attention See banner_libs().
+    */
+    StringsPtr html_ids() {
+        return html_ids_;
+    }
+
+    /** Set the collection of IDs of HTML elements to be checked */
+    void set_html_ids(StringsPtr html_ids) {
+        html_ids_ = html_ids;
+    }
+
     /** Create widgets, needed for the check.
     You don't need to call this method,
     if AdBlockDetector() was constructed with call_start=true.
@@ -175,6 +202,15 @@ protected:
     */
     virtual std::string image_path(bool banner) const;
 
+    /** Return ID of HTML element to be checked for being hidden.
+    \param banner If the ID should be ads ID or normal one.
+
+    The default implementation of the method select random element from
+    html_ids() for banner=true.
+    For banner=false, random ID is returned.
+    */
+    virtual std::string html_id(bool banner) const;
+
 private:
     JSignal<std::string> signal_;
     bool local_banner_image_;
@@ -182,9 +218,11 @@ private:
     bool remote_banner_js_ : 1;
     bool remote_regular_js_ : 1;
     bool banner_ids_hidden_ : 1;
+    bool regular_ids_hidden_ : 1;
     LibsPtr banner_libs_;
     LibsPtr regular_libs_;
     StringsPtr image_paths_;
+    StringsPtr html_ids_;
     WResource* banner_image_;
     WResource* regular_image_;
     // TODO: hidden ids
@@ -192,6 +230,7 @@ private:
     void signal_handler(std::string name);
 
     void check_remote_js(bool banner);
+    void check_hidden(bool banner);
 };
 
 }
