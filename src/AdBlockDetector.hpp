@@ -158,8 +158,6 @@ public:
      - priceGrabberAd
      - tmglBannerAd
      - topAdvBox
-     - ad
-     - ads
      - adsense
 
     \attention See banner_libs().

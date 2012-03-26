@@ -64,8 +64,6 @@ struct DefaultLists {
         h("priceGrabberAd");
         h("tmglBannerAd");
         h("topAdvBox");
-        h("ad");
-        h("ads");
         h("adsense");
     }
 
