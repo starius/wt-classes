@@ -13,13 +13,13 @@
 using namespace Wt;
 using namespace Wt::Wc;
 
-class AbdApp : public WApplication {
+class AdBlockDetectorApp : public WApplication {
 public:
-    AbdApp(const WEnvironment& env):
+    AdBlockDetectorApp(const WEnvironment& env):
         WApplication(env) {
         text_ = new WText("Please wait...", root());
         detector_ = new AdBlockDetector(root());
-        WTimer::singleShot(10 * 1000, this, &AbdApp::find_adblock);
+        WTimer::singleShot(10 * 1000, this, &AdBlockDetectorApp::find_adblock);
     }
 
     void find_adblock() {
@@ -34,11 +34,11 @@ private:
     WText* text_;
 };
 
-WApplication* createAbdApp(const WEnvironment& env) {
-    return new AbdApp(env);
+WApplication* createAdBlockDetectorApp(const WEnvironment& env) {
+    return new AdBlockDetectorApp(env);
 }
 
 int main(int argc, char** argv) {
-    return WRun(argc, argv, &createAbdApp);
+    return WRun(argc, argv, &createAdBlockDetectorApp);
 }
 
