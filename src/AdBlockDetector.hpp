@@ -35,6 +35,8 @@ In both cases, control tests are also performed.
 Additional checks are applied:
  - If elements with some IDs have been hidden (for Ajax sessions only).
 
+To turn off a check, use methods skip_remote_js(), skip_local_image(), etc.
+
 This widget was inspired by http://antiblock.org
 
 \ingroup protection
@@ -59,8 +61,8 @@ public:
     /** Constructor.
     \param parent Parent widget.
     \param call_start If the widgets should be automatically start().
-        If you want to change some parameters (i.e., set_banner_libs()),
-        this argument must be set to false,
+        If you want to change some parameters (i.e., set_banner_libs(),
+        skip_ids_hidden()), this argument must be set to false,
         and start() must be called explicitly afterwards.
     */
     AdBlockDetector(WContainerWidget* parent = 0, bool call_start = true);
@@ -179,6 +181,21 @@ public:
     */
     void start();
 
+    /** Skip the check that remote JS ads libs can be loaded */
+    void skip_remote_js(bool skip = true) {
+        skip_remote_js_ = skip;
+    }
+
+    /** Skip the check that local ads images can be loaded */
+    void skip_local_image(bool skip = true) {
+        skip_local_image_ = skip;
+    }
+
+    /** Skip the check that HTML elements with ads-like IDs are not hidden */
+    void skip_ids_hidden(bool skip = true) {
+        skip_ids_hidden_ = skip;
+    }
+
 protected:
     /** Set URL and var name to check existance.
     \param url URL of JavaScript library to load.
@@ -219,6 +236,9 @@ private:
     bool remote_regular_js_ : 1;
     bool banner_ids_hidden_ : 1;
     bool regular_ids_hidden_ : 1;
+    bool skip_remote_js_ : 1;
+    bool skip_local_image_ : 1;
+    bool skip_ids_hidden_ : 1;
     LibsPtr banner_libs_;
     LibsPtr regular_libs_;
     StringsPtr image_paths_;

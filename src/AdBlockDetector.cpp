@@ -131,12 +131,15 @@ AdBlockDetector::AdBlockDetector(WContainerWidget* parent, bool call_start):
     remote_regular_js_(false),
     banner_ids_hidden_(false),
     regular_ids_hidden_(false),
+    skip_remote_js_(false),
+    skip_local_image_(false),
+    skip_ids_hidden_(false),
     banner_libs_(default_lists.banner_libs),
     regular_libs_(default_lists.regular_libs),
     image_paths_(default_lists.image_paths),
     html_ids_(default_lists.html_ids),
-    banner_image_(new ReporterResource(&local_banner_image_, this)),
-    regular_image_(new ReporterResource(&local_regular_image_, this)) {
+    banner_image_(0),
+    regular_image_(0) {
     if (call_start) {
         start();
     }
@@ -145,28 +148,44 @@ AdBlockDetector::AdBlockDetector(WContainerWidget* parent, bool call_start):
 bool AdBlockDetector::has_adblock(bool true_if_maybe) const {
     bool adblock = false;
     bool maybe = false;
-    adblock |= local_regular_image_ && !local_banner_image_;
-    maybe |= !local_banner_image_;
+    if (!skip_local_image_) {
+        adblock |= local_regular_image_ && !local_banner_image_;
+        maybe |= !local_banner_image_;
+    }
     if (wApp->environment().ajax()) {
-        adblock |= remote_regular_js_ && !remote_banner_js_;
-        maybe |= !remote_banner_js_;
-        adblock |= banner_ids_hidden_ && !regular_ids_hidden_;
-        maybe |= banner_ids_hidden_;
+        if (!skip_remote_js_) {
+            adblock |= remote_regular_js_ && !remote_banner_js_;
+            maybe |= !remote_banner_js_;
+        }
+        if (!skip_ids_hidden_) {
+            adblock |= banner_ids_hidden_ && !regular_ids_hidden_;
+            maybe |= banner_ids_hidden_;
+        }
     }
     return adblock || (maybe && true_if_maybe);
 }
 
 void AdBlockDetector::start() {
-    banner_image_->setInternalPath(image_path(/* banner */ true));
-    regular_image_->setInternalPath(image_path(/* banner */ false));
-    new WImage(banner_image_, /* alt text */ "", this);
-    new WImage(regular_image_, /* alt text */ "", this);
+    if (!skip_local_image_) {
+        banner_image_ = new ReporterResource(&local_banner_image_, this);
+        banner_image_->setInternalPath(image_path(/* banner */ true));
+        new WImage(banner_image_, /* alt text */ "", this);
+        regular_image_ = new ReporterResource(&local_regular_image_, this);
+        regular_image_->setInternalPath(image_path(/* banner */ false));
+        new WImage(regular_image_, /* alt text */ "", this);
+    }
     if (wApp->environment().ajax()) {
-        signal_.connect(this, &AdBlockDetector::signal_handler);
-        check_remote_js(true);
-        check_remote_js(false);
-        check_hidden(true);
-        check_hidden(false);
+        if (!skip_remote_js_ || !skip_ids_hidden_) {
+            signal_.connect(this, &AdBlockDetector::signal_handler);
+        }
+        if (!skip_remote_js_) {
+            check_remote_js(true);
+            check_remote_js(false);
+        }
+        if (!skip_ids_hidden_) {
+            check_hidden(true);
+            check_hidden(false);
+        }
     }
 }
 
@@ -202,13 +221,13 @@ std::string AdBlockDetector::html_id(bool banner) const {
 }
 
 void AdBlockDetector::signal_handler(std::string name) {
-    if (name == "remote_regular_js") {
+    if (!skip_remote_js_ && name == "remote_regular_js") {
         remote_regular_js_ = true;
-    } else if (name == "remote_banner_js") {
+    } else if (!skip_remote_js_ && name == "remote_banner_js") {
         remote_banner_js_ = true;
-    } else if (name == "banner_ids_hidden") {
+    } else if (!skip_ids_hidden_ && name == "banner_ids_hidden") {
         banner_ids_hidden_ = true;
-    } else if (name == "regular_ids_hidden") {
+    } else if (!skip_ids_hidden_ && name == "regular_ids_hidden") {
         regular_ids_hidden_ = true;
     }
 }
