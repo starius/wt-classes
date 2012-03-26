@@ -20,6 +20,7 @@ SWFStore::SWFStore(WContainerWidget* parent, bool load_javascript,
     value_(this, "value") {
     resize(0, 0);
     if (load_javascript) {
+        // TODO move to https CDN
         wApp->require("http://yui.yahooapis.com/combo?"
                       "2.9.0/build/yahoo-dom-event/yahoo-dom-event.js&"
                       "2.9.0/build/element/element-min.js&"

@@ -37,7 +37,7 @@ Recaptcha::Recaptcha(const std::string& public_key,
     response_field_(0),
     challenge_field_(0) {
     wApp->enableUpdates();
-    wApp->require("http://www.google.com/recaptcha/api/js/recaptcha_ajax.js",
+    wApp->require("https://www.google.com/recaptcha/api/js/recaptcha_ajax.js",
                   "Recaptcha");
     http_ = new Http::Client(this);
     http_->done().connect(this, &Recaptcha::http_done);
@@ -95,7 +95,7 @@ void Recaptcha::update_impl() {
                      "}, 200));");
     } else {
         WTemplate* iframe = new WTemplate(get_impl());
-        iframe->setTemplateText("<iframe src='http://www.google.com/recaptcha/"
+        iframe->setTemplateText("<iframe src='https://www.google.com/recaptcha/"
                                 "api/noscript?k=" + public_key_ +
                                 "' height='300' width='500' frameborder='0'>"
                                 "</iframe>", XHTMLUnsafeText);
@@ -122,6 +122,7 @@ void Recaptcha::check_impl() {
     m.addBodyText("remoteip=" + remoteip + "&");
     m.addBodyText("challenge=" + urlencode(challenge) + "&");
     m.addBodyText("response=" + urlencode(response) + "&");
+    // TODO use https if Wt was built with OpenSSL support
     if (!http_->post("http://www.google.com/recaptcha/api/verify", m)) {
         mistake(tr("wc.captcha.Internal_error"));
     }

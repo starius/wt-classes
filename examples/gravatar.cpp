@@ -73,7 +73,7 @@ public:
         builtin->addButton(new WRadioButton("custom url", root()),
                            9000);
         WLineEdit* custom_url = new WLineEdit(root());
-        custom_url->setText("http://www.google.com/favicon.ico");
+        custom_url->setText("https://www.google.com/favicon.ico");
         builtin->setCheckedButton(builtin->button(GravatarImage::DEFAULT));
         builtin->checkedChanged().connect(boost::bind(set_default,
                                           gravatar, builtin, custom_url));

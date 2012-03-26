@@ -79,10 +79,9 @@ public:
 
     By default, the following libraries are used
     (this list is based on http://antiblock.org):
-     - http://js.adscale.de/getads.js (var adscale)
-     - http://view.binlayer.com/ad-00000.js (var blLayer)
-     - http://ads.adtiger.de/adscript.php (var adspirit_pid)
-     - http://pagead2.googlesyndication.com/pagead/show_ads.js
+     - https://js.adscale.de/getads.js (var adscale)
+     - https://ads.adtiger.de/adscript.php (var adspirit_pid)
+     - https://pagead2.googlesyndication.com/pagead/show_ads.js
         (var google_ad_block).
 
     \attention This default list is shared across all AdBlockDetector instances.
@@ -106,7 +105,7 @@ public:
     These libs are used by default set_js_params(banner=false).
 
     By default, the following libraries are used:
-    http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.3.1/underscore-min.js
+    https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.3.1/underscore-min.js
         (var _)
 
     \attention See banner_libs().

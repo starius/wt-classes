@@ -38,13 +38,12 @@ namespace Wc {
 struct DefaultLists {
     DefaultLists() {
         banner_libs = boost::make_shared<AdBlockDetector::Libs>();
-        b("http://js.adscale.de/getads.js", "adscale");
-        b("http://view.binlayer.com/ad-00000.js", "blLayer");
-        b("http://ads.adtiger.de/adscript.php", "adspirit_pid");
-        b("http://pagead2.googlesyndication.com/pagead/show_ads.js",
+        b("https://js.adscale.de/getads.js", "adscale");
+        b("https://ads.adtiger.de/adscript.php", "adspirit_pid");
+        b("https://pagead2.googlesyndication.com/pagead/show_ads.js",
           "google_ad_block");
         regular_libs = boost::make_shared<AdBlockDetector::Libs>();
-        r("http://cdnjs.cloudflare.com/ajax/libs/underscore.js/"
+        r("https://cdnjs.cloudflare.com/ajax/libs/underscore.js/"
           "1.3.1/underscore-min.js", "_");
         image_paths = boost::make_shared<AdBlockDetector::Strings>();
         i("/ad/side_");
