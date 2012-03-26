@@ -242,7 +242,9 @@ void AdBlockDetector::check_remote_js(bool banner) {
     doJavaScript("loadScript('" + js_url + "', function() {"
                  "if (typeof " + js_symbol + " != 'undefined') {" +
                  signal_.createCall(WWebWidget::jsStringLiteral(name)) +
-                 "}});");
+                 "}"
+                 "js_symbol = undefined;"
+                 "});");
 }
 
 void AdBlockDetector::check_hidden(bool banner) {
