@@ -27,6 +27,7 @@ public:
         about_ = new PredefinedNode("about", parser_);
         about_smth_ = new StringNode(about_);
         users_ = new PredefinedNode("user", parser_);
+        users_->set_slash_strategy(Node::IF_NOT_LAST);
         user_profile_ = new IntegerNode(users_);
         //
         parser_->opened().connect(this, &UrlApp::show_main);

@@ -117,7 +117,9 @@ It is a model of content and user oriented site.
 
 Each user has integer identifier.
 User profile is shown in internal path like "/user/123".
-The list of users is shown in "/user/".
+The list of users is shown in "/user".
+It is shown as a "file", not as a "directory"
+to demonstrate Node::SlashStrategy feature.
 
 "/about/" represents a list of available articles.
 Each article is identified with a string.
