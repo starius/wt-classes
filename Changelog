@@ -1,3 +1,6 @@
+2012-03-27:
+    * optionally produce URLs with or without ending "/"
+
 2012-03-26:
     * replace http with https where it was possible
 

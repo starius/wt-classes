@@ -35,14 +35,14 @@ This classes allow you to keep all url-related code in one place.
 <h3>node</h3>
 
 Every internal path is represented as a Node in a tree.
-For example, internal path "/about/license/" is a child of "/about/".
+For example, internal path "/about/license" is a child of "/about/".
 
 To create a child node, just pass parent node to the constructor of a child.
 Constructors of nodes of some types take additional arguments.
 
 Each node has a \ref Node::value() "value", the string,
 representing the last part of that internal path.
-For example, the value of "/about/license/" is "license".
+For example, the value of "/about/license" is "license".
 
 There are several types of node:
  - PredefinedNode (value is constant),
@@ -101,7 +101,7 @@ wApp->internalPathChanged().connect(parser, &Parser::open);
 PredefinedNode* users = new PredefinedNode("user", parser);
 users->opened().connect(...);        // show user list for "/user/"
 IntegerNode* user_profile = new IntegerNode(users);
-user_profile->opened().connect(...); // show user profile for "/user/xxx/"
+user_profile->opened().connect(...); // show user profile for "/user/xxx"
 \endcode
 
 <h3>Detailed example</h3>
@@ -116,12 +116,12 @@ In the example bellow, main features of this module are demonstrated:
 It is a model of content and user oriented site.
 
 Each user has integer identifier.
-User profile is shown in internal path like "/user/123/".
+User profile is shown in internal path like "/user/123".
 The list of users is shown in "/user/".
 
 "/about/" represents a list of available articles.
 Each article is identified with a string.
-Article page is "/about/article-name/".
+Article page is "/about/article-name".
 
 The main page contain references to the list of articles and the list of users.
 Every page has a reference to the main page on top.
@@ -135,7 +135,7 @@ User identifiers and article names are generated randomly.
 /** Part of URL.
 This class represents a node in url parsing tree.
 
-For example, for internal path \c "/user/1/", there are two nodes:
+For example, for internal path \c "/user/1", there are two nodes:
  - \c "user", is represented with PredefinedNode;
  - \c "1", is represented with IntegerNode.
 
@@ -143,6 +143,14 @@ For example, for internal path \c "/user/1/", there are two nodes:
 */
 class Node : public WObject {
 public:
+    /** When to add a slash after the node */
+    enum SlashStrategy {
+        IF_NOT_LAST, /**< Add only if the node is not last node in the URL */
+        IF_HAS_CHILD, /**< Add only if the node has at least one child object */
+        ALWAYS, /**< Always add */
+        DEFAULT = IF_HAS_CHILD /**< Default strategy */
+    };
+
     /** Constructor.
     \param parent Node (Parser or other Node)
     */
@@ -157,9 +165,12 @@ public:
     }
 
     /** Add this node to output stream.
-    Add representation of this node and '/' to the stream.
+    \param path Output stream.
+    \param is_last If the node is the last node in the URL.
+    Add to the stream representation of this node and '/',
+    depending on is_last and slash().
     */
-    void write_to(std::ostream& path) const;
+    void write_to(std::ostream& path, bool is_last = false) const;
 
     /** Write all parents and this node to the stream */
     void write_all_to(std::ostream& path) const;
@@ -186,6 +197,18 @@ public:
         return opened_;
     }
 
+    /** Get slash strategy */
+    SlashStrategy slash_strategy() const {
+        return slash_strategy_;
+    }
+
+    /** Get slash strategy.
+    By default, DEFAULT slash strategy is applied.
+    */
+    void set_slash_strategy(SlashStrategy slash_strategy) {
+        slash_strategy_ = slash_strategy;
+    }
+
 protected:
     /** Set value.
     If check is true, the value is checked using meet() before setting.
@@ -195,6 +218,7 @@ protected:
 private:
     Signal<> opened_;
     std::string value_;
+    SlashStrategy slash_strategy_ : 8;
 
     friend class Parser;
 };

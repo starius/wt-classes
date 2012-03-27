@@ -24,11 +24,17 @@ namespace Wc {
 namespace url {
 
 Node::Node(WObject* parent):
-    WObject(parent)
+    WObject(parent),
+    slash_strategy_(DEFAULT)
 { }
 
-void Node::write_to(std::ostream& path) const {
-    path << value_ << '/';
+void Node::write_to(std::ostream& path, bool is_last) const {
+    path << value_;
+    if (slash_strategy_ == ALWAYS ||
+            (slash_strategy_ == IF_NOT_LAST && !is_last) ||
+            (slash_strategy_ == IF_HAS_CHILD && !children().empty())) {
+        path << '/';
+    }
 }
 
 void Node::write_all_to(std::ostream& path) const {
@@ -39,7 +45,8 @@ void Node::write_all_to(std::ostream& path) const {
         node = node->node_parent();
     }
     BOOST_REVERSE_FOREACH (const Node* node, nodes) {
-        node->write_to(path);
+        bool is_last = node == nodes.front();
+        node->write_to(path, is_last);
     }
 }
 
