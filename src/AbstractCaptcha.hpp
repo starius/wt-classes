@@ -8,6 +8,8 @@
 #ifndef WC_ABSTRACT_CAPTCHA_HPP_
 #define WC_ABSTRACT_CAPTCHA_HPP_
 
+#include <boost/function.hpp>
+
 #include <Wt/WGlobal>
 #include <Wt/WCompositeWidget>
 #include <Wt/WSignal>
@@ -31,6 +33,9 @@ public:
     */
     typedef Signal<WString> FaultSignal;
 
+    /** A function, returning WString */
+    typedef boost::function<WString()> Test;
+
     /** Constructor */
     AbstractCaptcha(WContainerWidget* parent = 0);
 
@@ -38,7 +43,9 @@ public:
     ~AbstractCaptcha();
 
     /** Check correctness of the key, entered by user.
-    In case the test is passed, solved() is emitted
+    In case the test is passed
+    (and \ref set_precheck() "pre-check" was not set or returned true),
+    solved() is emitted
     (not necessarily immediately).
 
     Otherwise update() is called and fault() is emitted.
@@ -83,6 +90,14 @@ public:
     */
     virtual void set_input(WFormWidget* input);
 
+    /** Set a function, called before a check.
+    If the function returns non-empty string, check fails and
+    the string is used as a error message
+    */
+    void set_precheck(const Test& precheck) {
+        precheck_ = precheck;
+    }
+
 protected:
     /** Update the widget with new secret key (implementation).
     This method should setImplementation(), or update existing one.
@@ -106,6 +121,7 @@ protected:
 private:
     Signal<> solved_;
     FaultSignal* fault_;
+    Test precheck_;
     bool in_progress_: 1;
     bool is_solved_: 1;
 };

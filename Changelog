@@ -1,3 +1,6 @@
+2012-03-28:
+    * add pre-check, run before check_impl(), to AbstractCaptcha
+
 2012-03-27:
     * optionally produce URLs with or without ending "/"
 

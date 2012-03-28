@@ -29,8 +29,13 @@ void AbstractCaptcha::check() {
     if (is_solved_) {
         solved_.emit();
     } else if (!in_progress_) {
-        in_progress_ = true;
-        check_impl();
+        WString error = precheck_.empty() ? WString::Empty : precheck_();
+        if (!error.empty()) {
+            mistake(error);
+        } else {
+            in_progress_ = true;
+            check_impl();
+        }
     }
 }
 
