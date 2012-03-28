@@ -5,6 +5,7 @@
     <message id='wc.captcha.Get_audio'>Прослушать аудио</message>
     <message id='wc.captcha.Get_image'>Показать картинку</message>
     <message id='wc.captcha.Internal_error'>Внутренняя ошибка</message>
+    <message id='wc.captcha.Too_often'>Слишком частые попытки</message>
     <message id='wc.captcha.Wrong_response'>Неправильный ответ</message>
 
     <message id='wc.common.Update'>Обновить</message>

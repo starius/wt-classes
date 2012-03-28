@@ -98,6 +98,17 @@ public:
         precheck_ = precheck;
     }
 
+    /** Attempts frequency controlling function.
+    Return error message, if last call from this IP address
+    was not later than 3 seconds ago, else empty string.
+
+    You can use this function by set_precheck() to prevent
+    distributed brute-force attacks.
+
+    This function is thread-safe.
+    */
+    static WString frequency_check();
+
 protected:
     /** Update the widget with new secret key (implementation).
     This method should setImplementation(), or update existing one.

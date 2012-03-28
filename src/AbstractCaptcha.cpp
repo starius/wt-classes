@@ -5,7 +5,16 @@
  * See the LICENSE file for terms of use.
  */
 
+#include <map>
+#include <boost/thread/mutex.hpp>
+
+#include <Wt/WDateTime>
+#include <Wt/WApplication>
+#include <Wt/WEnvironment>
+
 #include "AbstractCaptcha.hpp"
+#include "TimeDuration.hpp"
+#include "util.hpp"
 
 namespace Wt {
 
@@ -57,6 +66,44 @@ void AbstractCaptcha::set_buttons(bool)
 
 void AbstractCaptcha::set_input(WFormWidget* /* input */)
 { }
+
+namespace frequency_check_namespace {
+
+boost::mutex mutex;
+typedef std::map<std::string, WDateTime> Map;
+Map ip2last;
+int calls = 0;
+const int FILTER_EVERY = 1000;
+const td::TimeDuration INTERVAL = 3 * td::SECOND;
+
+}
+
+WString AbstractCaptcha::frequency_check() {
+    using namespace frequency_check_namespace;
+    boost::mutex::scoped_lock lock(mutex);
+    WString result;
+    const std::string ip = wApp->environment().clientAddress();
+    Map::iterator it = ip2last.find(ip);
+    if (it != ip2last.end()) {
+        if (it->second + INTERVAL > now()) {
+            result = tr("wc.captcha.Too_often");
+        }
+    }
+    ip2last[ip] = now();
+    calls += 1;
+    if (calls >= FILTER_EVERY) {
+        calls = 0;
+        Map::iterator i = ip2last.begin();
+        while (i != ip2last.end()) {
+            if (i->second  + INTERVAL < now()) {
+                ip2last.erase(i++);
+            } else {
+                ++i;
+            }
+        }
+    }
+    return result;
+}
 
 void AbstractCaptcha::solve() {
     in_progress_ = false;

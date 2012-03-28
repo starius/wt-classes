@@ -1,3 +1,6 @@
+2012-03-29:
+    * add frequency_check() to AbstractCaptcha
+
 2012-03-28:
     * add pre-check, run before check_impl(), to AbstractCaptcha
 
