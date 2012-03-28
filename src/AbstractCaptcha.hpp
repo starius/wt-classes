@@ -46,9 +46,9 @@ public:
     If the test was passed once for the widget,
     it is considered passed before a call of update().
 
-    \note If previous call to check() has not been resulted
-        in call to solve() or update() (i.e., a check is in progress),
-        this method does not call check_impl().
+    \note If previous call to check() has been resulted in call to check_impl(),
+        but not to solve() or update() (i.e., a check is in progress),
+        this method does nothing.
     */
     void check();
 
@@ -60,7 +60,7 @@ public:
         return solved_;
     }
 
-    /** Return the signal emitted if the response is erroneous */
+    /** Return the signal emitted if the test was failed */
     FaultSignal& fault();
 
     /** Enable or disable buttons.
