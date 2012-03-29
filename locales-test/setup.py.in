@@ -6,7 +6,7 @@
 from distutils.core import setup
 
 setup(name='locales-test',
-    version='{VERSION}',
+    version='${VERSION}',
     description='Test of xml-based localizations used by Wt apps',
     author='Boris Nagaev',
     author_email='bnagaev@gmail.com',

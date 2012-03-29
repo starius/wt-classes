@@ -193,8 +193,8 @@ def locales_test(prefix, sections, wt=None, sources=None, locales=None,
             e('the id defined but not used', type='warning', id=Id)
 
 def main():
-    p = argparse.ArgumentParser(description='Wt l9n checker version {VERSION}')
-    p.add_argument('-v','--version', action='version', version='{VERSION}')
+    p = argparse.ArgumentParser(description='Wt l9n checker version @VERSION@')
+    p.add_argument('-v','--version', action='version', version='@VERSION@')
     p.add_argument('--wt', help='path to wt.xml', metavar='FILE', nargs='*',
             type=argparse.FileType('r'))
     p.add_argument('--prefix', help='Current project prefix', metavar='STR',

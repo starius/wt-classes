@@ -1,0 +1,21 @@
+set(HTML_SUBDIR ${datadir}/libwtclasses/reference/html
+    CACHE PATH "HTML docs subdir")
+
+add_custom_command(OUTPUT ${local_headers}
+    COMMAND ${CMAKE_COMMAND}
+    -E copy_directory ${PROJECT_SOURCE_DIR}/src/ ${local_headers_dir}
+    DEPENDS ${PROJECT_SOURCE_DIR}/src/*.hpp)
+
+FIND_PACKAGE(Doxygen)
+if(DOXYGEN_FOUND)
+    configure_file(${PROJECT_SOURCE_DIR}/Doxyfile.in
+        ${PROJECT_BINARY_DIR}/Doxyfile)
+    add_custom_command(OUTPUT ${PROJECT_BINARY_DIR}/doc/html/index.html
+        COMMAND ${DOXYGEN_EXECUTABLE}
+        WORKING_DIRECTORY ${PROJECT_BINARY_DIR}
+        DEPENDS ${local_headers} ${PROJECT_BINARY_DIR}/Doxyfile)
+    add_custom_target(doc ALL DEPENDS ${PROJECT_BINARY_DIR}/doc/html/index.html)
+    install(DIRECTORY ${PROJECT_BINARY_DIR}/doc/html/
+        DESTINATION ${HTML_SUBDIR})
+endif()
+
