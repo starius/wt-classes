@@ -22,7 +22,10 @@ namespace Wt {
 
 namespace Wc {
 
-/** Namespace for dealing with internal paths */
+/** Namespace for dealing with internal paths.
+
+\ingroup url
+*/
 namespace url {
 
 /** \defgroup url URL-related
