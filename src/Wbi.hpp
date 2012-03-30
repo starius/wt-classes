@@ -660,7 +660,7 @@ private:
     std::string download_mime_;
 };
 
-/** Output file argument.
+/** Output file argument with View feature.
 This argument allows the user to download and view the file.
 File is opened in a new tab of a web-browser.
 
