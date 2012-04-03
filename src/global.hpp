@@ -32,6 +32,9 @@ class FilterResource;
 class Countdown;
 class GravatarImage;
 class AdBlockDetector;
+class StreamView;
+class FileView;
+class ResourceView;
 
 class AbstractArgument;
 class AbstractInput;

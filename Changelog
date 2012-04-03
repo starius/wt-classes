@@ -1,3 +1,6 @@
+2012-04-03:
+    * add view classes StreamView, FileView and ResourceView
+
 2012-03-29:
     * add frequency_check() to AbstractCaptcha
 
