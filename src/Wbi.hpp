@@ -691,6 +691,37 @@ private:
     std::string view_mime_;
 };
 
+/** Output file argument, printing file contents.
+This argument prints the file to the page and allows the user to download it.
+
+\ingroup wbi
+*/
+class PrintFileOutput : public FileOutput {
+public:
+    /** Constructor.
+    \copydetails FileOutput()
+    */
+    PrintFileOutput(const std::string& option_name,
+                    const NameGen& temp_gen = &FileOutput::unique_name,
+                    const std::string& download_mime =
+                        "application/octet-stream");
+
+    /** Destructor */
+    ~PrintFileOutput();
+
+    /** Get view widget, using for printing */
+    FileView* file_view() {
+        return file_view_;
+    }
+
+protected:
+    /** Create an HTML reference downloading the file and print the file */
+    void finished_handler_impl();
+
+private:
+    FileView* file_view_;
+};
+
 /** Execution state */
 enum RunState {
     UNSET, /**< Runner is not \ref AbstractTask::set_runner "set" to task */

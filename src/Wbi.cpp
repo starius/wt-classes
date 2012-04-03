@@ -36,6 +36,7 @@
 
 #include "Wbi.hpp"
 #include "TableForm.hpp"
+#include "FileView.hpp"
 #include "util.hpp"
 
 namespace Wt {
@@ -382,6 +383,26 @@ void ViewFileOutput::finished_handler_impl() {
     container()->addWidget(FileOutput::anchor());
     container()->addWidget(new WText(" | "));
     container()->addWidget(a);
+}
+
+PrintFileOutput::PrintFileOutput(const std::string& option_name,
+                                 const NameGen& temp_gen,
+                                 const std::string& download_mime):
+    FileOutput(option_name, temp_gen, download_mime) {
+    file_view_ = new FileView();
+}
+
+PrintFileOutput::~PrintFileOutput() {
+    delete file_view_;
+}
+
+void PrintFileOutput::finished_handler_impl() {
+    container()->removeWidget(file_view_);
+    container()->clear();
+    container()->addWidget(FileOutput::anchor());
+    container()->addWidget(new WBreak());
+    file_view_->set_filename(temp_file());
+    container()->addWidget(file_view_);
 }
 
 AbstractTask::AbstractTask(WContainerWidget* p):
