@@ -34,9 +34,9 @@ Server::Server(WServer* server):
 
 void Server::emit(EventPtr event) {
     boost::mutex::scoped_lock lock(mutex_);
-    typename O2W::iterator it = o2w_.find(event->key());
+    O2W::iterator it = o2w_.find(event->key());
     if (it != o2w_.end()) {
-        BOOST_FOREACH (const typename A2W::value_type& a2w, it->second) {
+        BOOST_FOREACH (const A2W::value_type& a2w, it->second) {
             const std::string& app_id = a2w.first;
             server_->post(app_id, boost::bind(&Server::notify_widgets, this,
                                               event));
