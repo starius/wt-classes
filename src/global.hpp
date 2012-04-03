@@ -46,6 +46,7 @@ class BoolInput;
 class AbstractOutput;
 class FileOutput;
 class ViewFileOutput;
+class PrintFileOutput;
 class AbstractTask;
 class TableTask;
 class AbstractRunner;
