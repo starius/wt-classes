@@ -1,3 +1,7 @@
+set(EXAMPLES_SUBDIR ${DOC_SUBDIR}/examples CACHE PATH "Examples docs subdir")
+set(BINARY_EXAMPLES_SUBDIR ${CMAKE_INSTALL_PREFIX}/lib/libwtclasses/examples
+    CACHE PATH "Binary examples docs subdir")
+
 file(GLOB examples_sources "${CMAKE_CURRENT_SOURCE_DIR}/*.cpp")
 list(REMOVE_ITEM examples_sources ${CMAKE_CURRENT_SOURCE_DIR}/all.cpp)
 
@@ -25,7 +29,10 @@ foreach(example_path ${examples_sources})
         wtclasses
         wthttp
     )
-    install(FILES ${example_path} DESTINATION lib/libwtclasses/examples)
-    install(TARGETS ${example}.wt DESTINATION lib/libwtclasses/examples)
+    install(FILES ${example_path} DESTINATION ${EXAMPLES_SUBDIR})
+    install(TARGETS ${example}.wt DESTINATION ${BINARY_EXAMPLES_SUBDIR})
+    install(CODE "execute_process(COMMAND ${CMAKE_COMMAND} -E create_symlink
+        ${BINARY_EXAMPLES_SUBDIR}/${example}.wt
+        $ENV{DESTDIR}${EXAMPLES_SUBDIR}/${example}.wt)")
 endforeach()
 
