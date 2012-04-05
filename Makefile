@@ -145,7 +145,7 @@ examples/gather.cpp.ex: examples/swfstore.cpp
 	egrep -iv 'bind|button|text|click|\<k\>' $< > $@
 
 examples/all.cpp: $$(examples_source) examples/all.cpp.in
-	python examples/make-all.py > $@
+	python examples/make-all.py examples/ > $@
 
 .SECONDARY: js/jquery.countdown.js
 js/jquery.countdown.js:

@@ -6,8 +6,8 @@ include(FindPythonInterp)
 if(PYTHONINTERP_FOUND)
     add_custom_command(
         OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/all.cpp
-        COMMAND ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/make-all.py >>
-            ${CMAKE_CURRENT_BINARY_DIR}/all.cpp
+        COMMAND ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/make-all.py
+            ${CMAKE_CURRENT_SOURCE_DIR} >> ${CMAKE_CURRENT_BINARY_DIR}/all.cpp
     )
     list(APPEND examples_sources ${CMAKE_CURRENT_BINARY_DIR}/all.cpp)
 endif(PYTHONINTERP_FOUND)
