@@ -5,13 +5,28 @@ syntax: glob
 *.orig
 *.org
 
+*.log
+
+*.so*
+*.a
+*.o
+
 build/
 debug/
 release/
-doc/
+
+DEBIAN
+debian/files
 *.deb
+*.debhelper
+*.substvars
+
+doc/
 doc-source
+
 usr
+include
+
 examples/*.wt
 examples/*.ex
 examples/all.cpp
@@ -22,4 +37,12 @@ js/jquery.countdown.js
 
 locales-test/setup.py
 locales-test/locales-test
+
+CMakeFiles
+CMakeCache.txt
+Makefile
+CTestTestfile.cmake
+cmake_install.cmake
+install_manifest.txt
+CTestCostData.txt
 
