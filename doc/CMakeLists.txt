@@ -1,5 +1,4 @@
-set(HTML_SUBDIR ${datadir}/doc/libwtclasses/reference/html
-    CACHE PATH "HTML docs subdir")
+set(HTML_SUBDIR ${DOC_SUBDIR}/reference/html CACHE PATH "HTML docs subdir")
 
 add_custom_command(OUTPUT ${local_headers}
     COMMAND ${CMAKE_COMMAND}
