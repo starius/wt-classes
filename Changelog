@@ -1,3 +1,6 @@
+2012-04-06:
+    * remove Makefile & Co.
+
 2012-04-03:
     * add view classes StreamView, FileView and ResourceView
     * add class PrintFileOutput to wbi
