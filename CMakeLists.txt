@@ -18,7 +18,10 @@ set(WT_DIR ${datadir}/Wt CACHE PATH "Wt installation dir")
 subdirs(src doc examples locales-test locales css js)
 
 enable_testing()
-add_test(NAME wc-locales-test WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}
-    COMMAND locales-test/locales-test.in --prefix=wc
-        --sections captcha common time wbi)
+add_test(NAME wc-locales-test
+    COMMAND ${PROJECT_SOURCE_DIR}/locales-test/locales-test.in
+    --prefix=wc --sections captcha common time wbi
+    --sources ${PROJECT_SOURCE_DIR}/src/*.cpp
+    --locales ${PROJECT_SOURCE_DIR}/locales/*.xml
+)
 
