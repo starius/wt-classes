@@ -1,4 +1,4 @@
-set(HTML_SUBDIR ${datadir}/libwtclasses/reference/html
+set(HTML_SUBDIR ${datadir}/doc/libwtclasses/reference/html
     CACHE PATH "HTML docs subdir")
 
 add_custom_command(OUTPUT ${local_headers}
