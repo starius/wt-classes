@@ -1,13 +1,16 @@
 file(GLOB examples_sources "${CMAKE_CURRENT_SOURCE_DIR}/*.cpp")
 list(REMOVE_ITEM examples_sources ${CMAKE_CURRENT_SOURCE_DIR}/all.cpp)
 
-add_custom_command(
-    OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/all.cpp
-    COMMAND python ${CMAKE_CURRENT_SOURCE_DIR}/make-all.py >>
-        ${CMAKE_CURRENT_BINARY_DIR}/all.cpp
-)
+include(FindPythonInterp)
 
-list(APPEND examples_sources ${CMAKE_CURRENT_BINARY_DIR}/all.cpp)
+if(PYTHONINTERP_FOUND)
+    add_custom_command(
+        OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/all.cpp
+        COMMAND ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/make-all.py >>
+            ${CMAKE_CURRENT_BINARY_DIR}/all.cpp
+    )
+    list(APPEND examples_sources ${CMAKE_CURRENT_BINARY_DIR}/all.cpp)
+endif(PYTHONINTERP_FOUND)
 
 add_custom_command(OUTPUT ${local_headers}
     COMMAND ${CMAKE_COMMAND}
