@@ -21,5 +21,5 @@ sed '/set_input/d' -i src/PaintedCaptcha.hpp
 
 # patch debian files
 sed 's/libwt\(.\+\)(\(.\+ \)\?\([0-9.]\+\))/libwt\1(\23.1.10)/g' \
-    -i debian/control.in
+    -i debian/control
 

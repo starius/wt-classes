@@ -48,5 +48,5 @@ sed 's@\.toUTF8()@@' -i src/SWFStore.cpp src/Gather.cpp
 
 # patch debian files
 sed 's/libwt\(.\+\)(\(.\+ \)\?\([0-9.]\+\))/libwt\1(\23.1.2)/g' \
-    -i debian/control.in
+    -i debian/control
 

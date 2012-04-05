@@ -3,6 +3,7 @@ Priority: extra
 Maintainer: Boris Nagaev <bnagaev@gmail.com>
 Build-Depends: debhelper (>= 7.0.50~), libboost-filesystem-dev (>= 1.42),
  libwt-dev (>= 3.2.0), libwthttp-dev, libwtdbo-dev,
+ cmake (>= 2.6),
  libssl-dev,
  python-docutils,
  doxygen,
@@ -15,30 +16,46 @@ Homepage: https://bitbucket.org/starius/wt-classes
 Package: libwtclasses-dev
 Section: libdevel
 Architecture: any
-Depends: ${misc:Depends}, libwtclassesSONAME (= ${binary:Version}), libwt-dev
+Depends: ${misc:Depends}, libwtclasses11 (= ${binary:Version}), libwt-dev
 Description: utility classes used by Wt applications [development]
- DESCR
+ The package provides several useful classes connected with Wt:
+  * TableForm: set of user input widgets, with names and descriptions
+  * Wbi: web-based interface of a program
+  * Time-related code
+  * URL-related code
+  * Notification server
+  * Tools to protect the application from misuse
+  * Random numbers
+  * Bindings to non-Wt code
 
-Package: libwtclassesSONAME
+Package: libwtclasses11
 Section: libs
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends},
  libwt-common (>= 3.2.0)
 Recommends: libjs-yui (>= 2.8.0)
 Description: utility classes used by Wt applications [runtime]
- DESCR
+ The package provides several useful classes connected with Wt:
+  * TableForm: set of user input widgets, with names and descriptions
+  * Wbi: web-based interface of a program
+  * Time-related code
+  * URL-related code
+  * Notification server
+  * Tools to protect the application from misuse
+  * Random numbers
+  * Bindings to non-Wt code
 
 Package: libwtclasses
 Section: libs
 Architecture: any
-Depends: ${misc:Depends}, libwtclassesSONAME
+Depends: ${misc:Depends}, libwtclasses11
 Description: utility classes used by Wt applications
  This package is a dependency package.
 
 Package: libwtclasses-examples
 Section: libdevel
 Architecture: any
-Depends: ${shlibs:Depends}, ${misc:Depends}, libwtclassesSONAME,
+Depends: ${shlibs:Depends}, ${misc:Depends}, libwtclasses11,
  libjs-yui (>= 2.8.0)
 Description: utility classes used by Wt applications [examples]
  The package contains examples of using wt-classes library:

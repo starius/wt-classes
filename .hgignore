@@ -9,8 +9,6 @@ build/
 debug/
 release/
 doc/
-libwtclasses*
-debian/control
 *.deb
 doc-source
 usr

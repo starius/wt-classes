@@ -1,4 +1,5 @@
 2012-04-06:
+    * migrate to cmake
     * remove Makefile & Co.
 
 2012-04-03:
