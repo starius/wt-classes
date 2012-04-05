@@ -3,10 +3,7 @@ list(REMOVE_ITEM examples_sources ${CMAKE_CURRENT_SOURCE_DIR}/all.cpp)
 
 add_custom_command(
     OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/all.cpp
-    COMMAND sed '/int main/,/^}/d' ${examples_sources} >
-        ${CMAKE_CURRENT_BINARY_DIR}/all.cpp
-    COMMAND cat ${CMAKE_CURRENT_SOURCE_DIR}/all.cpp.in |
-        python ${CMAKE_CURRENT_SOURCE_DIR}/make-all.py >>
+    COMMAND python ${CMAKE_CURRENT_SOURCE_DIR}/make-all.py >>
         ${CMAKE_CURRENT_BINARY_DIR}/all.cpp
 )
 
