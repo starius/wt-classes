@@ -4,11 +4,14 @@ wt-classes, utility classes used by Wt applications
 (Optional) to configure the library, use configure.py
 
 Compile and install wt-classes library:
+$ cmake .
 $ make install
+Read about cmake for more information
 
 Dependencies:
+ * cmake >= 2.6
  * libboost >= 1.42 (libboost-system, libboost-filesystem, libboost-thread)
- * witty library (>=3.1.11)
+ * witty library (>=3.1.2)
  * openssl library (for md5)
  * python, containing argparse module (used by Makefile and locales-test)
 
@@ -33,7 +36,7 @@ To install locales-test:
  or
 # pip install locales-test
 
-To get debian packages, run ``make debian'', followed by ``debuild''.
+To get debian packages, run ``debuild''.
 
 For Ubuntu, you can get the packages, lacking some classes or features (in order
 to be compatible with outdated Wt versions from Ubuntu distributions):
