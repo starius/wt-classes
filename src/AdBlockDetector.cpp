@@ -13,7 +13,6 @@
 #include <Wt/WResource>
 #include <Wt/WImage>
 #include <Wt/WText>
-#include <Wt/WRandom>
 
 #include "AdBlockDetector.hpp"
 #include "rand.hpp"
@@ -195,14 +194,14 @@ void AdBlockDetector::set_js_params(std::string& url, std::string& symbol,
 }
 
 std::string AdBlockDetector::image_path(bool banner) const {
-    std::string result = "/" + WRandom::generateId(); // TODO length = rr(5,10)
+    std::string result = "/" + rand_string(rr(5, 10));
     if (banner) {
         const Strings& parts = *image_paths_;
         result += parts[rr(parts.size())];
     } else {
         result += ".";
     }
-    result += WRandom::generateId(); // TODO length = rr(2,4)
+    result += rand_string(rr(2, 4));
     return result;
 }
 
@@ -212,7 +211,7 @@ std::string AdBlockDetector::html_id(bool banner) const {
         const Strings& ids = *html_ids_;
         result = ids[rr(ids.size())];
     } else {
-        result = WRandom::generateId(); // TODO length = rr(5,15)
+        result = rand_string(rr(5, 15));
     }
     return result;
 }

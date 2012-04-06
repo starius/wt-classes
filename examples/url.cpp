@@ -11,7 +11,6 @@
 #include <Wt/WApplication>
 #include <Wt/WAnchor>
 #include <Wt/WText>
-#include <Wt/WRandom>
 #include <Wt/Wc/Url.hpp>
 #include <Wt/Wc/rand.hpp>
 
@@ -61,7 +60,7 @@ public:
         new WText("Items:", contents_);
         for (int i = 0; i < 10; ++i) {
             new WBreak(contents_);
-            std::string id = Wt::WRandom::generateId();
+            std::string id = rand_string();
             WAnchor* smth = new WAnchor(contents_);
             smth->setRefInternalPath(about_smth_->get_full_path(id));
             smth->setText(about_smth_->get_full_path(id));

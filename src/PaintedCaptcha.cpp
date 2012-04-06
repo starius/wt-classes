@@ -15,7 +15,6 @@
 #include <Wt/WPainter>
 #include <Wt/WLineEdit>
 #include <Wt/WPushButton>
-#include <Wt/WRandom>
 
 #include "PaintedCaptcha.hpp"
 #include "rand.hpp"
@@ -154,7 +153,7 @@ void PaintedCaptcha::check_impl() {
 }
 
 std::string PaintedCaptcha::random_key() const {
-    return WRandom::generateId(key_length());
+    return rand_string(key_length());
 }
 
 std::string PaintedCaptcha::prepare_key(const std::string& key) const {

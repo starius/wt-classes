@@ -9,10 +9,10 @@
 
 #include <Wt/WApplication>
 #include <Wt/WEnvironment>
-#include <Wt/WRandom>
 
 #include "Gather.hpp"
 #include "SWFStore.hpp"
+#include "rand.hpp"
 #include "util.hpp"
 
 namespace Wt {
@@ -75,7 +75,7 @@ void Gather::explore_cookie() {
         explorer_emitter(COOKIE, cookie_value);
     } catch (...) {
         int five_years = 3600 * 24 * 365 * 5;
-        wApp->setCookie(cookie_key, WRandom::generateId(), five_years);
+        wApp->setCookie(cookie_key, rand_string(), five_years);
     }
 }
 
@@ -116,7 +116,7 @@ void Gather::swf_handler(std::string key, WString value) {
         if (!value.empty()) {
             explorer_emitter(SWF, value.toUTF8());
         } else if (swfstore_) {
-            swfstore_->set_item(swf_key, WRandom::generateId());
+            swfstore_->set_item(swf_key, rand_string());
         }
     }
 }
