@@ -159,7 +159,7 @@ FileInput::FileInput(const std::string& option_name):
 
 AbstractInput::State FileInput::state() const {
     State result = VALID;
-    if (file_upload_->empty()) {
+    if (file_upload_->emptyFileName()) {
         set_error_message(tr("wc.wbi.Error_empty"));
         result = EMPTY;
     }
