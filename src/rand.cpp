@@ -5,21 +5,39 @@
  * See the LICENSE file for terms of use.
  */
 
+#include "config.hpp"
 #include <climits>
 
+#ifdef HAVE_WRANDOM
 #include <Wt/WRandom>
+#else
+#include <cstdlib>
+#include <ctime>
+#endif
 
 #include "rand.hpp"
-#include "config.hpp"
 
 namespace Wt {
 
 namespace Wc {
 
+#ifndef HAVE_WRANDOM
+struct Srander {
+    Srander() {
+        std::srand(time(NULL));
+    }
+} srander;
+#endif
+
 const unsigned int UINT_MIN = 0;
 
 unsigned int rr() {
+#ifdef HAVE_WRANDOM
     return WRandom::get();
+#else
+    // TODO use boost random if available
+    return rand();
+#endif
 }
 
 unsigned int rr(unsigned int stop) {
