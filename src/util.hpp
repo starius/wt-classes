@@ -147,6 +147,12 @@ void schedule_action(WIOService* io, const td::TimeDuration& wait,
                      const boost::function<void()>& func);
 #endif
 
+/** Return WApplication::appRoot() if found or config_value("approot").
+
+\ingroup util
+*/
+std::string approot();
+
 }
 
 }

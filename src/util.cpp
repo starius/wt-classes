@@ -155,6 +155,14 @@ void schedule_action(WIOService* io, const td::TimeDuration& wait,
 }
 #endif
 
+std::string approot() {
+#ifdef HAVE_WAPPLICATION_APPROOT
+    return WApplication::appRoot();
+#else
+    return config_value("approot");
+#endif
+}
+
 }
 
 }
