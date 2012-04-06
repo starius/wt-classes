@@ -32,6 +32,7 @@ examples/*.ex
 examples/all.cpp
 locales-test.1
 Doxyfile
+config.hpp
 
 js/jquery.countdown.js
 

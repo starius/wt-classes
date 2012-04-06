@@ -1,5 +1,11 @@
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/config.hpp.in
+    ${CMAKE_CURRENT_BINARY_DIR}/config.hpp)
+
 file(GLOB wtclasses_sources "${CMAKE_CURRENT_SOURCE_DIR}/*.cpp")
 file(GLOB wtclasses_headers "${CMAKE_CURRENT_SOURCE_DIR}/*.hpp")
+list(APPEND wtclasses_headers ${CMAKE_CURRENT_BINARY_DIR}/config.hpp)
+
+include_directories(${CMAKE_CURRENT_BINARY_DIR})
 
 add_library(wtclasses SHARED ${wtclasses_sources})
 add_library(wtclasses_static STATIC ${wtclasses_sources})

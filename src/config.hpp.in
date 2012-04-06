@@ -1,0 +1,28 @@
+/*
+ * wt-classes, utility classes used by Wt applications
+ * Copyright (C) 2011 Boris Nagaev
+ *
+ * See the LICENSE file for terms of use.
+ */
+
+#ifndef WC_CONFIG_HPP_
+#define WC_CONFIG_HPP_
+
+namespace Wt {
+
+namespace Wc {
+
+const int VERSION_MAJOR = @VERSION_MAJOR@;
+const int VERSION_MINOR = @VERSION_MINOR@;
+const int VERSION_PATCH = @VERSION_PATCH@;
+
+const char* const VERSION = "@VERSION@";
+const float VERSION_FLOAT = VERSION_MAJOR + float(VERSION_MINOR) / 100 +
+                            float(VERSION_PATCH) / 10000;
+
+}
+
+}
+
+#endif
+
