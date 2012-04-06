@@ -13,6 +13,7 @@
 #include <Wt/WCheckBox>
 #include <Wt/WFileUpload>
 #include <Wt/Wc/Wbi.hpp>
+#include <Wt/Wc/util.hpp>
 
 using namespace Wt;
 using namespace Wt::Wc;
@@ -43,8 +44,7 @@ public:
     XxdApp(const WEnvironment& env):
         WApplication(env) {
         enableUpdates(true);
-        messageResourceBundle().use(Wt::WApplication::appRoot() +
-                                    "locales/wtclasses");
+        messageResourceBundle().use(approot() + "locales/wtclasses");
         TableTask* task = new TableTask(root());
         FileInput* input = new FileInput("<");
         task->add_input(input, "Binary file");

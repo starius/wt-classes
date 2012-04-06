@@ -11,6 +11,7 @@
 #include <Wt/WPushButton>
 #include <Wt/WText>
 #include <Wt/Wc/PaintedCaptcha.hpp>
+#include <Wt/Wc/util.hpp>
 
 using namespace Wt;
 using namespace Wt::Wc;
@@ -19,8 +20,7 @@ class CaptchaApp : public WApplication {
 public:
     CaptchaApp(const WEnvironment& env):
         WApplication(env) {
-        messageResourceBundle().use(Wt::WApplication::appRoot() +
-                                    "locales/wtclasses");
+        messageResourceBundle().use(approot() + "locales/wtclasses");
         AbstractCaptcha* captcha = new PaintedCaptcha(root());
         WPushButton* check = new WPushButton("Check", root());
         WText* result = new WText(root());

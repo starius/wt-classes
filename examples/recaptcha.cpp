@@ -13,6 +13,7 @@
 #include <Wt/WLineEdit>
 #include <Wt/WContainerWidget>
 #include <Wt/Wc/Recaptcha.hpp>
+#include <Wt/Wc/util.hpp>
 #include <Wt/Wc/config.hpp>
 
 using namespace Wt;
@@ -24,8 +25,7 @@ class RecaptchaApp : public WApplication {
 public:
     RecaptchaApp(const WEnvironment& env):
         WApplication(env) {
-        messageResourceBundle().use(Wt::WApplication::appRoot() +
-                                    "locales/wtclasses");
+        messageResourceBundle().use(approot() + "locales/wtclasses");
         public_key_ = new WLineEdit("public key", root());
         private_key_ = new WLineEdit("private key", root());
         WPushButton* start = new WPushButton("Start", root());
