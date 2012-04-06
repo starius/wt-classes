@@ -20,6 +20,8 @@ const char* const VERSION = "@VERSION@";
 const float VERSION_FLOAT = VERSION_MAJOR + float(VERSION_MINOR) / 100 +
                             float(VERSION_PATCH) / 10000;
 
+#cmakedefine HAVE_WLINK
+
 }
 
 }

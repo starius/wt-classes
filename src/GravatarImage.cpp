@@ -5,10 +5,15 @@
  * See the LICENSE file for terms of use.
  */
 
+#include "config.hpp"
+
 #include <sstream>
 #include <boost/algorithm/string/trim.hpp>
 #include <boost/algorithm/string/case_conv.hpp>
 
+#ifdef HAVE_WLINK
+#include <Wt/WLink>
+#endif
 #include <Wt/WApplication>
 #include <Wt/WEnvironment>
 
@@ -47,10 +52,12 @@ void GravatarImage::set_size(const WLength& size) {
     resize_image(size);
 }
 
+#ifdef HAVE_WLINK
 void GravatarImage::set_default(const WLink& link) {
     default_ = link.url();
     update_url();
 }
+#endif
 
 void GravatarImage::set_default(BuiltIn option) {
     if (option == DEFAULT) {

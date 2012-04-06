@@ -11,6 +11,8 @@
 #include <Wt/WGlobal>
 #include <Wt/WImage>
 
+#include "config.hpp"
+
 namespace Wt {
 
 namespace Wc {
@@ -83,6 +85,7 @@ public:
     */
     void set_size(const WLength& size);
 
+#ifdef HAVE_WLINK
     /** Set default image.
     By default, Gravatar returns <a href=http://www.gravatar.com/avatar/>
     this image</a> if an email address has no matching Gravatar image.
@@ -90,6 +93,7 @@ public:
     You can use this method to change it to other default image.
     */
     void set_default(const WLink& link);
+#endif
 
     /** Set default built-in image.
 

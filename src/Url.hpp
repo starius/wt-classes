@@ -8,13 +8,17 @@
 #ifndef WC_URL_HPP_
 #define WC_URL_HPP_
 
+#include "config.hpp"
+
 #include <string>
 #include <ostream>
 
 #include <Wt/WGlobal>
 #include <Wt/WObject>
 #include <Wt/WSignal>
+#ifdef HAVE_WLINK
 #include <Wt/WLink>
+#endif
 
 #include "global.hpp"
 
@@ -183,8 +187,10 @@ public:
     /** Return full internal path to this node */
     std::string full_path() const;
 
+#ifdef HAVE_WLINK
     /** Return an internal path link to this node */
     WLink link() const;
+#endif
 
     /** Return parent of type Node or 0 */
     Node* node_parent() const;
@@ -272,8 +278,10 @@ public:
     /** Set value and return full internal path to this node */
     std::string get_full_path(long long v);
 
+#ifdef HAVE_WLINK
     /** Set value and return an internal path link to this node */
     WLink get_link(long long v);
+#endif
 };
 
 /** Part of an URL, represented with arbitrary string.
@@ -298,8 +306,10 @@ public:
     /** Set value and return full internal path to this node */
     std::string get_full_path(const std::string& v);
 
+#ifdef HAVE_WLINK
     /** Set value and return an internal path link to this node */
     WLink get_link(const std::string& v);
+#endif
 };
 
 /** Path parser.
@@ -329,10 +339,12 @@ public:
     */
     void open(const std::string& path);
 
+#ifdef HAVE_WLINK
     /** Parse the internal path and open corresponding path node.
     This is an overloaded method for convenience.
     */
     void open(const WLink& internal_path);
+#endif
 
     /** Signal emitted when wrong internal path is opened */
     Signal<>& error404() {

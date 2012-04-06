@@ -18,5 +18,6 @@ set(datadir ${CMAKE_INSTALL_PREFIX}/share CACHE PATH "Root of data files")
 set(WT_DIR ${datadir}/Wt CACHE PATH "Wt installation dir")
 set(DOC_SUBDIR ${datadir}/doc/libwtclasses CACHE PATH "Docs subdir")
 
+include(${CMAKE_CURRENT_SOURCE_DIR}/features/Features.cmake)
 subdirs(src doc examples locales-test locales css js)
 
