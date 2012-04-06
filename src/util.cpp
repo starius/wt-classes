@@ -5,6 +5,8 @@
  * See the LICENSE file for terms of use.
  */
 
+#include "config.hpp"
+
 #include <boost/version.hpp>
 #if BOOST_VERSION >= 104400
 #define BOOST_FILESYSTEM_VERSION 3
@@ -23,7 +25,9 @@
 #include <Wt/WApplication>
 #include <Wt/WEnvironment>
 #include <Wt/WServer>
+#ifdef HAVE_WIOSERVICE
 #include <Wt/WIOService>
+#endif
 
 #include "util.hpp"
 #include "rand.hpp"
@@ -140,6 +144,7 @@ std::string bool_to_string(bool value) {
     return value ? "true" : "false";
 }
 
+#ifdef HAVE_WIOSERVICE
 void schedule_action(WIOService* io, const td::TimeDuration& wait,
                      const boost::function<void()>& func) {
     int ms = wait.total_milliseconds();
@@ -148,6 +153,7 @@ void schedule_action(WIOService* io, const td::TimeDuration& wait,
     }
     io->schedule(ms, func);
 }
+#endif
 
 }
 

@@ -13,6 +13,9 @@
 #include <Wt/WGlobal>
 
 #include "AbstractCaptcha.hpp"
+#include "config.hpp"
+
+#ifdef HAVE_WHTTP_MESSAGE
 
 namespace Wt {
 
@@ -79,6 +82,8 @@ private:
 }
 
 }
+
+#endif
 
 #endif
 

@@ -20,6 +20,7 @@
 #include "PaintedCaptcha.hpp"
 #include "rand.hpp"
 #include "util.hpp"
+#include "config.hpp"
 
 namespace Wt {
 
@@ -72,7 +73,11 @@ public:
     }
 
     std::string user_key() const {
+#ifdef HAVE_WFORMWIDGET_VALUETEXT
         return edit_->valueText().toUTF8();
+#else
+        return ""; // FIXME
+#endif
     }
 
     void set_buttons(bool enabled) {

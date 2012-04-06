@@ -116,7 +116,7 @@ void GravatarImage::update_url() {
     if (force_default_) {
         url << "f=y";
     }
-    setImageLink(url.str());
+    setImageRef(url.str());
 }
 
 void GravatarImage::resize_image(const WLength& size) {

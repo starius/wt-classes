@@ -13,9 +13,12 @@
 #include <Wt/WLineEdit>
 #include <Wt/WContainerWidget>
 #include <Wt/Wc/Recaptcha.hpp>
+#include <Wt/Wc/config.hpp>
 
 using namespace Wt;
 using namespace Wt::Wc;
+
+#ifdef HAVE_RECAPTCHA
 
 class RecaptchaApp : public WApplication {
 public:
@@ -46,8 +49,12 @@ private:
     WLineEdit* private_key_;
 };
 
+#endif
+
 WApplication* createRecaptchaApp(const WEnvironment& env) {
+#ifdef HAVE_RECAPTCHA
     return new RecaptchaApp(env);
+#endif
 }
 
 int main(int argc, char** argv) {

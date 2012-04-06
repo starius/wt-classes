@@ -8,6 +8,8 @@
 #ifndef WC_PLANNING_SERVER_HPP_
 #define WC_PLANNING_SERVER_HPP_
 
+#include "config.hpp"
+
 #include <boost/function.hpp>
 
 #include <Wt/WObject>
@@ -15,6 +17,8 @@
 
 #include "Notify.hpp"
 #include "TimeDuration.hpp"
+
+#ifdef HAVE_WIOSERVICE
 
 namespace Wt {
 
@@ -133,6 +137,8 @@ private:
 }
 
 }
+
+#endif
 
 #endif
 

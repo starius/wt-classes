@@ -5,6 +5,8 @@
  * See the LICENSE file for terms of use.
  */
 
+#include "config.hpp"
+
 #include <vector>
 #include <utility>
 #include <boost/bind.hpp>
@@ -13,6 +15,8 @@
 
 #include "Planning.hpp"
 #include "util.hpp"
+
+#ifdef HAVE_WIOSERVICE
 
 namespace Wt {
 
@@ -80,4 +84,6 @@ void PlanningServer::process(TaskPtr task) {
 }
 
 }
+
+#endif
 
