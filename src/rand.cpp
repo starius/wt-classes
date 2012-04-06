@@ -10,6 +10,7 @@
 #include <Wt/WRandom>
 
 #include "rand.hpp"
+#include "config.hpp"
 
 namespace Wt {
 
@@ -41,6 +42,22 @@ double drr(double start, double stop) {
 
 ptrdiff_t rand_for_shuffle(ptrdiff_t i) {
     return rr(static_cast<unsigned int>(i));
+}
+
+std::string rand_string(int length) {
+#ifdef HAVE_WRANDOM
+    return WRandom::generateId(length);
+#else
+    const std::string abc = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+                            "abcdefghijklmnopqrstuvwxyz"
+                            "0123456789";
+    std::string result;
+    result.reserve(length);
+    for (int i = 0; i < length; i++) {
+        result += abc[rr(abc.length())];
+    }
+    return result;
+#endif
 }
 
 }

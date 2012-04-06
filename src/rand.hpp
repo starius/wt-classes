@@ -6,6 +6,7 @@
  */
 
 #include <cstddef>
+#include <string>
 
 namespace Wt {
 
@@ -55,6 +56,12 @@ The value of the argument must be greater or equal to 0.
 \ingroup rand
 */
 ptrdiff_t rand_for_shuffle(ptrdiff_t i);
+
+/** Return random string build from [a-zA-Z0-9].
+
+\ingroup rand
+*/
+std::string rand_string(int length = 16);
 
 }
 
