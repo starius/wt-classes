@@ -8,6 +8,17 @@
 #ifndef WC_CONFIG_HPP_
 #define WC_CONFIG_HPP_
 
+#cmakedefine HAVE_WLINK
+#cmakedefine HAVE_WIOSERVICE
+#cmakedefine HAVE_WHTTP_MESSAGE
+#cmakedefine HAVE_WRANDOM
+#cmakedefine HAVE_WFORMWIDGET_VALUETEXT
+#cmakedefine HAVE_WAPPLICATION_APPROOT
+
+#ifdef HAVE_WHTTP_MESSAGE
+#define HAVE_RECAPTCHA
+#endif
+
 namespace Wt {
 
 namespace Wc {
@@ -19,17 +30,6 @@ const int VERSION_PATCH = @VERSION_PATCH@;
 const char* const VERSION = "@VERSION@";
 const float VERSION_FLOAT = VERSION_MAJOR + float(VERSION_MINOR) / 100 +
                             float(VERSION_PATCH) / 10000;
-
-#cmakedefine HAVE_WLINK
-#cmakedefine HAVE_WIOSERVICE
-#cmakedefine HAVE_WHTTP_MESSAGE
-#cmakedefine HAVE_WRANDOM
-#cmakedefine HAVE_WFORMWIDGET_VALUETEXT
-#cmakedefine HAVE_WAPPLICATION_APPROOT
-
-#ifdef HAVE_WHTTP_MESSAGE
-#define HAVE_RECAPTCHA
-#endif
 
 }
 
