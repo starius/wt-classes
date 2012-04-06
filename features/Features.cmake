@@ -11,4 +11,7 @@ check_cxx_source_compiles("#include <Wt/WFormWidget>\n int main() {
     Wt::WFormWidget* a; a->valueText(); }" HAVE_WFORMWIDGET_VALUETEXT)
 check_cxx_source_compiles("#include <Wt/WApplication>\n int main() {
     Wt::WApplication::appRoot(); } " HAVE_WAPPLICATION_APPROOT)
+check_cxx_source_compiles("#include <Wt/WContainerWidget>\n int main() {
+    Wt::WContainerWidget c; c.doJavaScript(\"\"); } "
+    HAVE_WIDGET_DO_JAVA_SCRIPT)
 

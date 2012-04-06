@@ -14,9 +14,14 @@
 #cmakedefine HAVE_WRANDOM
 #cmakedefine HAVE_WFORMWIDGET_VALUETEXT
 #cmakedefine HAVE_WAPPLICATION_APPROOT
+#cmakedefine HAVE_WIDGET_DO_JAVA_SCRIPT
 
 #ifdef HAVE_WHTTP_MESSAGE
 #define HAVE_RECAPTCHA
+#endif
+
+#ifndef HAVE_WIDGET_DO_JAVA_SCRIPT
+#include <Wt/WApplication>
 #endif
 
 namespace Wt {
@@ -30,6 +35,12 @@ const int VERSION_PATCH = @VERSION_PATCH@;
 const char* const VERSION = "@VERSION@";
 const float VERSION_FLOAT = VERSION_MAJOR + float(VERSION_MINOR) / 100 +
                             float(VERSION_PATCH) / 10000;
+
+#ifndef HAVE_WIDGET_DO_JAVA_SCRIPT
+inline void doJavaScript(const std::string& js) {
+    wApp->doJavaScript(js);
+}
+#endif
 
 }
 
