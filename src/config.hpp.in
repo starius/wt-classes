@@ -23,6 +23,7 @@ const float VERSION_FLOAT = VERSION_MAJOR + float(VERSION_MINOR) / 100 +
 #cmakedefine HAVE_WLINK
 #cmakedefine HAVE_WIOSERVICE
 #cmakedefine HAVE_WHTTP_MESSAGE
+#cmakedefine HAVE_WRANDOM
 #cmakedefine HAVE_WFORMWIDGET_VALUETEXT
 #cmakedefine HAVE_WAPPLICATION_APPROOT
 
