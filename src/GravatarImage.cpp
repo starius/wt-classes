@@ -52,10 +52,14 @@ void GravatarImage::set_size(const WLength& size) {
     resize_image(size);
 }
 
+void GravatarImage::set_default(const std::string& url) {
+    default_ = url;
+    update_url();
+}
+
 #ifdef HAVE_WLINK
 void GravatarImage::set_default(const WLink& link) {
-    default_ = link.url();
-    update_url();
+    set_default(link.url());
 }
 #endif
 
