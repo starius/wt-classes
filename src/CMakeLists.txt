@@ -5,6 +5,11 @@ file(GLOB wtclasses_sources "${CMAKE_CURRENT_SOURCE_DIR}/*.cpp")
 file(GLOB wtclasses_headers "${CMAKE_CURRENT_SOURCE_DIR}/*.hpp")
 list(APPEND wtclasses_headers ${CMAKE_CURRENT_BINARY_DIR}/config.hpp)
 
+foreach(wtclasses_header ${wtclasses_headers})
+    get_filename_component(name ${wtclasses_header} NAME)
+    configure_file(${wtclasses_header} ${local_headers_dir}/${name})
+endforeach()
+
 include_directories(${CMAKE_CURRENT_BINARY_DIR})
 
 add_library(wtclasses SHARED ${wtclasses_sources})

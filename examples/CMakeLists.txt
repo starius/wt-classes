@@ -16,11 +16,6 @@ if(PYTHONINTERP_FOUND)
     list(APPEND examples_sources ${CMAKE_CURRENT_BINARY_DIR}/all.cpp)
 endif(PYTHONINTERP_FOUND)
 
-add_custom_command(OUTPUT ${local_headers}
-    COMMAND ${CMAKE_COMMAND}
-    -E copy_directory ${PROJECT_SOURCE_DIR}/src/ ${local_headers_dir}
-    DEPENDS ${PROJECT_SOURCE_DIR}/src/*.hpp)
-
 foreach(example_path ${examples_sources})
     include_directories(${local_include_dir})
     get_filename_component(example ${example_path} NAME_WE)
