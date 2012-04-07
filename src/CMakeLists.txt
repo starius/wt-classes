@@ -19,6 +19,13 @@ if(NOT HAVE_RECAPTCHA)
         ${CMAKE_CURRENT_SOURCE_DIR}/Recaptcha.hpp)
 endif()
 
+if(NOT HAVE_SQLTIME)
+    list(REMOVE_ITEM wtclasses_sources
+        ${CMAKE_CURRENT_SOURCE_DIR}/TimeDurationDbo.cpp)
+    list(REMOVE_ITEM wtclasses_headers
+        ${CMAKE_CURRENT_SOURCE_DIR}/TimeDurationDbo.hpp)
+endif()
+
 foreach(wtclasses_header ${wtclasses_headers})
     get_filename_component(name ${wtclasses_header} NAME)
     configure_file(${wtclasses_header} ${local_headers_dir}/${name})
