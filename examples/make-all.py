@@ -17,7 +17,7 @@ remove_main = re.compile("int main.+\}", re.DOTALL)
 for cpp in options.cpp.split():
     if not cpp.endswith('all.cpp'):
         sys.stdout.write(remove_main.sub("", open(cpp).read()))
-        low = cpp.split('/')[-1].split('.')[0] # name without path and extension
+        low = re.split(r'[/\\]', cpp)[-1].split('.')[0]
         Cap = re.search(r"create([^\s]+)App", open(cpp).read()).groups()[0]
         args = {'low': low, 'Cap': Cap}
         entrypoints.append('''
