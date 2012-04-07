@@ -20,6 +20,8 @@ check_cxx_source_compiles("#include <Wt/WContainerWidget>\n int main() {
 check_cxx_source_compiles("#include <Wt/WCompositeWidget>\n
     class A : public Wt::WCompositeWidget { A() { implementation(); } };
     int main() { }" HAVE_WCOMPOSITEWIDGET_IMPLEMENTATION)
+check_cxx_source_compiles("#include <Wt/Dbo/SqlConnection>\n
+    int main() { Wt::Dbo::SqlTime; }" HAVE_SQLTIME)
 
 set(HAVE_RECAPTCHA, ${HAVE_WHTTP_MESSAGE})
 
