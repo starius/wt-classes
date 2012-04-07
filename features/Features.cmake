@@ -14,4 +14,7 @@ check_cxx_source_compiles("#include <Wt/WApplication>\n int main() {
 check_cxx_source_compiles("#include <Wt/WContainerWidget>\n int main() {
     Wt::WContainerWidget c; c.doJavaScript(\"\"); } "
     HAVE_WIDGET_DO_JAVA_SCRIPT)
+check_cxx_source_compiles("#include <Wt/WCompositeWidget>\n
+    class A : public Wt::WCompositeWidget { A() { implementation(); } };
+    int main() { }" HAVE_WCOMPOSITEWIDGET_IMPLEMENTATION)
 
