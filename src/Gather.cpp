@@ -111,10 +111,10 @@ void Gather::explorer_emitter_helper(int type, std::string value) {
     explorer_emitter(static_cast<DataType>(type), value);
 }
 
-void Gather::swf_handler(std::string key, WString value) {
+void Gather::swf_handler(std::string key, std::string value) {
     if (key == swf_key) {
         if (!value.empty()) {
-            explorer_emitter(SWF, value.toUTF8());
+            explorer_emitter(SWF, value);
         } else if (swfstore_) {
             swfstore_->set_item(swf_key, rand_string());
         }

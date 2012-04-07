@@ -159,7 +159,7 @@ private:
 
     void explorer_emitter(DataType type, const std::string& value);
     void explorer_emitter_helper(int type, std::string value);
-    void swf_handler(std::string key, WString value);
+    void swf_handler(std::string key, std::string value);
     static void doJavaScript(const std::string& javascript);
     void get_js_list(DataType type, const std::string& collection,
                      const std::string& property);

@@ -43,9 +43,9 @@ void SWFStore::clear_storage() {
     async_do("$(" + jsRef() + ").data('swfstore').clear();");
 }
 
-void SWFStore::set_item(const std::string& key, const WString& value) {
+void SWFStore::set_item(const std::string& key, const std::string& value) {
     async_do("$(" + jsRef() + ").data('swfstore')"
-             ".setItem('" + key + "', '" + value.toUTF8() + "');");
+             ".setItem('" + key + "', '" + value + "');");
 }
 
 void SWFStore::remove_item(const std::string& key) {

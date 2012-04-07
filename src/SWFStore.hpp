@@ -63,7 +63,7 @@ public:
     /** Add or update the value for a given key.
     \todo quotaExceededError
     */
-    void set_item(const std::string& key, const WString& value);
+    void set_item(const std::string& key, const std::string& value);
 
     /** Remove the key and its value from the engine */
     void remove_item(const std::string& key);
@@ -79,12 +79,12 @@ public:
     void get_value_of(const std::string& key, const std::string& def = "");
 
     /** The signal, emitted by get_value_of() through JavaScript */
-    JSignal<std::string, WString>& value() {
+    JSignal<std::string, std::string>& value() {
         return value_;
     }
 
 private:
-    JSignal<std::string, WString> value_;
+    JSignal<std::string, std::string> value_;
 
     void async_do(const std::string& js);
 };
