@@ -18,9 +18,7 @@
 #cmakedefine HAVE_WIDGET_DO_JAVA_SCRIPT
 #cmakedefine HAVE_WCOMPOSITEWIDGET_IMPLEMENTATION
 
-#ifdef HAVE_WHTTP_MESSAGE
-#define HAVE_RECAPTCHA
-#endif
+#cmakedefine HAVE_RECAPTCHA
 
 #ifndef HAVE_WIDGET_DO_JAVA_SCRIPT
 #include <Wt/WApplication>

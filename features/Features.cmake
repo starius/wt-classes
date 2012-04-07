@@ -19,3 +19,5 @@ check_cxx_source_compiles("#include <Wt/WCompositeWidget>\n
     class A : public Wt::WCompositeWidget { A() { implementation(); } };
     int main() { }" HAVE_WCOMPOSITEWIDGET_IMPLEMENTATION)
 
+set(HAVE_RECAPTCHA, ${HAVE_WHTTP_MESSAGE})
+
