@@ -8,27 +8,18 @@
 #include <Wt/WContainerWidget>
 
 #include "ConstrainedSpinBox.hpp"
+#include "util.hpp"
 
 namespace Wt {
 
 namespace Wc {
-
-template <typename T>
-T spin_box_corrected_value(T minimum, T value, T maximum) {
-    if (value < minimum) {
-        value = minimum;
-    } else if (value > maximum) {
-        value = maximum;
-    }
-    return value;
-}
 
 ConstrainedSpinBox::ConstrainedSpinBox(WContainerWidget* parent) :
     WSpinBox(parent)
 { }
 
 int ConstrainedSpinBox::corrected_value() const {
-    return spin_box_corrected_value(minimum(), value(), maximum());
+    return constrained_value(minimum(), value(), maximum());
 }
 
 ConstrainedDoubleSpinBox::ConstrainedDoubleSpinBox(WContainerWidget* parent) :
@@ -36,7 +27,7 @@ ConstrainedDoubleSpinBox::ConstrainedDoubleSpinBox(WContainerWidget* parent) :
 { }
 
 double ConstrainedDoubleSpinBox::corrected_value() const {
-    return spin_box_corrected_value(minimum(), value(), maximum());
+    return constrained_value(minimum(), value(), maximum());
 }
 
 }

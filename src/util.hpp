@@ -153,6 +153,20 @@ void schedule_action(WIOService* io, const td::TimeDuration& wait,
 */
 std::string approot();
 
+/** Return value constrained by [minimum, maximum].
+
+\ingroup util
+*/
+template <typename T>
+T constrained_value(T minimum, T value, T maximum) {
+    if (value < minimum) {
+        value = minimum;
+    } else if (value > maximum) {
+        value = maximum;
+    }
+    return value;
+}
+
 }
 
 }
