@@ -52,8 +52,7 @@ public:
     }
 
     TimeDuration corrected_value() const {
-        return spin_box_->corrected_value() *
-               INTERVALS[combo_box_->currentIndex()];
+        return constrained_value(min_, value(), max_);
     }
 
     TimeDuration minimum() const {
