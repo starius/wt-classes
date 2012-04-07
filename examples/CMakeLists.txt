@@ -9,6 +9,10 @@ if(NOT HAVE_WRASTERIMAGE)
     list(REMOVE_ITEM examples_sources ${CMAKE_CURRENT_SOURCE_DIR}/captcha.cpp)
 endif()
 
+if(NOT HAVE_RECAPTCHA)
+    list(REMOVE_ITEM examples_sources ${CMAKE_CURRENT_SOURCE_DIR}/recaptcha.cpp)
+endif()
+
 include(FindPythonInterp)
 
 if(PYTHONINTERP_FOUND)

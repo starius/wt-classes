@@ -8,8 +8,6 @@
 #include "config.hpp"
 #include "global.hpp"
 
-#ifdef HAVE_WHTTP_MESSAGE
-
 #include <boost/algorithm/string/predicate.hpp>
 
 #include <Wt/WServer>
@@ -179,6 +177,4 @@ void Recaptcha::add_buttons() {
 }
 
 }
-
-#endif
 

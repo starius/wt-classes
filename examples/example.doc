@@ -17,9 +17,11 @@ This is an example of how to use the Wt::Wc::PaintedCaptcha class.
 */
 #endif
 
+#ifdef HAVE_RECAPTCHA
 /** \example examples/recaptcha.cpp
 This is an example of how to use the Wt::Wc::Recaptcha class.
 */
+#endif
 
 /** \example examples/url.cpp
 This is an example of how to use the \ref url module.

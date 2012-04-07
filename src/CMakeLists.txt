@@ -12,6 +12,13 @@ if(NOT HAVE_WRASTERIMAGE)
         ${CMAKE_CURRENT_SOURCE_DIR}/PaintedCaptcha.hpp)
 endif()
 
+if(NOT HAVE_RECAPTCHA)
+    list(REMOVE_ITEM wtclasses_sources
+        ${CMAKE_CURRENT_SOURCE_DIR}/Recaptcha.cpp)
+    list(REMOVE_ITEM wtclasses_headers
+        ${CMAKE_CURRENT_SOURCE_DIR}/Recaptcha.hpp)
+endif()
+
 foreach(wtclasses_header ${wtclasses_headers})
     get_filename_component(name ${wtclasses_header} NAME)
     configure_file(${wtclasses_header} ${local_headers_dir}/${name})
