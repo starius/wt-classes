@@ -21,7 +21,6 @@
 #include <boost/algorithm/string/replace.hpp>
 
 #include <Wt/WContainerWidget>
-#include <Wt/WCompositeWidget>
 #include <Wt/WPushButton>
 #include <Wt/WLineEdit>
 #include <Wt/WCheckBox>
@@ -33,6 +32,19 @@
 #include <Wt/WText>
 #include <Wt/WApplication>
 #include <Wt/WServer>
+
+#include "config.hpp"
+#include "global.hpp"
+
+#ifndef HAVE_WCOMPOSITEWIDGET_IMPLEMENTATION
+// FIXME nasty public morozov
+#define private friend class Wt::Wc::AbstractOutput; \
+                friend class Wt::Wc::TableTask; \
+                friend class Wt::Wc::FormWidgetInput; private
+#include <Wt/WCompositeWidget>
+#undef private
+#define implementation() Wt::WCompositeWidget::impl_
+#endif // HAVE_WCOMPOSITEWIDGET_IMPLEMENTATION
 
 #include "Wbi.hpp"
 #include "TableForm.hpp"

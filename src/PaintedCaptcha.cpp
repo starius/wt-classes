@@ -16,10 +16,20 @@
 #include <Wt/WLineEdit>
 #include <Wt/WPushButton>
 
+#include "config.hpp"
+#include "global.hpp"
+
+#ifndef HAVE_WCOMPOSITEWIDGET_IMPLEMENTATION
+// FIXME nasty public morozov
+#define private friend class Wt::Wc::PaintedCaptcha; private
+#include <Wt/WCompositeWidget>
+#undef private
+#define implementation() Wt::WCompositeWidget::impl_
+#endif // HAVE_WCOMPOSITEWIDGET_IMPLEMENTATION
+
 #include "PaintedCaptcha.hpp"
 #include "rand.hpp"
 #include "util.hpp"
-#include "config.hpp"
 
 namespace Wt {
 
