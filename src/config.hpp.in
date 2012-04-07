@@ -20,6 +20,7 @@
 #cmakedefine HAVE_WIDGET_DO_JAVA_SCRIPT
 #cmakedefine HAVE_WCOMPOSITEWIDGET_IMPLEMENTATION
 #cmakedefine HAVE_SQLTIME
+#cmakedefine HAVE_SERVER_POST
 
 #cmakedefine HAVE_RECAPTCHA
 
