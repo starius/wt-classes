@@ -9,13 +9,21 @@
 #define WC_CONSTRAINED_SPIN_BOX_HPP_
 
 #include <Wt/WGlobal>
+#include "config.hpp"
+
+#ifdef HAVE_WSPINBOX
 #include <Wt/WSpinBox>
+#endif
+
+#ifdef HAVE_WDOUBLESPINBOX
 #include <Wt/WDoubleSpinBox>
+#endif
 
 namespace Wt {
 
 namespace Wc {
 
+#ifdef HAVE_WSPINBOX
 /** Spin box with constrained value.
 
 \ingroup util
@@ -30,7 +38,9 @@ public:
     */
     int corrected_value() const;
 };
+#endif
 
+#ifdef HAVE_WDOUBLESPINBOX
 /** Double spin box with constrained value.
 
 \ingroup util
@@ -45,6 +55,7 @@ public:
     */
     double corrected_value() const;
 };
+#endif
 
 }
 

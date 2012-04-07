@@ -9,11 +9,13 @@
 
 #include "ConstrainedSpinBox.hpp"
 #include "util.hpp"
+#include "config.hpp"
 
 namespace Wt {
 
 namespace Wc {
 
+#ifdef HAVE_WSPINBOX
 ConstrainedSpinBox::ConstrainedSpinBox(WContainerWidget* parent) :
     WSpinBox(parent)
 { }
@@ -21,7 +23,9 @@ ConstrainedSpinBox::ConstrainedSpinBox(WContainerWidget* parent) :
 int ConstrainedSpinBox::corrected_value() const {
     return constrained_value(minimum(), value(), maximum());
 }
+#endif
 
+#ifdef HAVE_WDOUBLESPINBOX
 ConstrainedDoubleSpinBox::ConstrainedDoubleSpinBox(WContainerWidget* parent) :
     WDoubleSpinBox(parent)
 { }
@@ -29,6 +33,7 @@ ConstrainedDoubleSpinBox::ConstrainedDoubleSpinBox(WContainerWidget* parent) :
 double ConstrainedDoubleSpinBox::corrected_value() const {
     return constrained_value(minimum(), value(), maximum());
 }
+#endif
 
 }
 
