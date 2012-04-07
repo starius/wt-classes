@@ -15,12 +15,10 @@ include_directories(${CMAKE_CURRENT_BINARY_DIR})
 add_library(wtclasses SHARED ${wtclasses_sources})
 add_library(wtclasses_static STATIC ${wtclasses_sources})
 
-target_link_libraries(wtclasses
-    wt
-    boost_filesystem boost_thread
-    boost_signals boost_system
-    ssl
-)
+set(libs wt boost_filesystem boost_thread boost_signals boost_system ssl)
+
+target_link_libraries(wtclasses ${libs})
+target_link_libraries(wtclasses_static ${libs})
 
 set_target_properties(wtclasses PROPERTIES
     VERSION ${VERSION}
