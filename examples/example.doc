@@ -5,13 +5,17 @@
  * See the LICENSE file for terms of use.
  */
 
+#include <Wt/Wc/config.hpp>
+
 namespace Wt {
 
 namespace Wc {
 
+#ifdef HAVE_WRASTERIMAGE
 /** \example examples/captcha.cpp
 This is an example of how to use the Wt::Wc::PaintedCaptcha class.
 */
+#endif
 
 /** \example examples/recaptcha.cpp
 This is an example of how to use the Wt::Wc::Recaptcha class.

@@ -5,14 +5,22 @@ set(BINARY_EXAMPLES_SUBDIR ${CMAKE_INSTALL_PREFIX}/lib/libwtclasses/examples
 file(GLOB examples_sources "${CMAKE_CURRENT_SOURCE_DIR}/*.cpp")
 list(REMOVE_ITEM examples_sources ${CMAKE_CURRENT_SOURCE_DIR}/all.cpp)
 
+if(NOT HAVE_WRASTERIMAGE)
+    list(REMOVE_ITEM examples_sources ${CMAKE_CURRENT_SOURCE_DIR}/captcha.cpp)
+endif()
+
 include(FindPythonInterp)
 
 if(PYTHONINTERP_FOUND)
+    if(HAVE_WRASTERIMAGE)
+        set(wrasterimage "--wrasterimage")
+    endif()
     add_custom_command(
         OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/all.cpp
         COMMAND ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/make-all.py
             --cpp \"${examples_sources}\"
             --template ${CMAKE_CURRENT_SOURCE_DIR}/all.cpp.in
+            ${wrasterimage}
             >> ${CMAKE_CURRENT_BINARY_DIR}/all.cpp
     )
     list(APPEND examples_sources ${CMAKE_CURRENT_BINARY_DIR}/all.cpp)
