@@ -9,7 +9,10 @@ if(DOXYGEN_FOUND)
         WORKING_DIRECTORY ${PROJECT_BINARY_DIR}
         DEPENDS ${local_headers} ${PROJECT_BINARY_DIR}/Doxyfile)
     add_custom_target(doc ALL DEPENDS ${PROJECT_BINARY_DIR}/doc/html/index.html)
-    install(DIRECTORY ${PROJECT_BINARY_DIR}/doc/html/
-        DESTINATION ${HTML_SUBDIR})
-endif()
+    option(INSTALL_DOC "Install documentation" ON)
+    if(INSTALL_DOC)
+        install(DIRECTORY ${PROJECT_BINARY_DIR}/doc/html/
+            DESTINATION ${HTML_SUBDIR})
+    endif(INSTALL_DOC)
+endif(DOXYGEN_FOUND)
 

@@ -3,6 +3,8 @@ configure_file(${CMAKE_CURRENT_SOURCE_DIR}/locales-test.in
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/setup.py.in
     ${CMAKE_CURRENT_BINARY_DIR}/setup.py)
 
+option(INSTALL_LOCALES_TEST "Install locales-test" ON)
+
 find_program(rst2man NAMES rst2man)
 if(EXISTS ${rst2man})
     add_custom_command(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/locales-test.1
@@ -13,9 +15,13 @@ if(EXISTS ${rst2man})
         DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/locales-test.1)
     set(MAN_SUBDIR ${CMAKE_INSTALL_PREFIX}/share/man/man1
         CACHE PATH "Man pages subdir")
-    install(FILES ${CMAKE_CURRENT_BINARY_DIR}/locales-test.1
-        DESTINATION ${MAN_SUBDIR})
-endif()
+    if(INSTALL_LOCALES_TEST)
+        install(FILES ${CMAKE_CURRENT_BINARY_DIR}/locales-test.1
+            DESTINATION ${MAN_SUBDIR})
+    endif(INSTALL_LOCALES_TEST)
+endif(EXISTS ${rst2man})
 
-install(PROGRAMS ${CMAKE_CURRENT_BINARY_DIR}/locales-test DESTINATION bin)
+if(INSTALL_LOCALES_TEST)
+    install(PROGRAMS ${CMAKE_CURRENT_BINARY_DIR}/locales-test DESTINATION bin)
+endif()
 

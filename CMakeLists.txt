@@ -19,5 +19,21 @@ set(WT_DIR ${datadir}/Wt CACHE PATH "Wt installation dir")
 set(DOC_SUBDIR ${datadir}/doc/libwtclasses CACHE PATH "Docs subdir")
 
 include(${CMAKE_CURRENT_SOURCE_DIR}/features/Features.cmake)
-subdirs(src doc examples locales-test locales css js)
+
+subdirs(src locales css js)
+
+option(BUILD_EXAMPLES "Build examples" ON)
+if(BUILD_EXAMPLES)
+    subdirs(examples)
+endif()
+
+option(BUILD_DOC "Build documentation" ON)
+if(BUILD_DOC)
+    subdirs(doc)
+endif()
+
+option(BUILD_LOCALES_TEST "Build locales-test" ON)
+if(BUILD_LOCALES_TEST)
+    subdirs(locales-test)
+endif()
 

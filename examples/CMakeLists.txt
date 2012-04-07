@@ -16,6 +16,8 @@ if(PYTHONINTERP_FOUND)
     list(APPEND examples_sources ${CMAKE_CURRENT_BINARY_DIR}/all.cpp)
 endif(PYTHONINTERP_FOUND)
 
+option(INSTALL_EXAMPLES "Install examples" ON)
+
 foreach(example_path ${examples_sources})
     include_directories(${local_include_dir})
     get_filename_component(example ${example_path} NAME_WE)
@@ -24,10 +26,12 @@ foreach(example_path ${examples_sources})
         wtclasses
         wthttp
     )
-    install(FILES ${example_path} DESTINATION ${EXAMPLES_SUBDIR})
-    install(TARGETS ${example}.wt DESTINATION ${BINARY_EXAMPLES_SUBDIR})
-    install(CODE "execute_process(COMMAND ${CMAKE_COMMAND} -E create_symlink
-        ${BINARY_EXAMPLES_SUBDIR}/${example}.wt
-        $ENV{DESTDIR}${EXAMPLES_SUBDIR}/${example}.wt)")
+    if(INSTALL_EXAMPLES)
+        install(FILES ${example_path} DESTINATION ${EXAMPLES_SUBDIR})
+        install(TARGETS ${example}.wt DESTINATION ${BINARY_EXAMPLES_SUBDIR})
+        install(CODE "execute_process(COMMAND ${CMAKE_COMMAND} -E create_symlink
+            ${BINARY_EXAMPLES_SUBDIR}/${example}.wt
+            $ENV{DESTDIR}${EXAMPLES_SUBDIR}/${example}.wt)")
+    endif()
 endforeach()
 
