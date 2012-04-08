@@ -1,5 +1,6 @@
 2012-04-08:
     * add one_bound_post() helper function
+    * change Notify system to be compatible with Wt 3.1.2
 
 2012-04-06:
     * migrate to cmake

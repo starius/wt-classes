@@ -11,10 +11,13 @@
 #include <map>
 #include <boost/thread/mutex.hpp>
 #include <boost/shared_ptr.hpp>
+#include <boost/any.hpp>
 
 #include <Wt/WGlobal>
 
 #include "global.hpp"
+#include "util.hpp"
+#include "config.hpp"
 
 namespace Wt {
 
@@ -73,7 +76,8 @@ public:
     /** Constructor.
     \param key        Event key to listen
     \param server     Notification server
-    \param app_id     Id of WApplication ("" means wApp->sessionId())
+    \param app_id     Deprecated, not used
+    When created, wApp must return current WApplication.
     */
     Widget(const Event::Key& key, Server* server,
            const std::string& app_id = "");
@@ -94,7 +98,7 @@ public:
 private:
     const Event::Key key_;
     Server* server_;
-    const std::string app_id_;
+    WApplication* app_id_;
 };
 
 /** Notification server.
@@ -106,7 +110,7 @@ This object is bound to server.
 class Server {
 public:
     /** Constructor.
-    \param server WServer to run post() method (0 means WServer::instance())
+    \param server Deprecated, not used
     */
     Server(WServer* server = 0);
 
@@ -126,17 +130,18 @@ public:
 
 private:
     typedef std::vector<Widget*> Widgets;
-    typedef std::map<std::string, Widgets> A2W;
+    typedef std::map<WApplication*, Widgets> A2W;
     typedef std::map<Event::Key, A2W> O2W;
+    typedef std::map<WApplication*, OneAnyFunc> A2F;
     O2W o2w_;
+    A2F a2f_;
     boost::mutex mutex_;
-    WServer* server_;
 
-    void start_listening(Widget* widget, const std::string& app_id);
+    void start_listening(Widget* widget);
 
-    void stop_listening(Widget* widget, const std::string& app_id);
+    void stop_listening(Widget* widget, WApplication* app_id);
 
-    void notify_widgets(EventPtr event);
+    void notify_widgets(const boost::any& event);
 
     friend class Widget;
 };
