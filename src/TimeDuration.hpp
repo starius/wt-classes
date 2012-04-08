@@ -15,6 +15,8 @@
 
 namespace Wt {
 
+class WDateTime; // not declared n WGlobal of Wt 3.1.2
+
 namespace Wc {
 
 /** \defgroup time Time-related
