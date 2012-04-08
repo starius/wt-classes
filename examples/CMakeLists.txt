@@ -26,6 +26,7 @@ if(PYTHONINTERP_FOUND)
             --template ${CMAKE_CURRENT_SOURCE_DIR}/all.cpp.in
             ${wrasterimage}
             >> ${CMAKE_CURRENT_BINARY_DIR}/all.cpp
+        DEPENDS ${examples_sources}
     )
     list(APPEND examples_sources ${CMAKE_CURRENT_BINARY_DIR}/all.cpp)
 endif(PYTHONINTERP_FOUND)
