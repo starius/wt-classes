@@ -17,6 +17,7 @@
 
 #include "Countdown.hpp"
 #include "util.hpp"
+#include "config.hpp"
 
 namespace Wt {
 

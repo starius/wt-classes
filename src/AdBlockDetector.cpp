@@ -17,6 +17,7 @@
 #include "AdBlockDetector.hpp"
 #include "rand.hpp"
 #include "util.hpp"
+#include "config.hpp"
 
 namespace Wt {
 namespace Wc {
