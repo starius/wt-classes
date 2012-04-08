@@ -11,6 +11,7 @@
 #include <boost/cast.hpp>
 #include <boost/function.hpp>
 #include <boost/lexical_cast.hpp>
+#include <boost/any.hpp>
 
 #include <Wt/WGlobal>
 #include <Wt/WDateTime>
@@ -72,6 +73,19 @@ is used, which is not so safe, as WServer::post() is
 \ingroup util
 */
 boost::function<void()> bound_post(boost::function<void()> func);
+
+/** Function of one argument.
+
+\ingroup util
+*/
+typedef boost::function<void(const boost::any&)> OneAnyFunc;
+
+/** Return the same function, but being called afterwards.
+This function is like bound_post(), but it allows to bind one argument.
+
+\ingroup util
+*/
+OneAnyFunc one_bound_post(const OneAnyFunc& func);
 
 /** Call triggerUpdate() in current WApplication.
 

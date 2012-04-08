@@ -18,6 +18,8 @@
 #include <fstream>
 #include <boost/filesystem.hpp>
 #include <boost/bind.hpp>
+#include <boost/shared_ptr.hpp>
+#include <boost/make_shared.hpp>
 #include <boost/foreach.hpp>
 #include <boost/algorithm/string/replace.hpp>
 #ifndef HAVE_SERVER_POST
@@ -65,6 +67,33 @@ boost::function<void()> bound_post(boost::function<void()> func) {
 #else
     return boost::bind(thread_func, func, wApp);
 #endif
+}
+
+struct OneAnyFuncBinder {
+    void operator()() {
+        func(*arg_ptr);
+    }
+    OneAnyFunc func;
+    boost::shared_ptr<boost::any> arg_ptr;
+};
+
+struct OneAnyFuncHolder {
+    void operator()(const boost::any& arg) {
+        *arg_ptr = arg;
+        posted_binder();
+    }
+    boost::function<void()> posted_binder;
+    boost::shared_ptr<boost::any> arg_ptr;
+};
+
+OneAnyFunc one_bound_post(const OneAnyFunc& func) {
+    OneAnyFuncBinder binder;
+    OneAnyFuncHolder holder;
+    binder.func = func;
+    binder.arg_ptr = boost::make_shared<boost::any>();
+    holder.arg_ptr = binder.arg_ptr;
+    holder.posted_binder = bound_post(binder);
+    return holder;
 }
 
 void updates_trigger() {

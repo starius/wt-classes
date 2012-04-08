@@ -1,3 +1,6 @@
+2012-04-08:
+    * add one_bound_post() helper function
+
 2012-04-06:
     * migrate to cmake
     * remove Makefile & Co.
