@@ -72,7 +72,11 @@ void updates_trigger() {
 }
 
 void updates_poster(WServer* server, WApplication* app) {
+#ifdef HAVE_SERVER_POST
     server->post(app->sessionId(), updates_trigger);
+#else
+    bound_post(updates_trigger)();
+#endif
 }
 
 std::string unique_filename() {

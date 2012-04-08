@@ -20,6 +20,7 @@
 namespace Wt {
 
 class WIOService; // FIXME http://redmine.emweb.be/issues/1189
+class WServer; // not declared n WGlobal of Wt 3.1.2
 
 namespace Wc {
 
@@ -79,6 +80,7 @@ boost::function<void()> bound_post(boost::function<void()> func);
 void updates_trigger();
 
 /** Post triggerUpdate() to the application.
+If server.post() is available, it is used, else bound_post() is used.
 
 \ingroup util
 */
