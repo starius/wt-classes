@@ -20,6 +20,9 @@
 #include <boost/bind.hpp>
 #include <boost/foreach.hpp>
 #include <boost/algorithm/string/replace.hpp>
+#ifndef HAVE_SERVER_POST
+#include <boost/thread.hpp>
+#endif
 
 #include <openssl/md5.h>
 #include <Wt/WApplication>
@@ -37,14 +40,31 @@ namespace Wt {
 
 namespace Wc {
 
+#ifdef HAVE_SERVER_POST
 void post(WServer* server, const std::string& app,
           const boost::function<void()>& func) {
     server->post(app, func);
 }
+#else
+void do_func(boost::function<void()> func, WApplication* app) {
+    if (!app->isQuited()) {
+        WApplication::UpdateLock lock = app->getUpdateLock();
+        func();
+    }
+}
+
+void thread_func(boost::function<void()> func, WApplication* app) {
+    boost::thread(do_func, func, app);
+}
+#endif
 
 boost::function<void()> bound_post(boost::function<void()> func) {
+#ifdef HAVE_SERVER_POST
     WServer* server = DOWNCAST<WServer*>(wApp->environment().server());
     return boost::bind(post, server, wApp->sessionId(), func);
+#else
+    return boost::bind(thread_func, func, wApp);
+#endif
 }
 
 void updates_trigger() {

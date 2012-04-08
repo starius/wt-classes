@@ -60,9 +60,13 @@ bool isinstance(const S* object) {
 */
 #define TO_S(x) boost::lexical_cast<std::string>(x)
 
-/** Return the same function, but being called through WServer::post().
+/** Return the same function, but being called afterwards.
 All needed arguments are bound and new function
 object is returned.
+
+If WServer::post() is available, it is used, else thread-based implementation
+is used, which is not so safe, as WServer::post() is
+(if the application was deleted, it may cause segfault).
 
 \ingroup util
 */
