@@ -36,11 +36,34 @@ namespace Wt {
 
 namespace Wc {
 
+/** Main version.
+Should the library be completely rewritten, this number will grow.
+*/
 const int VERSION_MAJOR = @VERSION_MAJOR@;
+
+/** Minor version.
+When the library gets new features, this number grows.
+Minor versions should be backward compatible,
+but they can be slightly uncompatible, in particular in case of
+non-standard usage.
+*/
 const int VERSION_MINOR = @VERSION_MINOR@;
+
+/** Patch version.
+This number is for bugfixes versions (including debian files update).
+
+These versions must be completely backward compatible.
+They should not get new features, unless they were introduced
+to correct a bug.
+*/
 const int VERSION_PATCH = @VERSION_PATCH@;
 
+/** String version of version */
 const char* const VERSION = "@VERSION@";
+
+/** Float version of version.
+This is suitable to compare versions as float variables.
+*/
 const float VERSION_FLOAT = VERSION_MAJOR + float(VERSION_MINOR) / 100 +
                             float(VERSION_PATCH) / 10000;
 
