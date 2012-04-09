@@ -4,7 +4,7 @@ include(CheckCXXSourceCompiles)
 set(CMAKE_REQUIRED_LIBRARIES ${CMAKE_REQUIRED_LIBRARIES} wt)
 
 check_include_file_cxx(Wt/WLink WC_HAVE_WLINK)
-check_include_file_cxx(Wt/WIOService WC_HAVE_WIOSERVICE)
+check_include_file_cxx(Wt/WIOService WC_HAVE_WIOSERVICE -lboost_system)
 check_include_file_cxx(Wt/Http/Message WC_HAVE_WHTTP_MESSAGE)
 check_include_file_cxx(Wt/WRandom WC_HAVE_WRANDOM)
 check_include_file_cxx(Wt/WRasterImage WC_HAVE_WRASTERIMAGE)
