@@ -1,7 +1,8 @@
 include(CheckIncludeFileCXX)
 include(CheckCXXSourceCompiles)
 
-set(CMAKE_REQUIRED_LIBRARIES ${CMAKE_REQUIRED_LIBRARIES} wt)
+set(CMAKE_REQUIRED_LIBRARIES ${CMAKE_REQUIRED_LIBRARIES}
+    wt boost_filesystem boost_system)
 
 check_include_file_cxx(Wt/WLink WC_HAVE_WLINK)
 check_include_file_cxx(Wt/WIOService WC_HAVE_WIOSERVICE -lboost_system)
