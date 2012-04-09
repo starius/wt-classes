@@ -1,3 +1,6 @@
+2012-04-09:
+    * schedule_action() doesn't take WIOService
+
 2012-04-08:
     * add one_bound_post() helper function
     * change Notify system to be compatible with Wt 3.1.2

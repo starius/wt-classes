@@ -63,7 +63,7 @@ bool PlanningServer::add(Task* task, WDateTime when, bool immediately) {
 
 void PlanningServer::schedule(const td::TimeDuration& wait,
                               const boost::function<void()>& func) {
-    schedule_action(io_, wait, func);
+    schedule_action(wait, func);
 }
 
 void PlanningServer::process(TaskPtr task) {

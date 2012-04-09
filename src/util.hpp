@@ -163,7 +163,7 @@ std::string bool_to_string(bool value);
 \see WIOService::schedule()
 \ingroup util
 */
-void schedule_action(WIOService* io, const td::TimeDuration& wait,
+void schedule_action(const td::TimeDuration& wait,
                      const boost::function<void()>& func);
 #endif
 

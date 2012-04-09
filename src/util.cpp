@@ -200,14 +200,15 @@ std::string bool_to_string(bool value) {
     return value ? "true" : "false";
 }
 
-#ifdef WC_HAVE_WIOSERVICE
-void schedule_action(WIOService* io, const td::TimeDuration& wait,
+#if defined(WC_HAVE_WIOSERVICE) && defined(WC_HAVE_ENVIRONMENT_SERVER)
+void schedule_action(const td::TimeDuration& wait,
                      const boost::function<void()>& func) {
     int ms = wait.total_milliseconds();
     if (ms < 0) {
         ms = INT_MAX;
     }
-    io->schedule(ms, func);
+    WIOService& io = wApp->environment().server()->ioService();
+    io.schedule(ms, func);
 }
 #endif
 
