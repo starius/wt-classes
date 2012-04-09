@@ -87,7 +87,7 @@ This function is like bound_post(), but it allows to bind one argument.
 */
 OneAnyFunc one_bound_post(const OneAnyFunc& func);
 
-/** Call triggerUpdate() in current WApplication.
+/** Call triggerUpdate() in current WApplication, if updates are enabled.
 
 \ingroup util
 */

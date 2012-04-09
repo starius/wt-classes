@@ -107,7 +107,9 @@ OneAnyFunc one_bound_post(const OneAnyFunc& func) {
 }
 
 void updates_trigger() {
-    wApp->triggerUpdate();
+    if (wApp->updatesEnabled()) {
+        wApp->triggerUpdate();
+    }
 }
 
 void updates_poster(WServer* server, WApplication* app) {
