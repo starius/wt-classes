@@ -6,9 +6,10 @@
  */
 
 #include <Wt/WApplication>
-#include <Wt/WTimer>
 #include <Wt/WText>
 #include <Wt/Wc/AdBlockDetector.hpp>
+#include <Wt/Wc/TimeDuration.hpp>
+#include <Wt/Wc/util.hpp>
 
 using namespace Wt;
 using namespace Wt::Wc;
@@ -17,9 +18,11 @@ class AdBlockDetectorApp : public WApplication {
 public:
     AdBlockDetectorApp(const WEnvironment& env):
         WApplication(env) {
+        wApp->enableUpdates();
         text_ = new WText("Please wait...", root());
         detector_ = new AdBlockDetector(root());
-        WTimer::singleShot(10 * 1000, this, &AdBlockDetectorApp::find_adblock);
+        Wc::schedule_action(10 * Wc::td::SECOND, bound_post(boost::bind(
+                                &AdBlockDetectorApp::find_adblock, this)));
     }
 
     void find_adblock() {
@@ -27,6 +30,7 @@ public:
                        "AdBlock detected" : "No AdBlock detected");
         delete detector_;
         detector_ = 0;
+        wApp->triggerUpdate();
     }
 
 private:
