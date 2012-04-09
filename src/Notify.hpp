@@ -23,6 +23,10 @@ namespace Wt {
 
 namespace Wc {
 
+/** Namespace for notifications, passed to widgets
+
+\ingroup notify
+*/
 namespace notify {
 
 /** \defgroup notify Notification server
