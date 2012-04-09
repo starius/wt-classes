@@ -56,7 +56,7 @@ std::string Node::full_path() const {
     return ss.str();
 }
 
-#ifdef HAVE_WLINK
+#ifdef WC_HAVE_WLINK
 WLink Node::link() const {
     return WLink(WLink::InternalPath, full_path());
 }
@@ -122,7 +122,7 @@ std::string IntegerNode::get_full_path(long long v) {
     return full_path();
 }
 
-#ifdef HAVE_WLINK
+#ifdef WC_HAVE_WLINK
 WLink IntegerNode::get_link(long long v) {
     return WLink(WLink::InternalPath, get_full_path(v));
 }
@@ -149,7 +149,7 @@ std::string StringNode::get_full_path(const std::string& v) {
     return full_path();
 }
 
-#ifdef HAVE_WLINK
+#ifdef WC_HAVE_WLINK
 WLink StringNode::get_link(const std::string& v) {
     return WLink(WLink::InternalPath, get_full_path(v));
 }
@@ -197,7 +197,7 @@ void Parser::open(const std::string& path) {
     }
 }
 
-#ifdef HAVE_WLINK
+#ifdef WC_HAVE_WLINK
 void Parser::open(const WLink& internal_path) {
     open(internal_path.internalPath().toUTF8());
 }

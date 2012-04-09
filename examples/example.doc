@@ -11,13 +11,13 @@ namespace Wt {
 
 namespace Wc {
 
-#ifdef HAVE_WRASTERIMAGE
+#ifdef WC_HAVE_WRASTERIMAGE
 /** \example examples/captcha.cpp
 This is an example of how to use the Wt::Wc::PaintedCaptcha class.
 */
 #endif
 
-#ifdef HAVE_RECAPTCHA
+#ifdef WC_HAVE_RECAPTCHA
 /** \example examples/recaptcha.cpp
 This is an example of how to use the Wt::Wc::Recaptcha class.
 */

@@ -32,9 +32,9 @@ public:
                            const TimeDuration& max) :
         WContainerWidget(), min_(min), max_(max), unit_(SECOND) {
         setInline(true);
-#if defined(HAVE_WDOUBLESPINBOX)
+#if defined(WC_HAVE_WDOUBLESPINBOX)
         spin_box_ = new ConstrainedDoubleSpinBox(this);
-#elif defined(HAVE_WSPINBOX)
+#elif defined(WC_HAVE_WSPINBOX)
         spin_box_ = new ConstrainedSpinBox(this);
 #else
         spin_box_ = new WLineEdit(this);
@@ -86,9 +86,9 @@ public:
     }
 
 private:
-#if defined(HAVE_WDOUBLESPINBOX)
+#if defined(WC_HAVE_WDOUBLESPINBOX)
     ConstrainedDoubleSpinBox* spin_box_;
-#elif defined(HAVE_WSPINBOX)
+#elif defined(WC_HAVE_WSPINBOX)
     ConstrainedSpinBox* spin_box_;
 #else
     WLineEdit* spin_box_;
@@ -105,7 +105,7 @@ private:
     }
 
     void set_raw_value(double min, double value, double max) {
-#if defined(HAVE_WDOUBLESPINBOX) || defined(HAVE_WSPINBOX)
+#if defined(WC_HAVE_WDOUBLESPINBOX) || defined(WC_HAVE_WSPINBOX)
         spin_box_->setRange(min, max);
         spin_box_->setValue(value);
 #else
@@ -115,7 +115,7 @@ private:
     }
 
     double raw_value() const {
-#if defined(HAVE_WDOUBLESPINBOX) || defined(HAVE_WSPINBOX)
+#if defined(WC_HAVE_WDOUBLESPINBOX) || defined(WC_HAVE_WSPINBOX)
         return spin_box_->value();
 #else
         try {

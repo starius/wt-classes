@@ -22,7 +22,7 @@
 #include <boost/make_shared.hpp>
 #include <boost/foreach.hpp>
 #include <boost/algorithm/string/replace.hpp>
-#ifndef HAVE_SERVER_POST
+#ifndef WC_HAVE_SERVER_POST
 #include <boost/thread.hpp>
 #endif
 
@@ -30,7 +30,7 @@
 #include <Wt/WApplication>
 #include <Wt/WEnvironment>
 #include <Wt/WServer>
-#ifdef HAVE_WIOSERVICE
+#ifdef WC_HAVE_WIOSERVICE
 #include <Wt/WIOService>
 #endif
 
@@ -42,7 +42,7 @@ namespace Wt {
 
 namespace Wc {
 
-#ifdef HAVE_SERVER_POST
+#ifdef WC_HAVE_SERVER_POST
 void post(WServer* server, const std::string& app,
           const boost::function<void()>& func) {
     server->post(app, func);
@@ -61,7 +61,7 @@ void thread_func(boost::function<void()> func, WApplication* app) {
 #endif
 
 boost::function<void()> bound_post(boost::function<void()> func) {
-#ifdef HAVE_SERVER_POST
+#ifdef WC_HAVE_SERVER_POST
     WServer* server = DOWNCAST<WServer*>(wApp->environment().server());
     return boost::bind(post, server, wApp->sessionId(), func);
 #else
@@ -101,7 +101,7 @@ void updates_trigger() {
 }
 
 void updates_poster(WServer* server, WApplication* app) {
-#ifdef HAVE_SERVER_POST
+#ifdef WC_HAVE_SERVER_POST
     server->post(app->sessionId(), updates_trigger);
 #else
     bound_post(updates_trigger)();
@@ -197,7 +197,7 @@ std::string bool_to_string(bool value) {
     return value ? "true" : "false";
 }
 
-#ifdef HAVE_WIOSERVICE
+#ifdef WC_HAVE_WIOSERVICE
 void schedule_action(WIOService* io, const td::TimeDuration& wait,
                      const boost::function<void()>& func) {
     int ms = wait.total_milliseconds();
@@ -209,7 +209,7 @@ void schedule_action(WIOService* io, const td::TimeDuration& wait,
 #endif
 
 std::string approot() {
-#ifdef HAVE_WAPPLICATION_APPROOT
+#ifdef WC_HAVE_WAPPLICATION_APPROOT
     return WApplication::appRoot();
 #else
     return config_value("approot");

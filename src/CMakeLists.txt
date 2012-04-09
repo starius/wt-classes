@@ -5,21 +5,21 @@ file(GLOB wtclasses_sources "${CMAKE_CURRENT_SOURCE_DIR}/*.cpp")
 file(GLOB wtclasses_headers "${CMAKE_CURRENT_SOURCE_DIR}/*.hpp")
 list(APPEND wtclasses_headers ${CMAKE_CURRENT_BINARY_DIR}/config.hpp)
 
-if(NOT HAVE_WRASTERIMAGE)
+if(NOT WC_HAVE_WRASTERIMAGE)
     list(REMOVE_ITEM wtclasses_sources
         ${CMAKE_CURRENT_SOURCE_DIR}/PaintedCaptcha.cpp)
     list(REMOVE_ITEM wtclasses_headers
         ${CMAKE_CURRENT_SOURCE_DIR}/PaintedCaptcha.hpp)
 endif()
 
-if(NOT HAVE_RECAPTCHA)
+if(NOT WC_HAVE_RECAPTCHA)
     list(REMOVE_ITEM wtclasses_sources
         ${CMAKE_CURRENT_SOURCE_DIR}/Recaptcha.cpp)
     list(REMOVE_ITEM wtclasses_headers
         ${CMAKE_CURRENT_SOURCE_DIR}/Recaptcha.hpp)
 endif()
 
-if(NOT HAVE_SQLTIME)
+if(NOT WC_HAVE_SQLTIME)
     list(REMOVE_ITEM wtclasses_sources
         ${CMAKE_CURRENT_SOURCE_DIR}/TimeDurationDbo.cpp)
     list(REMOVE_ITEM wtclasses_headers

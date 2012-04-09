@@ -11,7 +11,7 @@
 #include <boost/algorithm/string/trim.hpp>
 #include <boost/algorithm/string/case_conv.hpp>
 
-#ifdef HAVE_WLINK
+#ifdef WC_HAVE_WLINK
 #include <Wt/WLink>
 #endif
 #include <Wt/WApplication>
@@ -57,7 +57,7 @@ void GravatarImage::set_default(const std::string& url) {
     update_url();
 }
 
-#ifdef HAVE_WLINK
+#ifdef WC_HAVE_WLINK
 void GravatarImage::set_default(const WLink& link) {
     set_default(link.url());
 }

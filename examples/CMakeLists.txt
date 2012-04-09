@@ -5,18 +5,18 @@ set(BINARY_EXAMPLES_SUBDIR ${CMAKE_INSTALL_PREFIX}/lib/libwtclasses/examples
 file(GLOB examples_sources "${CMAKE_CURRENT_SOURCE_DIR}/*.cpp")
 list(REMOVE_ITEM examples_sources ${CMAKE_CURRENT_SOURCE_DIR}/all.cpp)
 
-if(NOT HAVE_WRASTERIMAGE)
+if(NOT WC_HAVE_WRASTERIMAGE)
     list(REMOVE_ITEM examples_sources ${CMAKE_CURRENT_SOURCE_DIR}/captcha.cpp)
 endif()
 
-if(NOT HAVE_RECAPTCHA)
+if(NOT WC_HAVE_RECAPTCHA)
     list(REMOVE_ITEM examples_sources ${CMAKE_CURRENT_SOURCE_DIR}/recaptcha.cpp)
 endif()
 
 include(FindPythonInterp)
 
 if(PYTHONINTERP_FOUND)
-    if(HAVE_WRASTERIMAGE)
+    if(WC_HAVE_WRASTERIMAGE)
         set(wrasterimage "--wrasterimage")
     endif()
     add_custom_command(

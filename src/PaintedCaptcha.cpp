@@ -19,13 +19,13 @@
 #include "config.hpp"
 #include "global.hpp"
 
-#ifndef HAVE_WCOMPOSITEWIDGET_IMPLEMENTATION
+#ifndef WC_HAVE_WCOMPOSITEWIDGET_IMPLEMENTATION
 // FIXME nasty public morozov
 #define private friend class Wt::Wc::PaintedCaptcha; private
 #include <Wt/WCompositeWidget>
 #undef private
 #define implementation() Wt::WCompositeWidget::impl_
-#endif // HAVE_WCOMPOSITEWIDGET_IMPLEMENTATION
+#endif // WC_HAVE_WCOMPOSITEWIDGET_IMPLEMENTATION
 
 #include "PaintedCaptcha.hpp"
 #include "rand.hpp"
@@ -82,7 +82,7 @@ public:
     }
 
     std::string user_key() const {
-#ifdef HAVE_WFORMWIDGET_VALUETEXT
+#ifdef WC_HAVE_WFORMWIDGET_VALUETEXT
         return edit_->valueText().toUTF8();
 #else
         return ""; // FIXME

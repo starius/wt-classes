@@ -36,7 +36,7 @@
 #include "config.hpp"
 #include "global.hpp"
 
-#ifndef HAVE_WCOMPOSITEWIDGET_IMPLEMENTATION
+#ifndef WC_HAVE_WCOMPOSITEWIDGET_IMPLEMENTATION
 // FIXME nasty public morozov
 #define private friend class Wt::Wc::AbstractOutput; \
                 friend class Wt::Wc::TableTask; \
@@ -44,7 +44,7 @@
 #include <Wt/WCompositeWidget>
 #undef private
 #define implementation() Wt::WCompositeWidget::impl_
-#endif // HAVE_WCOMPOSITEWIDGET_IMPLEMENTATION
+#endif // WC_HAVE_WCOMPOSITEWIDGET_IMPLEMENTATION
 
 #include "Wbi.hpp"
 #include "TableForm.hpp"

@@ -15,7 +15,7 @@ namespace Wt {
 
 namespace Wc {
 
-#ifdef HAVE_WSPINBOX
+#ifdef WC_HAVE_WSPINBOX
 ConstrainedSpinBox::ConstrainedSpinBox(WContainerWidget* parent) :
     WSpinBox(parent)
 { }
@@ -25,7 +25,7 @@ int ConstrainedSpinBox::corrected_value() const {
 }
 #endif
 
-#ifdef HAVE_WDOUBLESPINBOX
+#ifdef WC_HAVE_WDOUBLESPINBOX
 ConstrainedDoubleSpinBox::ConstrainedDoubleSpinBox(WContainerWidget* parent) :
     WDoubleSpinBox(parent)
 { }

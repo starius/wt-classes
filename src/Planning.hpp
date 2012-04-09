@@ -18,7 +18,7 @@
 #include "Notify.hpp"
 #include "TimeDuration.hpp"
 
-#ifdef HAVE_WIOSERVICE
+#ifdef WC_HAVE_WIOSERVICE
 
 namespace Wt {
 

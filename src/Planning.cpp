@@ -16,7 +16,7 @@
 #include "Planning.hpp"
 #include "util.hpp"
 
-#ifdef HAVE_WIOSERVICE
+#ifdef WC_HAVE_WIOSERVICE
 
 namespace Wt {
 

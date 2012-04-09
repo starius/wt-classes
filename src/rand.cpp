@@ -8,7 +8,7 @@
 #include "config.hpp"
 #include <climits>
 
-#ifdef HAVE_WRANDOM
+#ifdef WC_HAVE_WRANDOM
 #include <Wt/WRandom>
 #else
 #include <cstdlib>
@@ -21,7 +21,7 @@ namespace Wt {
 
 namespace Wc {
 
-#ifndef HAVE_WRANDOM
+#ifndef WC_HAVE_WRANDOM
 struct Srander {
     Srander() {
         std::srand(time(NULL));
@@ -32,7 +32,7 @@ struct Srander {
 const unsigned int UINT_MIN = 0;
 
 unsigned int rr() {
-#ifdef HAVE_WRANDOM
+#ifdef WC_HAVE_WRANDOM
     return WRandom::get();
 #else
     // TODO use boost random if available
@@ -63,7 +63,7 @@ ptrdiff_t rand_for_shuffle(ptrdiff_t i) {
 }
 
 std::string rand_string(int length) {
-#ifdef HAVE_WRANDOM
+#ifdef WC_HAVE_WRANDOM
     return WRandom::generateId(length);
 #else
     const std::string abc = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"

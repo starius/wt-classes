@@ -93,7 +93,7 @@ public:
     */
     void set_default(const std::string& url);
 
-#ifdef HAVE_WLINK
+#ifdef WC_HAVE_WLINK
     /** Set default image.
     \see set_default(std::string)
     */

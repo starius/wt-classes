@@ -153,7 +153,7 @@ void set_hidden(WWidget* widget, bool hidden);
 */
 std::string bool_to_string(bool value);
 
-#ifdef HAVE_WIOSERVICE
+#ifdef WC_HAVE_WIOSERVICE
 /** Utility method used to schedule a function.
 \attention The function would be executed in "raw" thread of io service.
     Consider using of bound_post() wrapper for \p func.

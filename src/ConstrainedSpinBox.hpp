@@ -11,11 +11,11 @@
 #include <Wt/WGlobal>
 #include "config.hpp"
 
-#ifdef HAVE_WSPINBOX
+#ifdef WC_HAVE_WSPINBOX
 #include <Wt/WSpinBox>
 #endif
 
-#ifdef HAVE_WDOUBLESPINBOX
+#ifdef WC_HAVE_WDOUBLESPINBOX
 #include <Wt/WDoubleSpinBox>
 #endif
 
@@ -23,7 +23,7 @@ namespace Wt {
 
 namespace Wc {
 
-#ifdef HAVE_WSPINBOX
+#ifdef WC_HAVE_WSPINBOX
 /** Spin box with constrained value.
 
 \ingroup util
@@ -40,7 +40,7 @@ public:
 };
 #endif
 
-#ifdef HAVE_WDOUBLESPINBOX
+#ifdef WC_HAVE_WDOUBLESPINBOX
 /** Double spin box with constrained value.
 
 \ingroup util

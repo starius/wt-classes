@@ -22,13 +22,13 @@
 #include <Wt/Http/Client>
 #include <Wt/Http/Message>
 
-#ifndef HAVE_WCOMPOSITEWIDGET_IMPLEMENTATION
+#ifndef WC_HAVE_WCOMPOSITEWIDGET_IMPLEMENTATION
 // FIXME nasty public morozov
 #define private friend class Wt::Wc::Recaptcha; private
 #include <Wt/WCompositeWidget>
 #undef private
 #define implementation() Wt::WCompositeWidget::impl_
-#endif // HAVE_WCOMPOSITEWIDGET_IMPLEMENTATION
+#endif // WC_HAVE_WCOMPOSITEWIDGET_IMPLEMENTATION
 
 #include "Recaptcha.hpp"
 #include "util.hpp"

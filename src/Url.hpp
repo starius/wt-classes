@@ -16,7 +16,7 @@
 #include <Wt/WGlobal>
 #include <Wt/WObject>
 #include <Wt/WSignal>
-#ifdef HAVE_WLINK
+#ifdef WC_HAVE_WLINK
 #include <Wt/WLink>
 #endif
 
@@ -187,7 +187,7 @@ public:
     /** Return full internal path to this node */
     std::string full_path() const;
 
-#ifdef HAVE_WLINK
+#ifdef WC_HAVE_WLINK
     /** Return an internal path link to this node */
     WLink link() const;
 #endif
@@ -278,7 +278,7 @@ public:
     /** Set value and return full internal path to this node */
     std::string get_full_path(long long v);
 
-#ifdef HAVE_WLINK
+#ifdef WC_HAVE_WLINK
     /** Set value and return an internal path link to this node */
     WLink get_link(long long v);
 #endif
@@ -306,7 +306,7 @@ public:
     /** Set value and return full internal path to this node */
     std::string get_full_path(const std::string& v);
 
-#ifdef HAVE_WLINK
+#ifdef WC_HAVE_WLINK
     /** Set value and return an internal path link to this node */
     WLink get_link(const std::string& v);
 #endif
@@ -339,7 +339,7 @@ public:
     */
     void open(const std::string& path);
 
-#ifdef HAVE_WLINK
+#ifdef WC_HAVE_WLINK
     /** Parse the internal path and open corresponding path node.
     This is an overloaded method for convenience.
     */
