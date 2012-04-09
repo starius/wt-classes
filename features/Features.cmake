@@ -29,9 +29,18 @@ check_cxx_source_compiles("#include <Wt/WServer>\n int main() { Wt::WServer* s;
 check_cxx_source_compiles("#include <Wt/WEnvironment>\n
     #include <Wt/WApplication>\n int main() {
     wApp->environment().server(); }" WC_HAVE_ENVIRONMENT_SERVER)
+check_cxx_source_compiles("#include <Wt/Utils>\n int main() {
+    Wt::Utils::md5(\"\"); }" WC_HAVE_WT_MD5)
 
 set(WC_HAVE_RECAPTCHA ${WC_HAVE_WHTTP_MESSAGE})
-set(WC_HAVE_MD5 ${OPENSSL_FOUND})
-set(WC_USE_OPENSSL ${OPENSSL_FOUND})
+
+if(WC_HAVE_WT_MD5)
+    set(WC_HAVE_MD5 ON)
+    set(WC_USE_WT_MD5 ON)
+elseif(OPENSSL_FOUND)
+    set(WC_HAVE_MD5 ON)
+    set(WC_USE_OPENSSL ON)
+endif()
+
 set(WC_HAVE_GRAVATAR ${WC_HAVE_MD5})
 
