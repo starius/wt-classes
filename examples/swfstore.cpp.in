@@ -49,7 +49,7 @@ WApplication* createSWFStoreApp(const WEnvironment& env) {
 }
 
 // FIXME Debian hardcode!!
-const char* SWFSTORE_FILE = "/usr/share/javascript/yui/swfstore/swfstore.swf";
+const char* SWFSTORE_FILE = "@SWFSTORE_FILE@";
 
 class SWFStoreServer : public WServer {
 public:

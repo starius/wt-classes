@@ -5,6 +5,10 @@
  * See the LICENSE file for terms of use.
  */
 
+#include <Wt/WServer>
+
+#cmakedefine HAVE_SWFSTORE
+
 class AllApp : public WApplication {
 public:
     AllApp(const WEnvironment& env):
@@ -19,19 +23,27 @@ WApplication* createAllApp(const WEnvironment& env) {
 
 class AllServer : public WServer {
 public:
-    AllServer(int argc, char** argv):
+    AllServer(int argc, char** argv)
+#ifdef HAVE_SWFSTORE
+        :
         swfstore_("application/x-shockwave-flash", SWFSTORE_FILE),
-        storage_whitelist_("", "") {
+        storage_whitelist_("", "")
+#endif
+        {
         setServerConfiguration(argc, argv);
+#ifdef HAVE_SWFSTORE
         addResource(&swfstore_, "/swfstore.swf");
         addResource(&storage_whitelist_, "/storage-whitelist.xml");
+#endif
         %(entrypoints)s
         addEntryPoint(Wt::Application, createAllApp);
     }
 
+#ifdef HAVE_SWFSTORE
 private:
     WFileResource swfstore_;
     WFileResource storage_whitelist_; // 404 Not Found
+#endif
 };
 
 int main(int argc, char** argv) {

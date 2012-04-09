@@ -1,9 +1,22 @@
 set(EXAMPLES_SUBDIR ${DOC_SUBDIR}/examples CACHE PATH "Examples docs subdir")
 set(BINARY_EXAMPLES_SUBDIR ${CMAKE_INSTALL_PREFIX}/lib/libwtclasses/examples
     CACHE PATH "Binary examples docs subdir")
+set(SWFSTORE_FILE /usr/share/javascript/yui/swfstore/swfstore.swf
+    CACHE PATH "Path to swfstore.swf")
+
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/swfstore.cpp.in
+    ${CMAKE_CURRENT_BINARY_DIR}/swfstore.cpp ESCAPE_QUOTES)
 
 file(GLOB examples_sources "${CMAKE_CURRENT_SOURCE_DIR}/*.cpp")
 list(REMOVE_ITEM examples_sources ${CMAKE_CURRENT_SOURCE_DIR}/all.cpp)
+
+if(EXISTS ${SWFSTORE_FILE})
+    set(HAVE_SWFSTORE 1)
+    list(APPEND examples_sources ${CMAKE_CURRENT_BINARY_DIR}/swfstore.cpp)
+endif()
+
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/all.cpp.in.in
+    ${CMAKE_CURRENT_BINARY_DIR}/all.cpp.in)
 
 if(NOT WC_HAVE_WRASTERIMAGE)
     list(REMOVE_ITEM examples_sources ${CMAKE_CURRENT_SOURCE_DIR}/captcha.cpp)
@@ -23,7 +36,7 @@ if(PYTHONINTERP_FOUND)
         OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/all.cpp
         COMMAND ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/make-all.py
             --cpp \"${examples_sources}\"
-            --template ${CMAKE_CURRENT_SOURCE_DIR}/all.cpp.in
+            --template ${CMAKE_CURRENT_BINARY_DIR}/all.cpp.in
             ${wrasterimage}
             > ${CMAKE_CURRENT_BINARY_DIR}/all.cpp
         DEPENDS ${examples_sources}
