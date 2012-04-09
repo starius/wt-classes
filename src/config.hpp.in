@@ -59,7 +59,7 @@ to correct a bug.
 const int VERSION_PATCH = @VERSION_PATCH@;
 
 /** String version of version */
-const char* const VERSION = "@VERSION@";
+const char* const VERSION_STR = "@VERSION@";
 
 /** Float version of version.
 This is suitable to compare versions as float variables.
