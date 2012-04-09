@@ -30,6 +30,9 @@ namespace td {
 
 /** Time duration.
 
+To integrate this type into Wt::Dbo see
+Wt::Dbo::sql_value_traits< Wc::td::TimeDuration, void >.
+
 \ingroup time
 */
 class TimeDuration : public boost::posix_time::time_duration {
