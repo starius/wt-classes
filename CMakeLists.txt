@@ -12,7 +12,6 @@ set(VERSION ${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH})
 
 set(local_include_dir ${PROJECT_BINARY_DIR}/include)
 set(local_headers_dir ${local_include_dir}/Wt/Wc)
-set(local_headers ${local_headers_dir}/global.hpp)
 
 set(datadir ${CMAKE_INSTALL_PREFIX}/share CACHE PATH "Root of data files")
 set(WT_DIR ${datadir}/Wt CACHE PATH "Wt installation dir")
@@ -20,7 +19,10 @@ set(DOC_SUBDIR ${datadir}/doc/libwtclasses CACHE PATH "Docs subdir")
 
 include(${CMAKE_CURRENT_SOURCE_DIR}/features/Features.cmake)
 
-subdirs(src locales css js)
+subdirs(src)
+file(GLOB local_headers "${local_headers_dir}/*.hpp")
+
+subdirs(locales css js)
 
 option(BUILD_EXAMPLES "Build examples" ON)
 if(BUILD_EXAMPLES)
