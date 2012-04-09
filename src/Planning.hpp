@@ -8,8 +8,6 @@
 #ifndef WC_PLANNING_SERVER_HPP_
 #define WC_PLANNING_SERVER_HPP_
 
-#include "config.hpp"
-
 #include <boost/function.hpp>
 
 #include <Wt/WObject>
@@ -17,8 +15,6 @@
 
 #include "Notify.hpp"
 #include "TimeDuration.hpp"
-
-#ifdef WC_HAVE_WIOSERVICE
 
 namespace Wt {
 
@@ -52,8 +48,13 @@ public:
 */
 class PlanningServer : public WObject {
 public:
-    /** Constructor */
+    /** Constructor.
+    \deprecated io_service is ignored. Use another constructor
+    */
     PlanningServer(WIOService* io_service, WObject* p = 0);
+
+    /** Constructor */
+    PlanningServer(WObject* p = 0);
 
     /** Add a task to the planning list.
     If the \c when  is \c inValid() (e.g., Null), no action is performed
@@ -107,15 +108,16 @@ public:
         return server_;
     }
 
-    /** Get IO service */
-    WIOService* io_service() {
-        return io_;
-    }
+    /** Get IO service.
+    \deprecated Return WIOService, used for Wt server, if available, else 0.
+    */
+    WIOService* io_service();
 
-    /** Set IO service */
-    void set_io_service(WIOService* io_service) {
-        io_ = io_service;
-    }
+    /** Set IO service.
+    \deprecated Does nothing
+    */
+    void set_io_service(WIOService*)
+    { }
 
     /** Utility method used to schedule a function.
     This is a method for convenience.
@@ -127,7 +129,6 @@ public:
 private:
     Server* server_;
     td::TimeDuration delay_;
-    WIOService* io_;
 
     void process(TaskPtr task);
 };
@@ -137,8 +138,6 @@ private:
 }
 
 }
-
-#endif
 
 #endif
 

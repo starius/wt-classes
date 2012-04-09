@@ -15,8 +15,16 @@
 
 #include "Planning.hpp"
 #include "util.hpp"
+#include "config.hpp"
 
-#ifdef WC_HAVE_WIOSERVICE
+#define USE_WIOSERVICE (defined(WC_HAVE_WIOSERVICE) && \
+        defined(WC_HAVE_ENVIRONMENT_SERVER))
+
+#if USE_WIOSERVICE
+#include <Wt/WApplication>
+#include <Wt/WEnvironment>
+#include <Wt/WServer>
+#endif
 
 namespace Wt {
 
@@ -36,10 +44,14 @@ Tasks& tasks() {
     return *tasks_ptr_;
 }
 
-PlanningServer::PlanningServer(WIOService* io_service, WObject* p):
+PlanningServer::PlanningServer(WIOService* /* io_service */, WObject* p):
     WObject(p),
-    server_(0),
-    io_(io_service)
+    server_(0)
+{ }
+
+PlanningServer::PlanningServer(WObject* p):
+    WObject(p),
+    server_(0)
 { }
 
 bool PlanningServer::add(TaskPtr task, const WDateTime& when,
@@ -59,6 +71,14 @@ bool PlanningServer::add(TaskPtr task, const WDateTime& when,
 
 bool PlanningServer::add(Task* task, WDateTime when, bool immediately) {
     return add(TaskPtr(task), when, immediately);
+}
+
+WIOService* PlanningServer::io_service() {
+#if USE_WIOSERVICE
+    return &wApp->environment().server()->ioService();
+#else
+    return 0;
+#endif
 }
 
 void PlanningServer::schedule(const td::TimeDuration& wait,
@@ -84,6 +104,4 @@ void PlanningServer::process(TaskPtr task) {
 }
 
 }
-
-#endif
 
