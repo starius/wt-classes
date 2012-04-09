@@ -76,7 +76,7 @@ void Server::notify_widgets(const boost::any& event) {
     BOOST_FOREACH (Widget* widget, widgets) {
         widget->notify(*e);
     }
-    wApp->triggerUpdate();
+    updates_trigger();
 }
 
 }

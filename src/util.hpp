@@ -93,7 +93,7 @@ OneAnyFunc one_bound_post(const OneAnyFunc& func);
 */
 void updates_trigger();
 
-/** Post triggerUpdate() to the application.
+/** Post updates_poster() to the application.
 If server.post() is available, it is used, else bound_post() is used.
 
 \ingroup util

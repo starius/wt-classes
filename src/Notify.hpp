@@ -120,7 +120,7 @@ public:
 
     /** Notify all widgets, listening to object updates.
     After all widgets of an application were notified,
-    triggerUpdate() is called.
+    updates_trigger() is called.
     \attention If you use transactions, call this method
                after successful transaction committing.
     */
