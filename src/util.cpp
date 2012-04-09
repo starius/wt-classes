@@ -187,13 +187,16 @@ std::string md5(const std::string& data) {
 
 std::string urlencode(const std::string& url) {
     std::stringstream result;
-    result.setf(std::ios::hex | std::ios::uppercase);
+    result.setf(std::ios::hex, std::ios::basefield);
+    result.setf(std::ios::uppercase);
+    result.width(2);
+    result.fill('0');
     BOOST_FOREACH (char c, url) {
         if (isalnum(c) && (0 < c && c < 127)) {
             result.put(c);
         } else {
             result.put('%');
-            result << c;
+            result << short(c);
         }
     }
     return result.str();
