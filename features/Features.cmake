@@ -22,9 +22,11 @@ check_cxx_source_compiles("#include <Wt/WCompositeWidget>\n
     int main() { }" WC_HAVE_WCOMPOSITEWIDGET_IMPLEMENTATION)
 check_cxx_source_compiles("#include <Wt/Dbo/SqlConnection>\n
     int main() { Wt::Dbo::SqlTime; }" WC_HAVE_SQLTIME)
-check_cxx_source_compiles("#include <Wt/WServer>\n #include <Wt/WEnvironment>\n
+check_cxx_source_compiles("#include <Wt/WServer>\n int main() { Wt::WServer* s;
+    s->post(\"\", main); }" WC_HAVE_SERVER_POST)
+check_cxx_source_compiles("#include <Wt/WEnvironment>\n
     #include <Wt/WApplication>\n int main() {
-    wApp->environment().server()->post(\"\", main); }" WC_HAVE_SERVER_POST)
+    wApp->environment().server(); }" WC_HAVE_ENVIRONMENT_SERVER)
 
 set(WC_HAVE_RECAPTCHA, ${WC_HAVE_WHTTP_MESSAGE})
 

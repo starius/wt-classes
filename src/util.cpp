@@ -7,6 +7,9 @@
 
 #include "config.hpp"
 
+#define USE_SERVER_POST (defined(WC_HAVE_SERVER_POST) && \
+    defined(WC_HAVE_ENVIRONMENT_SERVER))
+
 #include <boost/version.hpp>
 #if BOOST_VERSION >= 104400
 #define BOOST_FILESYSTEM_VERSION 3
@@ -22,7 +25,7 @@
 #include <boost/make_shared.hpp>
 #include <boost/foreach.hpp>
 #include <boost/algorithm/string/replace.hpp>
-#ifndef WC_HAVE_SERVER_POST
+#if !USE_SERVER_POST
 #include <boost/thread.hpp>
 #endif
 
@@ -42,7 +45,7 @@ namespace Wt {
 
 namespace Wc {
 
-#ifdef WC_HAVE_SERVER_POST
+#if USE_SERVER_POST
 void post(WServer* server, const std::string& app,
           const boost::function<void()>& func) {
     server->post(app, func);
@@ -61,7 +64,7 @@ void thread_func(boost::function<void()> func, WApplication* app) {
 #endif
 
 boost::function<void()> bound_post(boost::function<void()> func) {
-#ifdef WC_HAVE_SERVER_POST
+#if USE_SERVER_POST
     WServer* server = DOWNCAST<WServer*>(wApp->environment().server());
     return boost::bind(post, server, wApp->sessionId(), func);
 #else
@@ -101,7 +104,7 @@ void updates_trigger() {
 }
 
 void updates_poster(WServer* server, WApplication* app) {
-#ifdef WC_HAVE_SERVER_POST
+#if USE_SERVER_POST
     server->post(app->sessionId(), updates_trigger);
 #else
     bound_post(updates_trigger)();
