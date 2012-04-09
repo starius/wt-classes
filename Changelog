@@ -1,3 +1,6 @@
+2012-04-10:
+    * remove downgrading scripts and configure.py
+
 2012-04-09:
     * schedule_action() doesn't take WIOService
     * implement schedule_action() for Wt without WIOService

@@ -1,8 +1,6 @@
 wt-classes, utility classes used by Wt applications
 ------------------------------------------
 
-(Optional) to configure the library, use configure.py
-
 Compile and install wt-classes library:
 $ cmake .
 $ make install
@@ -10,26 +8,42 @@ Read about cmake for more information
 
 Dependencies:
  * cmake >= 2.6
- * libboost >= 1.42 (libboost-system, libboost-filesystem, libboost-thread)
  * witty library (>=3.1.2)
- * openssl library (for md5)
- * python, containing argparse module (used by Makefile and locales-test)
-
-Build-only dependencies:
- * rst2man (used to build manpage)
- * wget to get jquery.countdown.js (already included in a distribution tar file)
- * doxygen to build documentation
+ * libboost >= 1.42
+  * boost_filesystem (version 2 or 3)
+  * boost_system
+  * boost_signals
+  * boost_thread
+  * boost_date_time
+  * headers:
+   * boost/algorithm/string
+   * boost/any.hpp
+   * boost/array.hpp
+   * boost/asio.hpp
+   * boost/bind.hpp
+   * boost/cast.hpp
+   * boost/foreach.hpp
+   * boost/format.hpp
+   * boost/function.hpp
+   * boost/shared_ptr.hpp
 
 Recommendations:
  * YUI library >= 2.8.0 for SWFStore
+ * openssl library (for md5) or Wt 3.2.1+ for md5 for class GravatarImage
+ * python, containing argparse module for locales-test
+ * recommendations for Wt:
+  * Wt/WRasterImage for class PaintedCaptcha
+  * Wt/Http/Message for class Recaptcha
+  * Wt/W(Double)SpinBox for Constrained(Double)SpinBox
+  * Wt::Dbo::SqlTime to integrate TimeDuration into Wt::Dbo
+  * Wt/WIOService for improved timers
+  * Wt/WRandom for safer random numbers
+  * WServer::post() for safer application events posts
 
-To exclude openssl dependency, apply script no-openssl.sh
-
-To build wt-classes against Wt 3.1.10, before build
-apply script for-wt-3.1.10.sh
-
-To build wt-classes against Wt 3.1.2, before build
-apply script for-wt-3.1.2.sh
+Build-only recommendations:
+ * rst2man (used to build manpage)
+ * doxygen to build documentation
+ * python to build all.wt example (union of all examples)
 
 To install locales-test:
 # easy_install locales-test
