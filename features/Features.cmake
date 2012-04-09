@@ -30,7 +30,7 @@ check_cxx_source_compiles("#include <Wt/WEnvironment>\n
     #include <Wt/WApplication>\n int main() {
     wApp->environment().server(); }" WC_HAVE_ENVIRONMENT_SERVER)
 
-set(WC_HAVE_RECAPTCHA, ${WC_HAVE_WHTTP_MESSAGE})
+set(WC_HAVE_RECAPTCHA ${WC_HAVE_WHTTP_MESSAGE})
 set(WC_HAVE_MD5 ${OPENSSL_FOUND})
 set(WC_USE_OPENSSL ${OPENSSL_FOUND})
 set(WC_HAVE_GRAVATAR ${WC_HAVE_MD5})
