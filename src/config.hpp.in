@@ -26,6 +26,9 @@
 #cmakedefine WC_HAVE_ENVIRONMENT_SERVER
 
 #cmakedefine WC_HAVE_RECAPTCHA
+#cmakedefine WC_HAVE_MD5
+#cmakedefine WC_USE_OPENSSL
+#cmakedefine WC_HAVE_GRAVATAR
 
 #ifndef WC_HAVE_WIDGET_DO_JAVA_SCRIPT
 #include <Wt/WApplication>

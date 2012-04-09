@@ -27,9 +27,11 @@ This is an example of how to use the Wt::Wc::Recaptcha class.
 This is an example of how to use the \ref url module.
 */
 
+#ifdef WC_HAVE_GRAVATAR
 /** \example examples/gravatar.cpp
 This is an example of how to use the Wt::Wc::GravatarImage class.
 */
+#endif
 
 /** \example examples/swfstore.cpp
 This is an example of how to use the Wt::Wc::SWFStore class and \ref protection.

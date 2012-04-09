@@ -34,7 +34,9 @@
 #include <boost/asio.hpp>
 #endif
 
+#ifdef WC_USE_OPENSSL
 #include <openssl/md5.h>
+#endif
 #include <Wt/WApplication>
 #include <Wt/WEnvironment>
 #include <Wt/WServer>
@@ -163,6 +165,7 @@ WDateTime now() {
     return WDateTime::currentDateTime();
 }
 
+#ifdef WC_HAVE_MD5
 std::string md5(const std::string& data) {
     const unsigned char* d;
     d = reinterpret_cast<const unsigned char*>(data.c_str());
@@ -178,6 +181,7 @@ std::string md5(const std::string& data) {
     }
     return result.str();
 }
+#endif
 
 std::string urlencode(const std::string& url) {
     std::stringstream result;

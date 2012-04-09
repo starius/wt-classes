@@ -26,6 +26,10 @@ if(NOT WC_HAVE_RECAPTCHA)
     list(REMOVE_ITEM examples_sources ${CMAKE_CURRENT_SOURCE_DIR}/recaptcha.cpp)
 endif()
 
+if(NOT WC_HAVE_GRAVATAR)
+    list(REMOVE_ITEM examples_sources ${CMAKE_CURRENT_SOURCE_DIR}/gravatar.cpp)
+endif()
+
 include(FindPythonInterp)
 
 if(PYTHONINTERP_FOUND)
