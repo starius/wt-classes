@@ -153,19 +153,20 @@ void set_hidden(WWidget* widget, bool hidden);
 */
 std::string bool_to_string(bool value);
 
-#ifdef WC_HAVE_WIOSERVICE
 /** Utility method used to schedule a function.
 \attention The function would be executed in "raw" thread of io service.
     Consider using of bound_post() wrapper for \p func.
-\note If the number of total milliseconds of the duration exceeds the
+\note (For WIOService only)
+    If the number of total milliseconds of the duration exceeds the
     size of \c int, the duration is decreased to fit into this size (INT_MAX).
     If sizeof(int) is 4, max duration is about 24.8 days.
-\see WIOService::schedule()
+
+This function uses WIOService::schedule(), if available,
+else boost::asio::io_service with WApplication::UpdateLock is used.
 \ingroup util
 */
 void schedule_action(const td::TimeDuration& wait,
                      const boost::function<void()>& func);
-#endif
 
 /** Return WApplication::appRoot() if found or config_value("approot").
 

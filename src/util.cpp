@@ -28,6 +28,11 @@
 #if !USE_SERVER_POST
 #include <boost/thread.hpp>
 #endif
+#if !USE_WIOSERVICE
+#include <boost/system/error_code.hpp>
+#include <boost/thread.hpp>
+#include <boost/asio.hpp>
+#endif
 
 #include <openssl/md5.h>
 #include <Wt/WApplication>
@@ -200,17 +205,51 @@ std::string bool_to_string(bool value) {
     return value ? "true" : "false";
 }
 
-#if defined(WC_HAVE_WIOSERVICE) && defined(WC_HAVE_ENVIRONMENT_SERVER)
+#define USE_WIOSERVICE (defined(WC_HAVE_WIOSERVICE) && \
+        defined(WC_HAVE_ENVIRONMENT_SERVER))
+
+#if !USE_WIOSERVICE
+typedef boost::asio::deadline_timer Timer;
+typedef boost::shared_ptr<Timer> TimerPtr;
+
+struct WcIoService {
+    WcIoService():
+        work(io) {
+        boost::thread(boost::bind(&boost::asio::io_service::run, &io));
+    }
+
+    ~WcIoService() {
+        io.stop();
+    }
+
+    boost::asio::io_service io;
+    boost::asio::io_service::work work;
+} wc_io;
+
+void handle_timeout(TimerPtr /* timer */,
+                    const boost::function<void()>& func,
+                    const boost::system::error_code& e) {
+    if (!e) {
+        func();
+    }
+}
+#endif
+
 void schedule_action(const td::TimeDuration& wait,
                      const boost::function<void()>& func) {
+#if USE_WIOSERVICE
     int ms = wait.total_milliseconds();
     if (ms < 0) {
         ms = INT_MAX;
     }
     WIOService& io = wApp->environment().server()->ioService();
     io.schedule(ms, func);
-}
+#else
+    TimerPtr timer = boost::make_shared<Timer>(boost::ref(wc_io.io), wait);
+    timer->async_wait(boost::bind(handle_timeout, timer, func,
+                                  boost::asio::placeholders::error));
 #endif
+}
 
 std::string approot() {
 #ifdef WC_HAVE_WAPPLICATION_APPROOT
