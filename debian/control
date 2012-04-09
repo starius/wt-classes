@@ -2,9 +2,9 @@ Source: libwtclasses
 Priority: extra
 Maintainer: Boris Nagaev <bnagaev@gmail.com>
 Build-Depends: debhelper (>= 7.0.50~), libboost-filesystem-dev (>= 1.42),
- libwt-dev (>= 3.2.0), libwthttp-dev, libwtdbo-dev,
+ libwt-dev (>= 3.1.2), libwthttp-dev, libwtdbo-dev,
  cmake (>= 2.6),
- libssl-dev,
+ libssl-dev | libwt-dev (>= 3.2.1),
  python-docutils,
  doxygen,
  wget, unzip,
@@ -32,7 +32,7 @@ Package: libwtclasses11
 Section: libs
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends},
- libwt-common (>= 3.2.0)
+ libwt-common (>= 3.1.2)
 Recommends: libjs-yui (>= 2.8.0)
 Description: utility classes used by Wt applications [runtime]
  The package provides several useful classes connected with Wt:
