@@ -170,14 +170,26 @@ def locales_test(prefix, sections, wt=None, sources=None, locales=None,
 
     all_ids = reduce(lambda a,b:a|b, filename2ids.values(), set())
 
-    for filename, ids in filename2ids.items():
-        for Id in all_ids - ids:
-            if Id.startswith("Wt."):
-                continue
-            if not any(c.isalpha() for c in re.sub(cleaner, "", id2text[Id])):
-                continue
-            e('the id not found in some .xml files', type='warning',
-                    file=filename, id=Id)
+    groups = {}
+    for filename in filename2ids:
+        group = re.sub(r'(_\w\w)?\.xml', '', filename)
+        if group not in groups:
+            groups[group] = set()
+        groups[group].add(filename)
+
+    for group, filenames in groups.items():
+        group_ids = set()
+        for filename in filenames:
+            group_ids |= filename2ids[filename]
+        for filename in filenames:
+            for Id in group_ids - filename2ids[filename]:
+                if Id.startswith("Wt."):
+                    continue
+                if not any(c.isalpha() for c
+                        in re.sub(cleaner, "", id2text[Id])):
+                    continue
+                e('the id not found in some .xml files', type='warning',
+                        file=filename, id=Id)
 
     l9n_re = re.compile(r'"(%s\.[^"]+)"' % re.escape(prefix))
     used_ids = set()
