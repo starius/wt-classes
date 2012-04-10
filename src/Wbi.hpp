@@ -287,6 +287,7 @@ public:
     /** Constructor.
     \copydetails AbstractInput()
     \param widget Widget to use as implementation.
+        You can pass widget=0 and set it latter using set_widget().
 
     You can modify widget, i.e. by adding WValidator.
     */
@@ -297,6 +298,9 @@ public:
     \note You can make empty value valid (WValidator::setMandatory(true))
     */
     State state() const;
+
+    /** Set implementation widget */
+    void set_widget(WFormWidget* widget);
 
 protected:
     /** \copydoc form_widget()
@@ -428,12 +432,14 @@ class BoolInput : public FormWidgetInput {
 public:
     /** Constructor.
     \param widget Widget to use as implementation
+        You can pass widget=0 and set it latter using set_widget().
     \param name_if_true Option name to be passed if true (name_if_true())
     */
     BoolInput(WCheckBox* widget, const std::string& name_if_true);
 
     /** Constructor.
     \param widget Widget to use as implementation
+        You can pass widget=0 and set it latter using set_widget().
     \param name_if_true Option name to be passed if true (name_if_true())
     \param name_if_false Option name to be passed if false (name_if_false())
     */
@@ -442,6 +448,7 @@ public:
 
     /** Constructor.
     \param widget Widget to use as implementation
+        You can pass widget=0 and set it latter using set_widget().
     \param name Option name to be passed (name_if_true() = name_if_false())
     \param value_if_true Option value to be passed if true (value_if_true())
     \param value_if_false Option value to be passed if false (value_if_false())

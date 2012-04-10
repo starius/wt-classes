@@ -119,12 +119,15 @@ void AbstractInput::add_args_impl(const ArgUser& f) const {
 FormWidgetInput::FormWidgetInput(WFormWidget* widget,
                                  const std::string& option_name):
     AbstractInput(option_name) {
-    setImplementation(widget);
+    if (widget) {
+        set_widget(widget);
+    }
 }
 
 AbstractInput::State FormWidgetInput::state() const {
     WFormWidget* fw = const_cast<WFormWidget*>(form_widget()); // FIXME
-    WValidator::State validator_state = fw->validate();
+    WValidator::State validator_state = fw ? fw->validate() :
+                                        WValidator::InvalidEmpty;
     AbstractInput::State result = VALID;
     if (validator_state == WValidator::Invalid) {
         result = INVALID;
@@ -134,6 +137,10 @@ AbstractInput::State FormWidgetInput::state() const {
         set_error_message(tr("wc.wbi.Error_empty"));
     }
     return result;
+}
+
+void FormWidgetInput::set_widget(WFormWidget* widget) {
+    setImplementation(widget);
 }
 
 WFormWidget* FormWidgetInput::form_widget_impl() {
@@ -153,7 +160,9 @@ const WLineEdit* LineEditInput::line_edit() const {
 }
 
 void LineEditInput::set_option() {
-    option_value_ = line_edit()->text().toUTF8();
+    if (line_edit()) {
+        option_value_ = line_edit()->text().toUTF8();
+    }
 };
 
 FileInput::FileInput(const std::string& option_name):
@@ -261,7 +270,7 @@ const WCheckBox* BoolInput::check_box() const {
 }
 
 void BoolInput::set_option() {
-    if (check_box()->isChecked()) {
+    if (check_box() && check_box()->isChecked()) {
         option_name_ = name_if_true_;
         option_value_ = value_if_true_;
     } else {
