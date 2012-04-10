@@ -1,5 +1,6 @@
 2012-04-10:
     * remove downgrading scripts and configure.py
+    * allow more than one translation groups (locales-test)
 
 2012-04-09:
     * schedule_action() doesn't take WIOService
