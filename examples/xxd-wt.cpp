@@ -48,7 +48,8 @@ public:
         TableTask* task = new TableTask(root());
         FileInput* input = new FileInput("<");
         task->add_input(input, "Binary file");
-        LineEditInput* cols_input = new LineEditInput(0, "-c");
+        LineEditInput* cols_input = new LineEditInput(0);
+        cols_input->set_option_name("-c");
         WLineEdit* cols = new WLineEdit("16");
         cols->setValidator(new WIntValidator(1, 256));
         cols_input->set_widget(cols);
