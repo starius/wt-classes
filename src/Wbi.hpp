@@ -702,6 +702,11 @@ public:
                        "application/octet-stream",
                    const std::string& view_mime = "text/plain");
 
+    /** Set mime-type for a viewed file */
+    void set_view_mime(const std::string& view_mime) {
+        view_mime_ = view_mime;
+    }
+
     /** Get mime-type for a viewed file */
     const std::string& view_mime() const {
         return view_mime_;
