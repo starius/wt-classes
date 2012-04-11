@@ -61,7 +61,7 @@ public:
         ViewFileOutput* output = new ViewFileOutput(">");
         output->set_suggested_gen(boost::bind(name_gen, input));
         task->add_output(output, "Hex dump");
-        task->set_runner(new ForkingRunner("sleep 2; xxd", "; sleep 3"));
+        task->set_runner(new ForkingRunner("sleep 2 && xxd", " && sleep 3"));
         task->set_queue(&queue);
         bits->checked().connect(boost::bind(&WLineEdit::setText, cols, "6"));
         bits->unChecked().connect(boost::bind(&WLineEdit::setText, cols, "16"));

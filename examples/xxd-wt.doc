@@ -85,6 +85,8 @@ Add the output argument to the task:
 Add forking task runner.
 The runner sleeps, runs a task and then sleep again
 to create the appearance of long calculations.
+Commands are connected with && to return proper exit code
+if one of programs not available.
 \skipline set_runner
 
 Add the queue for thh task:
