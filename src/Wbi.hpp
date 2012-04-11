@@ -858,7 +858,7 @@ public:
     RunState state() const;
 
     /** Return i18n message id for the state */
-    static const char* state_to_string(RunState state);
+    static const char* state_to_string(RunState state, int exit_status = 0);
 
     /** \copybrief state_to_string(RunState) */
     const char* state_to_string();

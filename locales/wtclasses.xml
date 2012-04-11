@@ -22,6 +22,7 @@
     <message id='wc.wbi.Error_invalid'>The input is invalid</message>
     <message id='wc.wbi.Error_too_large'>The file is too large</message>
     <message id='wc.wbi.Finished'>Finished</message>
+    <message id='wc.wbi.Finished_errors'>Finished with errors</message>
     <message id='wc.wbi.Inputs'>Inputs</message>
     <message id='wc.wbi.New'>New</message>
     <message id='wc.wbi.Outputs'>Outputs</message>

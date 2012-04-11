@@ -491,7 +491,7 @@ RunState AbstractTask::state() const {
     return queued_ ? QUEUED : runner_ ? runner_->state() : UNSET;
 }
 
-const char* AbstractTask::state_to_string(RunState s) {
+const char* AbstractTask::state_to_string(RunState s, int exit_status) {
     if (s == NEW) {
         return "wc.wbi.New";
     } else if (s == QUEUED) {
@@ -499,14 +499,14 @@ const char* AbstractTask::state_to_string(RunState s) {
     } else if (s == WORKING) {
         return "wc.wbi.Working";
     } else if (s == FINISHED) {
-        return "wc.wbi.Finished";
+        return exit_status ? "wc.wbi.Finished_errors" : "wc.wbi.Finished";
     } else {
         return "";
     }
 }
 
 const char* AbstractTask::state_to_string() {
-    return state_to_string(state());
+    return state_to_string(state(), runner_ ? runner_->exit_status() : 0);
 }
 
 void AbstractTask::set_message(const WString& message) {
