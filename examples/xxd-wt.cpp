@@ -48,9 +48,11 @@ public:
         TableTask* task = new TableTask(root());
         FileInput* input = new FileInput("<");
         task->add_input(input, "Binary file");
+        LineEditInput* cols_input = new LineEditInput(0, "-c");
         WLineEdit* cols = new WLineEdit("16");
         cols->setValidator(new WIntValidator(1, 256));
-        task->add_input(new LineEditInput(cols, "-c"), "Octets per line");
+        cols_input->set_widget(cols);
+        task->add_input(cols_input, "Octets per line");
         WCheckBox* bits = new WCheckBox();
         task->add_input(new BoolInput(bits, "-b"), "Bits");
         WCheckBox* ps = new WCheckBox();
