@@ -137,6 +137,7 @@ public:
 
     /** Constructor.
     \param option_name Name of a program option (i.e., "-i", "--output").
+        You can leave this blank setting latter with set_option_name().
     */
     AbstractArgument(const std::string& option_name = "");
 
@@ -151,6 +152,11 @@ public:
     The implementation of the method is large_impl()
     */
     bool large() const;
+
+    /** Set name of a program option (i.e., "-i", "--output") */
+    void set_option_name(const std::string& option_name) {
+        option_name_ = option_name;
+    }
 
 protected:
     /** Name of a program option (i.e., "-i", "--output") */
@@ -207,7 +213,7 @@ public:
     /** Constructor.
     \copydetails AbstractArgument()
     */
-    AbstractInput(const std::string& option_name);
+    AbstractInput(const std::string& option_name = "");
 
     /** Return internal WFormWidget.
     Reimplement form_widget_impl() virtual method.
@@ -291,7 +297,8 @@ public:
 
     You can modify widget, i.e. by adding WValidator.
     */
-    FormWidgetInput(WFormWidget* widget, const std::string& option_name);
+    FormWidgetInput(WFormWidget* widget = 0,
+                    const std::string& option_name = "");
 
     /** \copybrief AbstractInput::state().
     Return WFormWidget::validate().
@@ -319,7 +326,7 @@ public:
     /** Constructor.
     \copydetails FormWidgetInput()
     */
-    LineEditInput(WLineEdit* widget, const std::string& option_name);
+    LineEditInput(WLineEdit* widget = 0, const std::string& option_name = "");
 
     /** Return line edit instance passed to constructor */
     WLineEdit* line_edit();
@@ -343,7 +350,7 @@ public:
     /** Constructor.
     \copydetails AbstractInput()
     */
-    FileInput(const std::string& option_name);
+    FileInput(const std::string& option_name = "");
 
     State state() const;
 
@@ -384,7 +391,7 @@ public:
     /** Constructor.
     \copydetails FileInput()
     */
-    TextFileInput(const std::string& option_name);
+    TextFileInput(const std::string& option_name = "");
 
     State state() const;
 
@@ -527,7 +534,7 @@ public:
     /** Constructor.
     \copydetails AbstractArgument()
     */
-    AbstractOutput(const std::string& option_name);
+    AbstractOutput(const std::string& option_name = "");
 
     /** Get whether the argument can be deselected.
     \sa set_selectable()
@@ -614,7 +621,7 @@ public:
         The function is called at most once by one FileOutput instance.
     \param download_mime Mime-type for a downloaded file
     */
-    FileOutput(const std::string& option_name,
+    FileOutput(const std::string& option_name = "",
                const NameGen& temp_gen = &FileOutput::unique_name,
                const std::string& download_mime = "application/octet-stream");
 
@@ -679,7 +686,7 @@ public:
     \copydetails FileOutput()
     \param view_mime Mime-type for a viewed file
     */
-    ViewFileOutput(const std::string& option_name,
+    ViewFileOutput(const std::string& option_name = "",
                    const NameGen& temp_gen = &FileOutput::unique_name,
                    const std::string& download_mime =
                        "application/octet-stream",
@@ -708,7 +715,7 @@ public:
     /** Constructor.
     \copydetails FileOutput()
     */
-    PrintFileOutput(const std::string& option_name,
+    PrintFileOutput(const std::string& option_name = "",
                     const NameGen& temp_gen = &FileOutput::unique_name,
                     const std::string& download_mime =
                         "application/octet-stream");
