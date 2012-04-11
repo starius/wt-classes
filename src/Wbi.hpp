@@ -630,6 +630,11 @@ public:
     */
     virtual ~FileOutput();
 
+    /** Set temporary file name generator */
+    void set_temp_gen(const NameGen& temp_gen) {
+        temp_gen_ = temp_gen;
+    }
+
     /** Get temporary file name */
     const std::string& temp_file() const;
 
