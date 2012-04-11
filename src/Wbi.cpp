@@ -638,7 +638,8 @@ void TableTask::changed_handler() {
 
 AbstractRunner::AbstractRunner():
     state_(UNSET),
-    task_(0) {
+    task_(0),
+    exit_status_(0) {
     bound_finished_handler_ = bound_post(boost::bind(
             &AbstractRunner::finished_handler, this));
 }
@@ -744,7 +745,7 @@ std::string ForkingRunner::command() const {
 }
 
 void ForkingRunner::start_process(std::string cmd) {
-    system(cmd.c_str());
+    set_exit_status(system(cmd.c_str()));
     if (!boost::this_thread::interruption_requested()) {
         finish();
     }

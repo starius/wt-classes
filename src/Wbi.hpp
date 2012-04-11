@@ -978,6 +978,11 @@ public:
     /** Get state */
     RunState state() const;
 
+    /** Return exit status of a process */
+    int exit_status() const {
+        return exit_status_;
+    }
+
 protected:
     /** Method to be called when the program is finished.
      - change the state() to FINISHED,
@@ -1039,10 +1044,18 @@ protected:
     /** Try to remove the task from the queue */
     void remove_from_queue();
 
+    /** Set exit status.
+    Defaults to 0.
+    */
+    void set_exit_status(int exit_status) {
+        exit_status_ = exit_status;
+    }
+
 private:
     RunState state_;
     AbstractTask* task_;
     boost::function<void()> bound_finished_handler_;
+    int exit_status_;
 
     void set_task(AbstractTask* task);
     void finished_handler();
