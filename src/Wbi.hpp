@@ -638,6 +638,11 @@ public:
     /** Get temporary file name */
     const std::string& temp_file() const;
 
+    /** Set mime-type for a downloaded file */
+    void set_download_mime(const std::string& download_mime) {
+        download_mime_ = download_mime;
+    }
+
     /** Get mime-type for a downloaded file */
     const std::string& download_mime() const {
         return download_mime_;
