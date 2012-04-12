@@ -77,7 +77,8 @@ def full(message):
     traverse(message)
     return ''.join(result)
 
-def analyze_message(message, prev_message, ids, wt_ids, prefix, sections, e):
+def analyze_message(message, prev_message, ids, wt_ids, prefix, sections, e,
+        filename='', tr='', used_ids=None):
     Id = message.get('id')
     text = full(message)
     if message.tag != 'message':
@@ -124,15 +125,20 @@ def analyze_message(message, prev_message, ids, wt_ids, prefix, sections, e):
                     and prev_message.get('id') > Id and not 'board' in Id:
                     e('multiline messages %s and %s are unordered' %
                             (prev_message.get('id'), Id))
+    if tr:
+        for used_id in re.findall(r'\$\{%s:([\w.]+)\}' % tr, text):
+            used_ids[used_id] = used_ids.get(used_id, []) + [filename]
 
-def analyze_messages(messages, ids, id2text, wt_ids, prefix, sections, e):
+def analyze_messages(messages, ids, id2text, wt_ids, prefix, sections, e,
+        filename='', tr='', used_ids=None):
     prev_message = None
     for message in messages:
         Id = message.get('id')
         text = full(message)
         id2text[Id] = text
         analyze_message(message, prev_message, ids, wt_ids, prefix,
-                sections, partial(e, id=Id))
+                sections, partial(e, id=Id), filename=filename,
+                tr=tr, used_ids=used_ids)
         prev_message = message
     short_messages = [m.get('id').lower() for m in messages
         if full(m) and '\n' not in full(m) and
@@ -152,7 +158,7 @@ def get_file_names(masks, default_dir, default_mask):
             for root, dirnames, filenames in os.walk(default_dir)])
 
 def locales_test(prefix, sections, wt=None, sources=None, locales=None,
-        warnings=True):
+        warnings=True, tr=''):
     def e(*args, **kwargs):
         kwargs['warnings'] = warnings
         error(sys.stderr, *args, **kwargs)
@@ -161,12 +167,14 @@ def locales_test(prefix, sections, wt=None, sources=None, locales=None,
 
     filename2ids = {}
     id2text = {}
+    used_ids = dict()
 
     for filename in get_file_names(locales, 'locales', '*.xml'):
         ids = filename2ids[filename] = set()
         messages = get_messages(filename, e)
         analyze_messages(messages, ids, id2text, wt_ids, prefix, sections,
-                partial(e, file=filename))
+                partial(e, file=filename), filename=filename,
+                tr=tr, used_ids=used_ids)
 
     all_ids = reduce(lambda a,b:a|b, filename2ids.values(), set())
 
@@ -192,15 +200,16 @@ def locales_test(prefix, sections, wt=None, sources=None, locales=None,
                         file=filename, id=Id)
 
     l9n_re = re.compile(r'"(%s\.[^"]+)"' % re.escape(prefix))
-    used_ids = set()
 
     for path in get_file_names(sources, 'src', '*.?pp'):
         for match in re.findall(l9n_re, open(path).read()):
-            used_ids.add(match)
-            if match not in all_ids:
+            used_ids[match] = used_ids.get(match, []) + [path]
+    for match in used_ids:
+        if match not in all_ids:
+            for path in used_ids[match]:
                 e("can't find message for the id", file=path, id=match)
 
-    for Id in all_ids - used_ids:
+    for Id in all_ids - set(used_ids):
         if not Id.startswith('Wt.'):
             e('the id defined but not used', type='warning', id=Id)
 
@@ -215,10 +224,12 @@ def main():
             required=True)
     p.add_argument('--sources', help='C++ sources', metavar='FILE', nargs='*')
     p.add_argument('--locales', help='Locale files', metavar='FILE', nargs='*')
+    p.add_argument('--tr', help='WTemplate localized strings resolver function',
+            default='tr')
     p.add_argument('--no-warn', help='Turn warnings off', action='store_true')
     args = p.parse_args()
     locales_test(args.prefix, args.sections, wt=args.wt, sources=args.sources,
-            locales=args.locales, warnings=not args.no_warn)
+            locales=args.locales, tr= args.tr, warnings=not args.no_warn)
     if globals()['error_code']:
         sys.exit(globals()['error_code'])
 

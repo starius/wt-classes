@@ -1,5 +1,6 @@
 2012-04-12:
     * add utility function value_text()
+    * add option --tr = tr to locales-test
 
 2012-04-11:
     * add setters to several classes of Wbi
