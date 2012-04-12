@@ -40,6 +40,9 @@
 #ifdef WC_USE_OPENSSL
 #include <openssl/md5.h>
 #endif
+#ifdef WC_HAVE_WIOSERVICE
+#include <Wt/WIOService>
+#endif
 
 #include <Wt/WApplication>
 #include <Wt/WEnvironment>
@@ -50,9 +53,6 @@
 #include <Wt/WComboBox>
 #include <Wt/WAbstractToggleButton>
 #include <Wt/WSlider>
-#ifdef WC_HAVE_WIOSERVICE
-#include <Wt/WIOService>
-#endif
 
 #include "util.hpp"
 #include "rand.hpp"
