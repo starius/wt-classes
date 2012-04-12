@@ -8,7 +8,10 @@
 import codecs
 import os.path
 from xml.etree.ElementTree import parse
-from StringIO import StringIO
+try:
+    from StringIO import StringIO
+except ImportError:
+    from io import StringIO
 import fnmatch
 import os
 import sys
@@ -16,6 +19,10 @@ import re
 import argparse
 import glob
 from functools import partial
+try:
+    from functools import reduce
+except ImportError:
+    pass
 
 ampersand = '-locales_test_ampersand'
 cleaner = re.compile(r'{.+}|<.+>|%s.{1,8};' % ampersand)
@@ -236,6 +243,7 @@ def main():
 if __name__ == '__main__':
     try:
         main()
-    except Exception, e:
-        print e
+    except (Exception,):
+        e = sys.exc_info()[1]
+        print(e)
 
