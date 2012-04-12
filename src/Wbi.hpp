@@ -860,7 +860,7 @@ public:
     /** Return i18n message id for the state */
     static const char* state_to_string(RunState state, int exit_status = 0);
 
-    /** \copybrief state_to_string(RunState) */
+    /** \copybrief state_to_string(RunState, int) */
     const char* state_to_string();
 
     /** Set validator.
