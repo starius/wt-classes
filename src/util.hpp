@@ -190,6 +190,16 @@ T constrained_value(T minimum, T value, T maximum) {
     return value;
 }
 
+/** Return value of widget if it is possible.
+If form_widget->valueText() is available, it is used,
+otherwise self implementation is used.
+
+If text value can not be calculated, returns "".
+
+\ingroup util
+*/
+WString value_text(const WFormWidget* form_widget);
+
 }
 
 }

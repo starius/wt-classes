@@ -44,6 +44,12 @@
 #include <Wt/WApplication>
 #include <Wt/WEnvironment>
 #include <Wt/WServer>
+#include <Wt/WLineEdit>
+#include <Wt/WTextArea>
+#include <Wt/WPushButton>
+#include <Wt/WComboBox>
+#include <Wt/WAbstractToggleButton>
+#include <Wt/WSlider>
 #ifdef WC_HAVE_WIOSERVICE
 #include <Wt/WIOService>
 #endif
@@ -273,6 +279,30 @@ std::string approot() {
     return WApplication::appRoot();
 #else
     return config_value("approot");
+#endif
+}
+
+WString value_text(const WFormWidget* form_widget) {
+#ifdef WC_HAVE_WFORMWIDGET_VALUETEXT
+    return form_widget->valueText();
+#else
+    if (isinstance<WLineEdit>(form_widget)) {
+        return DOWNCAST<const WLineEdit*>(form_widget)->text();
+    } else if (isinstance<WTextArea>(form_widget)) {
+        return DOWNCAST<const WTextArea*>(form_widget)->text();
+    } else if (isinstance<WPushButton>(form_widget)) {
+        return DOWNCAST<const WPushButton*>(form_widget)->text();
+    } else if (isinstance<WComboBox>(form_widget)) {
+        return DOWNCAST<const WComboBox*>(form_widget)->currentText();
+    } else if (isinstance<WAbstractToggleButton>(form_widget)) {
+        return DOWNCAST<const WAbstractToggleButton*>(form_widget)->text();
+    } else if (isinstance<WSlider>(form_widget)) {
+        return TO_S(reinterpret_cast<const WSlider*>(form_widget)->value());
+        // NOTE: WSlider used to be WCompositeWidget's descendant
+        // In that case reinterpret_cast newer happens, since isinstance check
+    } else {
+        return "";
+    }
 #endif
 }
 
