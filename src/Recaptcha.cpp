@@ -124,8 +124,8 @@ void Recaptcha::update_impl() {
 }
 
 void Recaptcha::check_impl() {
-    std::string challenge = challenge_field_->valueText().toUTF8();
-    std::string response = response_field_->valueText().toUTF8();
+    std::string challenge = value_text(challenge_field_).toUTF8();
+    std::string response = value_text(response_field_).toUTF8();
     const std::string& remoteip = wApp->environment().clientAddress();
     Http::Message m;
     m.setHeader("Content-Type", "application/x-www-form-urlencoded");

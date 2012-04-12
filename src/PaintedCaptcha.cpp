@@ -82,11 +82,7 @@ public:
     }
 
     std::string user_key() const {
-#ifdef WC_HAVE_WFORMWIDGET_VALUETEXT
-        return edit_->valueText().toUTF8();
-#else
-        return ""; // FIXME
-#endif
+        return value_text(edit_).toUTF8();
     }
 
     void set_buttons(bool enabled) {
