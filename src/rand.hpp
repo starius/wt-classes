@@ -5,6 +5,9 @@
  * See the LICENSE file for terms of use.
  */
 
+#ifndef WC_RAND_HPP_
+#define WC_RAND_HPP_
+
 #include <cstddef>
 #include <string>
 
@@ -66,4 +69,6 @@ std::string rand_string(int length = 16);
 }
 
 }
+
+#endif
 
