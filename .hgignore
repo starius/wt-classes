@@ -1,5 +1,8 @@
 syntax: glob
 
+.hgignore
+.gitignore
+
 *.swp
 
 *.orig
