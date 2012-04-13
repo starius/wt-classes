@@ -1,6 +1,0 @@
-struct Srander {
-    Srander() {
-        std::srand ( time(NULL) );
-    }
-} srander;
-
