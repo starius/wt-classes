@@ -36,6 +36,7 @@ Useful links
 ------------
 
 For more information please visit:
+
  * Distributed version control system of wt-classes:
     https://bitbucket.org/starius/wt-classes/
     or
