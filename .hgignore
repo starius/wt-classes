@@ -37,8 +37,6 @@ locales-test.1
 Doxyfile
 config.hpp
 
-js/jquery.countdown.js
-
 locales-test/setup.py
 locales-test/locales-test
 

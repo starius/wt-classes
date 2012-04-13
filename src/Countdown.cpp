@@ -59,7 +59,7 @@ private:
     }
 };
 
-Countdown::Countdown(WContainerWidget* parent):
+Countdown::Countdown(WContainerWidget* parent, bool load_javascript):
     WContainerWidget(parent),
     unit_(SECOND / 10),
     now_(now()),
@@ -69,8 +69,10 @@ Countdown::Countdown(WContainerWidget* parent):
     implementJavaScript(&Countdown::pause, pause_js());
     implementJavaScript(&Countdown::lap, lap_js());
     implementJavaScript(&Countdown::resume, resume_js());
-    wApp->require(config_value("resourcesURL", "resources/") +
-                  "Wc/js/jquery.countdown.js");
+    if (load_javascript) {
+        wApp->require("https://raw.github.com/starius/wt-classes/"
+                      "gh-pages/jquery.countdown.min.js");
+    }
     apply_js("{since: 0, compact: true}");
     if (!wApp->environment().javaScript()) {
         view_ = new View(this);

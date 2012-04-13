@@ -1,5 +1,6 @@
 2012-04-14:
     * add missing include guards to rand.hpp
+    * host jquery.countdown on github, do not download and include it here
 
 2012-04-13:
     * significantly decrease segfault probability in thread impl of bound_post

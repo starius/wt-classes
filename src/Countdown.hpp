@@ -39,8 +39,15 @@ By default, the widget counts up from now.
 */
 class Countdown : public WContainerWidget {
 public:
-    /** Constructor */
-    Countdown(WContainerWidget* parent = 0);
+    /** Constructor.
+    \param load_javascript Whether needed jQuery Countdown libs should
+        be loaded from
+    https://raw.github.com/starius/wt-classes/gh-pages/jquery.countdown.min.js
+    . <br>
+        Passing load_javascript = false, this is up to you to
+        load all needed libs using WApplication::require().
+    */
+    Countdown(WContainerWidget* parent = 0, bool load_javascript = true);
 
     /** Destructor */
     ~Countdown();

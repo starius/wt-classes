@@ -22,7 +22,7 @@ include(${CMAKE_CURRENT_SOURCE_DIR}/features/Features.cmake)
 subdirs(src)
 file(GLOB local_headers "${local_headers_dir}/*.hpp")
 
-subdirs(locales css js)
+subdirs(locales css)
 
 option(BUILD_EXAMPLES "Build examples" ON)
 if(BUILD_EXAMPLES)
