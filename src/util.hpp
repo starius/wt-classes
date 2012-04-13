@@ -67,8 +67,10 @@ All needed arguments are bound and new function
 object is returned.
 
 If WServer::post() is available, it is used, else thread-based implementation
-is used, which is not so safe, as WServer::post() is
-(if the application was deleted, it may cause segfault).
+is used, which is not so safe, as WServer::post() is:
+if the application is being deleting, it may cause segfault (almost impossible).
+Completely safe function post without WServer::post() seems impossible,
+but this function really does work.
 
 \ingroup util
 */

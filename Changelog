@@ -1,3 +1,6 @@
+2012-04-13:
+    * significantly decrease segfault probability in thread impl of bound_post
+
 2012-04-12:
     * add utility function value_text()
     * add option --tr = tr to locales-test

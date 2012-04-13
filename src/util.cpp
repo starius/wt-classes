@@ -27,6 +27,7 @@
 #include <boost/algorithm/string/replace.hpp>
 #if !USE_SERVER_POST
 #include <boost/thread.hpp>
+#include <boost/thread/mutex.hpp>
 #endif
 #if !USE_WIOSERVICE
 #include <boost/system/error_code.hpp>
@@ -68,15 +69,36 @@ void post(WServer* server, const std::string& app,
     server->post(app, func);
 }
 #else
-void do_func(boost::function<void()> func, WApplication* app) {
-    if (!app->isQuited()) {
-        WApplication::UpdateLock lock = app->getUpdateLock();
-        func();
+typedef boost::shared_ptr<bool> BoolPtr;
+
+class AG : public WObject {
+public:
+    AG(const BoolPtr& ptr):
+        ptr_(ptr)
+    { }
+
+    ~AG() {
+        *ptr_ = true;
+    }
+
+private:
+    BoolPtr ptr_;
+};
+
+boost::mutex do_func_mutex;
+
+void do_func(boost::function<void()> func, WApplication* app, BoolPtr b) {
+    boost::mutex::scoped_lock do_func_lock(do_func_mutex);
+    if (!*b && !app->isQuited()) {
+        WApplication::UpdateLock app_lock = app->getUpdateLock();
+        if (!*b && !app->isQuited()) {
+            func();
+        }
     }
 }
 
-void thread_func(boost::function<void()> func, WApplication* app) {
-    boost::thread(do_func, func, app);
+void thread_func(boost::function<void()> func, WApplication* app, BoolPtr b) {
+    boost::thread(do_func, func, app, b);
 }
 #endif
 
@@ -85,7 +107,10 @@ boost::function<void()> bound_post(boost::function<void()> func) {
     WServer* server = DOWNCAST<WServer*>(wApp->environment().server());
     return boost::bind(post, server, wApp->sessionId(), func);
 #else
-    return boost::bind(thread_func, func, wApp);
+    BoolPtr ptr = boost::make_shared<bool>();
+    *ptr = false;
+    wApp->addChild(new AG(ptr));
+    return boost::bind(thread_func, func, wApp, ptr);
 #endif
 }
 
