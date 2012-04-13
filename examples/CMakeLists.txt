@@ -9,6 +9,7 @@ configure_file(${CMAKE_CURRENT_SOURCE_DIR}/swfstore.cpp.in
 
 file(GLOB examples_sources "${CMAKE_CURRENT_SOURCE_DIR}/*.cpp")
 list(REMOVE_ITEM examples_sources ${CMAKE_CURRENT_SOURCE_DIR}/all.cpp)
+list(REMOVE_ITEM examples_sources ${CMAKE_CURRENT_SOURCE_DIR}/swfstore.cpp)
 
 if(EXISTS ${SWFSTORE_FILE})
     set(HAVE_SWFSTORE 1)
@@ -31,6 +32,8 @@ if(NOT WC_HAVE_GRAVATAR)
 endif()
 
 include(FindPythonInterp)
+
+list(REMOVE_DUPLICATES examples_sources)
 
 if(PYTHONINTERP_FOUND)
     if(WC_HAVE_WRASTERIMAGE)
