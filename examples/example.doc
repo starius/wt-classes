@@ -45,6 +45,14 @@ This is an example of how to use the Wt::Wc::Countdown class.
 This is an example of how to use the Wt::Wc::AdBlockDetector class.
 */
 
+/** \example examples/test-bound-post.cpp
+This is an example of how to use functions Wt::Wc::bound_post and
+Wt::Wc::schedule_action.
+
+This program was written to make sure, that bound_post does not
+cause segfaults when wApp->quit().
+*/
+
 }
 
 }
