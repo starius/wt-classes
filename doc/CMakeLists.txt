@@ -7,7 +7,8 @@ if(DOXYGEN_FOUND)
     add_custom_command(OUTPUT ${PROJECT_BINARY_DIR}/doc/html/index.html
         COMMAND ${DOXYGEN_EXECUTABLE}
         WORKING_DIRECTORY ${PROJECT_BINARY_DIR}
-        DEPENDS ${local_headers} ${PROJECT_BINARY_DIR}/Doxyfile)
+        DEPENDS ${local_headers} ${PROJECT_BINARY_DIR}/Doxyfile
+            ${PROJECT_SOURCE_DIR}/*.doc ${PROJECT_SOURCE_DIR}/examples/*.doc)
     add_custom_target(doc ALL DEPENDS ${PROJECT_BINARY_DIR}/doc/html/index.html)
     option(INSTALL_DOC "Install documentation" ON)
     if(INSTALL_DOC)
