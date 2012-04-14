@@ -53,6 +53,10 @@ This program was written to make sure, that bound_post does not
 cause segfaults when wApp->quit().
 */
 
+/** \example examples/logical-painted-widget.cpp
+This is an example of how to use the Wt::Wc::LogicalPaintedWidget class.
+*/
+
 }
 
 }
