@@ -10,6 +10,7 @@
 
 #include <boost/algorithm/string/predicate.hpp>
 
+#include <Wt/WConfig.h>
 #include <Wt/WServer>
 #include <Wt/WApplication>
 #include <Wt/WEnvironment>
@@ -133,8 +134,12 @@ void Recaptcha::check_impl() {
     m.addBodyText("remoteip=" + remoteip + "&");
     m.addBodyText("challenge=" + urlencode(challenge) + "&");
     m.addBodyText("response=" + urlencode(response) + "&");
-    // TODO use https if Wt was built with OpenSSL support
-    if (!http_->post("http://www.google.com/recaptcha/api/verify", m)) {
+#ifdef WT_WITH_SSL
+    std::string schema = "https";
+#else
+    std::string schema = "http";
+#endif
+    if (!http_->post(schema + "://www.google.com/recaptcha/api/verify", m)) {
         mistake(tr("wc.captcha.Internal_error"));
     }
 }
