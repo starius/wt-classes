@@ -5,6 +5,7 @@
  * See the LICENSE file for terms of use.
  */
 
+#include <vector>
 #include <boost/array.hpp>
 #include <boost/algorithm/string/trim.hpp>
 #include <boost/algorithm/string/case_conv.hpp>
@@ -91,6 +92,7 @@ public:
         double letter_height = painter.font().fixedSize().toPixels();
         double x = rr(letter_width);
         double y = drr(0, HEIGHT - letter_height);
+        std::vector<double> Xs(key.size()), Ys(key.size());
         for (int i = 0; i < key.size(); i++) {
             const double X_STEP = 0.2;
             // find "first" clear column
@@ -109,12 +111,20 @@ public:
             x += drr(-letter_width / 2, 0);
             y += drr(-letter_height / 2, letter_height / 2);
             y = constrained_value(0, y, HEIGHT - letter_height);
+            Xs[i] = x + letter_width / 2;
+            Ys[i] = y + letter_height / 2;
             painter.translate(x, y);
             painter.rotate(drr(-ANGLE, ANGLE));
             painter.scale(drr(1 - SCALE, 1 + SCALE), drr(1 - SCALE, 1 + SCALE));
             painter.drawText(painter.window(), 0, key.substr(i, 1));
             painter.resetTransform();
         }
+        WPen pen(foreground_);
+        pen.setWidth(3);
+        int middle = Xs.size() / 2;
+        WPainterPath path(WPointF(Xs.front(), Ys.front()));
+        path.quadTo(Xs[middle], Ys[middle], Xs.back(), Ys.back());
+        painter.strokePath(path, pen);
         raster_image_.WResource::setChanged();
     }
 
