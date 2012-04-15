@@ -37,10 +37,10 @@ namespace Wt {
 
 namespace Wc {
 
-const int PAINTED_CAPTCHA_WIDTH = 100;
-const int PAINTED_CAPTCHA_HEIGHT = 50;
-const int PAINTED_CAPTCHA_MIN_SIZE = 10;
-const int PAINTED_CAPTCHA_MAX_SIZE = 25;
+const int WIDTH = 100;
+const int HEIGHT = 50;
+const int MIN_SIZE = 10;
+const int MAX_SIZE = 25;
 
 const boost::array<WFont::Style, 3> STYLES =
 {{ WFont::NormalStyle, WFont::Italic, WFont::Oblique }};
@@ -56,7 +56,7 @@ WFont random_font() {
     font.setStyle(STYLES[rr(STYLES.size())]); // FIXME
     font.setVariant(VARIANTS[rr(VARIANTS.size())]); // FIXME
     font.setFamily(FAMILIES[rr(FAMILIES.size())]); // FIXME
-    font.setSize(drr(PAINTED_CAPTCHA_MIN_SIZE, PAINTED_CAPTCHA_MAX_SIZE));
+    font.setSize(drr(MIN_SIZE, MAX_SIZE));
     font.setWeight(WFont::Value, rr(100, 900));
     return font;
 }
@@ -65,12 +65,12 @@ class PaintedCaptcha::Impl : public WContainerWidget {
 public:
     Impl(PaintedCaptcha* captcha):
         captcha_(captcha),
-        raster_image_("png", PAINTED_CAPTCHA_WIDTH, PAINTED_CAPTCHA_HEIGHT),
+        raster_image_("png", WIDTH, HEIGHT),
         image_(&raster_image_, /* altText */ "", this),
         update_(0) {
         edit_ = new WLineEdit(this);
         image_.setInline(false);
-        image_.resize(PAINTED_CAPTCHA_WIDTH, PAINTED_CAPTCHA_HEIGHT);
+        image_.resize(WIDTH, HEIGHT);
         set_buttons(true);
     }
 
@@ -81,7 +81,7 @@ public:
         const double ANGLE = 15;
         const double SCALE = 0.1;
         const int BORDERS = 2;
-        double letter_width = PAINTED_CAPTCHA_WIDTH / (key.size() + BORDERS);
+        double letter_width = WIDTH / (key.size() + BORDERS);
         double letter_height = painter.font().fixedSize().toPixels();
         double x = 0;
         double y = 0;
@@ -89,7 +89,7 @@ public:
             const double X_RANDOM = 0.2;
             x += letter_width * drr(1 - X_RANDOM, 1 + X_RANDOM);
             y += drr(-letter_height, letter_height);
-            y = constrained_value(0, y, PAINTED_CAPTCHA_HEIGHT - letter_height);
+            y = constrained_value(0, y, HEIGHT - letter_height);
             painter.translate(x, y);
             painter.rotate(drr(-ANGLE, ANGLE));
             painter.scale(drr(1 - SCALE, 1 + SCALE), drr(1 - SCALE, 1 + SCALE));
