@@ -80,9 +80,8 @@ public:
         const double ANGLE = 15;
         const double SCALE = 0.1;
         const int BORDERS = 2;
-        const int H_PARTS = 2;
         double letter_width = PAINTED_CAPTCHA_WIDTH / (key.size() + BORDERS);
-        double letter_height = PAINTED_CAPTCHA_HEIGHT / H_PARTS;
+        double letter_height = painter.font().fixedSize().toPixels();
         double x = 0;
         for (int i = 0; i < key.size(); i++) {
             const double X_RANDOM = 0.2;
