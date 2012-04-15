@@ -31,6 +31,11 @@ check_cxx_source_compiles("#include <Wt/WEnvironment>\n
     wApp->environment().server(); }" WC_HAVE_ENVIRONMENT_SERVER)
 check_cxx_source_compiles("#include <Wt/Utils>\n int main() {
     Wt::Utils::md5(\"\"); }" WC_HAVE_WT_MD5)
+check_cxx_source_compiles("#include <Wt/WRasterImage>\n int main() {
+    &Wt::WRasterImage::getPixel; }"
+    WC_HAVE_WRASTERIMAGE_GETPIXEL)
+check_cxx_source_compiles("#include <Wt/WFont>\n int main() {
+    Wt::WFont().setSize(200); }" WC_HAVE_WFONT_SETSIZE_DOUBLE)
 
 if(WC_HAVE_WT_MD5)
     set(WC_HAVE_MD5 ON)

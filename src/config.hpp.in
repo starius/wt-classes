@@ -24,6 +24,8 @@
 #cmakedefine WC_HAVE_SQLTIME
 #cmakedefine WC_HAVE_SERVER_POST
 #cmakedefine WC_HAVE_ENVIRONMENT_SERVER
+#cmakedefine WC_HAVE_WRASTERIMAGE_GETPIXEL
+#cmakedefine WC_HAVE_WFONT_SETSIZE_DOUBLE
 
 #cmakedefine WC_HAVE_MD5
 #cmakedefine WC_HAVE_WT_MD5
