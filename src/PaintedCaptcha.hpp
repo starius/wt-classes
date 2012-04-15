@@ -63,7 +63,7 @@ public:
     }
 
     /** Set secret key length and update secret key.
-    Defaults to 6.
+    Defaults to 5.
     */
     void set_key_length(int key_length);
 

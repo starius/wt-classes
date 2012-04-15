@@ -171,7 +171,7 @@ PaintedCaptcha::PaintedCaptcha(WContainerWidget* parent):
     AbstractCaptcha(parent),
     is_compare_trimmed_(true),
     is_compare_nocase_(true),
-    key_length_(6) {
+    key_length_(5) {
     update();
 }
 
