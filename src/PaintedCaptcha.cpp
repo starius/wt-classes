@@ -67,7 +67,9 @@ public:
         captcha_(captcha),
         raster_image_("png", WIDTH, HEIGHT),
         image_(&raster_image_, /* altText */ "", this),
-        update_(0) {
+        update_(0),
+        background_(white),
+        foreground_(black) {
         edit_ = new WLineEdit(this);
         image_.setInline(false);
         image_.resize(WIDTH, HEIGHT);
@@ -77,8 +79,11 @@ public:
     void set_key(const std::string& key) {
         raster_image_.clear();
         WPainter painter(&raster_image_);
+        painter.fillRect(painter.window(), background_);
+        painter.end();
+        painter.begin(&raster_image_);
+        painter.setPen(foreground_);
         painter.setFont(random_font());
-        WColor background = raster_image_.getPixel(0, 0);
         const double ANGLE = 15;
         const double SCALE = 0.1;
         const int BORDERS = 2;
@@ -92,7 +97,7 @@ public:
             for (x += letter_width / 2; x < WIDTH; x += letter_width * X_STEP) {
                 bool stop = true;
                 for (int y = 0; y < HEIGHT; y++) {
-                    if (raster_image_.getPixel(x, y) != background) {
+                    if (get_pixel(x, y) != background_) {
                         stop = false;
                         break;
                     }
@@ -111,6 +116,12 @@ public:
             painter.resetTransform();
         }
         raster_image_.WResource::setChanged();
+    }
+
+    WColor get_pixel(int x, int y) {
+        WColor result = raster_image_.getPixel(x, y);
+        result.setRgb(result.red(), result.green(), result.blue()); // fix alpha
+        return result;
     }
 
     std::string user_key() const {
@@ -142,6 +153,8 @@ private:
     WImage image_;
     WFormWidget* edit_;
     WPushButton* update_;
+    WColor background_;
+    WColor foreground_;
 };
 
 PaintedCaptcha::PaintedCaptcha(WContainerWidget* parent):
