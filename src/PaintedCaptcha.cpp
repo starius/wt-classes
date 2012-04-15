@@ -89,8 +89,8 @@ public:
         const int BORDERS = 2;
         double letter_width = WIDTH / (key.size() + BORDERS);
         double letter_height = painter.font().fixedSize().toPixels();
-        double x = 0;
-        double y = 0;
+        double x = rr(letter_width);
+        double y = drr(0, HEIGHT - letter_height);
         for (int i = 0; i < key.size(); i++) {
             const double X_STEP = 0.2;
             // find "first" clear column
