@@ -78,6 +78,7 @@ public:
         raster_image_.clear();
         WPainter painter(&raster_image_);
         painter.setFont(random_font());
+        WColor background = raster_image_.getPixel(0, 0);
         const double ANGLE = 15;
         const double SCALE = 0.1;
         const int BORDERS = 2;
@@ -86,9 +87,22 @@ public:
         double x = 0;
         double y = 0;
         for (int i = 0; i < key.size(); i++) {
-            const double X_RANDOM = 0.2;
-            x += letter_width * drr(1 - X_RANDOM, 1 + X_RANDOM);
-            y += drr(-letter_height, letter_height);
+            const double X_STEP = 0.2;
+            // find "first" clear column
+            for (x += letter_width / 2; x < WIDTH; x += letter_width * X_STEP) {
+                bool stop = true;
+                for (int y = 0; y < HEIGHT; y++) {
+                    if (raster_image_.getPixel(x, y) != background) {
+                        stop = false;
+                        break;
+                    }
+                }
+                if (stop) {
+                    break;
+                }
+            }
+            x += drr(-letter_width / 2, 0);
+            y += drr(-letter_height / 2, letter_height / 2);
             y = constrained_value(0, y, HEIGHT - letter_height);
             painter.translate(x, y);
             painter.rotate(drr(-ANGLE, ANGLE));
