@@ -45,7 +45,7 @@ public:
         return logical_window_;
     }
 
-    /** Return the window bounding points in logical coordinates */
+    /** Return the window bounding points in device coordinates */
     const WRectF& logical_view_port() const {
         return logical_view_port_;
     }
