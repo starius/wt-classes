@@ -76,8 +76,23 @@ public:
         raster_image_.clear();
         WPainter painter(&raster_image_);
         painter.setFont(random_font());
-        painter.drawText(0, 0, PAINTED_CAPTCHA_WIDTH, PAINTED_CAPTCHA_HEIGHT,
-                         AlignCenter | AlignMiddle, key);
+        const double ANGLE = 15;
+        const double SCALE = 0.1;
+        const int BORDERS = 2;
+        const int H_PARTS = 2;
+        double letter_width = PAINTED_CAPTCHA_WIDTH / (key.size() + BORDERS);
+        double letter_height = PAINTED_CAPTCHA_HEIGHT / H_PARTS;
+        double x = 0;
+        for (int i = 0; i < key.size(); i++) {
+            const double X_RANDOM = 0.2;
+            x += letter_width * drr(1 - X_RANDOM, 1 + X_RANDOM);
+            double y = drr(0, letter_height);
+            painter.translate(x, y);
+            painter.rotate(drr(-ANGLE, ANGLE));
+            painter.scale(drr(1 - SCALE, 1 + SCALE), drr(1 - SCALE, 1 + SCALE));
+            painter.drawText(painter.window(), 0, key.substr(i, 1));
+            painter.resetTransform();
+        }
         raster_image_.WResource::setChanged();
     }
 
