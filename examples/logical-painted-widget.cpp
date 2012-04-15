@@ -22,8 +22,8 @@ protected:
         use_logical(painter);
         painter.drawEllipse(0, 0, 1, 1);
         Wt::WPainterPath path;
-        path.moveTo(0, 0);
-        path.lineTo(1, 1);
+        path.moveTo(0, 1);
+        path.lineTo(1, 0);
         painter.drawPath(path);
     }
 };
