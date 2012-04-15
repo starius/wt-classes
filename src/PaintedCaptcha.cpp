@@ -19,6 +19,7 @@
 
 #include "config.hpp"
 #include "global.hpp"
+#include "util.hpp"
 
 #ifndef WC_HAVE_WCOMPOSITEWIDGET_IMPLEMENTATION
 // FIXME nasty public morozov
@@ -83,10 +84,12 @@ public:
         double letter_width = PAINTED_CAPTCHA_WIDTH / (key.size() + BORDERS);
         double letter_height = painter.font().fixedSize().toPixels();
         double x = 0;
+        double y = 0;
         for (int i = 0; i < key.size(); i++) {
             const double X_RANDOM = 0.2;
             x += letter_width * drr(1 - X_RANDOM, 1 + X_RANDOM);
-            double y = drr(0, letter_height);
+            y += drr(-letter_height, letter_height);
+            y = constrained_value(0, y, PAINTED_CAPTCHA_HEIGHT - letter_height);
             painter.translate(x, y);
             painter.rotate(drr(-ANGLE, ANGLE));
             painter.scale(drr(1 - SCALE, 1 + SCALE), drr(1 - SCALE, 1 + SCALE));
