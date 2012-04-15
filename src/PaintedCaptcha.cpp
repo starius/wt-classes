@@ -39,7 +39,7 @@ namespace Wc {
 
 const int WIDTH = 100;
 const int HEIGHT = 50;
-const int MIN_SIZE = 10;
+const int MIN_SIZE = 17;
 const int MAX_SIZE = 25;
 
 const boost::array<WFont::Style, 3> STYLES =
