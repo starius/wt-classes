@@ -8,6 +8,7 @@
 #include <boost/array.hpp>
 #include <boost/algorithm/string/trim.hpp>
 #include <boost/algorithm/string/case_conv.hpp>
+#include <boost/algorithm/string/replace.hpp>
 
 #include <Wt/WContainerWidget>
 #include <Wt/WRasterImage>
@@ -174,7 +175,13 @@ void PaintedCaptcha::check_impl() {
 }
 
 std::string PaintedCaptcha::random_key() const {
-    return rand_string(key_length());
+    std::string result =  rand_string(key_length());
+    boost::replace_all(result, "l", "L");
+    boost::replace_all(result, "1", "L");
+    boost::replace_all(result, "o", "p");
+    boost::replace_all(result, "O", "E");
+    boost::replace_all(result, "0", "5");
+    return result;
 }
 
 std::string PaintedCaptcha::prepare_key(const std::string& key) const {
