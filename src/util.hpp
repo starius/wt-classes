@@ -182,8 +182,8 @@ std::string approot();
 
 \ingroup util
 */
-template <typename T>
-T constrained_value(T minimum, T value, T maximum) {
+template <typename Tmin, typename Tvalue, typename Tmax>
+Tvalue constrained_value(Tmin minimum, Tvalue value, Tmax maximum) {
     if (value < minimum) {
         value = minimum;
     } else if (value > maximum) {
