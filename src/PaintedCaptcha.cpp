@@ -85,7 +85,7 @@ public:
         painter.begin(&raster_image_);
         painter.setPen(foreground_);
         painter.setFont(random_font());
-        const double ANGLE = 15;
+        const double ANGLE = 5;
         const double SCALE = 0.1;
         const int BORDERS = 2;
         double letter_width = WIDTH / (key.size() + BORDERS);
@@ -94,7 +94,7 @@ public:
         double y = drr(0, HEIGHT - letter_height);
         std::vector<double> Xs(key.size()), Ys(key.size());
         for (int i = 0; i < key.size(); i++) {
-            const double X_STEP = 0.2;
+            const double X_STEP = 0.5;
             // find "first" clear column
             for (x += letter_width / 2; x < WIDTH; x += letter_width * X_STEP) {
                 bool stop = true;
