@@ -62,9 +62,9 @@ bool isinstance(const S* object) {
 */
 #define TO_S(x) boost::lexical_cast<std::string>(x)
 
-/** Return the same function, but being called afterwards.
-All needed arguments are bound and new function
-object is returned.
+/** Return the same function, but being called afterwards in this application.
+When returned function is called, it looks as if original function were called
+inside current application (wApp for the moment bound_post was called).
 
 If WServer::post() is available, it is used, else thread-based implementation
 is used, which is not so safe, as WServer::post() is:
