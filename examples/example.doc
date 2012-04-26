@@ -61,6 +61,10 @@ This is an example of how to use the Wt::Wc::LogicalPaintedWidget class.
 This is an example of how to use the Wt::Wc::MapImage class.
 */
 
+/** \example examples/map-viewer.cpp
+This is an example of how to use the Wt::Wc::MapViewer class.
+*/
+
 }
 
 }
