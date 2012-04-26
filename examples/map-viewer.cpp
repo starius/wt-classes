@@ -4,18 +4,25 @@
  * See the LICENSE.MapViewer file for terms of use.
  */
 
-#ifndef OMV_EXAMPLE_HPP_
-#define OMV_EXAMPLE_HPP_
+#include <boost/lexical_cast.hpp>
+#include <boost/bind.hpp>
 
 #include <Wt/WContainerWidget>
+#include <Wt/WDoubleValidator>
+#include <Wt/WGridLayout>
+#include <Wt/WHBoxLayout>
+#include <Wt/WIntValidator>
+#include <Wt/WLabel>
 #include <Wt/WLineEdit>
+#include <Wt/WPushButton>
+#include <Wt/WString>
 #include <Wt/WText>
-
-#include "MapViewer.hpp"
+#include <Wt/WVBoxLayout>
+#include <Wt/Wc/MapViewer.hpp>
+#include <Wt/Wc/util.hpp>
 
 using namespace Wt;
-
-namespace OMV {
+using namespace Wt::Wc;
 
 class Example : public Wt::WContainerWidget {
 public:
@@ -36,36 +43,6 @@ private:
     WLineEdit* edit_of_pan_to_lat_;
     WText* click_pos_;
 };
-
-}
-
-#endif
-
-/*
-* Copyright (C) 2011 Ramil Mintaev
-*
-* See the LICENSE file for terms of use.
-*/
-
-#include <Wt/WString>
-#include <Wt/WHBoxLayout>
-#include <Wt/WVBoxLayout>
-#include <Wt/WGridLayout>
-#include <Wt/WPushButton>
-#include <Wt/WLabel>
-#include <Wt/WIntValidator>
-#include <Wt/WDoubleValidator>
-
-#include <Wt/Wc/util.hpp>
-
-#include <boost/lexical_cast.hpp>
-#include <boost/bind.hpp>
-
-#include "Example.hpp"
-
-using namespace Wt;
-
-namespace OMV {
 
 Example::Example(WContainerWidget* p):
     WContainerWidget(p) {
@@ -151,9 +128,11 @@ Example::Example(WContainerWidget* p):
 void Example::set_zoom_to() {
     mv_->zoom_to(boost::lexical_cast<int>(edit_of_zoom_to_->text()));
 }
+
 void Example::set_pan_to() {
-    mv_->pan_to(MapViewer::Coordinate(boost::lexical_cast<double>(edit_of_pan_to_lat_->text()),
-                                      boost::lexical_cast<double>(edit_of_pan_to_lng_->text())));
+    int x = boost::lexical_cast<double>(edit_of_pan_to_lat_->text());
+    int y = boost::lexical_cast<double>(edit_of_pan_to_lng_->text());
+    mv_->pan_to(MapViewer::Coordinate(x, y));
 }
 
 void Example::left_shift() {
@@ -170,9 +149,7 @@ void Example::bottom_shift() {
 }
 
 void Example::get_pos(const MapViewer::Coordinate& pos) {
-    //std::cout << "You clicked near: " << pos.longitude() << " " << pos.latitude() << std::endl;
-    click_pos_->setText("You clicked near: " + TO_S(pos.longitude()) + " " + TO_S(pos.latitude()));
-}
-
+    click_pos_->setText("You clicked near: " +
+                        TO_S(pos.longitude()) + " " + TO_S(pos.latitude()));
 }
 
