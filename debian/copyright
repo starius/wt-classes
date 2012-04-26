@@ -46,12 +46,6 @@ see "/usr/share/common-licenses/GPL-2".
 
 Additional copyrights:
 
-  * js/jquery.countdown.js
-    Copyright: Keith Wood (kbwood{at}iinet.com.au) January 2008.
-    Dual licensed under the
-    GPL (http://dev.jquery.com/browser/trunk/jquery/GPL-LICENSE.txt) and
-    MIT (http://dev.jquery.com/browser/trunk/jquery/MIT-LICENSE.txt) licenses.
-
   * src/MapViewer.?pp examples/map-viewer.cpp
     Copyright: Ramil Mintaev <ramil.mintaev@gmail.com> April 2012.
     licensed under the GPL version 2, see "/usr/share/common-licenses/GPL-2".
