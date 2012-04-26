@@ -53,7 +53,7 @@ Example::Example(WContainerWidget* p):
     mv_->resize(400, 300);
     mv_->set_center(MapViewer::Coordinate(54.8, 20.25), 9);
     mv_->clicked().connect(this, &Example::get_pos);
-    hl->addWidget(mv_, AlignTop);
+    hl->addWidget(mv_, 0, AlignTop);
     //
     WPushButton* to_left = new Wt::WPushButton("<");
     WPushButton* to_right = new Wt::WPushButton(">");
@@ -75,7 +75,7 @@ Example::Example(WContainerWidget* p):
     edit_of_zoom_to_->setValidator(new WIntValidator(1, 17));
     label_of_zoom_to->setBuddy(edit_of_zoom_to_);
     WHBoxLayout* menu_hl_of_zoom_to = new WHBoxLayout();
-    menu_hl_of_zoom_to->addWidget(cw_of_zoom_to, AlignTop);
+    menu_hl_of_zoom_to->addWidget(cw_of_zoom_to, 0, AlignTop);
     WPushButton* button_of_zoom_to = new Wt::WPushButton("OK");
     button_of_zoom_to->clicked().connect(this, &Example::set_zoom_to);
     menu_hl_of_zoom_to->addWidget(button_of_zoom_to, AlignTop);
@@ -91,8 +91,8 @@ Example::Example(WContainerWidget* p):
     edit_of_pan_to_lat_->setValidator(new WDoubleValidator(-90.0, 90.0));
     label_of_pan_to_lat->setBuddy(edit_of_pan_to_lat_);
     WHBoxLayout* menu_hl_of_pan_to = new WHBoxLayout();
-    menu_hl_of_pan_to->addWidget(cw_of_pan_to_lng, AlignTop);
-    menu_hl_of_pan_to->addWidget(cw_of_pan_to_lat, AlignTop);
+    menu_hl_of_pan_to->addWidget(cw_of_pan_to_lng, 0, AlignTop);
+    menu_hl_of_pan_to->addWidget(cw_of_pan_to_lat, 0, AlignTop);
     WPushButton* button_of_pan_to = new Wt::WPushButton("OK");
     button_of_pan_to->clicked().connect(this, &Example::set_pan_to);
     menu_hl_of_pan_to->addWidget(button_of_pan_to, AlignTop);
@@ -101,20 +101,20 @@ Example::Example(WContainerWidget* p):
     //
     WVBoxLayout* vl_menu = new WVBoxLayout();
     WHBoxLayout* hl_menu_zooms = new WHBoxLayout();
-    hl_menu_zooms->addWidget(zoom_in, AlignTop);
-    hl_menu_zooms->addWidget(zoom_out, AlignTop);
+    hl_menu_zooms->addWidget(zoom_in, 0, AlignTop);
+    hl_menu_zooms->addWidget(zoom_out, 0, AlignTop);
     WGridLayout* shift_hl_menu = new WGridLayout();
     shift_hl_menu->addWidget(to_top, 0, 1, AlignTop);
     shift_hl_menu->addWidget(to_left, 1, 0, AlignTop);
     shift_hl_menu->addWidget(to_right, 1, 2, AlignTop);
     shift_hl_menu->addWidget(to_bottom, 2, 1, AlignTop);
     //
-    vl_menu->addLayout(shift_hl_menu, AlignTop);
-    vl_menu->addLayout(hl_menu_zooms, AlignTop);
-    vl_menu->addLayout(menu_hl_of_zoom_to, AlignTop);
-    vl_menu->addLayout(menu_hl_of_pan_to, AlignTop);
-    vl_menu->addWidget(click_pos_, AlignTop);
-    hl->addLayout(vl_menu, AlignTop);
+    vl_menu->addLayout(shift_hl_menu, 0, AlignTop);
+    vl_menu->addLayout(hl_menu_zooms, 0, AlignTop);
+    vl_menu->addLayout(menu_hl_of_zoom_to, 0, AlignTop);
+    vl_menu->addLayout(menu_hl_of_pan_to, 0, AlignTop);
+    vl_menu->addWidget(click_pos_, 0, AlignTop);
+    hl->addLayout(vl_menu, 0, AlignTop);
     cw->setLayout(hl, AlignTop);
 }
 
