@@ -1,5 +1,6 @@
 2012-04-26:
     * add class MapImage
+    * import class MapViewer from https://bitbucket.org/rmintaev/mapviewer
 
 2012-04-14:
     * add missing include guards to rand.hpp

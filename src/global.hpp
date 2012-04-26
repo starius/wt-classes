@@ -36,6 +36,7 @@ class StreamView;
 class FileView;
 class ResourceView;
 class MapImage;
+class MapViewer;
 
 class AbstractArgument;
 class AbstractInput;

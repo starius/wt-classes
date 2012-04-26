@@ -52,3 +52,7 @@ Additional copyrights:
     GPL (http://dev.jquery.com/browser/trunk/jquery/GPL-LICENSE.txt) and
     MIT (http://dev.jquery.com/browser/trunk/jquery/MIT-LICENSE.txt) licenses.
 
+  * src/MapViewer.?pp examples/map-viewer.cpp
+    Copyright: Ramil Mintaev <ramil.mintaev@gmail.com> April 2012.
+    licensed under the GPL version 2, see "/usr/share/common-licenses/GPL-2".
+
