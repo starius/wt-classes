@@ -56,22 +56,16 @@ Example::Example(WContainerWidget* p):
     hl->addWidget(mv_, AlignTop);
     //
     WPushButton* to_left = new Wt::WPushButton("<");
-    to_left->resize(80, 10);
     WPushButton* to_right = new Wt::WPushButton(">");
-    to_right->resize(80, 10);
     to_left->clicked().connect(this, &Example::left_shift);
     to_right->clicked().connect(this, &Example::right_shift);
     WPushButton* to_top = new Wt::WPushButton("^");
-    to_top->resize(80, 10);
     WPushButton* to_bottom = new Wt::WPushButton("v");
-    to_bottom->resize(80, 10);
     to_top->clicked().connect(this, &Example::top_shift);
     to_bottom->clicked().connect(this, &Example::bottom_shift);
     //
     WPushButton* zoom_in = new Wt::WPushButton("zoom In");
-    zoom_in->resize(80, 10);
     WPushButton* zoom_out = new Wt::WPushButton("zoom Out");
-    zoom_out->resize(80, 10);
     zoom_in->clicked().connect(mv_, &MapViewer::zoom_in);
     zoom_out->clicked().connect(mv_, &MapViewer::zoom_out);
     //
@@ -83,9 +77,8 @@ Example::Example(WContainerWidget* p):
     WHBoxLayout* menu_hl_of_zoom_to = new WHBoxLayout();
     menu_hl_of_zoom_to->addWidget(cw_of_zoom_to, AlignTop);
     WPushButton* button_of_zoom_to = new Wt::WPushButton("OK");
-    button_of_zoom_to->resize(40, 10);
     button_of_zoom_to->clicked().connect(this, &Example::set_zoom_to);
-    menu_hl_of_zoom_to->addWidget(button_of_zoom_to, AlignCenter);
+    menu_hl_of_zoom_to->addWidget(button_of_zoom_to, AlignTop);
     //
     WContainerWidget* cw_of_pan_to_lng = new Wt::WContainerWidget();
     WContainerWidget* cw_of_pan_to_lat = new Wt::WContainerWidget();
@@ -101,7 +94,6 @@ Example::Example(WContainerWidget* p):
     menu_hl_of_pan_to->addWidget(cw_of_pan_to_lng, AlignTop);
     menu_hl_of_pan_to->addWidget(cw_of_pan_to_lat, AlignTop);
     WPushButton* button_of_pan_to = new Wt::WPushButton("OK");
-    button_of_pan_to->resize(40, 10);
     button_of_pan_to->clicked().connect(this, &Example::set_pan_to);
     menu_hl_of_pan_to->addWidget(button_of_pan_to, AlignTop);
     //
