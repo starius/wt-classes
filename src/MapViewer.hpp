@@ -101,13 +101,15 @@ protected:
     void remove_layer();
 
 private:
+    typedef std::pair<Coordinate, Coordinate> CoordinatePair;
+
     Wt::WContainerWidget* get_impl();
     bool js() const;
 
     WPoint w2t(const Coordinate& pos, int zoom) const;
     Coordinate t2w(const WPoint& pos, int zoom) const;
-    std::pair<Coordinate, Coordinate> marginal_pic_coords(const WPoint& tile) const;
-    std::pair<Coordinate, Coordinate> marginal_pic_coords(const Coordinate& pos) const;
+    CoordinatePair marginal_pic_coords(const WPoint& tile) const;
+    CoordinatePair marginal_pic_coords(const Coordinate& pos) const;
     std::pair<int, int> tile_coord2tile_left_top(const Coordinate& pos);
     void views_map_in_html();
     WContainerWidget* get_html_control_panel();
@@ -129,7 +131,7 @@ private:
     std::string map_name_;
     std::string layer_name_;
     int zoom_;
-    std::pair<Coordinate, Coordinate> marginal_tile_coords_;
+    CoordinatePair marginal_tile_coords_;
     Coordinate center_;
     WPoint xy_center_;
     Signal<Coordinate> clicked_;

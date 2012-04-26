@@ -217,13 +217,13 @@ MapViewer::Coordinate MapViewer::t2w(const WPoint& pos, int zoom) const {
     return MapViewer::Coordinate(lat, lng);
 }
 
-std::pair<MapViewer::Coordinate, MapViewer::Coordinate>
+MapViewer::CoordinatePair
 MapViewer::marginal_pic_coords(const WPoint& tile) const {
     return std::make_pair(t2w(tile, zoom_),
                           t2w(WPoint(tile.x() + 1, tile.y() + 1), zoom_));
 }
 
-std::pair<MapViewer::Coordinate, MapViewer::Coordinate>
+MapViewer::CoordinatePair
 MapViewer::marginal_pic_coords(const MapViewer::Coordinate& pos) const {
     return marginal_pic_coords(w2t(pos, zoom_));
 }
