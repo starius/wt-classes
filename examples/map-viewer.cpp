@@ -7,6 +7,7 @@
 #include <boost/lexical_cast.hpp>
 #include <boost/bind.hpp>
 
+#include <Wt/WApplication>
 #include <Wt/WContainerWidget>
 #include <Wt/WDoubleValidator>
 #include <Wt/WGridLayout>
@@ -51,7 +52,7 @@ Example::Example(WContainerWidget* p):
     mv_ = new MapViewer();
     mv_->resize(400, 300);
     mv_->set_center(MapViewer::Coordinate(54.8, 20.25), 9);
-    mv_->clicked1().connect(this, &Example::get_pos);
+    mv_->clicked().connect(this, &Example::get_pos);
     hl->addWidget(mv_, AlignTop);
     //
     WPushButton* to_left = new Wt::WPushButton("<");
@@ -151,5 +152,21 @@ void Example::bottom_shift() {
 void Example::get_pos(const MapViewer::Coordinate& pos) {
     click_pos_->setText("You clicked near: " +
                         TO_S(pos.longitude()) + " " + TO_S(pos.latitude()));
+}
+
+class MapViewerApp : public WApplication {
+public:
+    MapViewerApp(const WEnvironment& env):
+        WApplication(env) {
+        new Example(root());
+    }
+};
+
+WApplication* createMapViewerApp(const WEnvironment& env) {
+    return new MapViewerApp(env);
+}
+
+int main(int argc, char** argv) {
+    return WRun(argc, argv, &createMapViewerApp);
 }
 
