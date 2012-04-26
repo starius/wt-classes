@@ -68,18 +68,6 @@ public:
     /** Zoom to a specific zoom level */
     void zoom_to(int level);
 
-    /** Removes a layer from the map by removing its visual element
-      (the layer.div property), then removing it from the map’s internal
-      list of layers, setting the layer’s map property to null. */
-    void remove_layer();
-
-    /** Destroy the map.
-      Note that if you are using an application which
-      removes a container of the map from the DOM, you need to ensure
-      that you destroy the map before this happens; otherwise, the page
-      unload handler will fail because the DOM elements that destroy_map()
-      wants to clean up will be gone. */
-    void destroy_map();
     /** The click event.
         Event signal emitted when a mouse key was clicked on this widget.
      */
@@ -104,6 +92,14 @@ protected:
     JSignal<Coordinate>& jclicked() {
         return jclicked_;
     }
+
+    /** Removes a layer from the map.
+    Removes a layer from the map by removing its visual element
+    (the layer.div property), then removing it from the map's internal
+    list of layers, setting the layer’s map property to null.
+    */
+    void remove_layer();
+
 private:
     Wt::WContainerWidget* get_impl();
     bool js() const;
@@ -138,6 +134,15 @@ private:
     WPoint xy_center_;
     Signal<Coordinate> clicked_;
     JSignal<Coordinate> jclicked_;
+
+    /** Destroy the map.
+    Note that if you are using an application which
+    removes a container of the map from the DOM, you need to ensure
+    that you destroy the map before this happens; otherwise, the page
+    unload handler will fail because the DOM elements that destroy_map()
+    wants to clean up will be gone.
+    */
+    void destroy_map();
 };
 }
 
