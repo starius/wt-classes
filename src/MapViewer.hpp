@@ -69,9 +69,9 @@ public:
     void zoom_to(int level);
 
     /** The click event.
-        Event signal emitted when a mouse key was clicked on this widget.
-     */
-    Signal<Coordinate>& clicked1() {
+    Event signal emitted when a mouse key was clicked on this widget.
+    */
+    Signal<Coordinate>& clicked() {
         return clicked_;
     }
 
