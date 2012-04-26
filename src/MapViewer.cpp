@@ -4,6 +4,9 @@
  * See the LICENSE.MapViewer file for terms of use.
  */
 
+#include "config.hpp"
+#include "global.hpp"
+
 #include <cmath>
 #include <boost/math/constants/constants.hpp>
 #include <boost/bind.hpp>
@@ -17,6 +20,14 @@
 #include <Wt/WContainerWidget>
 #include <Wt/WImage>
 #include <Wt/WCssStyleSheet>
+
+#ifndef WC_HAVE_WCOMPOSITEWIDGET_IMPLEMENTATION
+// FIXME nasty public morozov
+#define private friend class Wt::Wc::MapViewer; private
+#include <Wt/WCompositeWidget>
+#undef private
+#define implementation() Wt::WCompositeWidget::impl_
+#endif // WC_HAVE_WCOMPOSITEWIDGET_IMPLEMENTATION
 
 #include "MapViewer.hpp"
 #include "util.hpp"
@@ -307,7 +318,7 @@ void MapViewer::views_map_in_html() {
     WContainerWidget* gcw = new WContainerWidget();
     wApp->styleSheet().addRule(".mapContainer",
                                "position:relative;top:-110px;");
-    gcw->addStyleClass("mapContainer");
+    gcw->setStyleClass("mapContainer");
     WGridLayout* gl = new WGridLayout();
     gl->setHorizontalSpacing(0);
     gl->setVerticalSpacing(0);
@@ -332,10 +343,9 @@ void MapViewer::views_map_in_html() {
         for (int j = 0; j < column; j++) {
             xstd = TO_S(x);
             WContainerWidget* cw = new WContainerWidget();
-            WImage* img = new WImage(WLink(WLink::Url,
-                                           "http://a.tile.openstreetmap.org/" +
-                                           TO_S(zoom_) +
-                                           "/" + xstd + "/" + ystd + ".png"));
+            WImage* img = new WImage("http://a.tile.openstreetmap.org/" +
+                                     TO_S(zoom_) +
+                                     "/" + xstd + "/" + ystd + ".png");
             hori = -1;
             int cw_w = 256;
             img_margin[0] = 0;
@@ -422,7 +432,7 @@ WContainerWidget* MapViewer::get_html_control_panel() {
     vl->addWidget(zoom_minus_cw);
     wApp->styleSheet().addRule(".menuControlPanel", "position:relative;"
                                "width:60px;top:8px;left:0px;z-index:1004;");
-    cw->addStyleClass("menuControlPanel");
+    cw->setStyleClass("menuControlPanel");
     return cw;
 }
 
@@ -499,7 +509,7 @@ void MapViewer::set_click_signal_() {
     doJavaScript(strm.str());
 }
 
-void MapViewer::jclick_on(const Coordinate& pos) {
+void MapViewer::jclick_on(Coordinate pos) {
     clicked_.emit(Coordinate(pos.latitude(), pos.longitude()));
 }
 

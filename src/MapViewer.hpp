@@ -122,7 +122,7 @@ private:
     std::string get_lonlat_jsc(const Coordinate& pos) const;
     void click_on(const WPoint& tile_xy,
                   const WMouseEvent::Coordinates& img_xy);
-    void jclick_on(const Coordinate& pos);
+    void jclick_on(Coordinate pos);
     std::string set_js_listener_control_(const JSignal<Coordinate> &signal,
                                          const std::string& signal_name) const;
     void set_click_signal_();
