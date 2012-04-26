@@ -4,32 +4,29 @@
  * See the LICENSE.MapViewer file for terms of use.
  */
 
-#include <Wt/Wc/util.hpp>
-#include <Wt/Wc/MapImage.hpp>
-
 #include <math.h>
 #include <boost/math/constants/constants.hpp>
 #include <boost/bind.hpp>
 
+#include <Wt/WApplication>
 #include <Wt/WLength>
 #include <Wt/WString>
 #include <Wt/WEnvironment>
-#include <Wt/WPoint>
 #include <Wt/WGridLayout>
 #include <Wt/WVBoxLayout>
-#include <Wt/WHBoxLayout>
+#include <Wt/WContainerWidget>
 #include <Wt/WImage>
 #include <Wt/WCssStyleSheet>
 
 #include "MapViewer.hpp"
-#include "Application.hpp"
+#include "util.hpp"
+#include "MapImage.hpp"
 
-using namespace Wt;
-using namespace Wt::Wc;
+namespace Wt {
+
+namespace Wc {
 
 const double pi = boost::math::constants::pi<double>();
-
-namespace OMV {
 
 MapViewer::MapViewer(Wt::WContainerWidget* p):
     Wt::WCompositeWidget(p), zoom_(1), center_(Coordinate(0, 0)),
@@ -514,6 +511,8 @@ void MapViewer::click_on(const WPoint& tile_xy,
     double lng = lt_coord.longitude() + img_xy.x / 256.0 * wp;
     double lat = lt_coord.latitude() - img_xy.y / 256.0 * lp;
     clicked_.emit(Coordinate(lat, lng));
+}
+
 }
 
 }

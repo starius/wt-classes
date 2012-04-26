@@ -9,16 +9,15 @@
 
 #include <Wt/WGlobal>
 #include <Wt/WCompositeWidget>
-#include <Wt/WContainerWidget>
 #include <Wt/WGoogleMap>
 #include <Wt/WPoint>
 #include <Wt/WSignal>
 #include <Wt/WJavaScript>
 #include <Wt/WEvent>
 
-using namespace Wt;
+namespace Wt {
 
-namespace OMV {
+namespace Wc {
 
 /** MapViewer.
 It is intended to facilitate an introduction of
@@ -146,6 +145,9 @@ private:
     */
     void destroy_map();
 };
+
+}
+
 }
 
 #endif
