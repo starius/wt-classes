@@ -1,3 +1,6 @@
+2012-04-26:
+    * add class MapImage
+
 2012-04-14:
     * add missing include guards to rand.hpp
     * host jquery.countdown on github, do not download and include it here

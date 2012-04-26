@@ -35,6 +35,7 @@ class AdBlockDetector;
 class StreamView;
 class FileView;
 class ResourceView;
+class MapImage;
 
 class AbstractArgument;
 class AbstractInput;
