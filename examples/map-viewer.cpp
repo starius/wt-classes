@@ -123,8 +123,8 @@ void Example::set_zoom_to() {
 }
 
 void Example::set_pan_to() {
-    int x = boost::lexical_cast<double>(edit_of_pan_to_lat_->text());
-    int y = boost::lexical_cast<double>(edit_of_pan_to_lng_->text());
+    double x = boost::lexical_cast<double>(edit_of_pan_to_lat_->text());
+    double y = boost::lexical_cast<double>(edit_of_pan_to_lng_->text());
     mv_->pan_to(MapViewer::Coordinate(x, y));
 }
 
