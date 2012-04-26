@@ -40,6 +40,7 @@ By default, the widget counts up from now.
 class Countdown : public WContainerWidget {
 public:
     /** Constructor.
+    \param parent The parent.
     \param load_javascript Whether needed jQuery Countdown libs should
         be loaded from
     https://raw.github.com/starius/wt-classes/gh-pages/jquery.countdown.min.js

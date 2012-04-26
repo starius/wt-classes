@@ -57,6 +57,10 @@ cause segfaults when wApp->quit().
 This is an example of how to use the Wt::Wc::LogicalPaintedWidget class.
 */
 
+/** \example examples/map-image.cpp
+This is an example of how to use the Wt::Wc::MapImage class.
+*/
+
 }
 
 }

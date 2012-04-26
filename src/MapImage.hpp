@@ -26,6 +26,7 @@ Implementation for HTML version is based on
 */
 class MapImage : public WCompositeWidget {
 public:
+    /** Signal type for click */
     typedef Signal<WMouseEvent::Coordinates> ClickSignal;
 
     /** Constructor.
