@@ -19,9 +19,22 @@ namespace Wt {
 
 namespace Wc {
 
-/** MapViewer.
+/** Map viewer.
 It is intended to facilitate an introduction of
 a dynamic map in any web page.
+
+Main features:
+ - It uses free content (<a href="http://openstreetmap.org/">OpenStreetMap</a>).
+   Ajax version is based on <a href="http://openlayers.org">OpenLayers</a> API.
+ - It supports HTML version.
+
+Additional features:
+ - coordinates can be set by a method,
+ - map can be moved using buttons,
+ - map can be moved using mouse (Ajax only),
+ - map can be scaled (zoom in, zoom out).
+
+\ingroup bindings
 */
 class MapViewer : public Wt::WCompositeWidget {
 public:
@@ -82,7 +95,9 @@ protected:
     void add_osm_layer(const std::string& layer_var_name,
                        const std::string& param = "");
 
+    /** Update map viewer */
     void update_impl();
+
     /** The click event.
     Event signal emitted when a mouse key was clicked on this widget.
 
