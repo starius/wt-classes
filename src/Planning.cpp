@@ -37,7 +37,7 @@ typedef std::vector<TaskWhen> Tasks;
 typedef boost::thread_specific_ptr<Tasks> TasksPtr;
 TasksPtr tasks_ptr_;
 
-Tasks& tasks() {
+static Tasks& tasks() {
     if (tasks_ptr_.get() == 0) {
         tasks_ptr_.reset(new Tasks());
     }

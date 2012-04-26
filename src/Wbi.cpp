@@ -623,7 +623,7 @@ void TableTask::set_message_impl(const WString& message) {
     impl->message_->setText(message);
 }
 
-bool waiting_state(RunState state) {
+static bool waiting_state(RunState state) {
     return state == WORKING || state == QUEUED;
 }
 

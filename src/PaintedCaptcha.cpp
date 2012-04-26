@@ -52,7 +52,7 @@ const boost::array<WFont::Variant, 2> VARIANTS =
 const boost::array<WFont::GenericFamily, 2> FAMILIES =
 {{ WFont::SansSerif, WFont::Cursive }};
 
-WFont random_font() {
+static WFont random_font() {
     WFont font;
     font.setStyle(STYLES[rr(STYLES.size())]); // FIXME
     font.setVariant(VARIANTS[rr(VARIANTS.size())]); // FIXME
