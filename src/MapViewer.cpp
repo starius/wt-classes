@@ -4,7 +4,7 @@
  * See the LICENSE.MapViewer file for terms of use.
  */
 
-#include <math.h>
+#include <cmath>
 #include <boost/math/constants/constants.hpp>
 #include <boost/bind.hpp>
 
@@ -199,17 +199,19 @@ void MapViewer::destroy_map() {
 
 WPoint MapViewer::w2t(const Coordinate& pos, int zoom) const {
     // World to tile position.
-    int x = (int)(floor((pos.longitude() + 180.0) / 360.0 * pow(2.0, zoom)));
+    int x = (int)(floor((pos.longitude() + 180.0) /
+                        360.0 * std::pow(2.0, zoom)));
     double lat_rad = pos.latitude() *  pi / 180.0;
-    int y = (int)(floor((1.0 - log(tan(lat_rad) + 1.0 / cos(lat_rad)) / pi) /
-                        2.0 * pow(2.0, zoom)));
+    int y = (int)(floor((1.0 - std::log(std::tan(lat_rad) + 1.0 /
+                                        std::cos(lat_rad)) / pi) /
+                        2.0 * std::pow(2.0, zoom)));
     return WPoint(x, y);
 }
 
 MapViewer::Coordinate MapViewer::t2w(const WPoint& pos, int zoom) const {
     // Tile to World position.
-    double lng = pos.x() / pow(2.0, zoom) * 360.0 - 180;
-    double n = pi - 2.0 * pi * pos.y() / pow(2.0, zoom);
+    double lng = pos.x() / std::pow(2.0, zoom) * 360.0 - 180;
+    double n = pi - 2.0 * pi * pos.y() / std::pow(2.0, zoom);
     double lat = 180.0 / pi * atan(0.5 * (exp(n) - exp(-n)));
     return MapViewer::Coordinate(lat, lng);
 }
