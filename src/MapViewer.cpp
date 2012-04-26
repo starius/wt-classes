@@ -234,9 +234,11 @@ std::pair<int, int> MapViewer::tile_coord2tile_left_top(const Coordinate& pos) {
     double lp = diff_between(marginal_tile_coords_.second.latitude(),
                              marginal_tile_coords_.first.latitude());
     int left = (int)(round(diff_between(pos.longitude(),
-                                        marginal_tile_coords_.first.longitude()) / wp * 256.0));
+                                        marginal_tile_coords_.first.longitude())
+                           / wp * 256.0));
     int top = (int)(round(diff_between(pos.latitude(),
-                                       marginal_tile_coords_.first.latitude()) / lp * 256.0));
+                                       marginal_tile_coords_.first.latitude()) /
+                          lp * 256.0));
     return std::make_pair(left, top);
 }
 
@@ -332,7 +334,8 @@ void MapViewer::views_map_in_html() {
             xstd = TO_S(x);
             WContainerWidget* cw = new WContainerWidget();
             WImage* img = new WImage(WLink(WLink::Url,
-                                           "http://a.tile.openstreetmap.org/" + TO_S(zoom_) +
+                                           "http://a.tile.openstreetmap.org/" +
+                                           TO_S(zoom_) +
                                            "/" + xstd + "/" + ystd + ".png"));
             hori = -1;
             int cw_w = 256;
