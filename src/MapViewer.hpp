@@ -26,6 +26,7 @@ a dynamic map in any web page.
 */
 class MapViewer : public Wt::WCompositeWidget {
 public:
+    /** A geographical coordinate (latitude/longitude) */
     typedef Wt::WGoogleMap::Coordinate Coordinate;
 
     /** Constructor */
