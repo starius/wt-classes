@@ -43,16 +43,16 @@ public:
     void pan_to(const Coordinate& center);
 
     /** Allows to top shift */
-    void top_shift(double power=1.0);
+    void top_shift(double power = 1.0);
 
     /** Allows to bottom shift */
-    void bottom_shift(double power=1.0);
+    void bottom_shift(double power = 1.0);
 
     /** Allows to left shift */
-    void left_shift(double power=1.0);
+    void left_shift(double power = 1.0);
 
     /** Allows to right shift */
-    void right_shift(double power=1.0);
+    void right_shift(double power = 1.0);
 
     /** Increments zoom level by one. */
     void zoom_in();
@@ -78,7 +78,7 @@ public:
     /** The click event.
         Event signal emitted when a mouse key was clicked on this widget.
      */
-    Signal<Coordinate>& clicked1(){
+    Signal<Coordinate>& clicked1() {
         return clicked_;
     }
 protected:
@@ -93,7 +93,7 @@ protected:
 
         /note When JavaScript is disabled, the signal will never fire.
      */
-    JSignal<Coordinate>& jclicked(){
+    JSignal<Coordinate>& jclicked() {
         return jclicked_;
     }
 private:
