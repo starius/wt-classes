@@ -60,16 +60,19 @@ void MapViewer::update_impl() {
         add_osm_layer(layer_name_);
         set_click_signal_();
         wApp->styleSheet().addRule(".olControlAttribution",
-                                   "position:absolute !important;bottom:0 !important;right:0 !important;");
+                                   "position:absolute !important;"
+                                   "bottom:0 !important;right:0 !important;");
     } else {
         views_map_in_html();
     }
 }
 
-void MapViewer::add_osm_layer(const std::string& layer_var_name, const std::string& param) {
+void MapViewer::add_osm_layer(const std::string& layer_var_name,
+                              const std::string& param) {
     if (js()) {
         std::stringstream strm;
-        strm << store_jsv(layer_var_name, "new OpenLayers.Layer.OSM(" + param + ")")
+        strm << store_jsv(layer_var_name,
+                          "new OpenLayers.Layer.OSM(" + param + ")")
              << get_stored_jsv(map_name_) << ".addLayer("
              << get_stored_jsv(layer_var_name) << ");";
         doJavaScript(strm.str());
@@ -114,7 +117,8 @@ void MapViewer::pan_to(const Coordinate& center) {
     center_ = center;
     if (js()) {
         std::stringstream strm;
-        strm << store_jsv("pan_to_lonLatOf_" + map_name_, get_lonlat_jsc(center))
+        strm << store_jsv("pan_to_lonLatOf_" + map_name_,
+                          get_lonlat_jsc(center))
              << get_stored_jsv(map_name_) << ".panTo("
              << get_stored_jsv("pan_to_lonLatOf_" + map_name_) << ");";
         doJavaScript(strm.str());
@@ -125,22 +129,26 @@ void MapViewer::pan_to(const Coordinate& center) {
 }
 
 void MapViewer::left_shift(double power) {
-    double w = diff_between(marginal_tile_coords_.second.longitude(), marginal_tile_coords_.first.longitude());
+    double w = diff_between(marginal_tile_coords_.second.longitude(),
+                            marginal_tile_coords_.first.longitude());
     pan_to(Coordinate(center_.latitude(), center_.longitude() - w * power));
 }
 
 void MapViewer::right_shift(double power) {
-    double w = diff_between(marginal_tile_coords_.second.longitude(), marginal_tile_coords_.first.longitude());
+    double w = diff_between(marginal_tile_coords_.second.longitude(),
+                            marginal_tile_coords_.first.longitude());
     pan_to(Coordinate(center_.latitude(), center_.longitude() + w * power));
 }
 
 void MapViewer::top_shift(double power) {
-    double h = diff_between(marginal_tile_coords_.second.latitude(), marginal_tile_coords_.first.latitude());
+    double h = diff_between(marginal_tile_coords_.second.latitude(),
+                            marginal_tile_coords_.first.latitude());
     pan_to(Coordinate(center_.latitude() + h * power, center_.longitude()));
 }
 
 void MapViewer::bottom_shift(double power) {
-    double h = diff_between(marginal_tile_coords_.second.latitude(), marginal_tile_coords_.first.latitude());
+    double h = diff_between(marginal_tile_coords_.second.latitude(),
+                            marginal_tile_coords_.first.latitude());
     pan_to(Coordinate(center_.latitude() - h * power, center_.longitude()));
 }
 
@@ -174,7 +182,8 @@ void MapViewer::zoom_to(int level) {
         marginal_tile_coords_ = marginal_pic_coords(center_);
     }
     if (js()) {
-        doJavaScript(get_stored_jsv(map_name_) + ".zoomTo(" + TO_S(level) + ");");
+        doJavaScript(get_stored_jsv(map_name_) +
+                     ".zoomTo(" + TO_S(level) + ");");
     } else {
         views_map_in_html();
     }
@@ -191,33 +200,43 @@ void MapViewer::destroy_map() {
     }
 }
 
-WPoint MapViewer::w2t(const Coordinate& pos, int zoom) const { // World to tile position.
+WPoint MapViewer::w2t(const Coordinate& pos, int zoom) const {
+    // World to tile position.
     int x = (int)(floor((pos.longitude() + 180.0) / 360.0 * pow(2.0, zoom)));
     double lat_rad = pos.latitude() *  pi / 180.0;
-    int y = (int)(floor((1.0 - log(tan(lat_rad) + 1.0 / cos(lat_rad)) / pi) / 2.0 * pow(2.0, zoom)));
+    int y = (int)(floor((1.0 - log(tan(lat_rad) + 1.0 / cos(lat_rad)) / pi) /
+                        2.0 * pow(2.0, zoom)));
     return WPoint(x, y);
 }
 
-MapViewer::Coordinate MapViewer::t2w(const WPoint& pos, int zoom) const { // Tile to World position.
+MapViewer::Coordinate MapViewer::t2w(const WPoint& pos, int zoom) const {
+    // Tile to World position.
     double lng = pos.x() / pow(2.0, zoom) * 360.0 - 180;
     double n = pi - 2.0 * pi * pos.y() / pow(2.0, zoom);
     double lat = 180.0 / pi * atan(0.5 * (exp(n) - exp(-n)));
     return MapViewer::Coordinate(lat, lng);
 }
 
-std::pair<MapViewer::Coordinate, MapViewer::Coordinate> MapViewer::marginal_pic_coords(const WPoint& tile) const {
-    return std::make_pair(t2w(tile, zoom_), t2w(WPoint(tile.x() + 1, tile.y() + 1), zoom_));
+std::pair<MapViewer::Coordinate, MapViewer::Coordinate>
+MapViewer::marginal_pic_coords(const WPoint& tile) const {
+    return std::make_pair(t2w(tile, zoom_),
+                          t2w(WPoint(tile.x() + 1, tile.y() + 1), zoom_));
 }
 
-std::pair<MapViewer::Coordinate, MapViewer::Coordinate> MapViewer::marginal_pic_coords(const MapViewer::Coordinate& pos) const {
+std::pair<MapViewer::Coordinate, MapViewer::Coordinate>
+MapViewer::marginal_pic_coords(const MapViewer::Coordinate& pos) const {
     return marginal_pic_coords(w2t(pos, zoom_));
 }
 
 std::pair<int, int> MapViewer::tile_coord2tile_left_top(const Coordinate& pos) {
-    double wp = diff_between(marginal_tile_coords_.second.longitude(), marginal_tile_coords_.first.longitude());
-    double lp = diff_between(marginal_tile_coords_.second.latitude(), marginal_tile_coords_.first.latitude());
-    int left = (int)(round(diff_between(pos.longitude(), marginal_tile_coords_.first.longitude()) / wp * 256.0));
-    int top = (int)(round(diff_between(pos.latitude(), marginal_tile_coords_.first.latitude()) / lp * 256.0));
+    double wp = diff_between(marginal_tile_coords_.second.longitude(),
+                             marginal_tile_coords_.first.longitude());
+    double lp = diff_between(marginal_tile_coords_.second.latitude(),
+                             marginal_tile_coords_.first.latitude());
+    int left = (int)(round(diff_between(pos.longitude(),
+                                        marginal_tile_coords_.first.longitude()) / wp * 256.0));
+    int top = (int)(round(diff_between(pos.latitude(),
+                                       marginal_tile_coords_.first.latitude()) / lp * 256.0));
     return std::make_pair(left, top);
 }
 
@@ -256,7 +275,8 @@ void MapViewer::views_map_in_html() {
     int y = xy_center_.y();
     for (int i = 0; i < 4; i++) {
         double invm = rmns[i] / 256.0;
-        int cr = invm > 1.0 ? (int)(256 - 256 * (invm - (int)invm)) : (int)(256 * (invm > 0 ? (1 - invm) : invm));
+        int cr = invm > 1.0 ? (int)(256 - 256 * (invm - (int)invm)) :
+                 (int)(256 * (invm > 0 ? (1 - invm) : invm));
         int v = (int)invm;
         v += cr > 0 ? 1 : 0;
         if (cr < 0) {
@@ -284,7 +304,8 @@ void MapViewer::views_map_in_html() {
     std::vector<int> img_margin(4, 0);
     get_impl()->clear();
     WContainerWidget* gcw = new WContainerWidget();
-    wApp->styleSheet().addRule(".mapContainer", "position:relative;top:-110px;");
+    wApp->styleSheet().addRule(".mapContainer",
+                               "position:relative;top:-110px;");
     gcw->addStyleClass("mapContainer");
     WGridLayout* gl = new WGridLayout();
     gl->setHorizontalSpacing(0);
@@ -310,7 +331,8 @@ void MapViewer::views_map_in_html() {
         for (int j = 0; j < column; j++) {
             xstd = TO_S(x);
             WContainerWidget* cw = new WContainerWidget();
-            WImage* img = new WImage(WLink(WLink::Url, "http://a.tile.openstreetmap.org/" + TO_S(zoom_) +
+            WImage* img = new WImage(WLink(WLink::Url,
+                                           "http://a.tile.openstreetmap.org/" + TO_S(zoom_) +
                                            "/" + xstd + "/" + ystd + ".png"));
             hori = -1;
             int cw_w = 256;
@@ -335,7 +357,8 @@ void MapViewer::views_map_in_html() {
                 }
             }
             MapImage* map_img = new MapImage(img, cw);
-            map_img->clicked().connect(boost::bind(&MapViewer::click_on, this, WPoint(x, y), _1));
+            map_img->clicked().connect(boost::bind(&MapViewer::click_on,
+                                                   this, WPoint(x, y), _1));
             gl->addWidget(cw, i, j);
             x++;
         }
@@ -355,38 +378,48 @@ WContainerWidget* MapViewer::get_html_control_panel() {
     WContainerWidget* north_cw = new WContainerWidget();
     north_cw->resize(WLength(), 18);
     north_cw->setContentAlignment(AlignCenter);
-    WImage* img_north = new WImage("http://openlayers.org/api/img/north-mini.png", north_cw);
-    img_north->clicked().connect(boost::bind(&MapViewer::top_shift, this, 0.34));
+    WImage* img_north = new WImage("http://openlayers.org/api/img/"
+                                   "north-mini.png", north_cw);
+    img_north->clicked().connect(boost::bind(&MapViewer::top_shift,
+                                 this, 0.34));
     vl->addWidget(north_cw);
     WContainerWidget* west_east_cw = new WContainerWidget();
     west_east_cw->resize(WLength(), 18);
     west_east_cw->setContentAlignment(AlignCenter);
-    WImage* img_west = new WImage("http://openlayers.org/api/img/west-mini.png", west_east_cw);
-    img_west->clicked().connect(boost::bind(&MapViewer::left_shift, this, 0.34));
-    WImage* img_east = new WImage("http://openlayers.org/api/img/east-mini.png", west_east_cw);
-    img_east->clicked().connect(boost::bind(&MapViewer::right_shift, this, 0.34));
+    WImage* img_west = new WImage("http://openlayers.org/api/img/west-mini.png",
+                                  west_east_cw);
+    img_west->clicked().connect(boost::bind(&MapViewer::left_shift,
+                                            this, 0.34));
+    WImage* img_east = new WImage("http://openlayers.org/api/img/east-mini.png",
+                                  west_east_cw);
+    img_east->clicked().connect(boost::bind(&MapViewer::right_shift,
+                                            this, 0.34));
     vl->addWidget(west_east_cw);
     WContainerWidget* south_cw = new WContainerWidget();
     south_cw->resize(WLength(), 18);
     south_cw->setContentAlignment(AlignCenter);
-    WImage* img_south = new WImage("http://openlayers.org/api/img/south-mini.png", south_cw);
-    img_south->clicked().connect(boost::bind(&MapViewer::bottom_shift, this, 0.34));
+    WImage* img_south = new WImage("http://openlayers.org/api/img/"
+                                   "south-mini.png", south_cw);
+    img_south->clicked().connect(boost::bind(&MapViewer::bottom_shift,
+                                 this, 0.34));
     vl->addWidget(south_cw);
     vl->addWidget(new WBreak());
     WContainerWidget* zoom_plus_cw = new WContainerWidget();
     zoom_plus_cw->resize(WLength(), 18);
     zoom_plus_cw->setContentAlignment(AlignCenter);
-    WImage* img_zoom_plus = new WImage("http://openlayers.org/api/img/zoom-plus-mini.png", zoom_plus_cw);
+    WImage* img_zoom_plus = new WImage("http://openlayers.org/api/img/"
+                                       "zoom-plus-mini.png", zoom_plus_cw);
     img_zoom_plus->clicked().connect(boost::bind(&MapViewer::zoom_in, this));
     vl->addWidget(zoom_plus_cw);
     WContainerWidget* zoom_minus_cw = new WContainerWidget();
     zoom_minus_cw->resize(WLength(), 18);
     zoom_minus_cw->setContentAlignment(AlignCenter);
-    WImage* img_zoom_minus = new WImage("http://openlayers.org/api/img/zoom-minus-mini.png", zoom_minus_cw);
+    WImage* img_zoom_minus = new WImage("http://openlayers.org/api/img/"
+                                        "zoom-minus-mini.png", zoom_minus_cw);
     img_zoom_minus->clicked().connect(boost::bind(&MapViewer::zoom_out, this));
     vl->addWidget(zoom_minus_cw);
-    wApp->styleSheet().addRule(".menuControlPanel",
-                               "position:relative;width:60px;top:8px;left:0px;z-index:1004;");
+    wApp->styleSheet().addRule(".menuControlPanel", "position:relative;"
+                               "width:60px;top:8px;left:0px;z-index:1004;");
     cw->addStyleClass("menuControlPanel");
     return cw;
 }
@@ -409,7 +442,8 @@ Type MapViewer::get_abs(Type val) {
     return val < 0 ? -val : val;
 }
 
-std::string MapViewer::store_jsv(const std::string& key, const std::string& value) const {
+std::string MapViewer::store_jsv(const std::string& key,
+                                 const std::string& value) const {
     return "$(" + jsRef() + ").data('" + key + "', " + value + ");";
 }
 
@@ -430,8 +464,9 @@ Wt::WContainerWidget* MapViewer::get_impl() {
     return DOWNCAST<Wt::WContainerWidget*>(implementation());
 }
 
-std::string MapViewer::set_js_listener_control_(const JSignal<Coordinate> &signal,
-        const std::string& signal_name) const {
+std::string MapViewer::set_js_listener_control_(
+    const JSignal<Coordinate> &signal,
+    const std::string& signal_name) const {
     std::stringstream strm;
     strm << "OpenLayers.Control.Click = OpenLayers.Class(OpenLayers.Control, {"
          << "defaultHandlerOptions: {'single': true, 'double': false,"
@@ -445,7 +480,8 @@ std::string MapViewer::set_js_listener_control_(const JSignal<Coordinate> &signa
          <<      "trigger: function(e) {"
          << "var map = " + get_stored_jsv(map_name_) + ";"
          << "var lonlat = map.getLonLatFromViewPortPx(e.xy)"
-         << ".transform(map.getProjectionObject(), new OpenLayers.Projection('EPSG:4326'));"
+         << ".transform(map.getProjectionObject(), "
+         "new OpenLayers.Projection('EPSG:4326'));"
          << signal.createCall("lonlat.lat +' ' + lonlat.lon")
          << ";}});";
     return strm.str();
@@ -465,9 +501,12 @@ void MapViewer::jclick_on(const Coordinate& pos) {
     clicked_.emit(Coordinate(pos.latitude(), pos.longitude()));
 }
 
-void MapViewer::click_on(const WPoint& tile_xy, const WMouseEvent::Coordinates& img_xy) {
-    double wp = diff_between(marginal_tile_coords_.second.longitude(), marginal_tile_coords_.first.longitude());
-    double lp = diff_between(marginal_tile_coords_.second.latitude(), marginal_tile_coords_.first.latitude());
+void MapViewer::click_on(const WPoint& tile_xy,
+                         const WMouseEvent::Coordinates& img_xy) {
+    double wp = diff_between(marginal_tile_coords_.second.longitude(),
+                             marginal_tile_coords_.first.longitude());
+    double lp = diff_between(marginal_tile_coords_.second.latitude(),
+                             marginal_tile_coords_.first.latitude());
     Coordinate lt_coord = t2w(tile_xy, zoom_);
     double lng = lt_coord.longitude() + img_xy.x / 256.0 * wp;
     double lat = lt_coord.latitude() - img_xy.y / 256.0 * lp;

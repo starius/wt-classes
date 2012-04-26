@@ -3,8 +3,9 @@
  *
  * See the LICENSE.MapViewer file for terms of use.
  */
-#ifndef MAP_VIEWER_HPP_
-#define MAP_VIEWER_HPP_
+
+#ifndef WC_MAP_VIEWER_HPP_
+#define WC_MAP_VIEWER_HPP_
 
 #include <Wt/WGlobal>
 #include <Wt/WCompositeWidget>
@@ -18,28 +19,31 @@
 using namespace Wt;
 
 namespace OMV {
-/** MapViewer.
-  It is intended to facilitate an introduction of
-  a dynamic map in any web page.
-  */
 
+/** MapViewer.
+It is intended to facilitate an introduction of
+a dynamic map in any web page.
+*/
 class MapViewer : public Wt::WCompositeWidget {
 public:
     typedef Wt::WGoogleMap::Coordinate Coordinate;
+
     /** Constructor */
     MapViewer(Wt::WContainerWidget* parent = 0);
 
     /** Destructor */
     ~MapViewer();
 
-    /** Sets the map view to the given center. */
+    /** Sets the map view to the given center */
     void set_center(const Coordinate& center);
 
-    /** Sets the map view to the given center and zoom level. */
+    /** Sets the map view to the given center and zoom level */
     void set_center(const Coordinate& center, int zoom);
 
-    /** Allows to pan to a new lonlat If the new lonlat
-      is in the current extent the map will slide smoothly (if implemented js). */
+    /** Allows to pan to a new lonlat.
+    If the new lonlat is in the current extent,
+    the map will slide smoothly (if implemented js).
+    */
     void pan_to(const Coordinate& center);
 
     /** Allows to top shift */
@@ -54,13 +58,13 @@ public:
     /** Allows to right shift */
     void right_shift(double power = 1.0);
 
-    /** Increments zoom level by one. */
+    /** Increments zoom level by one */
     void zoom_in();
 
-    /** Decrements zoom level by one. */
+    /** Decrements zoom level by one */
     void zoom_out();
 
-    /** Zoom to a specific zoom level. */
+    /** Zoom to a specific zoom level */
     void zoom_to(int level);
 
     /** Removes a layer from the map by removing its visual element
@@ -81,18 +85,21 @@ public:
     Signal<Coordinate>& clicked1() {
         return clicked_;
     }
+
 protected:
     /** Layer Constructor.
-      A Layer is a data source – information about how OpenLayers
-      should request data and display it.
-      */
-    void add_osm_layer(const std::string& layer_var_name, const std::string& param = "");
+    A Layer is a data source -- information about how OpenLayers
+    should request data and display it.
+    */
+    void add_osm_layer(const std::string& layer_var_name,
+                       const std::string& param = "");
+
     void update_impl();
     /** The click event.
-        Event signal emitted when a mouse key was clicked on this widget.
+    Event signal emitted when a mouse key was clicked on this widget.
 
-        /note When JavaScript is disabled, the signal will never fire.
-     */
+    \note When JavaScript is disabled, the signal will never fire.
+    */
     JSignal<Coordinate>& jclicked() {
         return jclicked_;
     }
@@ -111,10 +118,12 @@ private:
     template <class Type> Type get_abs(Type val);
     double diff_between(double x, double y);
     Side get_side(int v);
-    std::string store_jsv(const std::string& key, const std::string& value) const;
+    std::string store_jsv(const std::string& key,
+                          const std::string& value) const;
     std::string get_stored_jsv(const std::string& key) const;
     std::string get_lonlat_jsc(const Coordinate& pos) const;
-    void click_on(const WPoint& tile_xy, const WMouseEvent::Coordinates& img_xy);
+    void click_on(const WPoint& tile_xy,
+                  const WMouseEvent::Coordinates& img_xy);
     void jclick_on(const Coordinate& pos);
     std::string set_js_listener_control_(const JSignal<Coordinate> &signal,
                                          const std::string& signal_name) const;
