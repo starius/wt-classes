@@ -1,5 +1,6 @@
 
 #include <Wt/WApplication>
+#include <Wt/WAnchor>
 #include <Wt/WImage>
 #include <Wt/WBreak>
 #include <Wt/WText>
@@ -13,7 +14,10 @@ class MapImageApp : public WApplication {
 public:
     MapImageApp(const WEnvironment& env):
         WApplication(env) {
-        setInternalPath("/lena/");
+        WAnchor* lena = new WAnchor(root());
+        new WBreak(root());
+        lena->setRefInternalPath("/lena/");
+        lena->setText("Change internal path to /lena/");
         MapImage* image = new MapImage(new WImage("http://www.kitware.com/blog/"
                                        "files/128_1232259669.jpg"), root());
         new WBreak(root());
