@@ -1,4 +1,5 @@
 2012-04-28:
+    * remove adtiger.de and googlesyndication.com (AdBlockDetector)
     * perform compilation tests instead of headers detection (feature detection)
 
 2012-04-26:

@@ -39,9 +39,6 @@ struct DefaultLists {
     DefaultLists() {
         banner_libs = boost::make_shared<AdBlockDetector::Libs>();
         b("https://js.adscale.de/getads.js", "adscale");
-        b("https://ads.adtiger.de/adscript.php", "adspirit_pid");
-        b("https://pagead2.googlesyndication.com/pagead/show_ads.js",
-          "google_ad_block");
         regular_libs = boost::make_shared<AdBlockDetector::Libs>();
         r("https://cdnjs.cloudflare.com/ajax/libs/underscore.js/"
           "1.3.1/underscore-min.js", "_");
