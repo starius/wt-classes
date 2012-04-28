@@ -1,3 +1,6 @@
+2012-04-28:
+    * perform compilation tests instead of headers detection (feature detection)
+
 2012-04-26:
     * add class MapImage
     * import class MapViewer from https://bitbucket.org/rmintaev/mapviewer
