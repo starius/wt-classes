@@ -39,6 +39,7 @@ if(PYTHONINTERP_FOUND)
     if(WC_HAVE_WRASTERIMAGE)
         set(wrasterimage "--wrasterimage")
     endif()
+    list(SORT examples_sources)
     add_custom_command(
         OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/all.cpp
         COMMAND ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/make-all.py
