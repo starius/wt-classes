@@ -74,10 +74,12 @@ void Server::notify_widgets(const boost::any& event) {
     const EventPtr* e = boost::any_cast<EventPtr>(&event);
     Widgets widgets = o2w_[(*e)->key()][wApp];
     mutex_.unlock();
+    bool updates_needed = false;
     BOOST_FOREACH (Widget* widget, widgets) {
+        updates_needed |= widget->updates_needed(*e);
         widget->notify(*e);
     }
-    if (updates_enabled_) {
+    if (updates_needed && updates_enabled_) {
         updates_trigger();
     }
 }

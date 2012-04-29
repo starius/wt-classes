@@ -94,6 +94,19 @@ public:
     */
     virtual void notify(EventPtr event) = 0;
 
+    /** Return if this widget needs page updates.
+    This method is called as a result of Server::emit(),
+    before notify() method.
+    If at least one Widget of WApplication returned \c true
+    from updates_needed(), AND Server::updates_enabled(),
+    updates_trigger() is called.
+
+    Defaults to \c true.
+    */
+    virtual bool updates_needed(EventPtr event) const {
+        return true;
+    }
+
     /** Get event key */
     const Event::Key& key() const {
         return key_;
@@ -120,7 +133,10 @@ public:
 
     /** Notify all widgets, listening to object updates.
     After all widgets of an application were notified,
-    updates_trigger() is called, if updates_enabled().
+    updates_trigger() is called,
+    if at least one Widget of WApplication returned \c true
+    from Widget::updates_needed(), AND Server::updates_enabled(),
+    updates_trigger() is called.
     \attention If you use transactions, call this method
                after successful transaction committing.
     */
