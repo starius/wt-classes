@@ -27,7 +27,8 @@ Widget::~Widget() {
     server_->stop_listening(this, app_id_);
 }
 
-Server::Server(WServer* /* server */)
+Server::Server(WServer* /* server */):
+    updates_enabled_(true)
 { }
 
 void Server::emit(EventPtr event) {
@@ -76,7 +77,9 @@ void Server::notify_widgets(const boost::any& event) {
     BOOST_FOREACH (Widget* widget, widgets) {
         widget->notify(*e);
     }
-    updates_trigger();
+    if (updates_enabled_) {
+        updates_trigger();
+    }
 }
 
 }

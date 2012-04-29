@@ -120,7 +120,7 @@ public:
 
     /** Notify all widgets, listening to object updates.
     After all widgets of an application were notified,
-    updates_trigger() is called.
+    updates_trigger() is called, if updates_enabled().
     \attention If you use transactions, call this method
                after successful transaction committing.
     */
@@ -132,6 +132,17 @@ public:
     */
     void emit(Event* event);
 
+    /** Get if the server can call updates_trigger() */
+    bool updates_enabled() const {
+    }
+
+    /** Set if the server can call updates_trigger().
+    Defaults to \c true.
+    */
+    void set_updates_enabled(bool updates_enabled) {
+        updates_enabled_ = updates_enabled;
+    }
+
 private:
     typedef std::vector<Widget*> Widgets;
     typedef std::map<WApplication*, Widgets> A2W;
@@ -140,6 +151,7 @@ private:
     O2W o2w_;
     A2F a2f_;
     boost::mutex mutex_;
+    bool updates_enabled_;
 
     void start_listening(Widget* widget);
 
