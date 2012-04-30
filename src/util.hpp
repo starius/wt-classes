@@ -91,12 +91,16 @@ OneAnyFunc one_bound_post(const OneAnyFunc& func);
 
 /** Call triggerUpdate() in current WApplication, if updates are enabled.
 
+\note This is only possible after a call to wApp->enableUpdates()
+
 \ingroup util
 */
 void updates_trigger();
 
 /** Post updates_poster() to the application.
 If server.post() is available, it is used, else bound_post() is used.
+
+\note This is only possible after a call to wApp->enableUpdates()
 
 \ingroup util
 */

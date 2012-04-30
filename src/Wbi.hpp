@@ -847,6 +847,7 @@ public:
     \note You need not connect this signal to triggerUpdate(),
         since triggerUpdate() is called through WServer::post() after
         treating of other connected slots.
+        This is only possible after a call to wApp->enableUpdates()
     */
     ChangedSignal& changed() {
         return changed_;

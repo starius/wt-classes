@@ -102,6 +102,8 @@ public:
     updates_trigger() is called.
 
     Defaults to \c true.
+
+    \note This is only possible after a call to wApp->enableUpdates()
     */
     virtual bool updates_needed(EventPtr event) const {
         return true;
@@ -139,6 +141,8 @@ public:
     updates_trigger() is called.
     \attention If you use transactions, call this method
                after successful transaction committing.
+
+    \note This is only possible after a call to wApp->enableUpdates()
     */
     void emit(EventPtr event);
 
@@ -154,6 +158,8 @@ public:
 
     /** Set if the server can call updates_trigger().
     Defaults to \c true.
+
+    \note This is only possible after a call to wApp->enableUpdates()
     */
     void set_updates_enabled(bool updates_enabled) {
         updates_enabled_ = updates_enabled;
