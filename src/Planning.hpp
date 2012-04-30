@@ -28,7 +28,8 @@ namespace notify {
 
 \ingroup notify
 */
-typedef boost::shared_ptr<const Task> TaskPtr ;
+typedef boost::shared_ptr<const Task> TaskPtr;
+
 /** Task abstract class.
 
 \ingroup notify
