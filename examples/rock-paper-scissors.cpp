@@ -115,7 +115,7 @@ struct Game : public notify::Task {
     }
 
     bool both() const {
-        return  choices[0] != NOTHING &&  choices[1] != NOTHING;
+        return choices[0] != NOTHING &&  choices[1] != NOTHING;
     }
 
     GlobalColor user_color(UserPtr user) const {

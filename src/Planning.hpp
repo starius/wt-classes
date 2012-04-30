@@ -63,7 +63,7 @@ public:
     PlanningServer(Server* notification_server, WObject* p = 0);
 
     /** Add a task to the planning list.
-    If the \c when  is \c inValid() (e.g., Null), no action is performed
+    If the \c when is \c inValid() (e.g., Null), no action is performed
     (in this case \c false is returned, otherwise \c true).
 
     The task is executed at <tt>when + delay()</tt>.
