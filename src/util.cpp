@@ -64,8 +64,8 @@ namespace Wt {
 namespace Wc {
 
 #if USE_SERVER_POST
-void post(WServer* server, const std::string& app,
-          const boost::function<void()>& func) {
+static void post(WServer* server, const std::string& app,
+                 const boost::function<void()>& func) {
     server->post(app, func);
 }
 #else
@@ -87,7 +87,8 @@ private:
 
 boost::mutex do_func_mutex;
 
-void do_func(boost::function<void()> func, WApplication* app, BoolPtr b) {
+static void do_func(boost::function<void()> func, WApplication* app,
+                    BoolPtr b) {
     boost::mutex::scoped_lock do_func_lock(do_func_mutex);
     if (!*b && !app->isQuited()) {
         WApplication::UpdateLock app_lock = app->getUpdateLock();
@@ -97,7 +98,8 @@ void do_func(boost::function<void()> func, WApplication* app, BoolPtr b) {
     }
 }
 
-void thread_func(boost::function<void()> func, WApplication* app, BoolPtr b) {
+static void thread_func(boost::function<void()> func, WApplication* app,
+                        BoolPtr b) {
     boost::thread(do_func, func, app, b);
 }
 #endif
