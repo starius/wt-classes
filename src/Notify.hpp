@@ -69,7 +69,7 @@ public:
 
 \ingroup notify
 */
-typedef boost::shared_ptr<const Event> EventPtr ;
+typedef boost::shared_ptr<const Event> EventPtr;
 
 /** Base class for a widget to notify.
 
