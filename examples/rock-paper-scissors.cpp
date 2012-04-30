@@ -130,6 +130,10 @@ struct Game : public notify::Task {
         }
     }
 
+    GlobalColor user_color(int i) const {
+        return user_color(users[i]);
+    }
+
     bool can_change(UserPtr user) const {
         return choices[user_index(user)] == NOTHING && !exceed_time_limit;
     }
@@ -158,33 +162,38 @@ void set_border_color(WWidget* widget, GlobalColor color) {
     widget->decorationStyle().setBorder(border);
 }
 
-class GameWidget : public WContainerWidget, notify::Widget {
+class GameWidget : public WTable, notify::Widget {
 public:
     GameWidget(UserPtr me, GamePtr game, WContainerWidget* parent = 0):
-        WContainerWidget(parent), notify::Widget(game->key(), &server),
+        WTable(parent), notify::Widget(game->key(), &server),
         me_(me), game_(game) {
+        for (int i = 0; i < 2; i++) {
+            UserImage* image = new UserImage(game_->users[i], elementAt(0, i));
+            WText* choice_text = new WText(elementAt(1, i));
+            elementAt(1, i)->setContentAlignment(AlignCenter);
+        }
+        WTableCell* choice_cell = elementAt(2, 0);
+        choice_cell->setColumnSpan(2);
+        add_button(ROCK, choice_cell);
+        add_button(PAPER, choice_cell);
+        add_button(SCISSORS, choice_cell);
         notify(game);
     }
 
     void notify(notify::EventPtr /* event */) {
         boost::mutex::scoped_lock lock(game_->mutex);
-        clear();
         for (int i = 0; i < 2; i++) {
-            UserImage* image = new UserImage(game_->users[i], this);
-            set_border_color(image, game_->user_color(game_->users[i]));
-        }
-        for (int i = 0; i < 2; i++) {
+            set_border_color(elementAt(0, i)->widget(0), game_->user_color(i));
             Choice choice = game_->choices[i];
             if (me_ != game_->users[i] && !game_->both()) {
                 choice = NOTHING;
             }
-            WText* choice_text = new WText(choice_to_text(choice), this);
-            set_border_color(choice_text, game_->user_color(game_->users[i]));
+            WText* choice_text = DOWNCAST<WText*>(elementAt(1, i)->widget(0));
+            choice_text->setText(choice_to_text(choice));
         }
-        if (game_->can_change(me_)) {
-            add_button(ROCK);
-            add_button(PAPER);
-            add_button(SCISSORS);
+        if (!game_->can_change(me_)) {
+            WTableCell* choice_cell = elementAt(2, 0);
+            choice_cell->clear();
         }
     }
 
@@ -192,8 +201,8 @@ private:
     UserPtr me_;
     GamePtr game_;
 
-    void add_button(Choice choice) {
-        WPushButton* b = new WPushButton(choice_to_text(choice), this);
+    void add_button(Choice choice, WContainerWidget* parent) {
+        WPushButton* b = new WPushButton(choice_to_text(choice), parent);
         b->clicked().connect(boost::bind(&GameWidget::select, this, choice));
     }
 
