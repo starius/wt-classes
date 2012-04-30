@@ -56,6 +56,11 @@ public:
     /** Constructor */
     PlanningServer(WObject* p = 0);
 
+    /** Constructor.
+    \see set_notification_server()
+    */
+    PlanningServer(Server* notification_server, WObject* p = 0);
+
     /** Add a task to the planning list.
     If the \c when  is \c inValid() (e.g., Null), no action is performed
     (in this case \c false is returned, otherwise \c true).

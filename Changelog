@@ -1,3 +1,6 @@
+2012-04-30:
+    * overload constructor of PlanningServer (Server*, parent)
+
 2012-04-29:
     * add option not to call triggerUpdate (NotifyServer)
 

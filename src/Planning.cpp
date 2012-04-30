@@ -54,6 +54,11 @@ PlanningServer::PlanningServer(WObject* p):
     server_(0)
 { }
 
+PlanningServer::PlanningServer(Server* notification_server, WObject* p):
+    WObject(p),
+    server_(notification_server)
+{ }
+
 bool PlanningServer::add(TaskPtr task, const WDateTime& when,
                          bool immediately) {
     using namespace td;
