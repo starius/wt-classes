@@ -91,6 +91,8 @@ OneAnyFunc one_bound_post(const OneAnyFunc& func);
 
 /** Call triggerUpdate() in current WApplication, if updates are enabled.
 
+If application is quited, does nothing.
+
 \note This is only possible after a call to wApp->enableUpdates()
 
 \ingroup util
