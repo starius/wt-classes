@@ -154,6 +154,7 @@ public:
 
     /** Get if the server can call updates_trigger() */
     bool updates_enabled() const {
+        return updates_enabled_;
     }
 
     /** Set if the server can call updates_trigger().
