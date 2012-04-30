@@ -238,8 +238,8 @@ public:
         user_(user), me_(me) {
         UserImage* image = new UserImage(user_, elementAt(0, 0));
         if (user != me) {
-            image->clicked().connect(this, &UserRecord::start_game_with);
-            image->decorationStyle().setCursor(PointingHandCursor);
+            clicked().connect(this, &UserRecord::start_game_with);
+            decorationStyle().setCursor(PointingHandCursor);
         }
         score_ = new WText(TO_S(user->score), elementAt(1, 0));
         elementAt(1, 0)->setContentAlignment(AlignCenter);
