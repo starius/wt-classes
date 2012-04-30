@@ -1,7 +1,9 @@
 
 #include <algorithm>
+#include <utility>
 #include <boost/bind.hpp>
 #include <boost/foreach.hpp>
+#include <boost/make_shared.hpp>
 
 #include <Wt/WServer>
 #include <Wt/WApplication>
@@ -36,8 +38,9 @@ void Server::emit(EventPtr event) {
     O2W::iterator it = o2w_.find(event->key());
     if (it != o2w_.end()) {
         BOOST_FOREACH (const A2W::value_type& a2w, it->second) {
-            WApplication* app_id = a2w.first;
-            a2f_[app_id](event);
+            const PosterAndWidgets& poster_and_widgets = a2w.second;
+            OneAnyFunc& poster = *(poster_and_widgets.first);
+            poster(event);
         }
     }
 }
@@ -49,30 +52,33 @@ void Server::emit(Event* event) {
 void Server::start_listening(Widget* widget) {
     boost::mutex::scoped_lock lock(mutex_);
     WApplication* app_id = wApp;
-    o2w_[widget->key()][app_id].push_back(widget);
-    if (a2f_.find(app_id) == a2f_.end()) {
-        a2f_[app_id] = one_bound_post(boost::bind(&Server::notify_widgets,
-                                      this, _1));
+    A2W& a2w = o2w_[widget->key()];
+    if (a2w.find(app_id) == a2w.end()) {
+        OneAnyFunc notifier = boost::bind(&Server::notify_widgets, this, _1);
+        OneAnyFunc poster = one_bound_post(notifier);
+        Poster poster_ptr = boost::make_shared<OneAnyFunc>(poster);
+        a2w[app_id] = std::make_pair(poster_ptr, Widgets());
     }
+    Widgets& widgets = a2w[app_id].second;
+    widgets.push_back(widget);
 }
 
 void Server::stop_listening(Widget* widget, WApplication* app_id) {
     boost::mutex::scoped_lock lock(mutex_);
-    Widgets& widgets = o2w_[widget->key()][app_id];
+    Widgets& widgets = o2w_[widget->key()][app_id].second;
     widgets.erase(std::find(widgets.begin(), widgets.end(), widget));
     if (widgets.empty()) {
         o2w_[widget->key()].erase(app_id);
         if (o2w_[widget->key()].empty()) {
             o2w_.erase(widget->key());
         }
-        a2f_.erase(app_id);
     }
 }
 
 void Server::notify_widgets(const boost::any& event) {
     mutex_.lock();
     const EventPtr* e = boost::any_cast<EventPtr>(&event);
-    Widgets widgets = o2w_[(*e)->key()][wApp];
+    Widgets widgets = o2w_[(*e)->key()][wApp].second;
     mutex_.unlock();
     bool updates_needed = false;
     BOOST_FOREACH (Widget* widget, widgets) {

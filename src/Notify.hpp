@@ -166,12 +166,12 @@ public:
     }
 
 private:
+    typedef boost::shared_ptr<OneAnyFunc> Poster;
     typedef std::vector<Widget*> Widgets;
-    typedef std::map<WApplication*, Widgets> A2W;
+    typedef std::pair<Poster, Widgets> PosterAndWidgets;
+    typedef std::map<WApplication*, PosterAndWidgets> A2W;
     typedef std::map<Event::Key, A2W> O2W;
-    typedef std::map<WApplication*, OneAnyFunc> A2F;
     O2W o2w_;
-    A2F a2f_;
     boost::mutex mutex_;
     bool updates_enabled_;
 
