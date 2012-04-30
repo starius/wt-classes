@@ -13,6 +13,7 @@
 #include <boost/foreach.hpp>
 
 #include <Wt/WApplication>
+#include <Wt/WEnvironment>
 #include <Wt/WContainerWidget>
 #include <Wt/WText>
 #include <Wt/WLineEdit>
@@ -386,6 +387,10 @@ private:
         root()->clear();
         WPushButton* logout = new WPushButton("Log out", root());
         logout->clicked().connect(this, &RpsApp::do_logout);
+        if (!wApp->environment().ajax()) {
+            WPushButton* update = new WPushButton("Update", root());
+            update->clicked().connect(update, &WWidget::show); // do nothing
+        }
         UserPtr me = boost::make_shared<User>(email);
         root()->addWidget(new RpsWidget(me));
     }
