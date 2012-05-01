@@ -276,9 +276,9 @@ struct WcIoService {
     boost::asio::io_service::work work;
 } wc_io;
 
-void handle_timeout(TimerPtr /* timer */,
-                    const boost::function<void()>& func,
-                    const boost::system::error_code& e) {
+static void handle_timeout(TimerPtr /* timer */,
+                           const boost::function<void()>& func,
+                           const boost::system::error_code& e) {
     if (!e) {
         func();
     }
