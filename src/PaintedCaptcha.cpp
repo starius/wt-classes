@@ -98,8 +98,8 @@ public:
             x += drr(0.8, 1.5) * letter_width;
             y += drr(-letter_height / 2, letter_height / 2);
             y = constrained_value(0, y, HEIGHT - letter_height);
-            Xs[i] = x + letter_width / 2;
-            Ys[i] = y + letter_height / 2;
+            Xs[i] = x + drr(0, 1) * letter_width;
+            Ys[i] = y + drr(0, 1) * letter_height;
             painter.translate(x, y);
             painter.rotate(drr(-ANGLE, ANGLE));
             painter.scale(drr(1 - SCALE, 1 + SCALE), drr(1 - SCALE, 1 + SCALE));
