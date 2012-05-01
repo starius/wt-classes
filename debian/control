@@ -15,7 +15,7 @@ Homepage: https://bitbucket.org/starius/wt-classes
 Package: libwtclasses-dev
 Section: libdevel
 Architecture: any
-Depends: ${misc:Depends}, libwtclasses11 (= ${binary:Version}), libwt-dev
+Depends: ${misc:Depends}, libwtclasses12 (= ${binary:Version}), libwt-dev
 Description: utility classes used by Wt applications [development]
  The package provides several useful classes connected with Wt:
   * TableForm: set of user input widgets, with names and descriptions
@@ -27,7 +27,7 @@ Description: utility classes used by Wt applications [development]
   * Random numbers
   * Bindings to non-Wt code
 
-Package: libwtclasses11
+Package: libwtclasses12
 Section: libs
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends},
@@ -47,14 +47,14 @@ Description: utility classes used by Wt applications [runtime]
 Package: libwtclasses
 Section: libs
 Architecture: any
-Depends: ${misc:Depends}, libwtclasses11
+Depends: ${misc:Depends}, libwtclasses12
 Description: utility classes used by Wt applications
  This package is a dependency package.
 
 Package: libwtclasses-examples
 Section: libdevel
 Architecture: any
-Depends: ${shlibs:Depends}, ${misc:Depends}, libwtclasses11,
+Depends: ${shlibs:Depends}, ${misc:Depends}, libwtclasses12,
  libjs-yui (>= 2.8.0)
 Description: utility classes used by Wt applications [examples]
  The package contains examples of using wt-classes library:

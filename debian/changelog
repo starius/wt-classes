@@ -1,3 +1,17 @@
+libwtclasses (1.4.0) unstable; urgency=low
+
+  * update to use cmake (primitive debian/rules)
+  * no /usr/share/libwtclasses
+  * soname updated from 11 to 12
+  * depends on Wt >= 3.1.2
+  * libssl-dev | libwt-dev (>= 3.2.1)
+  * no wget and unzip build dependencies
+  * include GPL-2 source of MapViewer, update debian/copyright
+  * remove js/jquery.countdown.js from debian/copyright
+  * fix python 2, 3 dependencies
+
+ -- Boris Nagaev <bnagaev@gmail.com>  Tue, 01 May 2012 22:10:20 +0400
+
 libwtclasses (1.3.5.5) unstable; urgency=low
 
   * true order of libs and objects for linker

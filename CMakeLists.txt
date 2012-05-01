@@ -4,9 +4,9 @@ project(wtclasses)
 enable_testing()
 
 set(VERSION_MAJOR 1)
-set(VERSION_MINOR 3)
-set(VERSION_PATCH 5.5)
-set(SONAME 11)
+set(VERSION_MINOR 4)
+set(VERSION_PATCH 0)
+set(SONAME 12)
 
 set(VERSION ${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH})
 
