@@ -268,14 +268,16 @@ double MapViewer::diff_between(double x, double y) {
 void MapViewer::views_map_in_html() {
     std::pair<int, int> lt = tile_coord2tile_left_top(center_);
     std::vector<int>  rmns;
-    int half_width = get_impl()->width().value() / 2;
-    int half_height = get_impl()->height().value() / 2;
+    int wwidth = get_impl()->width().value();
+    int wheight = get_impl()->height().value();
+    int half_width = wwidth / 2;
+    int half_height = wheight / 2;
     int to_left_margin =  half_width - lt.first;
     rmns.push_back(to_left_margin);
     int to_top_margin =  half_height - lt.second;
-    int to_bottom_margin =  half_height * 2 - to_top_margin;
+    int to_bottom_margin =  wheight - to_top_margin;
     rmns.push_back(to_bottom_margin);
-    int to_right_margin =  half_width * 2 - to_left_margin;
+    int to_right_margin =  wwidth - to_left_margin;
     rmns.push_back(to_right_margin);
     rmns.push_back(to_top_margin);
     //
@@ -287,32 +289,24 @@ void MapViewer::views_map_in_html() {
     int y = xy_center_.y();
     for (int i = 0; i < 4; i++) {
         double invm = rmns[i] / 256.0;
-        int cr = invm > 1.0 ? (int)(256 - 256 * (invm - (int)invm)) :
-                 (int)(256 * (invm > 0 ? (1 - invm) : invm));
-        int v = (int)invm;
-        v += cr > 0 ? 1 : 0;
+        int cr = invm > 1.0 ? 256 - 256 * (invm - (int)invm) :
+                 256 * (invm > 0 ? (1 - invm) : invm);
+        int v = invm;
         if (cr < 0) {
             cr *= -1;
+        } else if (cr != 0) {
+            v++;
         }
         crops.push_back(cr);
         if (i % 2 == 0) {
             column += v;
+            X -= i ? 0 : v;
         } else {
             row += v;
-        }
-        if (i == 0) {
-            X -= v;
-        }
-        if (i == 3) {
-            y -= v;
+            y -= i == 3 ? v : 0;
         }
     }
     //
-    int vori;
-    int hori;
-    int x;
-    std::string xstd;
-    std::string ystd;
     std::vector<int> img_margin(4, 0);
     get_impl()->clear();
     WContainerWidget* gcw = new WContainerWidget();
@@ -324,44 +318,44 @@ void MapViewer::views_map_in_html() {
     gl->setVerticalSpacing(0);
     gl->setContentsMargins(0, 0, 0, 0);
     for (int i = 0; i < row; i++) {
-        ystd = TO_S(y);
-        vori = -1;
+        std::string ystd = TO_S(y);
+        bool vori = false;
         int cw_h = 256;
         img_margin[3] = 0;
         img_margin[1] = 0;
         if (i == 0) {
-            vori = 3;
+            vori = true;
             cw_h = 256 - crops[3] + (row < 2 ? 256 - crops[1] : 0);
             img_margin[3] = -crops[3];
             img_margin[1] = row < 2 ? -crops[1] : 0;
         } else if (i == row - 1) {
-            vori = 1;
+            vori = true;
             cw_h = 256 - crops[1];
             img_margin[1] = -crops[1];
         }
-        x = X;
+        int x = X;
         for (int j = 0; j < column; j++) {
-            xstd = TO_S(x);
+            std::string xstd = TO_S(x);
             WContainerWidget* cw = new WContainerWidget();
             WImage* img = new WImage("http://a.tile.openstreetmap.org/" +
                                      TO_S(zoom_) +
                                      "/" + xstd + "/" + ystd + ".png");
-            hori = -1;
+            bool hori = false;
             int cw_w = 256;
             img_margin[0] = 0;
             img_margin[2] = 0;
             if (j == 0) {
-                hori = 0;
+                hori = true;
                 cw_w = 256 - crops[0] + (column < 2 ? 256 - crops[2] : 0);
                 img_margin[0] = -crops[0];
                 img_margin[2] = column < 2 ? -crops[2] : 0;
             } else if (j == column - 1) {
-                hori = 2;
+                hori = true;
                 cw_w = 256 - crops[2];
                 img_margin[2] = -crops[2];
             }
             cw->resize(cw_w, cw_h);
-            if (vori != -1 || hori != -1) {
+            if (hori || vori) {
                 cw->setOverflow(WContainerWidget::OverflowHidden);
                 //
                 for (int k = 0; k < 4; k++) {
