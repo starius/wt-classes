@@ -33,6 +33,8 @@ include
 examples/*.wt
 examples/*.ex
 examples/all.cpp
+examples/all.cpp.in
+examples/swfstore.cpp
 locales-test.1
 Doxyfile
 config.hpp
