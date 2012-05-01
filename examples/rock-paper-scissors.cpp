@@ -208,9 +208,14 @@ private:
     }
 
     void select(Choice choice) {
-        boost::mutex::scoped_lock lock(game_->mutex);
+        game_->mutex.lock();
+        bool emit = false;
         if (game_->can_change(me_)) {
             game_->change(me_, choice);
+            emit = true;
+        }
+        game_->mutex.unlock();
+        if (emit) {
             server.emit(game_);
         }
     }
@@ -401,6 +406,7 @@ WApplication* createRockPaperScissorsApp(const WEnvironment& env) {
 }
 
 int main(int argc, char** argv) {
+    server.set_direct_to_this(true);
     return WRun(argc, argv, &createRockPaperScissorsApp);
 }
 
