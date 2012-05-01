@@ -93,7 +93,7 @@ MapImage::MapImage(WImage* image, WContainerWidget* parent):
         char join = url.find('?') == std::string::npos ? '?' : '&';
         url += join;
         url += "wtd=" + wApp->sessionId();
-        MapResource* resource = new MapResource(url, this);
+        MapResource* resource = new MapResource(url, this, this);
         image->setAttributeValue("ismap", "ismap");
         setImplementation(new WAnchor(resource->url() + "&MapImageXY=", image));
     }
