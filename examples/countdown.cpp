@@ -12,6 +12,8 @@
 #include <Wt/WPushButton>
 #include <Wt/Wc/Countdown.hpp>
 #include <Wt/Wc/TimeDuration.hpp>
+#include <Wt/Wc/TimeDurationWidget.hpp>
+#include <Wt/Wc/util.hpp>
 
 using namespace Wt;
 using namespace Wt::Wc;
@@ -21,6 +23,7 @@ class CountdownApp : public WApplication {
 public:
     CountdownApp(const WEnvironment& env):
         WApplication(env) {
+        messageResourceBundle().use(approot() + "locales/wtclasses");
         new WText("Standard count-up: ", root());
         Countdown* from_now = new Countdown(root());
         new WText(" from this application creation time", root());
@@ -82,6 +85,19 @@ public:
         paused_countup2->pause(); // before set_since()
         paused_countup2->set_since(-SECOND);
         new WText(". They should display 1 s constantly.", root());
+        //
+        new WBreak(root());
+        new WText("Editable count-down: ", root());
+        Countdown* editable = new Countdown(root());
+        editable->set_until(TD_NULL);
+        TimeDurationWidget* td_edit = new TimeDurationWidget(TD_NULL, DAY,
+                1000 * DAY, root());
+        WPushButton* set_td = new WPushButton("Set time duration", root());
+        void (Countdown::*setter)(const TimeDuration&) = &Countdown::set_until;
+        set_td->clicked().connect(
+            boost::bind(setter, editable,
+                        boost::bind(&TimeDurationWidget::corrected_value,
+                                    td_edit)));
     }
 };
 

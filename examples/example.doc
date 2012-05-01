@@ -38,7 +38,8 @@ This is an example of how to use the Wt::Wc::SWFStore class and \ref protection.
 */
 
 /** \example examples/countdown.cpp
-This is an example of how to use the Wt::Wc::Countdown class.
+This is an example of how to use the classes
+Wt::Wc::Countdown and Wt::Wc::TimeDurationWidget.
 */
 
 /** \example examples/abdetector.cpp
