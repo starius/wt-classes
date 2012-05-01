@@ -5,6 +5,82 @@ namespace Wc {
 
 /** \page release-notes Release notes
 
+\section wc140 wt-classes 1.4.0
+\subsection wc140global Global changes
+ - started Release notes
+ - migrate to cmake, introduce feature tests
+ - compatible with older Wt (3.1.2)
+ - no additional dependencies except cmake, wt and boost
+ - do not require boost-filesystem v3 (v2 is enough)
+ - prefer https over http
+ - native debian package (from 1.3.5.2)
+ - compatible with python3 syntax (but version >= 3.1 | >= 2.7 | argparse)
+
+\subsection wc140new New classes
+ - AdBlockDetector is invisible widget detecting ads blocking software usage
+ - MapImage is an image, providing coordinates of mouse click even in HTML mode
+ - MapViewer is Map viewer (OpenStreetMap bindings)
+ - view classes StreamView, FileView and ResourceView
+
+\subsection wc140localestest locales-test
+ - (feature) add --tr option: search for 'tr' function inside WTemplate text
+ - (feature) allow more than one groups of files
+ - (feature) option --no-warn to suppress warnings
+ - (bugfix) include text of child XML elements instead of skipping it
+
+\subsection wc140notify Notification server
+ - (new) overload constructor of PlanningServer (notify::Server*, parent)
+ - (feature) NotifyServer.direct_to_this allows to notify current application
+   without using of bound_post()
+ - (feature) allow not to call triggerUpdate()
+ - (feature) does not ask to provide WServer or WIOService
+
+\subsection wc140wbi Web-based interface of a program
+ - (new) PrintFileOutput is an output file argument, printing file contents
+ - (feature) ForkingRunner can be killed with a custom signal
+ - (feature) add setters to several classes (FormWidgetInput, AbstractArgument,
+   FileOutput, ViewFileOutput)
+ - (feature) show "Finished with errors" if exit status != 0
+ - (behavior) use "bash -c" instead of "sh -c" in ForkingRunner to allow "&>"
+ - (break) AbstractQueue possible descendants, move task2session_ to private
+ - (break) AbstractRunner, remove method set_server()
+ - (bugfix) fix memory leak of undeleted WFileResource in FileOutput
+ - (bugfix) is_needed() of AbstractOutput is not ignored
+
+\subsection wc140util Utility functions
+ - (new) one_bound_post()
+ - (new) value_text()
+ - (new) schedule_action()
+ - (new) rand_string()
+ - (break) code, relying on static SWFStore::bool_to_string
+ - (break) rename rand() to rr()
+ - (deprecated) downcast; use DOWNCAST (renamed)
+ - (port) bound_post() to Wt 3.1.2
+ - (port) urlencode(), no curl dependency
+ - (port) use md5 from Wt::Utils, if available, else from openssl, else no md5
+
+\subsection wc140protection Tools to protect the application from misuse
+ - (feature) AbstractCaptcha::frequency_check() controls attempts frequency
+ - (feature) AbstractCaptcha::set_precheck() sets function, called before check
+ - (bugfix) Improve PaintedCaptcha strength for bots
+
+\subsection wc140url URL-related
+ - (feature) optionally produce URLs with or without ending "/"
+ - (behavior) change default value, node.open(change_path = true)
+   (set_slash_strategy)
+
+\subsection wc140newexamples Examples
+ - (new) rock-paper-scissors: \ref notify
+ - (new) logical-painted-widget.cpp: LogicalPaintedWidget
+ - (new) map-image.cpp: MapImage
+ - (new) map-viewer.cpp: MapViewer
+ - (new) test-bound-post.cpp: bound_post()
+ - (new) abdetector.cpp: AdBlockDetector
+ - (feature) countdown.cpp: TimeDurationWidget
+ - (feature) captcha.cpp: demonstrate AbstractCaptcha::frequency_check
+ - (feature) url.cpp: demonstrate set_slash_strategy()
+ - (feature) demonstrate approot() function in several examples
+
 */
 
 }
