@@ -109,6 +109,8 @@ public:
         int middle = Xs.size() / 2;
         curve(painter, Xs.front(), Ys.front(), Xs[middle], Ys[middle],
               Xs.back(), Ys.back());
+        curve(painter, drr(0, letter_width), drr(0, HEIGHT), drr(0, WIDTH),
+              drr(0, HEIGHT), drr(WIDTH - letter_width, WIDTH), drr(0, HEIGHT));
         raster_image_.WResource::setChanged();
     }
 
