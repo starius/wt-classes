@@ -7,7 +7,6 @@ Build-Depends: debhelper (>= 7.0.50~), libboost-filesystem-dev (>= 1.42),
  libssl-dev | libwt-dev (>= 3.2.1),
  python-docutils,
  doxygen,
- wget, unzip,
  python
 Standards-Version: 3.8.4
 Section: libs
