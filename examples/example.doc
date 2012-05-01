@@ -66,6 +66,10 @@ This is an example of how to use the Wt::Wc::MapImage class.
 This is an example of how to use the Wt::Wc::MapViewer class.
 */
 
+/** \example examples/rock-paper-scissors.cpp
+This is an example of how to use the \ref notify.
+*/
+
 }
 
 }
