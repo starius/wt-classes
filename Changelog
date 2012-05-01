@@ -1,3 +1,6 @@
+2012-05-01:
+    * add NotifyServer.direct_to_this parameter
+
 2012-04-30:
     * overload constructor of PlanningServer (Server*, parent)
 

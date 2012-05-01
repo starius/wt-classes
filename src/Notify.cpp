@@ -30,18 +30,29 @@ Widget::~Widget() {
 }
 
 Server::Server(WServer* /* server */):
-    updates_enabled_(true)
+    updates_enabled_(true),
+    direct_to_this_(false)
 { }
 
 void Server::emit(EventPtr event) {
-    boost::mutex::scoped_lock lock(mutex_);
+    mutex_.lock();
+    bool notify_in_this_app = false;
     O2W::iterator it = o2w_.find(event->key());
     if (it != o2w_.end()) {
         BOOST_FOREACH (const A2W::value_type& a2w, it->second) {
-            const PosterAndWidgets& poster_and_widgets = a2w.second;
-            OneAnyFunc& poster = *(poster_and_widgets.first);
-            poster(event);
+            WApplication* app = a2w.first;
+            if (!direct_to_this_ || app != wApp) {
+                const PosterAndWidgets& poster_and_widgets = a2w.second;
+                OneAnyFunc& poster = *(poster_and_widgets.first);
+                poster(event);
+            } else {
+                notify_in_this_app = true;
+            }
         }
+    }
+    mutex_.unlock();
+    if (notify_in_this_app) {
+        notify_widgets(event);
     }
 }
 

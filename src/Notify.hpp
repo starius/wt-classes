@@ -166,6 +166,24 @@ public:
         updates_enabled_ = updates_enabled;
     }
 
+    /** Get if current application is notified directly (no bound_post) */
+    bool direct_to_this() const {
+        return direct_to_this_;
+    }
+
+    /** Set if current application is notified directly (no bound_post).
+    Defaults to \c false.
+
+    \note Setting this to \c true, you fix delay of events in HTML version
+        in case of self-notification.
+        However you should take this behavior into account
+        (emitting events may cause dead lock, being done under lock),
+        so this option is switched off by default.
+    */
+    void set_direct_to_this(bool direct_to_this) {
+        direct_to_this_ = direct_to_this;
+    }
+
 private:
     typedef boost::shared_ptr<OneAnyFunc> Poster;
     typedef std::vector<Widget*> Widgets;
@@ -175,6 +193,7 @@ private:
     O2W o2w_;
     boost::mutex mutex_;
     bool updates_enabled_;
+    bool direct_to_this_;
 
     void start_listening(Widget* widget);
 
