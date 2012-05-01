@@ -106,17 +106,23 @@ public:
             painter.drawText(painter.window(), 0, key.substr(i, 1));
             painter.resetTransform();
         }
-        WPen pen(foreground_);
-        pen.setWidth(2);
         int middle = Xs.size() / 2;
-        WPainterPath path(WPointF(Xs.front(), Ys.front()));
-        path.quadTo(Xs[middle], Ys[middle], Xs.back(), Ys.back());
-        painter.strokePath(path, pen);
+        curve(painter, Xs.front(), Ys.front(), Xs[middle], Ys[middle],
+              Xs.back(), Ys.back());
         raster_image_.WResource::setChanged();
     }
 
     std::string user_key() const {
         return value_text(edit_).toUTF8();
+    }
+
+    void curve(WPainter& painter, double x1, double y1, double x2, double y2,
+               double x3, double y3) {
+        WPen pen(foreground_);
+        pen.setWidth(2);
+        WPainterPath path(WPointF(x1, y1));
+        path.quadTo(x2, y2, x3, y3);
+        painter.strokePath(path, pen);
     }
 
     void set_buttons(bool enabled) {
