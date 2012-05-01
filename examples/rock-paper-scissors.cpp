@@ -323,6 +323,7 @@ public:
         key_to_score_mutex.unlock();
         addWidget(new UserRecord(me, me));
         addWidget(new WText("<hr />"));
+        addWidget(new WText("Click on the player you want to play with"));
         addWidget(new UserList(me));
         server.emit(boost::make_shared<NewUser>(me));
     }
