@@ -2,7 +2,7 @@ include(CheckCXXSourceCompiles)
 include(FindOpenSSL)
 
 set(CMAKE_REQUIRED_LIBRARIES ${CMAKE_REQUIRED_LIBRARIES}
-    wt boost_filesystem boost_system)
+    wt boost_filesystem boost_system boost_signals)
 
 check_cxx_source_compiles("#include <Wt/WLink>\n int main() {
     Wt::WLink l; }" WC_HAVE_WLINK)
