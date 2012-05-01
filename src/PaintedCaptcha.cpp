@@ -129,7 +129,7 @@ public:
             painter.resetTransform();
         }
         WPen pen(foreground_);
-        pen.setWidth(3);
+        pen.setWidth(2);
         int middle = Xs.size() / 2;
         WPainterPath path(WPointF(Xs.front(), Ys.front()));
         path.quadTo(Xs[middle], Ys[middle], Xs.back(), Ys.back());
