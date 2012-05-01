@@ -90,34 +90,12 @@ public:
         const double SCALE = 0.1;
         const int BORDERS = 2;
         double letter_width = WIDTH / (key.size() + BORDERS);
-#ifdef WC_HAVE_WFONT_SETSIZE_DOUBLE
-        double letter_height = painter.font().fixedSize().toPixels();
-#else
         double letter_height = letter_width;
-#endif
         double x = rr(letter_width);
         double y = drr(0, HEIGHT - letter_height);
         std::vector<double> Xs(key.size()), Ys(key.size());
         for (int i = 0; i < key.size(); i++) {
-#ifdef WC_HAVE_WRASTERIMAGE_GETPIXEL
-            const double X_STEP = 0.5;
-            // find "first" clear column
-            for (x += letter_width / 2; x < WIDTH; x += letter_width * X_STEP) {
-                bool stop = true;
-                for (int y = 0; y < HEIGHT; y++) {
-                    if (get_pixel(x, y) != background_) {
-                        stop = false;
-                        break;
-                    }
-                }
-                if (stop) {
-                    break;
-                }
-            }
-            x += drr(-letter_width / 2, 0);
-#else
             x += letter_width;
-#endif
             y += drr(-letter_height / 2, letter_height / 2);
             y = constrained_value(0, y, HEIGHT - letter_height);
             Xs[i] = x + letter_width / 2;
@@ -136,14 +114,6 @@ public:
         painter.strokePath(path, pen);
         raster_image_.WResource::setChanged();
     }
-
-#ifdef WC_HAVE_WRASTERIMAGE_GETPIXEL
-    WColor get_pixel(int x, int y) {
-        WColor result = raster_image_.getPixel(x, y);
-        result.setRgb(result.red(), result.green(), result.blue()); // fix alpha
-        return result;
-    }
-#endif
 
     std::string user_key() const {
         return value_text(edit_).toUTF8();
