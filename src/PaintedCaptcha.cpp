@@ -88,14 +88,14 @@ public:
         painter.setFont(random_font());
         const double ANGLE = 5;
         const double SCALE = 0.1;
-        const int BORDERS = 2;
+        const int BORDERS = 3;
         double letter_width = WIDTH / (key.size() + BORDERS);
-        double letter_height = letter_width;
+        double letter_height = 2 * letter_width;
         double x = rr(letter_width);
         double y = drr(0, HEIGHT - letter_height);
         std::vector<double> Xs(key.size()), Ys(key.size());
         for (int i = 0; i < key.size(); i++) {
-            x += letter_width;
+            x += drr(0.8, 1.5) * letter_width;
             y += drr(-letter_height / 2, letter_height / 2);
             y = constrained_value(0, y, HEIGHT - letter_height);
             Xs[i] = x + letter_width / 2;
