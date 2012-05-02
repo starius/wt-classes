@@ -157,12 +157,12 @@ def analyze_messages(messages, ids, id2text, wt_ids, prefix, sections, e,
 
 def get_file_names(masks, default_dir, default_mask):
     if masks:
-        return reduce(lambda a,b:a+b, map(glob.glob, masks))
+        return reduce(lambda a,b:a+b, map(glob.glob, masks), [])
     else:
         return reduce(lambda a,b:a+b,
             [[os.path.join(root, filename) for filename in
                 fnmatch.filter(filenames, default_mask)]
-            for root, dirnames, filenames in os.walk(default_dir)])
+            for root, dirnames, filenames in os.walk(default_dir)], [])
 
 def locales_test(prefix, sections, wt=None, sources=None, locales=None,
         warnings=True, tr=''):
