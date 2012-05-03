@@ -243,11 +243,13 @@ public:
         notify::Widget(user->key(), &server),
         user_(user), me_(me) {
         UserImage* image = new UserImage(user_, elementAt(0, 0));
-        if (user != me) {
-            clicked().connect(this, &UserRecord::start_game_with);
-            decorationStyle().setCursor(PointingHandCursor);
-        }
         score_ = new WText(TO_S(user->score), elementAt(1, 0));
+        if (user != me) {
+            image->clicked().connect(this, &UserRecord::start_game_with);
+            image->decorationStyle().setCursor(PointingHandCursor);
+            score_->clicked().connect(this, &UserRecord::start_game_with);
+            score_->decorationStyle().setCursor(PointingHandCursor);
+        }
         elementAt(1, 0)->setContentAlignment(AlignCenter);
         setInline(true);
         set_border_color(this, gray);
