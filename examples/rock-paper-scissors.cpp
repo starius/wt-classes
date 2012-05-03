@@ -404,12 +404,17 @@ private:
     }
 };
 
+struct ServerConfig {
+    ServerConfig() {
+        server.set_direct_to_this(true);
+    }
+} server_config;
+
 WApplication* createRockPaperScissorsApp(const WEnvironment& env) {
     return new RpsApp(env);
 }
 
 int main(int argc, char** argv) {
-    server.set_direct_to_this(true);
     return WRun(argc, argv, &createRockPaperScissorsApp);
 }
 
