@@ -6,7 +6,6 @@
  */
 
 #include <map>
-#include <set>
 #include <boost/thread/mutex.hpp>
 #include <boost/shared_ptr.hpp>
 #include <boost/make_shared.hpp>
@@ -335,9 +334,7 @@ public:
         key_to_user.erase(me_->key());
         key_to_score_mutex.unlock();
         server.emit(me_);
-        BOOST_FOREACH (WDialog* dialog, std::set<WDialog*>(dialogs_)) {
-            dialog->accept();
-        }
+        removed_.emit();
     }
 
     void notify(notify::EventPtr event) {
@@ -349,16 +346,15 @@ public:
         dialog->finished().connect(this, &RpsWidget::delete_sender);
         dialog->setModal(false);
         dialog->show();
-        dialogs_.insert(dialog);
+        removed_.connect(dialog, &WDialog::reject);
     }
 
 private:
     UserPtr me_;
-    std::set<WDialog*> dialogs_;
+    Signal<> removed_;
 
     void delete_sender() {
         WDialog* dialog = DOWNCAST<WDialog*>(sender());
-        dialogs_.erase(dialog);
         delete dialog;
     }
 };
