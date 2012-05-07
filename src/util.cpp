@@ -54,6 +54,7 @@
 #include <Wt/WComboBox>
 #include <Wt/WAbstractToggleButton>
 #include <Wt/WSlider>
+#include <Wt/WDialog>
 
 #include "util.hpp"
 #include "rand.hpp"
@@ -331,6 +332,20 @@ WString value_text(const WFormWidget* form_widget) {
     } else {
         return "";
     }
+#endif
+}
+
+void set_closable(WDialog* dialog) {
+#ifdef WC_HAVE_WDIALOG_SET_CLOSABLE
+    dialog->setClosable(true);
+#else
+    WPushButton* close = new WPushButton("X");
+    close->clicked().connect(dialog, &WDialog::reject);
+#ifdef WC_HAVE_WDIALOG_TITLEBAR
+    dialog->titleBar()->insertWidget(0, close);
+#else
+    dialog->contents()->addWidget(close);
+#endif
 #endif
 }
 

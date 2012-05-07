@@ -1,3 +1,6 @@
+2012-05-08:
+    * add util function set_closable(dialog)
+
 2012-05-01:
     * add NotifyServer.direct_to_this parameter
     * started Release notes

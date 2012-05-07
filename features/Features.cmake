@@ -40,6 +40,10 @@ check_cxx_source_compiles("#include <Wt/Utils>\n int main() {
     Wt::Utils::md5(\"\"); }" WC_HAVE_WT_MD5)
 check_cxx_source_compiles("#include <Wt/WFont>\n int main() {
     Wt::WFont().setSize(200); }" WC_HAVE_WFONT_SETSIZE_DOUBLE)
+check_cxx_source_compiles("#include <Wt/WDialog>\n int main() {
+    Wt::WDialog().setClosable(true); }" WC_HAVE_WDIALOG_SET_CLOSABLE)
+check_cxx_source_compiles("#include <Wt/WDialog>\n int main() {
+    Wt::WDialog().titleBar(); }" WC_HAVE_WDIALOG_TITLEBAR)
 
 if(WC_HAVE_WT_MD5)
     set(WC_HAVE_MD5 ON)
