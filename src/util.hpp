@@ -217,6 +217,12 @@ otherwise to the body.
 */
 void set_closable(WDialog* dialog);
 
+/** Automatically delete this dialog, when finished.
+
+\ingroup util
+*/
+void delete_closed(WDialog* dialog);
+
 }
 
 }

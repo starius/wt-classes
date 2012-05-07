@@ -349,6 +349,17 @@ void set_closable(WDialog* dialog) {
 #endif
 }
 
+class DeleteSender : public WObject {
+public:
+    void delete_sender() {
+        delete sender();
+    }
+} delete_sender;
+
+void delete_closed(WDialog* dialog) {
+    dialog->finished().connect(&delete_sender, &DeleteSender::delete_sender);
+}
+
 }
 
 }
