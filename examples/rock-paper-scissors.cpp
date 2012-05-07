@@ -348,9 +348,7 @@ public:
         GamePtr game = e->game;
         WDialog* dialog = new WDialog("Game");
         dialog->contents()->addWidget(new GameWidget(me_, game));
-        WPushButton* close = new WPushButton("Close");
-        dialog->contents()->addWidget(close);
-        close->clicked().connect(dialog, &WDialog::accept);
+        set_closable(dialog);
         dialog->finished().connect(this, &RpsWidget::delete_sender);
         dialog->setModal(false);
         dialog->show();
