@@ -334,9 +334,6 @@ public:
         key_to_score_mutex.lock();
         key_to_user.erase(me_->key());
         key_to_score_mutex.unlock();
-        for (Key2User::iterator it = key_to_user.begin();
-                it != key_to_user.end(); ++it) {
-        }
         server.emit(me_);
         BOOST_FOREACH (WDialog* dialog, std::set<WDialog*>(dialogs_)) {
             dialog->accept();
