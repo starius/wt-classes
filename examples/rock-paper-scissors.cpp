@@ -343,7 +343,7 @@ public:
         WDialog* dialog = new WDialog("Game");
         dialog->contents()->addWidget(new GameWidget(me_, game));
         set_closable(dialog);
-        dialog->finished().connect(this, &RpsWidget::delete_sender);
+        delete_closed(dialog);
         dialog->setModal(false);
         dialog->show();
         removed_.connect(dialog, &WDialog::reject);
@@ -352,11 +352,6 @@ public:
 private:
     UserPtr me_;
     Signal<> removed_;
-
-    void delete_sender() {
-        WDialog* dialog = DOWNCAST<WDialog*>(sender());
-        delete dialog;
-    }
 };
 
 class RpsApp : public WApplication {
