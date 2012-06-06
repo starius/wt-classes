@@ -82,9 +82,7 @@ Countdown::Countdown(WContainerWidget* parent, bool load_javascript):
 }
 
 Countdown::~Countdown() {
-    if (expired_) {
-        delete expired_;
-    }
+    delete expired_;
 }
 
 void Countdown::set_since(const WDateTime& since) {

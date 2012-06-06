@@ -28,10 +28,8 @@ AbstractCaptcha::AbstractCaptcha(WContainerWidget* parent):
 { }
 
 AbstractCaptcha::~AbstractCaptcha() {
-    if (fault_) {
-        delete fault_;
-        fault_ = 0;
-    }
+    delete fault_;
+    fault_ = 0;
 }
 
 void AbstractCaptcha::check() {
