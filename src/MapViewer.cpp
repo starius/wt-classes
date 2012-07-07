@@ -390,8 +390,8 @@ void MapViewer::html_markers_view(WContainerWidget* cw) {
             link_img->addStyleClass("mvMarkers");
             link_img->setId("mvMarker" + TO_S(cout));
             wApp->styleSheet().addRule("#mvMarker" + TO_S(cout),
-                                       "top:" + TO_S(coords.y() - 25) + "px;left:"
-                                       + TO_S(coords.x() - 11) + "px;");
+                                       "top:" + TO_S(coords.y() - 25) + "px;"
+                                       "left:" + TO_S(coords.x() - 11) + "px;");
         }
         cout++;
     }
@@ -722,37 +722,46 @@ void MapViewer::set_search_panel(const WString& title) {
         sp_title_ = title.toUTF8();
     }
     wApp->styleSheet().addRule(".mvSearch:hover",
-                               "filter:progid:DXImageTransform.Microsoft.Alpha(opacity=100);"
+                               "filter:progid:"
+                               "DXImageTransform.Microsoft.Alpha(opacity=100);"
                                "-moz-opacity: 1.0;"
                                "-khtml-opacity: 1.0;"
                                "opacity: 1.0;");
     wApp->styleSheet().addRule(".mvSearch",
-                               "filter:progid:DXImageTransform.Microsoft.Alpha(opacity=70);"
+                               "filter:progid:"
+                               "DXImageTransform.Microsoft.Alpha(opacity=70);"
                                "-moz-opacity: 0.7;"
                                "-khtml-opacity: 0.7;"
                                "opacity: 0.7;");
     wApp->styleSheet().addRule(".mvSearchResultNode:hover",
                                "background:#cdcdcd;");
     wApp->styleSheet().addRule("#mvSearchResult",
-                               "overflow:auto;background:#bbbbbb;font-size:12px;");
+                               "overflow:auto;"
+                               "background:#bbbbbb;"
+                               "font-size:12px;");
     if (js()) {
         if (!jchosen_) {
             jchosen_ = new JSignal<std::string>(this, "chosen");
         }
         jchosen_->connect(this, &MapViewer::choice_data_parser);
-        wApp->styleSheet().addRule("#mvSearchPanel", "position:absolute;"
-                                   "bottom:20px;right:10px;z-index:2012;");
+        wApp->styleSheet().addRule("#mvSearchPanel",
+                                   "position:absolute;"
+                                   "bottom:20px;"
+                                   "right:10px;"
+                                   "z-index:2012;");
         wApp->styleSheet().addRule("#mvSearchClose",
-                                   "overflow:auto;background:grey;font-size:12px;");
+                                   "overflow:auto;"
+                                   "background:grey;"
+                                   "font-size:12px;");
         std::stringstream strm;
         strm << "var title='" + sp_title_ + "';var smarkers=false;"
-             << "$('<div id=\\'mvSearchPanel\\' class=\\'mvSearch\\'"
+             << "$('<div id=\\'mvSearchPanel\\' class=\\'mvSearch\\' "
              "align=\\'right\\'>"
-             << "<input type=\\'button\\' id=\\'bok\\' size=\\'4\\' value=\\'ok\\'"
-             "style=\\'margin:0;z-index:2012;\\'/>"
+             << "<input type=\\'button\\' id=\\'bok\\' size=\\'4\\' "
+             "value=\\'ok\\' style=\\'margin:0;z-index:2012;\\'/>"
              << "<div id=\\'mvSearchResult\\' class=\\'mvSearch\\'></div>"
-             "<input type=\\'text\\' id=\\'sq\\' size=\\'12\\' value=\\''+title+'\\'"
-             "style=\\'margin:0;\\'/>"
+             "<input type=\\'text\\' id=\\'sq\\' size=\\'12\\' "
+             "value=\\''+title+'\\' style=\\'margin:0;\\'/>"
              "</div>').appendTo('#" << get_impl()->id() << "');"
              << "$('#bok').hide();"
              << "$('#sq').focus(function(){if($('#sq').val()==title){"
@@ -848,11 +857,13 @@ void MapViewer::ch_markers_size(int num) {
     }
     for (unsigned i = 0; i < marker_nodes_.size(); i++) {
         wApp->styleSheet().addRule("#mvMarker" + TO_S(i),
-                                   "width:" + TO_S(w) + "px;height:" + TO_S(h) + "px;");
+                                   "width:" + TO_S(w) + "px;"
+                                   "height:" + TO_S(h) + "px;");
     }
     if (num != -1) {
         wApp->styleSheet().addRule("#mvMarker" + TO_S(num),
-                                   "width:21px;height:25px;");
+                                   "width:21px;"
+                                   "height:25px;");
     }
 }
 

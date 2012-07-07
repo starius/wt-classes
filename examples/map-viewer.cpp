@@ -200,14 +200,16 @@ void Example::bottom_shift() {
 
 void Example::get_pos(const Coordinate& pos) {
     click_pos_->setText("You clicked near: " +
-                        str(boost::format("%.4f %.4f") % pos.longitude() % pos.latitude()));
+                        str(boost::format("%.4f %.4f")
+                            % pos.longitude() % pos.latitude()));
     mv_->time_zone(pos).connect(this, &Example::get_time_zone);
 }
 
 void Example::get_search(MapViewer::GeoNode node) {
     Coordinate& pos = node.first;
-    click_search_->setText("You have chosen: " + node.second + " <br />Position: " +
-                           str(boost::format("%.4f %.4f") % pos.longitude() % pos.latitude()));
+    click_search_->setText(
+        "You have chosen: " + node.second + " <br />Position: " +
+        str(boost::format("%.4f %.4f") % pos.longitude() % pos.latitude()));
     mv_->time_zone(pos).connect(this, &Example::get_time_zone);
 }
 
@@ -218,7 +220,8 @@ void Example::search_presenting(WContainerWidget* cw,
     BOOST_FOREACH (MapViewer::GeoNode node, nodes) {
         Coordinate& pos = node.first;
         vl->addWidget(new WText(node.second + "<br />" +
-                                str(boost::format("%.4f %.4f") % pos.longitude() % pos.latitude())),
+                                str(boost::format("%.4f %.4f")
+                                    % pos.longitude() % pos.latitude())),
                       AlignTop);
     }
     cw->clear();
