@@ -202,23 +202,24 @@ protected:
     void add_osm_layer(const std::string& layer_var_name,
                        const std::string& param = "");
 
+    /** Update map viewer */
+    void update_impl();
+
+    /** The click event.
+    Event signal emitted when a mouse key was clicked on this widget.
+
+    \note When JavaScript is disabled, the signal will never fire.
+    */
+    JSignal<Coordinate>& jclicked() {
+        return jclicked_;
+    }
+
     /** Removes a layer from the map.
     Removes a layer from the map by removing its visual element
     (the layer.div property), then removing it from the map's internal
     list of layers, setting the layer’s map property to null.
     */
     void remove_layer();
-
-    /** Update map viewer */
-    void update_impl();
-
-    /** The click event.
-    Event signal emitted when a mouse key was clicked on this widget.
-    \note When JavaScript is disabled, the signal will never fire.
-    */
-    JSignal<Coordinate>& jclicked() {
-        return jclicked_;
-    }
 
 private:
     int zoom_;
