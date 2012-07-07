@@ -4,6 +4,9 @@
  * See the LICENSE.MapViewer file for terms of use.
  */
 
+#include "config.hpp"
+#include "global.hpp"
+
 #include <cmath>
 #include <iomanip>
 
@@ -34,10 +37,17 @@
 #include <Wt/Json/Array>
 #include <Wt/Json/Parser>
 
-#include <Wt/Wc/util.hpp>
-#include <Wt/Wc/MapImage.hpp>
+#ifndef WC_HAVE_WCOMPOSITEWIDGET_IMPLEMENTATION
+// FIXME nasty public morozov
+#define private friend class Wt::Wc::MapViewer; private
+#include <Wt/WCompositeWidget>
+#undef private
+#define implementation() Wt::WCompositeWidget::impl_
+#endif // WC_HAVE_WCOMPOSITEWIDGET_IMPLEMENTATION
 
 #include "MapViewer.hpp"
+#include "util.hpp"
+#include "MapImage.hpp"
 
 namespace Wt {
 
