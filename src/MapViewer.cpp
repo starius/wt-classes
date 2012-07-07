@@ -34,7 +34,6 @@
 #include <Wt/Json/Array>
 #include <Wt/Json/Parser>
 
-//#include <Wt/Wc/MapViewer.hpp>
 #include <Wt/Wc/util.hpp>
 #include <Wt/Wc/MapImage.hpp>
 
