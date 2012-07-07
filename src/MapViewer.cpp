@@ -1292,7 +1292,7 @@ void MapViewer::tz_data_parser(const std::string& data) {
         tz = -13;
         is_st = false;
     }
-    TZ time_zone = {tz, is_st};
+    TZ time_zone(tz, is_st);
     tz_signal_->emit(time_zone);
 }
 
@@ -1304,7 +1304,7 @@ void MapViewer::tz_data_parser(const boost::system::error_code& e,
         try {
             Json::parse(cipher(response.body()), val);
         } catch (...) {
-            tz = { -13, false};
+            tz = TZ(-13, false);
             tz_signal_->emit(tz);
             return;
         }
@@ -1315,7 +1315,7 @@ void MapViewer::tz_data_parser(const boost::system::error_code& e,
             try {
                 tz.tz = obj.get("rawOffset").toNumber().orIfNull(-13);
             } catch (...) {
-                tz = { -13, false};
+                tz = TZ(-13, false);
                 tz_signal_->emit(tz);
                 return;
             }
@@ -1331,13 +1331,13 @@ void MapViewer::tz_data_parser(const boost::system::error_code& e,
             }
             tz.is_st = get_abs(gmt_off_set - dst_off_set) == 1 ? true : false;
         } catch (...) {
-            tz = { -13, false};
+            tz = TZ(-13, false);
             tz_signal_->emit(tz);
             return;
         }
     } else {
         wApp->log("error") << "Http::Client error: " << e.message();
-        tz = { -13, false};
+        tz = TZ(-13, false);
     }
     tz_signal_->emit(tz);
 }

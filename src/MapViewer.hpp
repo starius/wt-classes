@@ -81,8 +81,14 @@ public:
 
     /** Time zone info */
     struct TZ {
+        /** Constructor */
+        TZ(int t = 0, bool i = false):
+            tz(t), is_st(i)
+        { }
+
         int tz; /**< The amount of time in hours to add to UTC
                      to get standard time in this time zone */
+
         bool is_st; /**< If it is summer time (only for today) */
     };
 
