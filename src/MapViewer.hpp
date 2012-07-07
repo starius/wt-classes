@@ -31,7 +31,7 @@ Main features:
  - It uses free content (<a href="http://openstreetmap.org/">OpenStreetMap</a>).
    Ajax version is based on <a href="http://openlayers.org">OpenLayers</a> API.
  - The OSM data search is based on
-<a href="http://wiki.openstreetmap.org/wiki/Nominatim">Nominatim</a> API.
+   <a href="http://wiki.openstreetmap.org/wiki/Nominatim">Nominatim</a> API.
  - It supports HTML version.
 
 Additional features:
@@ -41,28 +41,27 @@ Additional features:
  - map can be scaled (zoom in, zoom out),
  - map can be contained markers,
  - time zone can be getting by a method
- (<a href="http://www.geonames.org/about.html">GeoNames</a>).
+   (<a href="http://www.geonames.org/about.html">GeoNames</a>).
 
- Usage example:
- \code
- MV::MapViewer* mv = new MV::MapViewer();
- mv->resize(400, 300);
- mv->set_center(MapViewer::Coordinate(54.8, 20.25), 9); // Kaliningrad, Russia
- mv->set_search_panel();
- mv->chosen().connect(this, &Class::to_do);
- \endcode
+Usage example:
+\code
+MapViewer* mv = new MapViewer();
+mv->resize(400, 300);
+mv->set_center(MapViewer::Coordinate(54.8, 20.25), 9); // Kaliningrad, Russia
+mv->set_search_panel();
+mv->chosen().connect(this, &Class::to_do);
+\endcode
 
- <h3>CSS</h3>
+<h3>CSS</h3>
 
- A map has several style classes. The look can be overridden
- using the following style class selectors:
+A map has several style classes. The look can be overridden
+using the following style class selectors:
 
- \verbatim
- .olControlAttribution  :   OSM copyright
- .mvSearch              :   The search panel container.
- .mvSearchResultNode    :   The search result node container.
- \endverbatim
-
+\verbatim
+.olControlAttribution  :   OSM copyright
+.mvSearch              :   The search panel container.
+.mvSearchResultNode    :   The search result node container.
+\endverbatim
 */
 class MapViewer : public Wt::WCompositeWidget {
 public:
@@ -128,12 +127,9 @@ public:
     /** Zoom to a specific zoom level */
     void zoom_to(int level);
 
-    /** Get map marginal coordinates
-      leftTop and rightBottom points.
-
-      \note It must be use only after map center and
-      map zoom defines.
-       */
+    /** Get map marginal coordinates leftTop and rightBottom points.
+    \note It must be use only after map center and map zoom defines.
+    */
     const std::pair<Coordinate, Coordinate>&
     get_map_marginal_coords() const {
         return marginal_map_coords_;
@@ -162,9 +158,10 @@ public:
         return clicked_;
     }
 
-    /** The search event
-     Event signal emitted when a search based
-     on the nominatim_search function only was completed. */
+    /** The search event.
+    Event signal emitted only when a search based on
+    the nominatim_search function was completed.
+    */
     Signal<GeoNodes>& found() {
         if (!found_) {
             found_ = new Signal<GeoNodes>();
@@ -182,18 +179,21 @@ public:
     void set_search_panel(const WString& title = "");
 
     /** The search choice event.
-     Event signal emitted when a found node of
-     the search panel was chosen (pushed OK). */
+    Event signal emitted when a found node of the search panel was chosen
+    (pushed OK).
+    */
     Signal<GeoNode>& chosen() {
         return *chosen_;
     }
 
     /** The time zone inquiry.
-     Return Signal<TZ> event. If ajax var is false
-     Wt::Client will be use only for inquiry.
-     If the info is invalid, tz will be -13.*/
+    Return Signal<TZ> event.
+    If ajax var is false Wt::Client will be use only for inquiry.
+    If the info is invalid, tz will be -13.
+    */
     Signal<TZ>& time_zone(const Coordinate& pos,
                           bool ajax = true);
+
 protected:
     /** Layer Constructor.
     A Layer is a data source -- information about how OpenLayers
@@ -214,16 +214,18 @@ protected:
 
     /** The click event.
     Event signal emitted when a mouse key was clicked on this widget.
-
     \note When JavaScript is disabled, the signal will never fire.
     */
     JSignal<Coordinate>& jclicked() {
         return jclicked_;
     }
+
     /** Returns a JavaScript call that triggers the signal. */
     const std::string set_js_listener_control_(const JSignal<Coordinate> &signal,
             const std::string& signal_name) const;
+
     void search(const WString& query, Signal<GeoNodes>*);
+
 private:
     void destroy_map();
     //
