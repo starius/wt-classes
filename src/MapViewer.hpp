@@ -4,8 +4,8 @@
  * See the LICENSE file for terms of use.
  */
 
-#ifndef MV_MAP_VIEWER_HPP_
-#define MV_MAP_VIEWER_HPP_
+#ifndef WC_MAP_VIEWER_HPP_
+#define WC_MAP_VIEWER_HPP_
 
 #include <Wt/WGlobal>
 #include <Wt/WCompositeWidget>
@@ -18,10 +18,9 @@
 
 #include <boost/function.hpp>
 #include <boost/system/error_code.hpp>
+namespace Wt {
 
-using namespace Wt;
-
-namespace MV {
+namespace Wc {
 
 /** Map viewer.
 It is intended to facilitate an introduction of
@@ -339,6 +338,8 @@ private:
     std::pair<double, double> to_px_;
     std::string marker_img_url_;
 };
+
+}
 
 }
 

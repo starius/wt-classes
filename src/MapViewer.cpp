@@ -40,10 +40,9 @@
 
 #include "MapViewer.hpp"
 
-using namespace Wt;
-using namespace Wt::Wc;
+namespace Wt {
 
-namespace MV {
+namespace Wc {
 
 const double pi = boost::math::constants::pi<double>();
 const std::string nurl = "http://nominatim.openstreetmap.org/"
@@ -1335,6 +1334,8 @@ void MapViewer::tz_data_parser(const boost::system::error_code& e,
         tz = { -13, false};
     }
     tz_signal_->emit(tz);
+}
+
 }
 
 }
