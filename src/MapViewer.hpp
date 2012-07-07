@@ -148,8 +148,8 @@ public:
     void destroy_markers();
 
     /** Set marker image url
-      Default is http://www.openlayers.org/dev/img/marker.png
-      */
+    Default is http://www.openlayers.org/dev/img/marker.png
+    */
     void set_marker_img_url(const std::string& url) {
         marker_img_url_ = url;
     }
@@ -168,9 +168,9 @@ public:
     Signal<GeoNodes>& found();
 
     /** The nominatim search
-     A serching based on the nominatim.
-     You will have to use the found() function
-     that takes results.*/
+    A serching based on the nominatim.
+    You will have to use the found() function that takes results.
+    */
     void search(const WString& query);
 
     /** Set a search panel integrated in the map. */
