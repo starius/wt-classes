@@ -218,8 +218,6 @@ protected:
         return jclicked_;
     }
 
-    void search(const WString& query, Signal<GeoNodes>*);
-
 private:
     int zoom_;
     std::string map_name_;
@@ -330,6 +328,8 @@ private:
     /** Returns a JavaScript call that triggers the signal. */
     std::string set_js_listener_control_(const JSignal<Coordinate> &signal,
                                          const std::string& signal_name) const;
+
+    void search(const WString& query, Signal<GeoNodes>*);
 };
 
 }
