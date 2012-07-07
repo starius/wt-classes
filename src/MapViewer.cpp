@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011 Ramil Mintaev
+ * Copyright (C) 2012 Ramil Mintaev
  *
  * See the LICENSE.MapViewer file for terms of use.
  */
