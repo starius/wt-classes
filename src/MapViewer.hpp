@@ -7,6 +7,9 @@
 #ifndef WC_MAP_VIEWER_HPP_
 #define WC_MAP_VIEWER_HPP_
 
+#include <boost/function.hpp>
+#include <boost/system/error_code.hpp>
+
 #include <Wt/WGlobal>
 #include <Wt/WCompositeWidget>
 #include <Wt/WGoogleMap>
@@ -16,8 +19,6 @@
 #include <Wt/WEvent>
 #include <Wt/WRectF>
 
-#include <boost/function.hpp>
-#include <boost/system/error_code.hpp>
 namespace Wt {
 
 namespace Wc {
