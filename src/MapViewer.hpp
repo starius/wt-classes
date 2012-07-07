@@ -79,16 +79,11 @@ public:
      It is a vector saved a GeoNode set. */
     typedef std::vector<GeoNode> GeoNodes;
 
-    /** TimeZone.
-    It is a struct saved a time zone info.
-    tz: the amount of time in hours to add
-    to UTC to get standard time in this
-    time zone. is_st: 'is summer time?'
-    (only for today).
-    */
+    /** Time zone info */
     struct TZ {
-        int tz;
-        bool is_st;
+        int tz; /**< The amount of time in hours to add to UTC
+                     to get standard time in this time zone */
+        bool is_st; /**< If it is summer time (only for today) */
     };
 
     /** Constructor */
