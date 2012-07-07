@@ -39,7 +39,7 @@ unsigned int rr(unsigned int stop);
 */
 unsigned int rr(unsigned int start, unsigned int stop);
 
-/** Return random number from open interval [start, stop), with step step.
+/** Return random number from open interval [start, stop), with step.
 \code result = start + n * step \endcode
 
 \ingroup rand
