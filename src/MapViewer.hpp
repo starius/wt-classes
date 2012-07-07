@@ -21,7 +21,7 @@
 
 using namespace Wt;
 
-namespace MV{
+namespace MV {
 
 /** Map viewer.
 It is intended to facilitate an introduction of
@@ -140,8 +140,8 @@ public:
       map zoom defines.
        */
     const std::pair<Coordinate, Coordinate>&
-        get_map_marginal_coords() const {
-            return marginal_map_coords_;
+    get_map_marginal_coords() const {
+        return marginal_map_coords_;
     }
 
     /** Tests if the map contains a position.  */
@@ -156,7 +156,7 @@ public:
     /** Set marker image url
       Default is http://www.openlayers.org/dev/img/marker.png
       */
-    void set_marker_img_url(const std::string& url){
+    void set_marker_img_url(const std::string& url) {
         marker_img_url_ = url;
     }
 
@@ -184,7 +184,7 @@ public:
     void search(const WString& query);
 
     /** Set a search panel integrated in the map. */
-    void set_search_panel(const WString& title="");
+    void set_search_panel(const WString& title = "");
 
     /** The search choice event.
      Event signal emitted when a found node of
@@ -198,7 +198,7 @@ public:
      Wt::Client will be use only for inquiry.
      If the info is invalid, tz will be -13.*/
     Signal<TZ>& time_zone(const Coordinate& pos,
-            bool ajax = true);
+                          bool ajax = true);
 protected:
     /** Layer Constructor.
     A Layer is a data source -- information about how OpenLayers
@@ -227,7 +227,7 @@ protected:
     }
     /** Returns a JavaScript call that triggers the signal. */
     const std::string set_js_listener_control_(const JSignal<Coordinate> &signal,
-                                         const std::string& signal_name) const;
+            const std::string& signal_name) const;
     void search(const WString& query, Signal<GeoNodes>*);
 private:
     void destroy_map();
@@ -247,15 +247,15 @@ private:
     const GeoNode found_node_parser(const std::string& data) const;
     void nominatim_data_parser(const std::string& data);
     void nominatim_data_parser(const boost::system::error_code& e,
-                            const Http::Message& response);
+                               const Http::Message& response);
     void choice_data_parser(const std::string data);
     void tz_data_parser(const std::string& data);
     void tz_data_parser(const boost::system::error_code& e,
-                                const Http::Message& response);
+                        const Http::Message& response);
     const std::string cipher(const std::string& str);
     const GeoNodes
-        http_request_parser(const boost::system::error_code& e,
-                                const Http::Message& response);
+    http_request_parser(const boost::system::error_code& e,
+                        const Http::Message& response);
     WContainerWidget* html_search_panel();
     void panel_html_search(WLineEdit* edit);
     void html_search_present(const GeoNodes& ns);
@@ -286,10 +286,10 @@ private:
     //
     bool js() const;
     const std::string store_jsv(const std::string& key,
-                          const std::string& value) const;
+                                const std::string& value) const;
     const std::string get_stored_jsv(const std::string& key) const;
     const std::string get_lonlat_jsc(const std::string& lat,
-            const std::string& lon) const;
+                                     const std::string& lon) const;
     const std::string get_lonlat_jsc(const Coordinate& pos) const;
     void click_on(const WPoint& tile_xy,
                   const WMouseEvent::Coordinates& img_xy);
@@ -297,7 +297,7 @@ private:
     //
     void set_click_signal_();
     const std::string set_ajax_action(const std::string& url,
-                         const std::string& js_action) const;
+                                      const std::string& js_action) const;
     JSignal<std::string>& jfound() {
         return *jfound_;
     }
