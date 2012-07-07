@@ -30,12 +30,16 @@
 #include <Wt/WPushButton>
 #include <Wt/WCssStyleSheet>
 #include <Wt/WScrollArea>
+#ifdef WC_HAVE_WHTTP_MESSAGE
 #include <Wt/Http/Client>
 #include <Wt/Http/Message>
+#endif // WC_HAVE_WHTTP_MESSAGE
+#ifdef WC_HAVE_JSON_OBJECT
 #include <Wt/Json/Object>
 #include <Wt/Json/Value>
 #include <Wt/Json/Array>
 #include <Wt/Json/Parser>
+#endif // WC_HAVE_JSON_OBJECT
 
 #ifndef WC_HAVE_WCOMPOSITEWIDGET_IMPLEMENTATION
 // FIXME nasty public morozov
@@ -66,13 +70,17 @@ MapViewer::MapViewer(Wt::WContainerWidget* p):
     found_(0), jfound_(0), chosen_(0), jchosen_(0), html_found_signal_(0),
     found_signal_(0), jtz_signal_(0), tz_signal_(0), markers_(false),
     smp_(false), html_search_panel_(false), enable_updates_(false),
-    sr_button_(0), sr_cw_(0), http_(0), tz_http_(0) {
+    sr_button_(0), sr_cw_(0)
+#if defined(WC_HAVE_WHTTP_MESSAGE) && defined(WC_HAVE_JSON_OBJECT)
+    , http_(0), tz_http_(0)
+#endif
+{
     wApp->require("http://openlayers.org/api/OpenLayers.js",
                   "OpenLayers");
     wApp->require("http://code.jquery.com/jquery-1.7.2.min.js",
                   "jQ");
     setImplementation(new Wt::WContainerWidget());
-    get_impl()->addStyleClass("impl_cw");
+    get_impl()->setStyleClass("impl_cw");
     wApp->styleSheet().addRule(".impl_cw", "position:relative;");
     map_name_ = "map_" + get_impl()->id();
     layer_name_ = map_name_ + "_layer";
@@ -88,8 +96,10 @@ MapViewer::~MapViewer() {
     delete html_found_signal_;
     delete jtz_signal_;
     delete tz_signal_;
+#if defined(WC_HAVE_WHTTP_MESSAGE) && defined(WC_HAVE_JSON_OBJECT)
     delete http_;
     delete tz_http_;
+#endif
 }
 
 void MapViewer::update_impl() {
@@ -102,7 +112,9 @@ void MapViewer::update_impl() {
         std::string map_created_str;
         map_created_str = "new OpenLayers.Map('"
                           + get_impl()->id() + "')";
-        jclicked().connect(this, &MapViewer::click_on);
+        typedef void (MapViewer::*M)(const Coordinate&);
+        M click_on = &MapViewer::click_on;
+        jclicked().connect(boost::bind(click_on, this, _1));
         doJavaScript(store_jsv(map_name_, map_created_str));
         add_osm_layer(layer_name_);
         set_click_signal_();
@@ -320,7 +332,7 @@ WContainerWidget* MapViewer::get_html_map() {
     WContainerWidget* gcw = new WContainerWidget();
     wApp->styleSheet().addRule(".mapContainer",
                                "position:relative;top:0px;");
-    gcw->addStyleClass("mapContainer");
+    gcw->setStyleClass("mapContainer");
     WGridLayout* gl = new WGridLayout();
     gl->setHorizontalSpacing(0);
     gl->setVerticalSpacing(0);
@@ -397,7 +409,7 @@ void MapViewer::html_markers_view(WContainerWidget* cw) {
         if (is_map_contained(mn.first)) {
             WPoint coords = w2px(mn.first);
             WImage* link_img = new WImage(marker_img_url_, cw);
-            link_img->addStyleClass("mvMarkers");
+            link_img->setStyleClass("mvMarkers");
             link_img->setId("mvMarker" + TO_S(cout));
             wApp->styleSheet().addRule("#mvMarker" + TO_S(cout),
                                        "top:" + TO_S(coords.y() - 25) + "px;"
@@ -412,7 +424,7 @@ WContainerWidget* MapViewer::get_html_osm_attribution() {
     cw->setContentAlignment(AlignRight);
     new WText("Data CC-By-SA by <b>OpenStreetMap</b>",
               cw);
-    cw->addStyleClass("olControlAttribution");
+    cw->setStyleClass("olControlAttribution");
     wApp->styleSheet().addRule(".olControlAttribution",
                                "position:absolute;"
                                "bottom:7px;right:5px;z-index:2013;"
@@ -470,7 +482,7 @@ WContainerWidget* MapViewer::get_html_control_panel() {
     vl->addWidget(zoom_minus_cw);
     wApp->styleSheet().addRule(".menuControlPanel", "position:absolute;"
                                "width:60px;top:8px;left:0px;z-index:2013;");
-    cw->addStyleClass("menuControlPanel");
+    cw->setStyleClass("menuControlPanel");
     return cw;
 }
 
@@ -505,8 +517,8 @@ WContainerWidget* MapViewer::html_search_panel() {
                                    this, edit));
     wApp->styleSheet().addRule(".mvSearchPanel", "position:absolute;"
                                "bottom:25px;right:10px;z-index:2014;");
-    cw->addStyleClass("mvSearchPanel");
-    cw->addStyleClass("mvSearch");
+    cw->setStyleClass("mvSearchPanel");
+    cw->setStyleClass("mvSearch");
     if (sp_fns_.size() != 0) {
         html_search_present(sp_fns_);
     }
@@ -516,7 +528,7 @@ WContainerWidget* MapViewer::html_search_panel() {
 void MapViewer::html_v(WContainerWidget* cw) {
     cw->clear();
     WContainerWidget* map_cw = new WContainerWidget();
-    map_cw->addStyleClass("map_cw");
+    map_cw->setStyleClass("map_cw");
     wApp->styleSheet().addRule(".map_cw", "position:relative;");
     if (markers_ && zoom_ > 4) {
         html_markers_view(map_cw);
@@ -552,14 +564,18 @@ void MapViewer::search(const WString& query,
         if (!jfound_) {
             jfound_ = new JSignal<std::string>(this, "search");
         }
-        jfound().connect(this, &MapViewer::nominatim_data_parser);
+        typedef void (MapViewer::*M)(const std::string&);
+        M nominatim_data_parser = &MapViewer::nominatim_data_parser;
+        jfound().connect(boost::bind(nominatim_data_parser, this, _1));
         doJavaScript(set_ajax_action(nurl + query.toUTF8(),
                                      jfound().createCall("str")));
     } else {
+#if defined(WC_HAVE_WHTTP_MESSAGE) && defined(WC_HAVE_JSON_OBJECT)
         http_ = new Http::Client(this);
         http_->done().connect(this, &MapViewer::nominatim_data_parser);
         if (http_->get(nurl + query.toUTF8())) {
         }
+#endif // WC_HAVE_WHTTP_MESSAGE
     }
 }
 
@@ -608,6 +624,7 @@ const std::string MapViewer::cipher(const std::string& str) {
     return strm.str();
 }
 
+#if defined(WC_HAVE_WHTTP_MESSAGE) && defined(WC_HAVE_JSON_OBJECT)
 const MapViewer::GeoNodes
 MapViewer::http_request_parser(const boost::system::error_code& e,
                                const Http::Message& response) {
@@ -649,6 +666,7 @@ void MapViewer::nominatim_data_parser(const boost::system::error_code& e,
                                       const Http::Message& response) {
     found_signal_->emit(http_request_parser(e, response));
 }
+#endif
 
 void MapViewer::choice_data_parser(const std::string data) {
     chosen_->emit(found_node_parser(data));
@@ -821,9 +839,9 @@ void MapViewer::html_search_present(const MapViewer::GeoNodes& ns) {
     BOOST_FOREACH (const GeoNode& n, ns) {
         WContainerWidget* n_cw = new WContainerWidget();
         WText* d_t = new WText(n.second, XHTMLText);
-        d_t->addStyleClass("mvSearchText");
+        d_t->setStyleClass("mvSearchText");
         //
-        n_cw->addStyleClass("mvSearchResultNode");
+        n_cw->setStyleClass("mvSearchResultNode");
         WHBoxLayout* hl = new WHBoxLayout();
         hl->setContentsMargins(0, 0, 0, 0);
         WImage* link_img = new WImage("http://www.openlayers.org/"
@@ -1278,7 +1296,9 @@ Signal<MapViewer::TZ>& MapViewer::time_zone(const Coordinate& pos, bool ajax) {
         if (!jtz_signal_) {
             jtz_signal_ = new JSignal<std::string>(this, "tz");
         }
-        jtz_signal_->connect(this, &MapViewer::tz_data_parser);
+        typedef void (MapViewer::*M)(const std::string&);
+        M tz_data_parser = &MapViewer::tz_data_parser;
+        jtz_signal_->connect(boost::bind(tz_data_parser, this, _1));
         std::stringstream strm;
         strm << "jQuery.ajax({"
              << "url:'" << url << "',"
@@ -1293,10 +1313,12 @@ Signal<MapViewer::TZ>& MapViewer::time_zone(const Coordinate& pos, bool ajax) {
              << "}});";
         doJavaScript(strm.str());
     } else {
+#if defined(WC_HAVE_WHTTP_MESSAGE) && defined(WC_HAVE_JSON_OBJECT)
         tz_http_ = new Http::Client(this);
         tz_http_->done().connect(this, &MapViewer::tz_data_parser);
         if (tz_http_->get(url)) {
         }
+#endif
     }
     return *tz_signal_;
 }
@@ -1317,6 +1339,7 @@ void MapViewer::tz_data_parser(const std::string& data) {
     tz_signal_->emit(time_zone);
 }
 
+#if defined(WC_HAVE_WHTTP_MESSAGE) && defined(WC_HAVE_JSON_OBJECT)
 void MapViewer::tz_data_parser(const boost::system::error_code& e,
                                const Http::Message& response) {
     TZ tz;
@@ -1362,6 +1385,7 @@ void MapViewer::tz_data_parser(const boost::system::error_code& e,
     }
     tz_signal_->emit(tz);
 }
+#endif
 
 }
 

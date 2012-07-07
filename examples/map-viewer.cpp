@@ -231,7 +231,7 @@ void Example::search_presenting(WContainerWidget* cw,
     scroll->resize(cw->width(), cw->height());
     scroll->setScrollBarPolicy(WScrollArea::ScrollBarAsNeeded);
     cw->addWidget(scroll);
-    cw->animateShow(WAnimation(Wt::WAnimation::Fade));
+    cw->show();
 }
 
 void Example::search_pr(WLineEdit* edit) {

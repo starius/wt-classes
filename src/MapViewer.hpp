@@ -19,6 +19,8 @@
 #include <Wt/WEvent>
 #include <Wt/WRectF>
 
+#include "config.hpp"
+
 namespace Wt {
 
 namespace Wc {
@@ -248,8 +250,10 @@ private:
     WPushButton* sr_button_;
     WContainerWidget* sr_cw_;
     //
+#if defined(WC_HAVE_WHTTP_MESSAGE) && defined(WC_HAVE_JSON_OBJECT)
     Http::Client* http_;
     Http::Client* tz_http_;
+#endif
     GeoNodes sp_fns_;
     GeoNodes marker_nodes_;
     CoordinatePair marginal_map_coords_;
@@ -271,16 +275,22 @@ private:
     const std::string get_search_js_action() const;
     const GeoNode found_node_parser(const std::string& data) const;
     void nominatim_data_parser(const std::string& data);
+#if defined(WC_HAVE_WHTTP_MESSAGE) && defined(WC_HAVE_JSON_OBJECT)
     void nominatim_data_parser(const boost::system::error_code& e,
                                const Http::Message& response);
+#endif
     void choice_data_parser(const std::string data);
     void tz_data_parser(const std::string& data);
+#if defined(WC_HAVE_WHTTP_MESSAGE) && defined(WC_HAVE_JSON_OBJECT)
     void tz_data_parser(const boost::system::error_code& e,
                         const Http::Message& response);
+#endif
     const std::string cipher(const std::string& str);
+#if defined(WC_HAVE_WHTTP_MESSAGE) && defined(WC_HAVE_JSON_OBJECT)
     const GeoNodes
     http_request_parser(const boost::system::error_code& e,
                         const Http::Message& response);
+#endif
     WContainerWidget* html_search_panel();
     void panel_html_search(WLineEdit* edit);
     void html_search_present(const GeoNodes& ns);
