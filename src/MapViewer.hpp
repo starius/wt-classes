@@ -64,19 +64,6 @@ Additional features:
  \endverbatim
 
 */
-
-/** TimeZone.
-     It is a struct saved a time zone info.
-     tz: the amount of time in hours to add
-     to UTC to get standard time in this
-     time zone. is_st: 'is summer time?'
-     (only for today).
- */
-struct TimeZone {
-    int tz;
-    bool is_st;
-};
-
 class MapViewer : public Wt::WCompositeWidget {
 public:
     /** A geographical coordinate (latitude/longitude) */
@@ -91,8 +78,16 @@ public:
     typedef std::vector<GeoNode> GeoNodes;
 
     /** TimeZone.
-     */
-    typedef TimeZone TZ;
+    It is a struct saved a time zone info.
+    tz: the amount of time in hours to add
+    to UTC to get standard time in this
+    time zone. is_st: 'is summer time?'
+    (only for today).
+    */
+    struct TZ {
+        int tz;
+        bool is_st;
+    };
 
     /** Constructor */
     MapViewer(Wt::WContainerWidget* parent = 0);
