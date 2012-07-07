@@ -139,7 +139,7 @@ Example::Example(WContainerWidget* p):
     wApp->styleSheet().addRule(".mvSearchNode", "background-color:#e1d0d0;");
     wApp->styleSheet().addRule(".mvSearchText", "font-size:12px;");
     WContainerWidget* s_e_cw = new WContainerWidget();
-    WLineEdit* s_edit = new WLineEdit("searsh", s_e_cw);
+    WLineEdit* s_edit = new WLineEdit("search", s_e_cw);
     s_edit->enterPressed().connect(boost::bind(&Example::search_pr, this,
                                    s_edit));
     WContainerWidget* s_b_cw = new WContainerWidget();
