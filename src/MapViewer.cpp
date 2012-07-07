@@ -1077,7 +1077,7 @@ MapViewer::set_ajax_action(const std::string& url,
     return strm.str();
 }
 
-const std::string MapViewer::set_js_listener_control_(
+std::string MapViewer::set_js_listener_control_(
     const JSignal<Coordinate> &signal,
     const std::string& signal_name) const {
     std::stringstream strm;

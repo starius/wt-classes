@@ -217,10 +217,6 @@ protected:
         return jclicked_;
     }
 
-    /** Returns a JavaScript call that triggers the signal. */
-    const std::string set_js_listener_control_(const JSignal<Coordinate> &signal,
-            const std::string& signal_name) const;
-
     void search(const WString& query, Signal<GeoNodes>*);
 
 private:
@@ -330,6 +326,10 @@ private:
     std::pair<int, int> tile_lt_;
     std::pair<double, double> to_px_;
     std::string marker_img_url_;
+
+    /** Returns a JavaScript call that triggers the signal. */
+    std::string set_js_listener_control_(const JSignal<Coordinate> &signal,
+                                         const std::string& signal_name) const;
 };
 
 }
