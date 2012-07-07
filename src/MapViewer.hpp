@@ -72,11 +72,13 @@ public:
     typedef std::pair<Coordinate, Coordinate> CoordinatePair;
 
     /** GeoNode.
-     It stored coordinates and a description of a node. */
+    It stored coordinates and a description of a node
+    */
     typedef std::pair<Coordinate, WString> GeoNode;
 
     /** GeoNodes.
-     It is a vector saved a GeoNode set. */
+    It is a vector saved a GeoNode set
+    */
     typedef std::vector<GeoNode> GeoNodes;
 
     /** Time zone info */
@@ -138,7 +140,7 @@ public:
         return marginal_map_coords_;
     }
 
-    /** Tests if the map contains a position.  */
+    /** Tests if the map contains a position */
     bool is_map_contained(const Coordinate& pos) const;
 
     /** Add markers */
@@ -154,7 +156,7 @@ public:
         marker_img_url_ = url;
     }
 
-    /** The click event
+    /** The click event.
     Event signal emitted when a mouse key was clicked on this widget.
     */
     Signal<Coordinate>& clicked() {
@@ -167,7 +169,7 @@ public:
     */
     Signal<GeoNodes>& found();
 
-    /** The nominatim search
+    /** The nominatim search.
     A serching based on the nominatim.
     You will have to use the found() function that takes results.
     */
