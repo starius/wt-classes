@@ -1,3 +1,6 @@
+2012-07-07:
+    * improve generation of random numbers in a range (if no WRandom)
+
 2012-05-08:
     * add util function set_closable(dialog)
     * add util function delete_closed(dialog)

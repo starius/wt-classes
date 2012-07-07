@@ -41,7 +41,11 @@ unsigned int rr() {
 }
 
 unsigned int rr(unsigned int stop) {
-    return rr() % stop;
+#ifdef WC_HAVE_WRANDOM
+    return WRandom::get() % stop;
+#else
+    return rand() / (RAND_MAX / stop + 1);
+#endif
 }
 
 unsigned int rr(unsigned int start, unsigned int stop) {
