@@ -44,6 +44,8 @@ check_cxx_source_compiles("#include <Wt/WDialog>\n int main() {
     Wt::WDialog().setClosable(true); }" WC_HAVE_WDIALOG_SET_CLOSABLE)
 check_cxx_source_compiles("#include <Wt/WDialog>\n int main() {
     Wt::WDialog().titleBar(); }" WC_HAVE_WDIALOG_TITLEBAR)
+check_cxx_source_compiles("#include <Wt/Json/Object>\n int main() {
+    Wt::Json::Object obj; }" WC_HAVE_JSON_OBJECT)
 
 if(WC_HAVE_WT_MD5)
     set(WC_HAVE_MD5 ON)

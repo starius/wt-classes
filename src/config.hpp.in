@@ -27,6 +27,7 @@
 #cmakedefine WC_HAVE_WFONT_SETSIZE_DOUBLE
 #cmakedefine WC_HAVE_WDIALOG_SET_CLOSABLE
 #cmakedefine WC_HAVE_WDIALOG_TITLEBAR
+#cmakedefine WC_HAVE_JSON_OBJECT
 
 #cmakedefine WC_HAVE_MD5
 #cmakedefine WC_HAVE_WT_MD5
