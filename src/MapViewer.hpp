@@ -174,6 +174,9 @@ public:
     /** The nominatim search.
     A serching based on the nominatim.
     You will have to use the found() function that takes results.
+
+    If client has no ajax, then Wt::Http::Client is used
+    (if available; otherwise fails).
     */
     void search(const WString& query);
 
@@ -190,7 +193,8 @@ public:
 
     /** The time zone inquiry.
     Return Signal<TZ> event.
-    If ajax var is false Wt::Client will be use only for inquiry.
+    If ajax = false or client has no ajax, then Wt::Http::Client is used
+    (if available; otherwise fails).
     If the info is invalid, tz will be -13.
     */
     Signal<TZ>& time_zone(const Coordinate& pos,
