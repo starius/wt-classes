@@ -220,78 +220,6 @@ protected:
     void search(const WString& query, Signal<GeoNodes>*);
 
 private:
-    void destroy_map();
-    //
-    Wt::WContainerWidget* get_impl();
-    //
-    WContainerWidget* get_html_map();
-    void html_markers_view(WContainerWidget* cw);
-    WContainerWidget* get_html_osm_attribution();
-    WContainerWidget* get_html_control_panel();
-    void html_v(WContainerWidget* cw);
-    //
-    const std::string get_smp_jsc() const;
-    const std::string get_search_js_action() const;
-    const GeoNode found_node_parser(const std::string& data) const;
-    void nominatim_data_parser(const std::string& data);
-    void nominatim_data_parser(const boost::system::error_code& e,
-                               const Http::Message& response);
-    void choice_data_parser(const std::string data);
-    void tz_data_parser(const std::string& data);
-    void tz_data_parser(const boost::system::error_code& e,
-                        const Http::Message& response);
-    const std::string cipher(const std::string& str);
-    const GeoNodes
-    http_request_parser(const boost::system::error_code& e,
-                        const Http::Message& response);
-    WContainerWidget* html_search_panel();
-    void panel_html_search(WLineEdit* edit);
-    void html_search_present(const GeoNodes& ns);
-    void html_searh_chosen();
-    void simple_refresh();
-    void set_html_result_visible(bool enable = true);
-    void smp_calc(const GeoNodes& ns);
-    WRectF tauten(const GeoNodes& ns);
-    void click_node(const GeoNode& node, int num);
-    //
-    const std::string adding_marker_jsc(const Coordinate& pos);
-    void ch_markers_size(int num = -1);
-    //
-    const WPoint w2t(const Coordinate& pos, int zoom) const;
-    const Coordinate t2w(const WPoint& pos, int zoom) const;
-    const WPoint w2px(const Coordinate& pos) const;
-    //
-    void map_param_calc();
-    const CoordinatePair marginal_pic_coords(const WPoint& tile) const;
-    const CoordinatePair marginal_pic_coords(const Coordinate& pos) const;
-    //
-    template <class Type> Type get_abs(Type val) const;
-    double diff_between(double x, double y) const;
-    Side get_side(int v) const;
-    double coord_control(double val, std::string dir = "lon") const;
-    double mod(double x, double y) const;
-    std::pair<double, double> tile_size();
-    //
-    bool js() const;
-    const std::string store_jsv(const std::string& key,
-                                const std::string& value) const;
-    const std::string get_stored_jsv(const std::string& key) const;
-    const std::string get_lonlat_jsc(const std::string& lat,
-                                     const std::string& lon) const;
-    const std::string get_lonlat_jsc(const Coordinate& pos) const;
-    void click_on(const WPoint& tile_xy,
-                  const WMouseEvent::Coordinates& img_xy);
-    void click_on(const Coordinate& pos);
-    //
-    void set_click_signal_();
-    const std::string set_ajax_action(const std::string& url,
-                                      const std::string& js_action) const;
-    JSignal<std::string>& jfound() {
-        return *jfound_;
-    }
-    void pan_to(const GeoNode& node);
-    //
-    //
     int zoom_;
     std::string map_name_;
     std::string layer_name_;
@@ -326,6 +254,77 @@ private:
     std::pair<int, int> tile_lt_;
     std::pair<double, double> to_px_;
     std::string marker_img_url_;
+
+    void destroy_map();
+
+    Wt::WContainerWidget* get_impl();
+
+    WContainerWidget* get_html_map();
+    void html_markers_view(WContainerWidget* cw);
+    WContainerWidget* get_html_osm_attribution();
+    WContainerWidget* get_html_control_panel();
+    void html_v(WContainerWidget* cw);
+
+    const std::string get_smp_jsc() const;
+    const std::string get_search_js_action() const;
+    const GeoNode found_node_parser(const std::string& data) const;
+    void nominatim_data_parser(const std::string& data);
+    void nominatim_data_parser(const boost::system::error_code& e,
+                               const Http::Message& response);
+    void choice_data_parser(const std::string data);
+    void tz_data_parser(const std::string& data);
+    void tz_data_parser(const boost::system::error_code& e,
+                        const Http::Message& response);
+    const std::string cipher(const std::string& str);
+    const GeoNodes
+    http_request_parser(const boost::system::error_code& e,
+                        const Http::Message& response);
+    WContainerWidget* html_search_panel();
+    void panel_html_search(WLineEdit* edit);
+    void html_search_present(const GeoNodes& ns);
+    void html_searh_chosen();
+    void simple_refresh();
+    void set_html_result_visible(bool enable = true);
+    void smp_calc(const GeoNodes& ns);
+    WRectF tauten(const GeoNodes& ns);
+    void click_node(const GeoNode& node, int num);
+
+    const std::string adding_marker_jsc(const Coordinate& pos);
+    void ch_markers_size(int num = -1);
+
+    const WPoint w2t(const Coordinate& pos, int zoom) const;
+    const Coordinate t2w(const WPoint& pos, int zoom) const;
+    const WPoint w2px(const Coordinate& pos) const;
+
+    void map_param_calc();
+    const CoordinatePair marginal_pic_coords(const WPoint& tile) const;
+    const CoordinatePair marginal_pic_coords(const Coordinate& pos) const;
+
+    template <class Type> Type get_abs(Type val) const;
+    double diff_between(double x, double y) const;
+    Side get_side(int v) const;
+    double coord_control(double val, std::string dir = "lon") const;
+    double mod(double x, double y) const;
+    std::pair<double, double> tile_size();
+
+    bool js() const;
+    const std::string store_jsv(const std::string& key,
+                                const std::string& value) const;
+    const std::string get_stored_jsv(const std::string& key) const;
+    const std::string get_lonlat_jsc(const std::string& lat,
+                                     const std::string& lon) const;
+    const std::string get_lonlat_jsc(const Coordinate& pos) const;
+    void click_on(const WPoint& tile_xy,
+                  const WMouseEvent::Coordinates& img_xy);
+    void click_on(const Coordinate& pos);
+
+    void set_click_signal_();
+    const std::string set_ajax_action(const std::string& url,
+                                      const std::string& js_action) const;
+    JSignal<std::string>& jfound() {
+        return *jfound_;
+    }
+    void pan_to(const GeoNode& node);
 
     /** Returns a JavaScript call that triggers the signal. */
     std::string set_js_listener_control_(const JSignal<Coordinate> &signal,
