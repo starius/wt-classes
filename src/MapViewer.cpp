@@ -521,7 +521,7 @@ void MapViewer::html_v(WContainerWidget* cw) {
     }
 }
 
-Wt::Signal<GeoNodes>& MapViewer::found() {
+Wt::Signal<MapViewer::GeoNodes>& MapViewer::found() {
     if (!found_) {
         found_ = new Wt::Signal<GeoNodes>();
     }
@@ -790,7 +790,7 @@ void MapViewer::panel_html_search(WLineEdit* edit) {
 
 void MapViewer::simple_refresh() {  }
 
-void MapViewer::html_search_present(const GeoNodes& ns) {
+void MapViewer::html_search_present(const MapViewer::GeoNodes& ns) {
     set_html_result_visible();
     if (sp_fns_.size() == 0) {
         sp_fns_ = ns;
@@ -880,7 +880,7 @@ void MapViewer::set_html_result_visible(bool enable) {
     }
 }
 
-void MapViewer::smp_calc(const GeoNodes& ns) {
+void MapViewer::smp_calc(const MapViewer::GeoNodes& ns) {
     WRectF rect = tauten(ns);
     double xts = get_impl()->width().value() / 256.0;
     double yts = get_impl()->height().value() / 256.0;
@@ -906,7 +906,7 @@ void MapViewer::smp_calc(const GeoNodes& ns) {
     }
 }
 
-WRectF MapViewer::tauten(const GeoNodes& ns) {
+WRectF MapViewer::tauten(const MapViewer::GeoNodes& ns) {
     WPointF lt;
     WPointF rb;
     if (ns.size()) {
@@ -936,7 +936,7 @@ WRectF MapViewer::tauten(const GeoNodes& ns) {
     return WRectF(lt, rb);
 }
 
-void MapViewer::add_markers(const GeoNodes& ns) {
+void MapViewer::add_markers(const MapViewer::GeoNodes& ns) {
     destroy_markers();
     if (js()) {
         std::stringstream strm;
