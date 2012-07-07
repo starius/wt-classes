@@ -28,6 +28,8 @@
 using namespace Wt;
 using namespace Wt::Wc;
 
+typedef MapViewer::Coordinate Coordinate;
+
 class Example : public Wt::WContainerWidget {
 public:
     Example(WContainerWidget* p = 0);
@@ -35,7 +37,7 @@ public:
 private:
     void set_zoom_to();
     void set_pan_to();
-    void get_pos(const MapViewer::Coordinate& pos);
+    void get_pos(const Coordinate& pos);
     void left_shift();
     void right_shift();
     void top_shift();
@@ -61,7 +63,7 @@ Example::Example(WContainerWidget* p):
     WHBoxLayout* hl = new WHBoxLayout();
     mv_ = new MapViewer();
     mv_->resize(400, 300);
-    mv_->set_center(MapViewer::Coordinate(54.8, 20.25), 9);
+    mv_->set_center(Coordinate(54.8, 20.25), 9);
     mv_->clicked().connect(this, &Example::get_pos);
     hl->addWidget(mv_, 0, AlignTop);
     //
@@ -166,9 +168,9 @@ Example::Example(WContainerWidget* p):
     mv_->set_search_panel();
     mv_->chosen().connect(this, &Example::get_search);
     MapViewer::GeoNodes marker_nodes;
-    marker_nodes.push_back(std::make_pair(MapViewer::Coordinate(55.0151, 20.6122),
+    marker_nodes.push_back(std::make_pair(Coordinate(55.0151, 20.6122),
                                           ""));
-    marker_nodes.push_back(std::make_pair(MapViewer::Coordinate(54.8, 20.25),
+    marker_nodes.push_back(std::make_pair(Coordinate(54.8, 20.25),
                                           ""));
     mv_->add_markers(marker_nodes);
 }
@@ -180,7 +182,7 @@ void Example::set_zoom_to() {
 void Example::set_pan_to() {
     double x = boost::lexical_cast<double>(edit_of_pan_to_lat_->text());
     double y = boost::lexical_cast<double>(edit_of_pan_to_lng_->text());
-    mv_->pan_to(MapViewer::Coordinate(x, y));
+    mv_->pan_to(Coordinate(x, y));
 }
 
 void Example::left_shift() {
@@ -196,14 +198,14 @@ void Example::bottom_shift() {
     mv_->bottom_shift(0.5);
 }
 
-void Example::get_pos(const MapViewer::Coordinate& pos) {
+void Example::get_pos(const Coordinate& pos) {
     click_pos_->setText("You clicked near: " +
                         str(boost::format("%.4f %.4f") % pos.longitude() % pos.latitude()));
     mv_->time_zone(pos).connect(this, &Example::get_time_zone);
 }
 
 void Example::get_search(MapViewer::GeoNode node) {
-    MapViewer::Coordinate& pos = node.first;
+    Coordinate& pos = node.first;
     click_search_->setText("You have chosen: " + node.second + " <br />Position: " +
                            str(boost::format("%.4f %.4f") % pos.longitude() % pos.latitude()));
     mv_->time_zone(pos).connect(this, &Example::get_time_zone);
@@ -214,7 +216,7 @@ void Example::search_presenting(WContainerWidget* cw,
     WContainerWidget* cw_n = new WContainerWidget();
     WVBoxLayout* vl = new WVBoxLayout();
     BOOST_FOREACH (MapViewer::GeoNode node, nodes) {
-        MapViewer::Coordinate& pos = node.first;
+        Coordinate& pos = node.first;
         vl->addWidget(new WText(node.second + "<br />" +
                                 str(boost::format("%.4f %.4f") % pos.longitude() % pos.latitude())),
                       AlignTop);
