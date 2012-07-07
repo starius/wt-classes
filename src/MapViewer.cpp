@@ -521,6 +521,13 @@ void MapViewer::html_v(WContainerWidget* cw) {
     }
 }
 
+Wt::Signal<GeoNodes>& MapViewer::found() {
+    if (!found_) {
+        found_ = new Wt::Signal<GeoNodes>();
+    }
+    return *found_;
+}
+
 void MapViewer::search(const WString& query) {
     if (!found_) {
         found_ = new Signal<GeoNodes>();

@@ -164,12 +164,7 @@ public:
     Event signal emitted only when a search based on
     the nominatim_search function was completed.
     */
-    Signal<GeoNodes>& found() {
-        if (!found_) {
-            found_ = new Signal<GeoNodes>();
-        }
-        return *found_;
-    }
+    Signal<GeoNodes>& found();
 
     /** The nominatim search
      A serching based on the nominatim.
