@@ -68,6 +68,9 @@ public:
     /** A geographical coordinate (latitude/longitude) */
     typedef Wt::WGoogleMap::Coordinate Coordinate;
 
+    /** A pair of Coordinate's */
+    typedef std::pair<Coordinate, Coordinate> CoordinatePair;
+
     /** GeoNode.
      It stored coordinates and a description of a node. */
     typedef std::pair<Coordinate, WString> GeoNode;
@@ -130,8 +133,7 @@ public:
     /** Get map marginal coordinates leftTop and rightBottom points.
     \note It must be use only after map center and map zoom defines.
     */
-    const std::pair<Coordinate, Coordinate>&
-    get_map_marginal_coords() const {
+    const CoordinatePair& get_map_marginal_coords() const {
         return marginal_map_coords_;
     }
 
@@ -228,8 +230,6 @@ protected:
 
 private:
     void destroy_map();
-    //
-    typedef std::pair<Coordinate, Coordinate> CoordinatePair;
     //
     Wt::WContainerWidget* get_impl();
     //
@@ -331,7 +331,7 @@ private:
     Http::Client* tz_http_;
     GeoNodes sp_fns_;
     GeoNodes marker_nodes_;
-    std::pair<Coordinate, Coordinate> marginal_map_coords_;
+    CoordinatePair marginal_map_coords_;
     std::pair<int, int> tile_lt_;
     std::pair<double, double> to_px_;
     std::string marker_img_url_;
