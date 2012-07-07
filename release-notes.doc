@@ -5,6 +5,12 @@ namespace Wc {
 
 /** \page release-notes Release notes
 
+\section wc150 wt-classes 1.5.0
+\subsection wc150global MapViewer
+ - (feature) search for location
+ - (feature) markers
+ - (feature) timezone info
+
 \section wc140 wt-classes 1.4.0
 \subsection wc140global Global changes
  - started Release notes
