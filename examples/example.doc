@@ -70,6 +70,10 @@ This is an example of how to use the Wt::Wc::MapViewer class.
 This is an example of how to use the \ref notify.
 */
 
+/** \example examples/quadratic-equation.cpp
+This is an example of how to use the Wt::Wc::BoostOptionsRunner.
+*/
+
 }
 
 }
