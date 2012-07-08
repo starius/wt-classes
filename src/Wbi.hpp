@@ -15,6 +15,9 @@
 #include <boost/function.hpp>
 #include <boost/thread/mutex.hpp>
 #include <boost/thread.hpp>
+#include <boost/shared_ptr.hpp>
+#include <boost/program_options/options_description.hpp>
+#include <boost/program_options/variables_map.hpp>
 
 #include <Wt/WGlobal>
 #include <Wt/WCompositeWidget>
@@ -1119,6 +1122,52 @@ private:
 
     std::string command() const;
     void start_process(std::string cmd);
+};
+
+/** Task runner, passing options to Boost.Program_options.
+
+\ingroup wbi
+*/
+class BoostOptionsRunner : public AbstractRunner {
+public:
+    /** Variables map */
+    typedef boost::program_options::variables_map variables_map;
+
+    /** Options description */
+    typedef boost::program_options::options_description options_description;
+
+    /** Function */
+    typedef boost::function<void(const variables_map&)> Handler;
+
+    /** Constructor.
+    \param handler The function, called with variables_map.
+    \param desc The description of options.
+    If options are correct (successfully stored to \p variables_map),
+    the handler is called in new boost thread with this \p variables_map.
+    If the handler throwes std::exception, the task is considered failed.
+    */
+    BoostOptionsRunner(const Handler& handler, const options_description* desc);
+
+    /** Destructor.
+     - If state is WORKING, call cancel_impl()
+    */
+    ~BoostOptionsRunner();
+
+protected:
+    void run_impl();
+
+    /** Calls boost::thread::interrupt() */
+    void cancel_impl();
+
+private:
+    typedef boost::shared_ptr<variables_map> MapPtr;
+    typedef boost::function<void(const boost::any&)> OneAnyFunc;
+
+    Handler handler_;
+    const options_description* desc_;
+    boost::thread thread_;
+
+    void call_handler(MapPtr vm, OneAnyFunc es);
 };
 
 /** Queue controlling tasks.

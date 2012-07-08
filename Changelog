@@ -1,3 +1,6 @@
+2012-07-08:
+    * add class BoostOptionsRunner (Wbi)
+
 2012-07-07:
     * improve generation of random numbers in a range (if no WRandom)
     * update MapViewer example from upstream (modified v2.1)

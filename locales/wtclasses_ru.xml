@@ -21,6 +21,8 @@
     <message id='wc.wbi.Download'>Скачать</message>
     <message id='wc.wbi.Error_empty'>Это поле не может быть пустым</message>
     <message id='wc.wbi.Error_invalid'>Неверный ввод</message>
+    <message id='wc.wbi.Error_parsing'>Ошибка обработки опций: {1}</message>
+    <message id='wc.wbi.Error_runtime'>Ошибка времени выполнения: {1}</message>
     <message id='wc.wbi.Error_too_large'>Файл слишком большой</message>
     <message id='wc.wbi.Finished'>Завершено</message>
     <message id='wc.wbi.Finished_errors'>Завершено с ошибками</message>

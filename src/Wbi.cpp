@@ -18,7 +18,11 @@
 #include <boost/filesystem.hpp>
 #include <boost/thread.hpp>
 #include <boost/foreach.hpp>
+#include <boost/make_shared.hpp>
 #include <boost/algorithm/string/replace.hpp>
+#include <boost/program_options/value_semantic.hpp>
+#include <boost/program_options/parsers.hpp>
+#include <boost/program_options/positional_options.hpp>
 
 #include <Wt/WContainerWidget>
 #include <Wt/WPushButton>
@@ -749,6 +753,69 @@ void ForkingRunner::start_process(std::string cmd) {
     if (!boost::this_thread::interruption_requested()) {
         finish();
     }
+}
+
+namespace po = boost::program_options;
+
+BoostOptionsRunner::BoostOptionsRunner(const BoostOptionsRunner::Handler& h,
+                                       const po::options_description* desc):
+    handler_(h), desc_(desc)
+{ }
+
+BoostOptionsRunner::~BoostOptionsRunner() {
+    if (state() == WORKING) {
+        cancel_impl();
+    }
+}
+
+void push_back(std::vector<std::string>& v, const std::string& str, bool) {
+    v.push_back(str);
+}
+
+static void set_message(AbstractTask* task, boost::any m) {
+    std::string& message = *boost::any_cast<std::string>(&m);
+    task->set_message(WString::tr("wc.wbi.Error_runtime").arg(message));
+}
+
+void BoostOptionsRunner::run_impl() {
+    if (state() == FINISHED) {
+        set_state(NEW);
+    }
+    if (state() == NEW) {
+        set_state(WORKING);
+        std::vector<std::string> args;
+        task()->visit_args(boost::bind(push_back, boost::ref(args), _1, false));
+        MapPtr vm = boost::make_shared<po::variables_map>();
+        try {
+            po::store(po::command_line_parser(args).options(*desc_).run(), *vm);
+            po::notify(*vm);
+            task()->set_message("");
+        } catch (std::exception& e) {
+            task()->set_message(WString::tr("wc.wbi.Error_parsing")
+                                .arg(e.what()));
+            set_exit_status(134);
+            finish();
+            return;
+        }
+        OneAnyFunc e = one_bound_post(boost::bind(set_message, task(), _1));
+        thread_ = boost::thread(&BoostOptionsRunner::call_handler, this, vm, e);
+    }
+}
+
+void BoostOptionsRunner::cancel_impl() {
+    thread_.interrupt();
+}
+
+void BoostOptionsRunner::call_handler(BoostOptionsRunner::MapPtr vm,
+                                      OneAnyFunc error_setter) {
+    try {
+        handler_(*vm);
+        set_exit_status(0);
+    } catch (std::exception& e) {
+        set_exit_status(128);
+        error_setter(std::string(e.what()));
+    }
+    finish();
 }
 
 AbstractQueue::AbstractQueue(WObject* p):

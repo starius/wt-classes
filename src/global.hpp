@@ -53,6 +53,7 @@ class AbstractTask;
 class TableTask;
 class AbstractRunner;
 class ForkingRunner;
+class BoostOptionsRunner;
 class AbstractQueue;
 class TaskNumberQueue;
 class TaskCountup;
