@@ -80,7 +80,7 @@ bool PlanningServer::add(Task* task, WDateTime when, bool immediately) {
 
 WIOService* PlanningServer::io_service() {
 #if USE_WIOSERVICE
-    return &wApp->environment().server()->ioService();
+    return &WServer::instance()->ioService();
 #else
     return 0;
 #endif
