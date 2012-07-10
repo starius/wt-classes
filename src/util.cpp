@@ -294,7 +294,7 @@ void schedule_action(const td::TimeDuration& wait,
     if (ms < 0) {
         ms = INT_MAX;
     }
-    WIOService& io = wApp->environment().server()->ioService();
+    WIOService& io = WServer::instance()->ioService();
     io.schedule(ms, func);
 #else
     TimerPtr timer = boost::make_shared<Timer>(boost::ref(wc_io.io), wait);

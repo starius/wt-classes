@@ -1,3 +1,6 @@
+2012-07-11:
+    * fix crash, if wApp is invalid when schedule_action() is called
+
 2012-07-08:
     * add class BoostOptionsRunner (Wbi)
 
