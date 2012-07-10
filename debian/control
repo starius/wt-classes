@@ -47,14 +47,14 @@ Description: utility classes used by Wt applications [runtime]
 
 Package: libwtclasses-data
 Section: libs
-Architecture: any
+Architecture: all
 Depends: ${misc:Depends}
 Description: utility classes used by Wt applications [data]
  The package contains locales, css, javascript, etc.
 
 Package: libwtclasses
 Section: libs
-Architecture: any
+Architecture: all
 Depends: ${misc:Depends}, libwtclasses12
 Description: utility classes used by Wt applications
  This package is a dependency package.
@@ -70,7 +70,7 @@ Description: utility classes used by Wt applications [examples]
 
 Package: libwtclasses-doc
 Section: doc
-Architecture: any
+Architecture: all
 Depends: ${misc:Depends}
 Recommends: doc-base
 Suggests: libwtclasses-dev
@@ -79,7 +79,7 @@ Description: utility classes used by Wt applications [doc]
 
 Package: wtclasses-progs
 Section: devel
-Architecture: any
+Architecture: all
 Depends: ${python:Depends}, ${misc:Depends},
  python2.7 | python (>= 3.1) | python-argparse
 Description: Wt application developer helpers
