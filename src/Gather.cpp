@@ -47,6 +47,8 @@ int Gather::significance(DataType type) {
         return 20;
     } else if (type == LOCALE) {
         return 10;
+    } else if (type == TIMEZONE_OFFSET) {
+        return 5;
     } else if (type == JAVA) {
         return 5;
     } else {
@@ -85,6 +87,8 @@ void Gather::explore_javascript() {
     get_js_list(MIME_TYPES, "navigator.mimeTypes", "suffixes.toLowerCase()");
     doJavaScript(signal_.createCall(TO_S(SCREEN), "'' + screen.width + ',' + "
                                     "screen.height + ',' + screen.colorDepth"));
+    doJavaScript(signal_.createCall(TO_S(TIMEZONE_OFFSET),
+                                    "''+(new Date()).getTimezoneOffset()"));
     doJavaScript(signal_.createCall(TO_S(JAVA), "navigator.javaEnabled()"));
 }
 

@@ -68,6 +68,7 @@ public:
         USER_AGENT = 60, /**< User agent (weak virtuals evidence) */
         SCREEN = 70, /**< Screen resolution, depth (weak virtuals evidence) */
         LOCALE = 80, /**< Browser locale (weak virtuals evidence) */
+        TIMEZONE_OFFSET = 85, /**< Timezone offset (weak virtuals evidence) */
         JAVA = 90 /**< Java enabled (weak virtuals evidence) */
     };
 
@@ -129,7 +130,7 @@ public:
     */
     void explore_cookie();
 
-    /** Call explorer with PLUGINS, MIME_TYPES, SCREEN and JAVA.
+    /** Call explorer with PLUGINS, MIME_TYPES, SCREEN, TIMEZONE_OFFSET, JAVA.
     The method is called from the constructor.
 
     The result is got through JavaScript call,
