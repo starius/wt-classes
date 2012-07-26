@@ -100,6 +100,25 @@ public:
     */
     void set_swfstore(SWFStore* swfstore);
 
+    /** Return if Do Not Track header is honored.
+    If Do Not Track header is honored and DNT: 1,
+    then DataExplorer will not be called.
+    \note Currently (Wt <= 3.2.2) Header checking in Wt is case sensitive.
+        Headers "Dnt" and "dnt" are also checked.
+
+    By default, false.
+    */
+    bool honor_dnt() const {
+        return honor_dnt_;
+    }
+
+    /** Set if Do Not Track header is honored.
+    \see honor_dnt().
+    */
+    void set_honor_dnt(bool honor_dnt) {
+        honor_dnt_ = honor_dnt;
+    }
+
     /** Significance of virtuals evidence (in case of exact match of values).
     Return some integer from [0, MIN_SIGNIFICANT],
     where MIN_SIGNIFICANT means significant evidence,
@@ -158,6 +177,8 @@ private:
     DataExplorer explorer_;
     SWFStore* swfstore_;
     JSignal<int, std::string> signal_; // int is DataType
+    bool honor_dnt_;
+    bool dnt_;
 
     void explorer_emitter(DataType type, const std::string& value);
     void explorer_emitter_helper(int type, std::string value);

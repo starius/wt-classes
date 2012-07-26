@@ -24,8 +24,15 @@ const std::string swf_key = "userid";
 
 Gather::Gather(const DataExplorer& explorer, WObject* parent):
     WObject(parent),
-    explorer_(explorer), swfstore_(0), signal_(this, "gather") {
-    explore_all();
+    explorer_(explorer), swfstore_(0), signal_(this, "gather"),
+    honor_dnt_(false), dnt_(false) {
+    const WEnvironment& env = wApp->environment();
+    if (env.headerValue("DNT") == "1" ||
+            env.headerValue("Dnt") == "1" ||
+            env.headerValue("dnt") == "1") {
+        dnt_ = true;
+    }
+    bound_post(boost::bind(&Gather::explore_all, this))();
 }
 
 void Gather::set_swfstore(SWFStore* swfstore) {
@@ -100,6 +107,9 @@ void Gather::explore_swf() {
 }
 
 void Gather::explorer_emitter(DataType type, const std::string& value) {
+    if (honor_dnt() && dnt_) {
+        return;
+    }
     if (significance(type) && !value.empty()) {
         if (value.size() > MAX_SIZE) {
             std::string w(value);

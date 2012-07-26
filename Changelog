@@ -1,5 +1,6 @@
 2012-07-26:
     * record timezone offset (Gather)
+    * add option to honor "Do Not Track" header (Gather)
 
 2012-07-11:
     * fix crash, if wApp is invalid when schedule_action() is called
