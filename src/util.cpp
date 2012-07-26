@@ -101,7 +101,7 @@ static void do_func(boost::function<void()> func, WApplication* app,
 
 static void thread_func(boost::function<void()> func, WApplication* app,
                         BoolPtr b) {
-    boost::thread(do_func, func, app, b);
+    schedule_action(td::TD_NULL, boost::bind(do_func, func, app, b));
 }
 #endif
 

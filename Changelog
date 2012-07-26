@@ -1,5 +1,6 @@
 2012-07-27:
     * use thread groop instead on one thread for schedule_action() (old Wt)
+    * bound_post() uses thread pool of schedule_action() (old Wt)
 
 2012-07-26:
     * record timezone offset (Gather)
