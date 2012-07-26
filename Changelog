@@ -1,3 +1,6 @@
+2012-07-27:
+    * use thread groop instead on one thread for schedule_action() (old Wt)
+
 2012-07-26:
     * record timezone offset (Gather)
     * add option to honor "Do Not Track" header (Gather)

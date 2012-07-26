@@ -266,7 +266,9 @@ typedef boost::shared_ptr<Timer> TimerPtr;
 struct WcIoService {
     WcIoService():
         work(new boost::asio::io_service::work(io)) {
-        boost::thread(boost::bind(&boost::asio::io_service::run, &io));
+        for (int i = 0; i < boost::thread::hardware_concurrency(); i++) {
+            gr.create_thread(boost::bind(&boost::asio::io_service::run, &io));
+        }
     }
 
     ~WcIoService() {
@@ -276,6 +278,7 @@ struct WcIoService {
 
     boost::asio::io_service io;
     boost::asio::io_service::work* work;
+    boost::thread_group gr;
 } wc_io;
 
 static void handle_timeout(TimerPtr /* timer */,
