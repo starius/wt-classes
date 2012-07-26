@@ -50,6 +50,7 @@ Possible output:
 [info] "Gathered: type=40, value=Default Plug-in|Shockwave Flash"
 [info] "Gathered: type=50, value=avi,wma,wmv|mid,midi|mov|mp3|mp4|swf|wav"
 [info] "Gathered: type=70, value=1280,1024,24"
+[info] "Gathered: type=85, value=-240"
 [info] "Gathered: type=90, value=1"
 [info] "Gathered: type=20, value=M5dTk9WPiDPD4Xxx"
 </pre>
