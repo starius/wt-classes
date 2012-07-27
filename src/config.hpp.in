@@ -8,8 +8,6 @@
 #ifndef WC_CONFIG_HPP_
 #define WC_CONFIG_HPP_
 
-#ifndef DOXYGEN_ONLY
-
 #cmakedefine WC_HAVE_WLINK
 #cmakedefine WC_HAVE_WIOSERVICE
 #cmakedefine WC_HAVE_WHTTP_MESSAGE
@@ -41,8 +39,6 @@
 #ifndef WC_HAVE_WIDGET_DO_JAVA_SCRIPT
 #include <Wt/WApplication>
 #endif
-
-#endif // not DOXYGEN_ONLY
 
 namespace Wt {
 
