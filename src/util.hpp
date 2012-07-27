@@ -138,7 +138,7 @@ WDateTime now();
 
 #ifdef WC_HAVE_MD5
 /** Compute the MD5 message digest of the data (hex).
-OpenSSL is used.
+Wt's built-in function or OpenSSL is used.
 
 \ingroup util
 */
