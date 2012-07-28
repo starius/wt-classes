@@ -1,3 +1,6 @@
+2012-07-28:
+    * fix false possitive error in locales-test (using Wt's messages locally)
+
 2012-07-27:
     * use thread groop instead on one thread for schedule_action() (old Wt)
     * bound_post() uses thread pool of schedule_action() (old Wt)
