@@ -1,3 +1,6 @@
+2012-07-30:
+    * make Countdown work in Wt 3.2.2
+
 2012-07-28:
     * fix false possitive error in locales-test (using Wt's messages locally)
 

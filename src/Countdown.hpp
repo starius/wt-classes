@@ -41,8 +41,10 @@ class Countdown : public WContainerWidget {
 public:
     /** Constructor.
     \param parent The parent.
-    \param load_javascript Whether needed jQuery Countdown libs should
+    \param load_javascript Whether needed jQuery, jQuery Countdown libs should
         be loaded from
+    https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js
+    and
     https://raw.github.com/starius/wt-classes/gh-pages/jquery.countdown.min.js
     . <br>
         Passing load_javascript = false, this is up to you to
