@@ -43,7 +43,8 @@ include_directories(${CMAKE_CURRENT_BINARY_DIR})
 add_library(wtclasses SHARED ${wtclasses_sources})
 add_library(wtclasses_static STATIC ${wtclasses_sources})
 
-set(libs wt boost_filesystem boost_thread boost_signals boost_system)
+set(libs wt boost_filesystem boost_thread boost_signals boost_system
+    boost_program_options)
 
 if(WC_USE_OPENSSL)
     set(libs ${libs} ${OPENSSL_LIBRARIES})
