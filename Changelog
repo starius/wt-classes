@@ -1,3 +1,6 @@
+2012-08-11:
+    * bound_post() accepts wApp == 0
+
 2012-07-30:
     * make Countdown work in Wt 3.2.2
 

@@ -106,15 +106,19 @@ static void thread_func(boost::function<void()> func, WApplication* app,
 #endif
 
 boost::function<void()> bound_post(boost::function<void()> func) {
+    if (wApp) {
 #if USE_SERVER_POST
-    WServer* server = DOWNCAST<WServer*>(wApp->environment().server());
-    return boost::bind(post, server, wApp->sessionId(), func);
+        WServer* server = DOWNCAST<WServer*>(wApp->environment().server());
+        return boost::bind(post, server, wApp->sessionId(), func);
 #else
-    BoolPtr ptr = boost::make_shared<bool>();
-    *ptr = false;
-    wApp->addChild(new AG(ptr));
-    return boost::bind(thread_func, func, wApp, ptr);
+        BoolPtr ptr = boost::make_shared<bool>();
+        *ptr = false;
+        wApp->addChild(new AG(ptr));
+        return boost::bind(thread_func, func, wApp, ptr);
 #endif
+    } else {
+        return boost::bind(schedule_action, td::TD_NULL, func);
+    }
 }
 
 struct OneAnyFuncBinder {

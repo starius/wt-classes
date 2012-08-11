@@ -67,6 +67,10 @@ bool isinstance(const S* object) {
 When returned function is called, it looks as if original function were called
 inside current application (wApp for the moment bound_post was called).
 
+If wApp == 0 for the moment bound_post was called,
+the target function is called outside of Wt event loop
+(returned function calls schedule_action(td::TD_NULL, func)).
+
 If WServer::post() is available, it is used, else thread-based implementation
 is used, which is not so safe, as WServer::post() is:
 if the application is being deleting, it may cause segfault (almost impossible).
