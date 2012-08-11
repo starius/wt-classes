@@ -6,6 +6,7 @@
  */
 
 #include <cassert>
+#include <iostream>
 
 #include <Wt/WApplication>
 #include <Wt/WLogger>
@@ -23,6 +24,20 @@ void kill_app() {
     wApp->quit();
 }
 
+void do_this_in_background() {
+    assert(!wApp);
+    std::cerr << "bound_post() works well if wApp == 0" << std::endl;
+}
+
+void background_function() {
+    assert(!wApp);
+    bound_post(do_this_in_background)();
+}
+
+void go_to_background() {
+    schedule_action(td::TD_NULL, background_function);
+}
+
 class BoundPostApp : public WApplication {
 public:
     BoundPostApp(const WEnvironment& env):
@@ -33,6 +48,7 @@ public:
             schedule_action(td::rand_range(td::SECOND, 5 * td::SECOND),
                             bound_post(kill_app));
         }
+        go_to_background();
     }
 };
 
