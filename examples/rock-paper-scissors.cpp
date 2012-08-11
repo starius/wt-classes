@@ -34,7 +34,7 @@ notify::Server server;
 notify::PlanningServer planning(&server);
 
 enum Choice {
-    NOTHING, ROCK, PAPER, SCISSORS
+    NOTHING, ROCK = 1, PAPER = 2, SCISSORS = 3
 };
 
 std::string choice_to_text(Choice choice) {
@@ -364,12 +364,67 @@ private:
     Signal<> removed_;
 };
 
+std::string random_email() {
+    return rand_string(8) + "@test.com";
+}
+
+class BotWatcher : public WObject, public notify::Widget {
+public:
+    BotWatcher(UserPtr me, WObject* parent = 0):
+        WObject(parent),
+        notify::Widget(NewGame(GamePtr(), me).key(), &server),
+        me_(me) {
+        server.emit(boost::make_shared<NewUser>(me));
+    }
+
+    ~BotWatcher() {
+        key_to_user_mutex.lock();
+        key_to_user.erase(me_->key());
+        key_to_user_mutex.unlock();
+        server.emit(me_);
+    }
+
+    void notify(notify::EventPtr event) {
+        const NewGame* e = DOWNCAST<const NewGame*>(event.get());
+        GamePtr game = e->game;
+        bool emit = false;
+        game->mutex.lock();
+        if (game->can_change(me_)) {
+            Choice choice = Choice(rr(1, 4));
+            game->change(me_, choice);
+            emit = true;
+        }
+        game->mutex.unlock();
+        if (emit) {
+            server.emit(game);
+        }
+    }
+
+private:
+    UserPtr me_;
+};
+
+const int BOT_MINPLAYERS = 5;
+
+void update_bots() {
+    key_to_user_mutex.lock();
+    int players = key_to_user.size();
+    key_to_user_mutex.unlock();
+    if (players < BOT_MINPLAYERS) {
+        UserPtr bot = create_user(random_email());
+        if (bot) {
+            new BotWatcher(bot);
+        }
+    }
+}
+
 class RpsApp : public WApplication {
 public:
     RpsApp(const WEnvironment& env):
         WApplication(env) {
         enableUpdates();
         do_logout();
+        schedule_action(td::TD_NULL, update_bots);
     }
 
 private:
@@ -377,7 +432,7 @@ private:
 
     void do_logout() {
         root()->clear();
-        email_ = new WLineEdit(rand_string(8) + "@test.com", root());
+        email_ = new WLineEdit(random_email(), root());
         WPushButton* enter = new WPushButton("Enter", root());
         enter->clicked().connect(this, &RpsApp::do_login);
     }
