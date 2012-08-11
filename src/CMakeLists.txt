@@ -40,9 +40,6 @@ endforeach()
 
 include_directories(${CMAKE_CURRENT_BINARY_DIR})
 
-add_library(wtclasses SHARED ${wtclasses_sources})
-add_library(wtclasses_static STATIC ${wtclasses_sources})
-
 set(libs wt boost_filesystem boost_thread boost_signals boost_system
     boost_program_options)
 
@@ -50,20 +47,28 @@ if(WC_USE_OPENSSL)
     set(libs ${libs} ${OPENSSL_LIBRARIES})
 endif()
 
+option(BUILD_STATIC_WC "Build static version of the library as well" ON)
+
+add_library(wtclasses SHARED ${wtclasses_sources})
 target_link_libraries(wtclasses ${libs})
-target_link_libraries(wtclasses_static ${libs})
+if(BUILD_STATIC_WC)
+    add_library(wtclasses_static STATIC ${wtclasses_sources})
+    target_link_libraries(wtclasses_static ${libs})
+endif()
 
 set_target_properties(wtclasses PROPERTIES
     VERSION ${VERSION}
     SOVERSION ${SONAME}
 )
 
-if(NOT WIN32)
+if(NOT WIN32 AND BUILD_STATIC_WC)
     set_target_properties(wtclasses_static PROPERTIES
         OUTPUT_NAME wtclasses)
 endif()
 
 install(TARGETS wtclasses DESTINATION lib)
-install(TARGETS wtclasses_static DESTINATION lib)
+if(BUILD_STATIC_WC)
+    install(TARGETS wtclasses_static DESTINATION lib)
+endif()
 install(FILES ${wtclasses_headers} DESTINATION include/Wt/Wc)
 
