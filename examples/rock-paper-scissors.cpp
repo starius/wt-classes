@@ -68,6 +68,19 @@ typedef std::map<std::string, UserPtr> Key2User;
 Key2User key_to_user;
 boost::mutex key_to_user_mutex;
 
+// Null in result means that name already taken
+// On logout you must remove record from key_to_user!
+UserPtr create_user(const std::string& email) {
+    boost::mutex::scoped_lock lock(key_to_user_mutex);
+    if (key_to_user.find(email) != key_to_user.end()) {
+        return UserPtr();
+    } else {
+        UserPtr result = boost::make_shared<User>(email);
+        key_to_user[result->key()] = result;
+        return result;
+    }
+}
+
 struct Game : public notify::Task {
     unsigned int id;
     UserPtr users[2];
@@ -319,9 +332,6 @@ public:
         WContainerWidget(parent),
         notify::Widget(NewGame(GamePtr(), me).key(), &server),
         me_(me) {
-        key_to_user_mutex.lock();
-        key_to_user[me->key()] = me;
-        key_to_user_mutex.unlock();
         addWidget(new UserRecord(me, me));
         addWidget(new WText("<hr />"));
         addWidget(new WText("Click on the player you want to play with"));
@@ -373,11 +383,12 @@ private:
     }
 
     void do_login() {
-        if (key_to_user.find(email_->text().toUTF8()) != key_to_user.end()) {
+        std::string email = email_->text().toUTF8();
+        UserPtr me = create_user(email);
+        if (!me) {
             email_->setText("Already taken");
             return;
         }
-        std::string email = email_->text().toUTF8();
         root()->clear();
         WPushButton* logout = new WPushButton("Log out", root());
         logout->clicked().connect(this, &RpsApp::do_logout);
@@ -385,7 +396,6 @@ private:
             WPushButton* update = new WPushButton("Update", root());
             update->clicked().connect(update, &WWidget::show); // do nothing
         }
-        UserPtr me = boost::make_shared<User>(email);
         root()->addWidget(new RpsWidget(me));
     }
 };
