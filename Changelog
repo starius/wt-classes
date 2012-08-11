@@ -2,6 +2,7 @@
     * bound_post() accepts wApp == 0
     * add cmake var BUILD_STATIC_WC
     * add bot to rock-paper-scissors
+    * close game dialog in 60 secs in rock-paper-scissors
 
 2012-07-30:
     * make Countdown work in Wt 3.2.2

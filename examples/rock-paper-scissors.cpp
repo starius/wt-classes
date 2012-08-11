@@ -191,6 +191,12 @@ public:
         add_button(PAPER, choice_cell);
         add_button(SCISSORS, choice_cell);
         notify(game);
+        removed_.reset(new bool);
+        *removed_ = false;
+    }
+
+    ~GameWidget() {
+        *removed_ = true;
     }
 
     void notify(notify::EventPtr /* event */) {
@@ -209,6 +215,8 @@ public:
             choice_cell->clear();
         }
     }
+
+    boost::shared_ptr<bool> removed_;
 
 private:
     UserPtr me_;
@@ -248,6 +256,8 @@ struct NewGame : public notify::Event {
 
 typedef boost::shared_ptr<NewGame> NewGamePtr;
 
+const td::TimeDuration GAME_TIME_LIMIT = 30 * SECOND;
+
 class UserRecord : public WTable, public notify::Widget {
 public:
     UserRecord(UserPtr user, UserPtr me, WContainerWidget* parent = 0):
@@ -283,7 +293,7 @@ private:
 
     void start_game_with() {
         GamePtr game = boost::make_shared<Game>(user_, me_);
-        planning.add(game, now() + 30 * SECOND);
+        planning.add(game, now() + GAME_TIME_LIMIT);
         server.emit(boost::make_shared<NewGame>(game, user_));
         server.emit(boost::make_shared<NewGame>(game, me_));
     }
@@ -326,6 +336,13 @@ private:
     UserPtr me_;
 };
 
+void close_dialog(WDialog* dialog, boost::shared_ptr<bool> removed) {
+    if (!*removed) {
+        dialog->reject();
+        updates_trigger();
+    }
+}
+
 class RpsWidget : public WContainerWidget, public notify::Widget {
 public:
     RpsWidget(UserPtr me, WContainerWidget* parent = 0):
@@ -351,12 +368,16 @@ public:
         const NewGame* e = DOWNCAST<const NewGame*>(event.get());
         GamePtr game = e->game;
         WDialog* dialog = new WDialog("Game");
-        dialog->contents()->addWidget(new GameWidget(me_, game));
+        GameWidget* game_widget = new GameWidget(me_, game);
+        dialog->contents()->addWidget(game_widget);
         set_closable(dialog);
         delete_closed(dialog);
         dialog->setModal(false);
         dialog->show();
         removed_.connect(dialog, &WDialog::reject);
+        schedule_action(2 * GAME_TIME_LIMIT,
+                        bound_post(boost::bind(close_dialog,
+                                               dialog, game_widget->removed_)));
     }
 
 private:
