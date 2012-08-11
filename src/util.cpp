@@ -149,7 +149,7 @@ OneAnyFunc one_bound_post(const OneAnyFunc& func) {
 }
 
 void updates_trigger() {
-    if (wApp->updatesEnabled() && !wApp->isQuited()) {
+    if (wApp && wApp->updatesEnabled() && !wApp->isQuited()) {
         wApp->triggerUpdate();
     }
 }
