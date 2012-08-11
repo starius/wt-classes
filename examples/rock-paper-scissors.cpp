@@ -32,7 +32,6 @@ using namespace Wt::Wc::td;
 
 notify::Server server;
 notify::PlanningServer planning(&server);
-boost::mutex key_to_score_mutex;
 
 enum Choice {
     NOTHING, ROCK, PAPER, SCISSORS
@@ -67,6 +66,7 @@ typedef boost::shared_ptr<User> UserPtr;
 
 typedef std::map<std::string, UserPtr> Key2User;
 Key2User key_to_user;
+boost::mutex key_to_user_mutex;
 
 struct Game : public notify::Task {
     unsigned int id;
@@ -255,7 +255,7 @@ public:
     }
 
     void notify(notify::EventPtr /* event */) {
-        boost::mutex::scoped_lock lock(key_to_score_mutex);
+        boost::mutex::scoped_lock lock(key_to_user_mutex);
         if (key_to_user.find(user_->key()) == key_to_user.end()) {
             delete this;
         } else {
@@ -296,7 +296,7 @@ public:
         WContainerWidget(parent),
         notify::Widget(NewUser(UserPtr()).key(), &server),
         me_(me) {
-        boost::mutex::scoped_lock lock(key_to_score_mutex);
+        boost::mutex::scoped_lock lock(key_to_user_mutex);
         BOOST_FOREACH (Key2User::value_type& key_and_user, key_to_user) {
             new UserRecord(key_and_user.second, me_, this);
         }
@@ -319,9 +319,9 @@ public:
         WContainerWidget(parent),
         notify::Widget(NewGame(GamePtr(), me).key(), &server),
         me_(me) {
-        key_to_score_mutex.lock();
+        key_to_user_mutex.lock();
         key_to_user[me->key()] = me;
-        key_to_score_mutex.unlock();
+        key_to_user_mutex.unlock();
         addWidget(new UserRecord(me, me));
         addWidget(new WText("<hr />"));
         addWidget(new WText("Click on the player you want to play with"));
@@ -330,9 +330,9 @@ public:
     }
 
     ~RpsWidget() {
-        key_to_score_mutex.lock();
+        key_to_user_mutex.lock();
         key_to_user.erase(me_->key());
-        key_to_score_mutex.unlock();
+        key_to_user_mutex.unlock();
         server.emit(me_);
         removed_.emit();
     }
