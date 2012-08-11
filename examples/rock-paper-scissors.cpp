@@ -387,6 +387,11 @@ public:
     void notify(notify::EventPtr event) {
         const NewGame* e = DOWNCAST<const NewGame*>(event.get());
         GamePtr game = e->game;
+        schedule_action(rand_range(2 * td::SECOND, 5 * td::SECOND),
+                        boost::bind(&BotWatcher::choose, this, game));
+    }
+
+    void choose(GamePtr game) {
         bool emit = false;
         game->mutex.lock();
         if (game->can_change(me_)) {
