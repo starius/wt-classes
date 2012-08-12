@@ -31,7 +31,7 @@ Useful classes, functions and macros.
 */
 
 /** Return whether an object is an instance of a class or of a subclass thereof.
-This function and it's documentation was copied from python.
+\note If \p object == 0, return 0.
 
 \ingroup util
 */
