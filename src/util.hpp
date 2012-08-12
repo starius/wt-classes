@@ -23,6 +23,7 @@ namespace Wt {
 class WIOService; // FIXME http://redmine.emweb.be/issues/1189
 class WServer; // not declared n WGlobal of Wt 3.1.2
 class WDialog; // not declared n WGlobal of Wt 3.1.2
+class WTextEdit; // not declared n WGlobal of Wt 3.1.2
 
 namespace Wc {
 
@@ -226,6 +227,24 @@ void set_closable(WDialog* dialog);
 \ingroup util
 */
 void delete_closed(WDialog* dialog);
+
+/** Fix WTextEdit position.
+This function was written, since WTextEdit doesn't tell its position properly
+to neighbours. It looks as if it's size is 0.
+
+\warning \p text_edit should be inserted into WContainerWidget,
+    without use of layouts.
+    This funtion must be called in the same javascript, which is responsible
+    for the creation of WTextEdit.
+
+If it is needed, this function replaces text_edit in it's parent with
+a WContainerWidget and inserts text_edit into it. Then the WContainerWidget
+is resized to size of WTextEdit + 5px vertically.
+If the size of WTextEdit was not set, it is set to 525x130 pp.
+
+\ingroup util
+*/
+void fix_text_edit(WTextEdit* text_edit);
 
 }
 

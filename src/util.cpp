@@ -50,6 +50,7 @@
 #include <Wt/WServer>
 #include <Wt/WLineEdit>
 #include <Wt/WTextArea>
+#include <Wt/WTextEdit>
 #include <Wt/WPushButton>
 #include <Wt/WComboBox>
 #include <Wt/WAbstractToggleButton>
@@ -365,6 +366,25 @@ public:
 
 void delete_closed(WDialog* dialog) {
     dialog->finished().connect(&delete_sender, &DeleteSender::delete_sender);
+}
+
+void fix_text_edit(WTextEdit* text_edit) {
+    if (wApp && !wApp->environment().ajax()) {
+        return;
+    }
+    WWidget* parent_widget = text_edit->parent();
+    if (isinstance<WContainerWidget>(parent_widget)) {
+        WContainerWidget* parent = DOWNCAST<WContainerWidget*>(parent_widget);
+        WContainerWidget* wrapper = new WContainerWidget;
+        parent->insertBefore(wrapper, text_edit);
+        parent->removeWidget(text_edit);
+        wrapper->addWidget(text_edit);
+        if (text_edit->width() == WLength::Auto ||
+                text_edit->height() == WLength::Auto) {
+            text_edit->resize(525, 130);
+        }
+        wrapper->resize(text_edit->width(), text_edit->height().toPixels() + 5);
+    }
 }
 
 }

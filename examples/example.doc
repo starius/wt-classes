@@ -74,6 +74,10 @@ This is an example of how to use the \ref notify.
 This is an example of how to use the Wt::Wc::BoostOptionsRunner.
 */
 
+/** \example examples/text-edit.cpp
+This is an example of how to use the Wt::Wc::fix_text_edit().
+*/
+
 }
 
 }

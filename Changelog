@@ -1,3 +1,6 @@
+2012-08-12:
+    * add function fix_text_edit()
+
 2012-08-11:
     * bound_post() accepts wApp == 0
     * add cmake var BUILD_STATIC_WC
