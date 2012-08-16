@@ -41,7 +41,8 @@ void FilterResource::handleRequest(const Http::Request& request,
             try {
                 write_input(input);
                 input.close();
-                system(cmd_.arg(input_file).arg(output_file_).toUTF8().c_str());
+                Wt::WString cmd = cmd_;
+                system(cmd.arg(input_file).arg(output_file_).toUTF8().c_str());
                 if (exists(output_file_)) {
                     setFileName(output_file_);
                 }
@@ -55,6 +56,18 @@ void FilterResource::handleRequest(const Http::Request& request,
     }
     mutex_.unlock();
     WFileResource::handleRequest(request, response);
+}
+
+void FilterResource::update(bool cal_set_changed) {
+    mutex_.lock();
+    if (!output_file_.empty()) {
+        remove(output_file_.c_str());
+        output_file_ = "";
+    }
+    mutex_.unlock();
+    if (cal_set_changed) {
+        setChanged();
+    }
 }
 
 }

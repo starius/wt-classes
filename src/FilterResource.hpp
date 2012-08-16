@@ -56,7 +56,7 @@ public:
     ~FilterResource();
 
     /** Method writing input file for the external command.
-    The method is called at most once.
+    The method is called at most once (unless update() is called).
     All exceptions thrown by this function are caught in handleRequest().
     */
     virtual void write_input(std::ostream& out) const = 0;
@@ -65,6 +65,15 @@ public:
     Output file is lazily created here.
     */
     void handleRequest(const Http::Request& request, Http::Response& response);
+
+    /** Mark current output file as outdated.
+    \param cal_set_changed If WResource::setChanged() will be called.
+
+    Next handleRequest() will call write_input() again.
+    This may be usefull, if write_input() uses a parameter,
+    which value can be changed, which makes current output out-dated.
+    */
+    void update(bool cal_set_changed = true);
 
 private:
     WString cmd_;

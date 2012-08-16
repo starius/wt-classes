@@ -1,3 +1,6 @@
+2012-08-16:
+    * add method update() to FilterResource
+
 2012-08-12:
     * add function fix_text_edit()
 
