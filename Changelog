@@ -1,3 +1,6 @@
+2012-08-17:
+    * add static method url() to GravatarImage
+
 2012-08-16:
     * add method update() to FilterResource
 

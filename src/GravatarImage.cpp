@@ -97,52 +97,68 @@ void GravatarImage::set_secure_requests(SecureRequests secure_requests) {
     update_url();
 }
 
-void GravatarImage::update_url() {
+std::string GravatarImage::url(const std::string& email, short size,
+                               bool force_default,
+                               const std::string& default_url,
+                               Rating rating, SecureRequests secure_requests) {
     std::stringstream url;
-    if (https()) {
+    if (https(secure_requests)) {
         url << "https://secure.";
     } else {
         url << "http://www.";
     }
     url << "gravatar.com/avatar/";
-    url << md5(email_);
+    url << md5(email);
     url << ".jpg";
     url << "?";
-    if (size_ != GRAVATAR_DEFAULT_SIZE) {
-        url << "s=" << TO_S(size_) << "&";
+    if (size != GRAVATAR_DEFAULT_SIZE) {
+        url << "s=" << TO_S(size) << "&";
     }
-    if (!default_.empty()) {
-        url << "d=" << urlencode(default_) << "&";
+    if (!default_url.empty()) {
+        url << "d=" << urlencode(default_url) << "&";
     }
-    if (rating_ != GRAVATAR_DEFAULT_RATING) {
-        url << "r=" << rating_str() << "&";
+    if (rating != GRAVATAR_DEFAULT_RATING) {
+        url << "r=" << rating_str(rating) << "&";
     }
-    if (force_default_) {
+    if (force_default) {
         url << "f=y";
     }
-    setImageRef(url.str());
+    return url.str();
+}
+
+void GravatarImage::update_url() {
+    setImageRef(url(email_, size_, force_default_, default_,
+                    rating_, secure_requests_));
 }
 
 void GravatarImage::resize_image(const WLength& size) {
     resize(size, size);
 }
 
-bool GravatarImage::https() const {
-    return secure_requests_ == ALWAYS ||
-           (secure_requests_ == INHERIT &&
-            wApp->environment().urlScheme() == "https");
+bool GravatarImage::https(SecureRequests secure_requests) {
+    return secure_requests == ALWAYS ||
+           (secure_requests == INHERIT &&
+            wApp && wApp->environment().urlScheme() == "https");
 }
 
-std::string GravatarImage::rating_str() const {
+bool GravatarImage::https() const {
+    return https(secure_requests_);
+}
+
+std::string GravatarImage::rating_str(Rating rating) {
     std::string result = "g";
-    if (rating_ == PG) {
+    if (rating == PG) {
         result = "pg";
-    } else if (rating_ == R) {
+    } else if (rating == R) {
         result = "r";
-    } else if (rating_ == X) {
+    } else if (rating == X) {
         result = "x";
     }
     return result;
+}
+
+std::string GravatarImage::rating_str() const {
+    return rating_str(rating_);
 }
 
 }

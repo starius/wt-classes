@@ -115,6 +115,13 @@ public:
     /** Set http/https selection rules */
     void set_secure_requests(SecureRequests secure_requests);
 
+    /** Generate url for Gravatar */
+    static std::string url(const std::string& email, short size = 80,
+                           bool force_default = false,
+                           const std::string& default_url = "",
+                           Rating rating = G,
+                           SecureRequests secure_requests = INHERIT);
+
 private:
     std::string email_;
     short size_;
@@ -125,7 +132,9 @@ private:
 
     void update_url();
     void resize_image(const WLength& size);
+    static bool https(SecureRequests secure_requests);
     bool https() const;
+    static std::string rating_str(Rating rating);
     std::string rating_str() const;
 };
 
