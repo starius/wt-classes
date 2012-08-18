@@ -124,14 +124,6 @@ IntegerNode* user_profile = new IntegerNode(users);
 user_profile->opened().connect(...); // show user profile for "/user/xxx"
 \endcode
 
-We can use Parser::child_opened() instead of Node::opened() to save memory
-(Signal object is raather large):
-\code
-parser->child_opened().connect(...);
-\endcode
-In this case handler may compare its argument to known Node instances
-to find out what to do.
-
 <h3>Detailed example</h3>
 
 In the example bellow, main features of this module are demonstrated:
