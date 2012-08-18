@@ -10,8 +10,10 @@
 
 #include "config.hpp"
 
+#include <map>
 #include <string>
 #include <ostream>
+#include <boost/function.hpp>
 
 #include <Wt/WGlobal>
 #include <Wt/WObject>
@@ -77,6 +79,13 @@ If you do not want to spend memory on Node::opened() signal in all nodes,
 you can connect all you code to Parser::child_opened() signal.
 This signal is emitted with selected Node.
 
+Third option is to use Parser::connect. It does not create any Signal's at all.
+But it does not keep track deletion of target.
+
+You can use any combination of these methods.
+Order of calling: Node::opened(), then Parser::child_opened(),
+and finally handlers passed to Parser::connect.
+
 When you need the internal path, use Node::link() method.
 There are methods get_link() in IntegerNode and StringNode, setting
 the value and returning the link at once.
@@ -128,24 +137,27 @@ to find out what to do.
 In the example bellow, main features of this module are demonstrated:
  - tree of internal path nodes,
  - connection of Node::opened() to function, displaying something,
- - connection of Parser::child_opened() to function, which accepts Node*.
+ - connection of Parser::child_opened() to function, which accepts Node.
+ - connection to node handler using Parser::connect.
  - Parser is also a Node, it corresponds to the main page,
  - use of Parser::open(),
  - referring internal paths.
 
 It is a model of content and user oriented site.
 
-Each user has integer identifier.
-User profile is shown in internal path like "/user/123".
-This node (user_profile_) is connected through Parser::child_opened().
+"/about/" represents a list of available articles.
+Each article is identified with a string.
+Article page is "/about/article-name".
+These two nodes are connected using Node::opened() method [a].
 
 The list of users is shown in "/user".
 It is shown as a "file", not as a "directory"
 to demonstrate Node::SlashStrategy feature.
+This node (users_) is connected through Parser::connect [b].
 
-"/about/" represents a list of available articles.
-Each article is identified with a string.
-Article page is "/about/article-name".
+Each user has integer identifier.
+User profile is shown in internal path like "/user/123".
+This node (user_profile_) is connected through Parser::child_opened() [c].
 
 The main page contain references to the list of articles and the list of users.
 Every page has a reference to the main page on top.
@@ -223,7 +235,7 @@ public:
 
     /** Signal emitted when url is opened.
     This signal is created lazily.
-    \see Parser::child_opened()
+    \see Parser::child_opened(), Parser::connect
     */
     Signal<>& opened();
 
@@ -374,14 +386,29 @@ public:
         return error404_;
     }
 
-    /** Signal emitted when url is opened */
+    /** Signal emitted when url is opened.
+    \see Parser::connect, Node::opened()
+    */
     Signal<Node*>& child_opened() {
         return child_opened_;
     }
 
+    /** Add the handler for the node.
+    \warning Unlike signals, this method do not check that slot is not removed.
+    \see Node::opened(), Parser::child_opened()
+    */
+    void connect(Node* child, boost::function<void()> handler);
+
+    /** Disconnect all handlers from the node */
+    void disconnect(Node* child);
+
 private:
+    typedef boost::function<void()> Handler;
+    typedef std::multimap<Node*, Handler> Handlers;
+
     Signal<> error404_;
     Signal<Node*> child_opened_;
+    Handlers handlers_;
 };
 
 }

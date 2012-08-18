@@ -7,6 +7,7 @@
 
 #include <cstdlib>
 #include <boost/lexical_cast.hpp>
+#include <boost/bind.hpp>
 
 #include <Wt/WApplication>
 #include <Wt/WAnchor>
@@ -29,10 +30,15 @@ public:
         users_->set_slash_strategy(Node::IF_NOT_LAST);
         user_profile_ = new IntegerNode(users_);
         //
+        // a) Node::opened()
         parser_->opened().connect(this, &UrlApp::show_main);
         about_->opened().connect(this, &UrlApp::show_about);
         about_smth_->opened().connect(this, &UrlApp::show_about_smth);
-        users_->opened().connect(this, &UrlApp::show_users);
+        //
+        // b) Parser::connect
+        parser_->connect(users_, boost::bind(&UrlApp::show_users, this));
+        //
+        // c) Parser::child_opened()
         parser_->child_opened().connect(this, &UrlApp::open_node);
         //
         WAnchor* main = new WAnchor(root());

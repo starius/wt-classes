@@ -6,6 +6,7 @@
  */
 
 #include <vector>
+#include <utility>
 #include <sstream>
 #include <boost/algorithm/string/split.hpp>
 #include <boost/algorithm/string/classification.hpp>
@@ -208,6 +209,13 @@ void Parser::open(Node* node) {
         node->opened().emit();
     }
     child_opened_.emit(node);
+    typedef Handlers::iterator It;
+    typedef std::pair<It, It> ItPair;
+    ItPair begin_end = handlers_.equal_range(node);
+    for (It it = begin_end.first; it != begin_end.second; ++it) {
+        const Handler& handler = it->second;
+        handler();
+    }
 }
 
 void Parser::open(const std::string& path) {
@@ -224,6 +232,17 @@ void Parser::open(const WLink& internal_path) {
     open(internal_path.internalPath().toUTF8());
 }
 #endif
+
+void Parser::connect(Node* child, boost::function<void()> handler) {
+    handlers_.insert(std::make_pair(child, handler));
+}
+
+void Parser::disconnect(Node* child) {
+    typedef Handlers::iterator It;
+    typedef std::pair<It, It> ItPair;
+    ItPair begin_end = handlers_.equal_range(child);
+    handlers_.erase(begin_end.first, begin_end.second);
+}
 
 }
 
