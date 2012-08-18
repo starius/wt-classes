@@ -185,9 +185,9 @@ public:
     }
 
 private:
-    typedef boost::shared_ptr<OneAnyFunc> Poster;
+    typedef boost::shared_ptr<OneAnyFunc> PosterPtr;
     typedef std::vector<Widget*> Widgets;
-    typedef std::pair<Poster, Widgets> PosterAndWidgets;
+    typedef std::pair<PosterPtr, Widgets> PosterAndWidgets;
     typedef std::map<WApplication*, PosterAndWidgets> A2W;
     typedef std::map<Event::Key, A2W> O2W;
     O2W o2w_;

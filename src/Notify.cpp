@@ -67,7 +67,7 @@ void Server::start_listening(Widget* widget) {
     if (a2w.find(app_id) == a2w.end()) {
         OneAnyFunc notifier = boost::bind(&Server::notify_widgets, this, _1);
         OneAnyFunc poster = one_bound_post(notifier);
-        Poster poster_ptr = boost::make_shared<OneAnyFunc>(poster);
+        PosterPtr poster_ptr = boost::make_shared<OneAnyFunc>(poster);
         a2w[app_id] = std::make_pair(poster_ptr, Widgets());
     }
     Widgets& widgets = a2w[app_id].second;
