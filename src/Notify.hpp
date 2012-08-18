@@ -11,6 +11,7 @@
 #include <map>
 #include <boost/thread/mutex.hpp>
 #include <boost/shared_ptr.hpp>
+#include <boost/weak_ptr.hpp>
 #include <boost/any.hpp>
 
 #include <Wt/WGlobal>
@@ -186,11 +187,14 @@ public:
 
 private:
     typedef boost::shared_ptr<OneAnyFunc> PosterPtr;
+    typedef boost::weak_ptr<OneAnyFunc> PosterWeakPtr;
     typedef std::vector<Widget*> Widgets;
     typedef std::pair<PosterPtr, Widgets> PosterAndWidgets;
     typedef std::map<WApplication*, PosterAndWidgets> A2W;
     typedef std::map<Event::Key, A2W> O2W;
+    typedef std::map<WApplication*, PosterWeakPtr> A2P;
     O2W o2w_;
+    A2P a2p_;
     mutable boost::mutex mutex_;
     bool updates_enabled_;
     bool direct_to_this_;
