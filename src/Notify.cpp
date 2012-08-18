@@ -34,16 +34,16 @@ Server::Server(WServer* /* server */):
     direct_to_this_(false)
 { }
 
-void Server::emit(EventPtr event) {
+void Server::emit(EventPtr event) const {
     mutex_.lock();
     bool notify_in_this_app = false;
-    O2W::iterator it = o2w_.find(event->key());
+    O2W::const_iterator it = o2w_.find(event->key());
     if (it != o2w_.end()) {
         BOOST_FOREACH (const A2W::value_type& a2w, it->second) {
             WApplication* app = a2w.first;
             if (!direct_to_this_ || app != wApp) {
                 const PosterAndWidgets& poster_and_widgets = a2w.second;
-                OneAnyFunc& poster = *(poster_and_widgets.first);
+                const OneAnyFunc& poster = *(poster_and_widgets.first);
                 poster(event);
             } else {
                 notify_in_this_app = true;
@@ -56,7 +56,7 @@ void Server::emit(EventPtr event) {
     }
 }
 
-void Server::emit(Event* event) {
+void Server::emit(Event* event) const {
     emit(EventPtr(event));
 }
 
@@ -86,7 +86,7 @@ void Server::stop_listening(Widget* widget, WApplication* app_id) {
     }
 }
 
-void Server::notify_widgets(const boost::any& event) {
+void Server::notify_widgets(const boost::any& event) const {
     Widgets widgets;
     mutex_.lock();
     const EventPtr* e = boost::any_cast<EventPtr>(&event);

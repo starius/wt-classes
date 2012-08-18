@@ -144,13 +144,13 @@ public:
 
     \note This is only possible after a call to wApp->enableUpdates()
     */
-    void emit(EventPtr event);
+    void emit(EventPtr event) const;
 
     /** Notify all widgets, listening to object updates.
     This is an overloaded method for convenience.
     Ownership of the event is transferred.
     */
-    void emit(Event* event);
+    void emit(Event* event) const;
 
     /** Get if the server can call updates_trigger() */
     bool updates_enabled() const {
@@ -191,7 +191,7 @@ private:
     typedef std::map<WApplication*, PosterAndWidgets> A2W;
     typedef std::map<Event::Key, A2W> O2W;
     O2W o2w_;
-    boost::mutex mutex_;
+    mutable boost::mutex mutex_;
     bool updates_enabled_;
     bool direct_to_this_;
 
@@ -199,7 +199,7 @@ private:
 
     void stop_listening(Widget* widget, WApplication* app_id);
 
-    void notify_widgets(const boost::any& event);
+    void notify_widgets(const boost::any& event) const;
 
     friend class Widget;
 };
