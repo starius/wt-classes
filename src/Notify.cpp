@@ -87,9 +87,18 @@ void Server::stop_listening(Widget* widget, WApplication* app_id) {
 }
 
 void Server::notify_widgets(const boost::any& event) {
+    Widgets widgets;
     mutex_.lock();
     const EventPtr* e = boost::any_cast<EventPtr>(&event);
-    Widgets widgets = o2w_[(*e)->key()][wApp].second;
+    O2W::const_iterator o2w_it = o2w_.find((*e)->key());
+    if (o2w_it != o2w_.end()) {
+        const A2W& a2w = o2w_it->second;
+        A2W::const_iterator a2w_it = a2w.find(wApp);
+        if (a2w_it != a2w.end()) {
+            const PosterAndWidgets& paw = a2w_it->second;
+            widgets = paw.second;
+        }
+    }
     mutex_.unlock();
     bool updates_needed = false;
     BOOST_FOREACH (Widget* widget, widgets) {
