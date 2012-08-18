@@ -44,7 +44,8 @@ This classes allow you to keep all url-related code in one place.
 <h3>node</h3>
 
 Every internal path is represented as a Node in a tree.
-For example, internal path "/about/license" is a child of "/about/".
+For example, internal path <tt>/about/license</tt>
+is a child of <tt>/about/</tt>.
 
 To create a child node, just pass parent node to the constructor of a child.
 Constructors of nodes of some types take additional arguments.
@@ -95,7 +96,7 @@ using Node::open() method.
 <h3>parser</h3>
 
 Parser is the root in internal path tree.
-It corresponds to the internal path "/" (main page of an application).
+It corresponds to the internal path <tt>/</tt> (main page of an application).
 Nodes of other type are direct or indirect children of Parser node.
 
 All created nodes should be bound to session.
@@ -137,19 +138,19 @@ In the example bellow, main features of this module are demonstrated:
 
 It is a model of content and user oriented site.
 
-"/about/" represents a list of available articles.
+<tt>/about/</tt> represents a list of available articles.
 Each article is identified with a string.
-Article page is "/about/article-name".
-These two nodes are connected using Node::opened() method [a].
+Article page is <tt>/about/article-name</tt>.
+These two nodes are connected using Node::opened() method <b>[a]</b>.
 
-The list of users is shown in "/user".
+The list of users is shown in <tt>/user</tt>.
 It is shown as a "file", not as a "directory"
 to demonstrate Node::SlashStrategy feature.
-This node (users_) is connected through Parser::connect [b].
+This node (\c users_ ) is connected through Parser::connect <b>[b]</b>.
 
 Each user has integer identifier.
-User profile is shown in internal path like "/user/123".
-This node (user_profile_) is connected through Parser::child_opened() [c].
+User profile is shown in internal path like <tt>/user/123</tt>.
+This node (\c user_profile_ ) is connected by Parser::child_opened() <b>[c]</b>.
 
 The main page contain references to the list of articles and the list of users.
 Every page has a reference to the main page on top.
