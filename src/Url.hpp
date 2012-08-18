@@ -165,6 +165,9 @@ public:
     */
     Node(WObject* parent = 0);
 
+    /** Destructor */
+    ~Node();
+
     /** Return if this part of an url meets the node */
     virtual bool meet(const std::string& part) const = 0;
 
@@ -203,10 +206,10 @@ public:
     */
     void open(bool change_path = true);
 
-    /** Signal emitted when url is opened */
-    Signal<>& opened() {
-        return opened_;
-    }
+    /** Signal emitted when url is opened.
+    This signal is created lazily.
+    */
+    Signal<>& opened();
 
     /** Get slash strategy */
     SlashStrategy slash_strategy() const {
@@ -227,7 +230,7 @@ protected:
     void set_value(const std::string& v, bool check = false);
 
 private:
-    Signal<> opened_;
+    Signal<>* opened_;
     std::string value_;
     SlashStrategy slash_strategy_ : 8;
 

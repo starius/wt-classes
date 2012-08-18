@@ -25,8 +25,13 @@ namespace url {
 
 Node::Node(WObject* parent):
     WObject(parent),
-    slash_strategy_(DEFAULT)
+    slash_strategy_(DEFAULT),
+    opened_(0)
 { }
+
+Node::~Node() {
+    delete opened_;
+}
 
 void Node::write_to(std::ostream& path, bool is_last) const {
     path << value_;
@@ -78,7 +83,16 @@ void Node::open(bool change_path) {
     if (change_path) {
         wApp->setInternalPath(full_path(), /*emitChange */ false);
     }
-    opened_.emit();
+    if (opened_) {
+        opened().emit();
+    }
+}
+
+Signal<>& Node::opened() {
+    if (!opened_) {
+        opened_ = new Signal<>;
+    }
+    return *opened_;
 }
 
 void Node::set_value(const std::string& v, bool check) {
