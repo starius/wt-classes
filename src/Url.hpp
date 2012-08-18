@@ -73,6 +73,10 @@ In this case, connect its opened() signal to the function,
 displaying the list of users.
 It is beyond this documentation, how to write this function.
 
+If you do not want to spend memory on Node::opened() signal in all nodes,
+you can connect all you code to Parser::child_opened() signal.
+This signal is emitted with selected Node.
+
 When you need the internal path, use Node::link() method.
 There are methods get_link() in IntegerNode and StringNode, setting
 the value and returning the link at once.
@@ -110,6 +114,14 @@ users->opened().connect(...);        // show user list for "/user/"
 IntegerNode* user_profile = new IntegerNode(users);
 user_profile->opened().connect(...); // show user profile for "/user/xxx"
 \endcode
+
+We can use Parser::child_opened() instead of Node::opened() to save memory
+(Signal object is raather large):
+\code
+parser->child_opened().connect(...);
+\endcode
+In this case handler may compare its argument to known Node instances
+to find out what to do.
 
 <h3>Detailed example</h3>
 
@@ -201,13 +213,14 @@ public:
     /** Return parser or 0 */
     Parser* parser() const;
 
-    /** Emit signal.
+    /** Emit signals.
     \param change_path Whether internal path of wApp should be changed.
     */
     void open(bool change_path = true);
 
     /** Signal emitted when url is opened.
     This signal is created lazily.
+    \see Parser::child_opened()
     */
     Signal<>& opened();
 
@@ -336,9 +349,13 @@ public:
     */
     Node* parse(const std::string& path);
 
+#ifndef DOXYGEN_ONLY
+    void open(Node* node);
+#endif
+
     /** Parse the internal path and open corresponding path node.
     This method does not change URL in address line
-    (Node::open() is called with change_path = false).
+    (as if Node::open() is called with change_path = false).
     */
     void open(const std::string& path);
 
@@ -354,8 +371,14 @@ public:
         return error404_;
     }
 
+    /** Signal emitted when url is opened */
+    Signal<Node*>& child_opened() {
+        return child_opened_;
+    }
+
 private:
     Signal<> error404_;
+    Signal<Node*> child_opened_;
 };
 
 }

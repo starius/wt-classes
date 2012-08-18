@@ -1,3 +1,6 @@
+2012-08-18:
+    * improve memory usage by Url component by providing parser.child_opened()
+
 2012-08-17:
     * add static method url() to GravatarImage
 

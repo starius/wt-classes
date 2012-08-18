@@ -83,8 +83,9 @@ void Node::open(bool change_path) {
     if (change_path) {
         wApp->setInternalPath(full_path(), /*emitChange */ false);
     }
-    if (opened_) {
-        opened().emit();
+    Parser* p = parser();
+    if (p) {
+        p->open(this);
     }
 }
 
@@ -202,10 +203,17 @@ Node* Parser::parse(const std::string& path) {
     return node;
 }
 
+void Parser::open(Node* node) {
+    if (node->opened_) {
+        node->opened().emit();
+    }
+    child_opened_.emit(node);
+}
+
 void Parser::open(const std::string& path) {
     Node* node = parse(path);
     if (node) {
-        node->open(/* change_path */ false);
+        open(node);
     } else {
         error404().emit();
     }
