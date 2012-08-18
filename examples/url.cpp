@@ -33,7 +33,7 @@ public:
         about_->opened().connect(this, &UrlApp::show_about);
         about_smth_->opened().connect(this, &UrlApp::show_about_smth);
         users_->opened().connect(this, &UrlApp::show_users);
-        user_profile_->opened().connect(this, &UrlApp::show_user_profile);
+        parser_->child_opened().connect(this, &UrlApp::open_node);
         //
         WAnchor* main = new WAnchor(root());
         main->setRefInternalPath(parser_->full_path());
@@ -90,6 +90,12 @@ public:
         int user_id = user_profile_->integer();
         std::string user_id_str = boost::lexical_cast<std::string>(user_id);
         new WText("User " + user_id_str, contents_);
+    }
+
+    void open_node(Node* node) {
+        if (node == user_profile_) {
+            show_user_profile();
+        }
     }
 
 private:

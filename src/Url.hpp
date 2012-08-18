@@ -128,6 +128,7 @@ to find out what to do.
 In the example bellow, main features of this module are demonstrated:
  - tree of internal path nodes,
  - connection of Node::opened() to function, displaying something,
+ - connection of Parser::child_opened() to function, which accepts Node*.
  - Parser is also a Node, it corresponds to the main page,
  - use of Parser::open(),
  - referring internal paths.
@@ -136,6 +137,8 @@ It is a model of content and user oriented site.
 
 Each user has integer identifier.
 User profile is shown in internal path like "/user/123".
+This node (user_profile_) is connected through Parser::child_opened().
+
 The list of users is shown in "/user".
 It is shown as a "file", not as a "directory"
 to demonstrate Node::SlashStrategy feature.
