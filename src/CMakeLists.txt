@@ -33,6 +33,13 @@ if(NOT WC_HAVE_GRAVATAR)
         ${CMAKE_CURRENT_SOURCE_DIR}/GravatarImage.hpp)
 endif()
 
+if(NOT WC_HAVE_PAGER)
+    list(REMOVE_ITEM wtclasses_sources
+        ${CMAKE_CURRENT_SOURCE_DIR}/Pager.cpp)
+    list(REMOVE_ITEM wtclasses_headers
+        ${CMAKE_CURRENT_SOURCE_DIR}/Pager.hpp)
+endif()
+
 foreach(wtclasses_header ${wtclasses_headers})
     get_filename_component(name ${wtclasses_header} NAME)
     configure_file(${wtclasses_header} ${local_headers_dir}/${name})

@@ -37,6 +37,7 @@ class FileView;
 class ResourceView;
 class MapImage;
 class MapViewer;
+class Pager;
 
 class AbstractArgument;
 class AbstractInput;
