@@ -31,6 +31,10 @@ if(NOT WC_HAVE_GRAVATAR)
     list(REMOVE_ITEM examples_sources ${CMAKE_CURRENT_SOURCE_DIR}/gravatar.cpp)
 endif()
 
+if(NOT WC_HAVE_PAGER)
+    list(REMOVE_ITEM examples_sources ${CMAKE_CURRENT_SOURCE_DIR}/pager.cpp)
+endif()
+
 include(FindPythonInterp)
 
 list(REMOVE_DUPLICATES examples_sources)
