@@ -41,6 +41,9 @@ void Pager::update() {
     std::set<int> pages;
     int first = 0;
     int last = view_->pageCount() - 1;
+    if (last == 0) {
+        return; // only one page
+    }
     pages.insert(0);
     pages.insert(view_->pageCount() - 1);
     int current = view_->currentPage();
