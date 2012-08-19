@@ -46,6 +46,8 @@ check_cxx_source_compiles("#include <Wt/WDialog>\n int main() {
     Wt::WDialog().titleBar(); }" WC_HAVE_WDIALOG_TITLEBAR)
 check_cxx_source_compiles("#include <Wt/Json/Object>\n int main() {
     Wt::Json::Object obj; }" WC_HAVE_JSON_OBJECT)
+check_cxx_source_compiles("#include <Wt/WTableView>\n int main() {
+    Wt::WTableView v; v.setCurrentPage(0); }" WC_HAVE_ITEMVIEW_PAGING)
 
 if(WC_HAVE_WT_MD5)
     set(WC_HAVE_MD5 ON)
@@ -57,4 +59,5 @@ endif()
 
 set(WC_HAVE_GRAVATAR ${WC_HAVE_MD5})
 set(WC_HAVE_RECAPTCHA ${WC_HAVE_WHTTP_MESSAGE})
+set(WC_HAVE_PAGER ${WC_HAVE_ITEMVIEW_PAGING})
 
