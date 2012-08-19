@@ -122,28 +122,42 @@ boost::function<void()> bound_post(boost::function<void()> func) {
     }
 }
 
+typedef std::vector<boost::any> Anys;
+
+typedef std::pair<Anys, boost::mutex> LockedAnys;
+
 struct OneAnyFuncBinder {
     void operator()() {
-        func(*arg_ptr);
+        boost::mutex& mutex = arg_ptr->second;
+        Anys& anys = arg_ptr->first;
+        mutex.lock();
+        boost::any arg = anys.back();
+        anys.pop_back();
+        mutex.unlock();
+        func(arg);
     }
     OneAnyFunc func;
-    boost::shared_ptr<boost::any> arg_ptr;
+    boost::shared_ptr<LockedAnys> arg_ptr;
 };
 
 struct OneAnyFuncHolder {
     void operator()(const boost::any& arg) {
-        *arg_ptr = arg;
+        boost::mutex& mutex = arg_ptr->second;
+        Anys& anys = arg_ptr->first;
+        mutex.lock();
+        anys.push_back(arg);
+        mutex.unlock();
         posted_binder();
     }
     boost::function<void()> posted_binder;
-    boost::shared_ptr<boost::any> arg_ptr;
+    boost::shared_ptr<LockedAnys> arg_ptr;
 };
 
 OneAnyFunc one_bound_post(const OneAnyFunc& func) {
     OneAnyFuncBinder binder;
     OneAnyFuncHolder holder;
     binder.func = func;
-    binder.arg_ptr = boost::make_shared<boost::any>();
+    binder.arg_ptr = boost::make_shared<LockedAnys>();
     holder.arg_ptr = binder.arg_ptr;
     holder.posted_binder = bound_post(binder);
     return holder;
