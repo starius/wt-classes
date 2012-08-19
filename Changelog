@@ -1,5 +1,6 @@
 2012-08-19:
     * fix races in Notify, which may crash an app
+    * fix races in one_bound_post, occured in case of re-use it's result
 
 2012-07-30:
     * make Countdown work in Wt 3.2.2
