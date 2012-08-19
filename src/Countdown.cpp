@@ -70,6 +70,8 @@ Countdown::Countdown(WContainerWidget* parent, bool load_javascript):
     implementJavaScript(&Countdown::lap, lap_js());
     implementJavaScript(&Countdown::resume, resume_js());
     if (load_javascript) {
+        wApp->require("https://ajax.googleapis.com/ajax/libs/"
+                      "jquery/1.7.2/jquery.min.js", "jQuery");
         wApp->require("https://raw.github.com/starius/wt-classes/"
                       "gh-pages/jquery.countdown.min.js");
     }

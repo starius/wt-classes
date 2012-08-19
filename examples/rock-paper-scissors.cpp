@@ -33,7 +33,6 @@ using namespace Wt::Wc::td;
 
 notify::Server server;
 notify::PlanningServer planning(&server);
-boost::mutex key_to_score_mutex;
 
 enum Choice {
     NOTHING, ROCK, PAPER, SCISSORS
@@ -68,6 +67,20 @@ typedef boost::shared_ptr<User> UserPtr;
 
 typedef std::map<std::string, UserPtr> Key2User;
 Key2User key_to_user;
+boost::mutex key_to_user_mutex;
+
+// Null in result means that name already taken
+// On logout you must remove record from key_to_user!
+UserPtr create_user(const std::string& email) {
+    boost::mutex::scoped_lock lock(key_to_user_mutex);
+    if (key_to_user.find(email) != key_to_user.end()) {
+        return UserPtr();
+    } else {
+        UserPtr result = boost::make_shared<User>(email);
+        key_to_user[result->key()] = result;
+        return result;
+    }
+}
 
 struct Game : public notify::Task {
     unsigned int id;
@@ -243,18 +256,20 @@ public:
         notify::Widget(user->key(), &server),
         user_(user), me_(me) {
         UserImage* image = new UserImage(user_, elementAt(0, 0));
-        if (user != me) {
-            clicked().connect(this, &UserRecord::start_game_with);
-            decorationStyle().setCursor(PointingHandCursor);
-        }
         score_ = new WText(TO_S(user->score), elementAt(1, 0));
+        if (user != me) {
+            image->clicked().connect(this, &UserRecord::start_game_with);
+            image->decorationStyle().setCursor(PointingHandCursor);
+            score_->clicked().connect(this, &UserRecord::start_game_with);
+            score_->decorationStyle().setCursor(PointingHandCursor);
+        }
         elementAt(1, 0)->setContentAlignment(AlignCenter);
         setInline(true);
         set_border_color(this, gray);
     }
 
     void notify(notify::EventPtr /* event */) {
-        boost::mutex::scoped_lock lock(key_to_score_mutex);
+        boost::mutex::scoped_lock lock(key_to_user_mutex);
         if (key_to_user.find(user_->key()) == key_to_user.end()) {
             delete this;
         } else {
@@ -295,7 +310,7 @@ public:
         WContainerWidget(parent),
         notify::Widget(NewUser(UserPtr()).key(), &server),
         me_(me) {
-        boost::mutex::scoped_lock lock(key_to_score_mutex);
+        boost::mutex::scoped_lock lock(key_to_user_mutex);
         BOOST_FOREACH (Key2User::value_type& key_and_user, key_to_user) {
             new UserRecord(key_and_user.second, me_, this);
         }
@@ -318,9 +333,6 @@ public:
         WContainerWidget(parent),
         notify::Widget(NewGame(GamePtr(), me).key(), &server),
         me_(me) {
-        key_to_score_mutex.lock();
-        key_to_user[me->key()] = me;
-        key_to_score_mutex.unlock();
         addWidget(new UserRecord(me, me));
         addWidget(new WText("<hr />"));
         addWidget(new WText("Click on the player you want to play with"));
@@ -329,12 +341,9 @@ public:
     }
 
     ~RpsWidget() {
-        key_to_score_mutex.lock();
+        key_to_user_mutex.lock();
         key_to_user.erase(me_->key());
-        key_to_score_mutex.unlock();
-        for (Key2User::iterator it = key_to_user.begin();
-                it != key_to_user.end(); ++it) {
-        }
+        key_to_user_mutex.unlock();
         server.emit(me_);
         BOOST_FOREACH (WDialog* dialog, std::set<WDialog*>(dialogs_)) {
             dialog->accept();
@@ -385,11 +394,12 @@ private:
     }
 
     void do_login() {
-        if (key_to_user.find(email_->text().toUTF8()) != key_to_user.end()) {
+        std::string email = email_->text().toUTF8();
+        UserPtr me = create_user(email);
+        if (!me) {
             email_->setText("Already taken");
             return;
         }
-        std::string email = email_->text().toUTF8();
         root()->clear();
         WPushButton* logout = new WPushButton("Log out", root());
         logout->clicked().connect(this, &RpsApp::do_logout);
@@ -397,17 +407,21 @@ private:
             WPushButton* update = new WPushButton("Update", root());
             update->clicked().connect(update, &WWidget::show); // do nothing
         }
-        UserPtr me = boost::make_shared<User>(email);
         root()->addWidget(new RpsWidget(me));
     }
 };
+
+struct ServerConfig {
+    ServerConfig() {
+        server.set_direct_to_this(true);
+    }
+} server_config;
 
 WApplication* createRockPaperScissorsApp(const WEnvironment& env) {
     return new RpsApp(env);
 }
 
 int main(int argc, char** argv) {
-    server.set_direct_to_this(true);
     return WRun(argc, argv, &createRockPaperScissorsApp);
 }
 

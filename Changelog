@@ -1,3 +1,18 @@
+2012-08-19:
+    * fix races in Notify, which may crash an app
+
+2012-07-30:
+    * make Countdown work in Wt 3.2.2
+
+2012-07-28:
+    * fix false possitive error in locales-test (using Wt's messages locally)
+
+2012-07-11:
+    * fix crash, if wApp is invalid when schedule_action() is called
+
+2012-07-07:
+    * improve generation of random numbers in a range (if no WRandom)
+
 2012-05-01:
     * add NotifyServer.direct_to_this parameter
     * started Release notes

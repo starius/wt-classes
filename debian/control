@@ -31,6 +31,7 @@ Package: libwtclasses12
 Section: libs
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends},
+ libwtclasses-data (>= ${source:Version}),
  libwt-common (>= 3.1.2)
 Recommends: libjs-yui (>= 2.8.0)
 Description: utility classes used by Wt applications [runtime]
@@ -44,9 +45,16 @@ Description: utility classes used by Wt applications [runtime]
   * Random numbers
   * Bindings to non-Wt code
 
+Package: libwtclasses-data
+Section: libs
+Architecture: all
+Depends: ${misc:Depends}
+Description: utility classes used by Wt applications [data]
+ The package contains locales, css, javascript, etc.
+
 Package: libwtclasses
 Section: libs
-Architecture: any
+Architecture: all
 Depends: ${misc:Depends}, libwtclasses12
 Description: utility classes used by Wt applications
  This package is a dependency package.
@@ -62,7 +70,7 @@ Description: utility classes used by Wt applications [examples]
 
 Package: libwtclasses-doc
 Section: doc
-Architecture: any
+Architecture: all
 Depends: ${misc:Depends}
 Recommends: doc-base
 Suggests: libwtclasses-dev
@@ -71,7 +79,7 @@ Description: utility classes used by Wt applications [doc]
 
 Package: wtclasses-progs
 Section: devel
-Architecture: any
+Architecture: all
 Depends: ${python:Depends}, ${misc:Depends},
  python2.7 | python (>= 3.1) | python-argparse
 Description: Wt application developer helpers

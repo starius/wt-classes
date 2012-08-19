@@ -127,7 +127,7 @@ public:
 
     /** Utility method used to schedule a function.
     This is a method for convenience.
-    \see schedule_action
+    \see schedule_action()
     */
     void schedule(const td::TimeDuration& wait,
                   const boost::function<void()>& func);
