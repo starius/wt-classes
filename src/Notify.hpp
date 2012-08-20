@@ -185,6 +185,26 @@ public:
         direct_to_this_ = direct_to_this;
     }
 
+    /** Return if sequential events, posted to one app, can be merged.
+    If there are two events, which are listened by an application,
+    then sequential emitting these events can be optimized.
+
+    Defaults to true.
+
+    \see one_bound_post()
+    */
+    bool merge_allowed() const {
+        return merge_allowed_;
+    }
+
+    /** Set if sequential events, posted to one app, can be merged.
+    \note This will not affect applications, that already have
+        widgets, connected to this server.
+    */
+    void set_merge_allowed(bool merge_allowed) {
+        merge_allowed_ = merge_allowed;
+    }
+
 private:
     typedef boost::shared_ptr<OneAnyFunc> PosterPtr;
     typedef boost::weak_ptr<OneAnyFunc> PosterWeakPtr;
@@ -198,6 +218,7 @@ private:
     mutable boost::mutex mutex_;
     bool updates_enabled_;
     bool direct_to_this_;
+    bool merge_allowed_;
 
     void start_listening(Widget* widget);
 

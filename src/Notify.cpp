@@ -31,7 +31,8 @@ Widget::~Widget() {
 
 Server::Server(WServer* /* server */):
     updates_enabled_(true),
-    direct_to_this_(false)
+    direct_to_this_(false),
+    merge_allowed_(true)
 { }
 
 void Server::emit(EventPtr event) const {
@@ -69,7 +70,7 @@ void Server::start_listening(Widget* widget) {
         PosterWeakPtr& poster_weak_ptr = a2p_[app_id];
         if (poster_weak_ptr.expired()) {
             OneAnyFunc notify = boost::bind(&Server::notify_widgets, this, _1);
-            OneAnyFunc poster = one_bound_post(notify);
+            OneAnyFunc poster = one_bound_post(notify, merge_allowed_);
             poster_ptr = boost::make_shared<OneAnyFunc>(poster);
             poster_weak_ptr = poster_ptr;
         } else {
