@@ -89,11 +89,19 @@ boost::function<void()> bound_post(boost::function<void()> func);
 typedef boost::function<void(const boost::any&)> OneAnyFunc;
 
 /** Return the same function, but being called afterwards.
+\param func The function, called afterwards as if it is called in this app.
+    When you call returned functor with boost::any, this will result
+    in calling \p func with this boost::any.
+\param allow_merge Whether sequential calls of returned functor
+    are allowed to be merged and executed through single post.
+    This is optimization of number of function posts (call of function,
+    returned by bound_post()) and pushed of server initiated updates.
+
 This function is like bound_post(), but it allows to bind one argument.
 
 \ingroup util
 */
-OneAnyFunc one_bound_post(const OneAnyFunc& func);
+OneAnyFunc one_bound_post(const OneAnyFunc& func, bool allow_merge = true);
 
 /** Call triggerUpdate() in current WApplication, if updates are enabled.
 

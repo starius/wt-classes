@@ -124,40 +124,60 @@ boost::function<void()> bound_post(boost::function<void()> func) {
 
 typedef std::vector<boost::any> Anys;
 
-typedef std::pair<Anys, boost::mutex> LockedAnys;
+struct OneData {
+    Anys anys;
+    boost::mutex mutex;
+    bool allow_merge;
+};
 
 struct OneAnyFuncBinder {
     void operator()() {
-        boost::mutex& mutex = arg_ptr->second;
-        Anys& anys = arg_ptr->first;
-        mutex.lock();
-        boost::any arg = anys.back();
-        anys.pop_back();
-        mutex.unlock();
-        func(arg);
+        boost::mutex& mutex = arg_ptr->mutex;
+        Anys& anys = arg_ptr->anys;
+        bool allow_merge = arg_ptr->allow_merge;
+        if (allow_merge) {
+            mutex.lock();
+            Anys anys_copy = anys;
+            anys.clear();
+            mutex.unlock();
+            BOOST_FOREACH (const boost::any& arg, anys_copy) {
+                func(arg);
+            }
+        } else {
+            mutex.lock();
+            boost::any arg = anys.back();
+            anys.pop_back();
+            mutex.unlock();
+            func(arg);
+        }
     }
     OneAnyFunc func;
-    boost::shared_ptr<LockedAnys> arg_ptr;
+    boost::shared_ptr<OneData> arg_ptr;
 };
 
 struct OneAnyFuncHolder {
     void operator()(const boost::any& arg) {
-        boost::mutex& mutex = arg_ptr->second;
-        Anys& anys = arg_ptr->first;
+        boost::mutex& mutex = arg_ptr->mutex;
+        Anys& anys = arg_ptr->anys;
+        bool allow_merge = arg_ptr->allow_merge;
         mutex.lock();
+        bool post_needed = !allow_merge || anys.empty();
         anys.push_back(arg);
         mutex.unlock();
-        posted_binder();
+        if (post_needed) {
+            posted_binder();
+        }
     }
     boost::function<void()> posted_binder;
-    boost::shared_ptr<LockedAnys> arg_ptr;
+    boost::shared_ptr<OneData> arg_ptr;
 };
 
-OneAnyFunc one_bound_post(const OneAnyFunc& func) {
+OneAnyFunc one_bound_post(const OneAnyFunc& func, bool allow_merge) {
     OneAnyFuncBinder binder;
     OneAnyFuncHolder holder;
     binder.func = func;
-    binder.arg_ptr = boost::make_shared<LockedAnys>();
+    binder.arg_ptr = boost::make_shared<OneData>();
+    binder.arg_ptr->allow_merge = allow_merge;
     holder.arg_ptr = binder.arg_ptr;
     holder.posted_binder = bound_post(binder);
     return holder;
