@@ -266,14 +266,17 @@ std::string Countdown::duration_for_js(const TimeDuration& duration) {
 
 void Countdown::do_js(const std::string& js) {
     if (!view_) {
+        clear_timeout();
         doJavaScript(js);
     }
 }
 
 void Countdown::do_js(const std::string& js, const td::TimeDuration& duration) {
     if (!view_) {
-        doJavaScript("setTimeout(function() {" + js +
-                     "}, " + TO_S(duration.total_milliseconds()) + ");");
+        clear_timeout();
+        doJavaScript("$(" + jsRef() + ").data('timeout',"
+                     "setTimeout(function() {" + js +
+                     "}, " + TO_S(duration.total_milliseconds()) + "));");
     }
 }
 
@@ -357,6 +360,12 @@ void Countdown::after_time_change() {
           "} else if ($(" + jsRef() + ").data('interrupted') == 'lap') {" +
           wrap_js("'lap'") +
           "}");
+}
+
+void Countdown::clear_timeout() {
+    doJavaScript("if ($(" + jsRef() + ").data('timeout')) {"
+                 "clearTimeout($(" + jsRef() + ").data('timeout'));"
+                 "}");
 }
 
 }

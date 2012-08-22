@@ -1,3 +1,6 @@
+2012-08-22:
+    * cancel scheduled tasks in Countdown when time-related action is performed
+
 2012-08-20:
     * add arg allow_merge to one_bound_post (optimization)
 
