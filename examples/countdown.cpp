@@ -62,10 +62,9 @@ public:
         a->expired()->connect(b, &Countdown::resume);
         //
         new WBreak(root());
-        new WText("Countdown, paused in 5 s, resumed in 10 s: ", root());
+        new WText("Countdown, paused in 10 s: ", root());
         Countdown* five = new Countdown(root());
-        five->pause(5 * SECOND);
-        five->resume(10 * SECOND);
+        five->pause(10 * SECOND);
         //
         new WBreak(root());
         new WText("Already paused countdown ", root());
