@@ -106,19 +106,25 @@ public:
     /** Stop the countdown but don't clear it */
     void pause();
 
-    /** Stop the countdown but don't clear it after the duration */
+    /** Stop the countdown but don't clear it after the duration.
+    Time-related change of the timeout will cancel this task.
+    */
     void pause(const td::TimeDuration& duration);
 
     /** Stop the display but continue the countdown */
     void lap();
 
-    /** Stop the display but continue the countdown after the duration */
+    /** Stop the display but continue the countdown after the duration.
+    Time-related change of the timeout will cancel this task.
+    */
     void lap(const td::TimeDuration& duration);
 
     /** Restart a paused or lap countdown */
     void resume();
 
-    /** Restart a paused or lap countdown after the duration */
+    /** Restart a paused or lap countdown after the duration.
+    Time-related change of the timeout will cancel this task.
+    */
     void resume(const td::TimeDuration& duration);
 
 #ifndef DOXYGEN_ONLY
@@ -192,6 +198,8 @@ private:
     std::string resume_js() const;
     void before_time_change();
     void after_time_change();
+    void clear_timeout();
+
 };
 
 }
