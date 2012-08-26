@@ -42,7 +42,7 @@ void Server::emit(EventPtr event) const {
     if (it != o2w_.end()) {
         BOOST_FOREACH (const A2W::value_type& a2w, it->second) {
             WApplication* app = a2w.first;
-            if (!direct_to_this_ || app != wApp) {
+            if (!direct_to_this_ || app != wApp || app == 0) {
                 const PosterAndWidgets& poster_and_widgets = a2w.second;
                 const OneAnyFunc& poster = *(poster_and_widgets.first);
                 poster(event);
