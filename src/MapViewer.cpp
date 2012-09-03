@@ -610,7 +610,7 @@ const std::string MapViewer::cipher(const std::string& str) {
     const std::wstring& wstr = WString().fromUTF8(str).value();
     std::stringstream strm;
     for (unsigned i = 0; i < wstr.size(); ++i) {
-        if (std::iswprint(wstr[i])) {
+        if (wstr[i] < 128) {
             strm.put(char(wstr[i]));
         } else {
             strm.put('\\');
