@@ -421,6 +421,24 @@ void fix_text_edit(WTextEdit* text_edit) {
     }
 }
 
+std::string json_escape_utf8(const std::string& utf8) {
+    const std::wstring& wstr = WString().fromUTF8(utf8).value();
+    std::stringstream strm;
+    for (unsigned i = 0; i < wstr.size(); ++i) {
+        if (wstr[i] < 128) {
+            strm.put(char(wstr[i]));
+        } else {
+            strm.put('\\');
+            strm.put('u');
+            strm << std::hex
+                 << std::setfill('0')
+                 << std::setw(4)
+                 << short(wstr[i]);
+        }
+    }
+    return strm.str();
+}
+
 }
 
 }

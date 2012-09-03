@@ -254,6 +254,12 @@ If the size of WTextEdit was not set, it is set to 525x130 pp.
 */
 void fix_text_edit(WTextEdit* text_edit);
 
+/** Excape UTF-8 chars (>=128) with \uXXXX sequences for Json parser.
+This function does preprocessing of JSON, containing UTF-8 chars.
+(needed for Wt <= 3.2.2).
+*/
+std::string json_escape_utf8(const std::string& utf8);
+
 }
 
 }

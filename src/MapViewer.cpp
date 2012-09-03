@@ -607,21 +607,7 @@ void MapViewer::nominatim_data_parser(const std::string& data) {
 }
 
 const std::string MapViewer::cipher(const std::string& str) {
-    const std::wstring& wstr = WString().fromUTF8(str).value();
-    std::stringstream strm;
-    for (unsigned i = 0; i < wstr.size(); ++i) {
-        if (wstr[i] < 128) {
-            strm.put(char(wstr[i]));
-        } else {
-            strm.put('\\');
-            strm.put('u');
-            strm << std::hex
-                 << std::setfill('0')
-                 << std::setw(4)
-                 << short(wstr[i]);
-        }
-    }
-    return strm.str();
+    return json_escape_utf8(str);
 }
 
 #if defined(WC_HAVE_WHTTP_MESSAGE) && defined(WC_HAVE_JSON_OBJECT)
