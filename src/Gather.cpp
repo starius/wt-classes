@@ -43,7 +43,7 @@ void Gather::set_swfstore(SWFStore* swfstore) {
 // FIXME random numbers?? need statictical data
 int Gather::significance(DataType type) {
     if (type == COOKIE || type == SWF) {
-        return 100;
+        return 10000;
     } else if (type == IP) {
         return 45;
     } else if (type == PLUGINS || type == MIME_TYPES) {
