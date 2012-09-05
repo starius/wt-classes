@@ -7,6 +7,8 @@
 
 #include "config.hpp"
 #include <climits>
+#include <cstdlib>
+#include <fstream>
 
 #ifdef WC_HAVE_WRANDOM
 #include <Wt/WRandom>
@@ -16,6 +18,7 @@
 #endif
 
 #include "rand.hpp"
+#include "util.hpp"
 
 namespace Wt {
 
@@ -80,6 +83,26 @@ std::string rand_string(int length) {
     }
     return result;
 #endif
+}
+
+std::string good_password() {
+    std::string result;
+    std::string filename = unique_filename();
+    std::string cmd = "pwqgen > " + filename;
+    system(cmd.c_str());
+    std::ifstream stream(filename.c_str());
+    if (stream.good()) {
+        stream >> result;
+    }
+    stream.close();
+    remove(filename.c_str());
+    if (result.size() < 4) {
+        result = rand_string(16);
+        result[rr(0, 15)] = '$';
+        result[rr(0, 15)] = '%';
+        result[rr(0, 15)] = '_';
+    }
+    return result;
 }
 
 }

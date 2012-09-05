@@ -66,6 +66,13 @@ ptrdiff_t rand_for_shuffle(ptrdiff_t i);
 */
 std::string rand_string(int length = 16);
 
+/** Return password, which is accepted by default PasswordStrengthValidator.
+Uses \c pwqgen tool. If not awailable, rand_string() is used.
+
+\ingroup rand
+*/
+std::string good_password();
+
 }
 
 }
