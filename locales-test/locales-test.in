@@ -129,7 +129,8 @@ def analyze_message(message, prev_message, ids, wt_ids, prefix, sections, e,
                 if '\n' in full(prev_message) and '\n' not in full(message):
                     e('non-multiline message after multiline messages')
                 if '\n' in full(prev_message) and '\n' in full(message) \
-                    and prev_message.get('id') > Id and not 'board' in Id:
+                    and prev_message.get('id').lower() > Id.lower() \
+                    and not 'board' in Id:
                     e('multiline messages %s and %s are unordered' %
                             (prev_message.get('id'), Id))
     if tr:
