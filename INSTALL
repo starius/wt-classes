@@ -31,14 +31,18 @@ Recommendations:
  * YUI library >= 2.8.0 for SWFStore
  * openssl library (for md5) or Wt 3.2.1+ for md5 for class GravatarImage
  * python, containing argparse module for locales-test
+ * pwqgen command for good_password()
  * recommendations for Wt:
   * Wt/WRasterImage for class PaintedCaptcha
-  * Wt/Http/Message for class Recaptcha
+  * Wt/Http/Message for class Recaptcha and MapViewer/search in HTML mode
   * Wt/W(Double)SpinBox for Constrained(Double)SpinBox
   * Wt::Dbo::SqlTime to integrate TimeDuration into Wt::Dbo
   * Wt/WIOService for improved timers
   * Wt/WRandom for safer random numbers
   * WServer::post() for safer application events posts
+  * Wt::Json for MapViewer/search in HTML mode
+  * WDialog::setClosable() (if not available, ugly button is used instead)
+  * WTableView::setCurrentPage for Pager
 
 Build-only recommendations:
  * rst2man (used to build manpage)
