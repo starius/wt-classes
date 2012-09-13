@@ -27,6 +27,10 @@ This is an example of how to use the Wt::Wc::Recaptcha class.
 This is an example of how to use the \ref url module.
 */
 
+/** \example examples/url-sitemap.cpp
+This is an example of how to use the Wt::Wc::url::SiteMapGenerator class.
+*/
+
 #ifdef WC_HAVE_GRAVATAR
 /** \example examples/gravatar.cpp
 This is an example of how to use the Wt::Wc::GravatarImage class.

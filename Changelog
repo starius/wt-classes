@@ -1,3 +1,6 @@
+2012-09-13:
+    * genarate sitemap.xml from Url component
+
 2012-09-08:
     * ignore case of id of multiline messages when ordering (bugfix)
 

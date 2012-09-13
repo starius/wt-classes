@@ -12,8 +12,10 @@
 #include <boost/algorithm/string/classification.hpp>
 #include <boost/foreach.hpp>
 #include <boost/lexical_cast.hpp>
+#include <boost/bind.hpp>
 
 #include <Wt/WApplication>
+#include <Wt/WEnvironment>
 
 #include "Url.hpp"
 #include "util.hpp"
@@ -249,6 +251,106 @@ void Parser::disconnect(Node* child) {
     typedef std::pair<It, It> ItPair;
     ItPair begin_end = handlers_.equal_range(child);
     handlers_.erase(begin_end.first, begin_end.second);
+}
+
+SiteMapGenerator::SiteMapGenerator(Node* root):
+    root_(root) {
+    std::stringstream ss;
+    if (wApp) {
+        const WEnvironment& e = wApp->environment();
+        ss << e.urlScheme() + "://" + e.hostName();
+    } else {
+        ss << "http://localhost";
+    }
+    if (root->node_parent()) {
+        root->node_parent()->write_all_to(ss);
+    }
+    base_loc_ = ss.str();
+    if (base_loc_[base_loc_.size() - 1] == '/') {
+        // remove ending '/'
+        base_loc_.resize(base_loc_.size() - 1);
+    }
+    default_params_.lastmod = WDate::currentDate();
+    default_params_.changefreq = ALWAYS;
+    default_params_.priority = 0.5;
+}
+
+void SiteMapGenerator::generate(std::ostream& out) const {
+    out << "<?xml version='1.0' encoding='UTF-8'?>" << std::endl;
+    out << "<urlset xmlns='http://www.sitemaps.org/schemas/sitemap/0.9'>";
+    out << std::endl;
+    dig_node(root_, out);
+    out << "</urlset>" << std::endl;
+}
+
+void SiteMapGenerator::for_each_value(Node* node,
+                                      const AnyCaller& callback) const
+{ }
+
+bool SiteMapGenerator::node_handler(Node*, UrlParams&) const {
+    return true;
+}
+
+void SiteMapGenerator::dig_node(Node* node, std::ostream& out) const {
+    if (isinstance<PredefinedNode>(node) || isinstance<Parser>(node)) {
+        visit_node(node, out, node->value());
+    } else {
+        for_each_value(node, boost::bind(&SiteMapGenerator::visit_node,
+                                         this, node, boost::ref(out), _1));
+    }
+}
+
+const char* change_freq(SiteMapGenerator::ChangeFreq freq) {
+    if (freq == SiteMapGenerator::ALWAYS) {
+        return "always";
+    } else if (freq == SiteMapGenerator::HOURLY) {
+        return "hourly";
+    } else if (freq == SiteMapGenerator::DAILY) {
+        return "daily";
+    } else if (freq == SiteMapGenerator::WEEKLY) {
+        return "weekly";
+    } else if (freq == SiteMapGenerator::MONTHLY) {
+        return "monthly";
+    } else if (freq == SiteMapGenerator::YEARLY) {
+        return "yearly";
+    } else if (freq == SiteMapGenerator::NEVER) {
+        return "never";
+    } else {
+        return "";
+    }
+}
+
+void SiteMapGenerator::visit_node(Node* node, std::ostream& out,
+                                  boost::any v) const {
+    std::string value;
+    try {
+        value = boost::any_cast<std::string>(v);
+    } catch (...) {
+        value = TO_S(boost::any_cast<int>(v));
+    }
+    if (node->meet(value)) {
+        node->set_value(value, /* check */ false);
+        UrlParams params = default_params();
+        if (node_handler(node, params)) {
+            out << "  <url>" << std::endl;
+            out << "    <loc>" << base_loc();
+            node->write_all_to(out, root_);
+            out << "</loc>" << std::endl;
+            out << "    <lastmod>" << params.lastmod.toString("yyyy-MM-dd");
+            out << "</lastmod>" << std::endl;
+            out << "    <changefreq>" << change_freq(params.changefreq);
+            out << "</changefreq>" << std::endl;
+            out << "    <priority>" << params.priority;
+            out << "</priority>" << std::endl;
+            out << "  </url>" << std::endl;
+        }
+        BOOST_FOREACH (WObject* o, node->children()) {
+            if (isinstance<Node>(o)) {
+                Node* child = DOWNCAST<Node*>(o);
+                dig_node(child, out);
+            }
+        }
+    }
 }
 
 }

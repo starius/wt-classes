@@ -14,10 +14,12 @@
 #include <string>
 #include <ostream>
 #include <boost/function.hpp>
+#include <boost/any.hpp>
 
 #include <Wt/WGlobal>
 #include <Wt/WObject>
 #include <Wt/WSignal>
+#include <Wt/WDate>
 #ifdef WC_HAVE_WLINK
 #include <Wt/WLink>
 #endif
@@ -40,6 +42,8 @@ This classes allow you to keep all url-related code in one place.
 
 \note Before reading the rest of this documentation,
     read about internal paths in the Wt documentation.
+
+See SiteMapGenerator for information on how to generate sitemap.
 
 <h3>node</h3>
 
@@ -260,6 +264,7 @@ private:
     SlashStrategy slash_strategy_ : 8;
 
     friend class Parser;
+    friend class SiteMapGenerator;
 };
 
 /** Predefined part of an URL.
@@ -406,6 +411,124 @@ private:
     Signal<> error404_;
     Signal<Node*> child_opened_;
     Handlers handlers_;
+};
+
+/** Generator of sitemap from Node objects.
+
+See http://www.sitemaps.org/protocol.html
+for more information about Sitemaps XML format.
+
+\ingroup url
+*/
+class SiteMapGenerator {
+public:
+    /** How frequently the page is likely to change */
+    enum ChangeFreq {
+        ALWAYS, /**< For documents changing every moment */
+        HOURLY, /**< Hourly */
+        DAILY, /**< Daily */
+        WEEKLY, /**< Weekly */
+        MONTHLY, /**< Monthly */
+        YEARLY, /**< Yearly */
+        NEVER /**< For archive pages */
+    };
+
+    /** Properties of location */
+    struct UrlParams {
+        /** The date of last modification of the page */
+        WDate lastmod;
+
+        /** How frequently the page is likely to change */
+        ChangeFreq changefreq;
+
+        /** The priority of this URL relative to other URLs on your site.
+        Defaults to 0.5.
+        */
+        float priority;
+    };
+
+    /** Constructor.
+    \param root Root node, whose family will be presented in sitemap.
+        This needs not to be general root (parser),
+        you can pass any node here.
+        Location will be concatenated from base_loc() and
+        \ref Node::write_all_to "part of path beginning from root".
+        (see example url-sitemap.cpp, "Sitemap of /about/").
+    */
+    SiteMapGenerator(Node* root);
+
+    /** Stream sitemap */
+    void generate(std::ostream& out) const;
+
+    /** Return root node whose family will be presented in sitemap */
+    Node* root() const {
+        return root_;
+    }
+
+    /** Set root node whose family will be presented in sitemap */
+    void set_root(Node* root) {
+        root_ = root;
+    }
+
+    /** Base location */
+    const std::string& base_loc() const {
+        return base_loc_;
+    }
+
+    /** Set base location.
+    Should not end with '/'.
+
+    Defaults to urlScheme() + "://" + hostName() + path/to/root.
+    */
+    void set_base_loc(const std::string& base_loc) {
+        base_loc_ = base_loc;
+    }
+
+    /** Get default params passed to node_handler() */
+    const UrlParams& default_params() const {
+        return default_params_;
+    }
+
+    /** Set default params passed to node_handler() */
+    void set_default_params(const UrlParams& default_params) {
+        default_params_ = default_params;
+    }
+
+protected:
+    /** Function with one argument of type boost::any */
+    typedef boost::function<void(boost::any)> AnyCaller;
+
+    /** Call callback for each possible value of variable nodes.
+
+    You should implement this function if you are using nodes like
+    IntegerNode or StringNode.
+    Node passed to this function is guaranteed not to be of
+    class PredefinedNode or Parser or class inherited from them.
+
+    For each possible value of node passed you should call callback function.
+    Only arguments std::string and int are currently supported by the callback.
+    Other type will cause bad_any_cast exception thrown.
+    Each value passed to callback is checked with Node::meet().
+    Values that don't meet, will be skipped.
+
+    Default implementation does nothing, which is enough for
+    PredefinedNode-only node trees.
+    */
+    virtual void for_each_value(Node* node, const AnyCaller& callback) const;
+
+    /** Return if this location is present in sitemap and change its params.
+
+    Default implementation returns true.
+    */
+    virtual bool node_handler(Node* node, UrlParams& params) const;
+
+private:
+    Node* root_;
+    std::string base_loc_;
+    UrlParams default_params_;
+
+    void dig_node(Node* node, std::ostream& out) const;
+    void visit_node(Node* node, std::ostream& out, boost::any value) const;
 };
 
 }
