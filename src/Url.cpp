@@ -43,12 +43,19 @@ void Node::write_to(std::ostream& path, bool is_last) const {
     }
 }
 
-void Node::write_all_to(std::ostream& path) const {
+void Node::write_all_to(std::ostream& path, Node* root) const {
     const Node* node = this;
     std::vector<const Node*> nodes;
     while (node) {
         nodes.push_back(node);
+        if (node == root) { // and root != 0
+            break;
+        }
         node = node->node_parent();
+    }
+    if (root && !root->value().empty()) {
+        // we stop in the middle
+        path << '/';
     }
     BOOST_REVERSE_FOREACH (const Node* node, nodes) {
         bool is_last = node == nodes.front();

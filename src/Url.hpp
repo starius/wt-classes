@@ -204,8 +204,12 @@ public:
     */
     void write_to(std::ostream& path, bool is_last = false) const;
 
-    /** Write all parents and this node to the stream */
-    void write_all_to(std::ostream& path) const;
+    /** Write all parents and this node to the stream.
+    If root is specified, then path is started from it,
+    not from normal root.
+    Anyway, path is started with '/'.
+    */
+    void write_all_to(std::ostream& path, Node* root = 0) const;
 
     /** Return full internal path to this node */
     std::string full_path() const;
