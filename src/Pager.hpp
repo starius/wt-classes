@@ -54,7 +54,7 @@ public:
     /** Constructor */
     Pager(WAbstractItemView* view);
 
-    /** Distance from current, within which all no pages are skipped.
+    /** Distance from current, within which no pages are skipped.
     Defaults to 3.
     */
     int half_of_frame() const {
