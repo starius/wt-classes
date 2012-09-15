@@ -1,3 +1,6 @@
+2012-09-16:
+    * add function scroll_to_last()
+
 2012-09-13:
     * genarate sitemap.xml from Url component
 

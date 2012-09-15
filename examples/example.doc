@@ -83,7 +83,8 @@ This is an example of how to use the Wt::Wc::fix_text_edit().
 */
 
 /** \example examples/pager.cpp
-This is an example of how to use the Wt::Wc::Pager class.
+This is an example of how to use the Wt::Wc::Pager class
+and Wt::Wc::scroll_to_last().
 */
 
 }

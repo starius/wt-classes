@@ -8,6 +8,7 @@
 #include <Wt/WApplication>
 #include <Wt/WEnvironment>
 #include <Wt/WText>
+#include <Wt/WBreak>
 #include <Wt/WTableView>
 #include <Wt/WStringListModel>
 
@@ -31,7 +32,7 @@ public:
         WApplication(env) {
         if (env.ajax()) {
             root()->addWidget(new WText("Turn off JavaScript to try this"));
-            return;
+            root()->addWidget(new WBreak());
         }
         WStringListModel* model = new WStringListModel(this);
         int count = rr(100, 10000);
@@ -42,6 +43,7 @@ public:
         view->setModel(model);
         view->resize(500, 500);
         root()->addWidget(view);
+        scroll_to_last(view);
     }
 };
 

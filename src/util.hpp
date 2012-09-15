@@ -260,6 +260,9 @@ This function does preprocessing of JSON, containing UTF-8 chars.
 */
 std::string json_escape_utf8(const std::string& utf8);
 
+/** Scroll view to bottom (JavaScript + HTML versions) */
+void scroll_to_last(WTableView* view);
+
 }
 
 }

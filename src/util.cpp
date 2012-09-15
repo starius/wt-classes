@@ -56,6 +56,7 @@
 #include <Wt/WAbstractToggleButton>
 #include <Wt/WSlider>
 #include <Wt/WDialog>
+#include <Wt/WTableView>
 
 #include "util.hpp"
 #include "rand.hpp"
@@ -437,6 +438,15 @@ std::string json_escape_utf8(const std::string& utf8) {
         }
     }
     return strm.str();
+}
+
+void scroll_to_last(WTableView* view) {
+    if (!wApp || !wApp->environment().ajax() || view->pageCount() > 0) {
+        view->setCurrentPage(view->pageCount() - 1);
+    } else if (wApp) {
+        wApp->doJavaScript("$('#" + view->id() + " div')"
+                           ".scrollTop(999999999);");
+    }
 }
 
 }
