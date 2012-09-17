@@ -263,6 +263,12 @@ std::string json_escape_utf8(const std::string& utf8);
 /** Scroll view to bottom (JavaScript + HTML versions) */
 void scroll_to_last(WTableView* view);
 
+/** Return interger or 'bad' if this string can not be interpreted as integer.
+
+\ingroup util
+*/
+int str2int(const std::string& str, int bad = -1);
+
 }
 
 }

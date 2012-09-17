@@ -1,3 +1,6 @@
+2012-09-18:
+    * add function str2int()
+
 2012-09-16:
     * add function scroll_to_last()
 

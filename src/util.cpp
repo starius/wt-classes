@@ -25,6 +25,7 @@
 #include <boost/make_shared.hpp>
 #include <boost/foreach.hpp>
 #include <boost/algorithm/string/replace.hpp>
+#include <boost/lexical_cast.hpp>
 #if !USE_SERVER_POST
 #include <boost/thread.hpp>
 #include <boost/thread/mutex.hpp>
@@ -446,6 +447,14 @@ void scroll_to_last(WTableView* view) {
     } else if (wApp) {
         wApp->doJavaScript("$('#" + view->id() + " div')"
                            ".scrollTop(999999999);");
+    }
+}
+
+int str2int(const std::string& str, int bad) {
+    try {
+        return boost::lexical_cast<int>(str);
+    } catch (boost::bad_lexical_cast&) {
+        return bad;
     }
 }
 
