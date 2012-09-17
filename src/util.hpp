@@ -257,10 +257,15 @@ void fix_text_edit(WTextEdit* text_edit);
 /** Excape UTF-8 chars (>=128) with \uXXXX sequences for Json parser.
 This function does preprocessing of JSON, containing UTF-8 chars.
 (needed for Wt <= 3.2.2).
+
+\ingroup util
 */
 std::string json_escape_utf8(const std::string& utf8);
 
-/** Scroll view to bottom (JavaScript + HTML versions) */
+/** Scroll view to bottom (JavaScript + HTML versions).
+
+\ingroup util
+*/
 void scroll_to_last(WTableView* view);
 
 /** Return interger or 'bad' if this string can not be interpreted as integer.
