@@ -1,3 +1,6 @@
+2012-09-19:
+    * overload Server.emit(string)
+
 2012-09-18:
     * add function str2int()
 

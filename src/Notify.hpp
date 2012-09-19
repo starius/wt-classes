@@ -153,6 +153,14 @@ public:
     */
     void emit(Event* event) const;
 
+    /** Notify all widgets, listening to object updates.
+    This is an overloaded method for convenience.
+
+    This notifies all widgets listening to \c key.
+    Use this method if you do not want to inherit from Event class.
+    */
+    void emit(const std::string& key) const;
+
     /** Get if the server can call updates_trigger() */
     bool updates_enabled() const {
         return updates_enabled_;

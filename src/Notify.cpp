@@ -61,6 +61,24 @@ void Server::emit(Event* event) const {
     emit(EventPtr(event));
 }
 
+class DummyEvent : public Event {
+public:
+    DummyEvent(const std::string& key):
+        key_(key)
+    { }
+
+    std::string key() const {
+        return key_;
+    }
+
+private:
+    std::string key_;
+};
+
+void Server::emit(const std::string& key) const {
+    emit(boost::make_shared<DummyEvent>(key));
+}
+
 void Server::start_listening(Widget* widget) {
     boost::mutex::scoped_lock lock(mutex_);
     WApplication* app_id = wApp;
