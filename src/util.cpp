@@ -64,9 +64,15 @@ namespace Wt {
 namespace Wc {
 
 #if USE_SERVER_POST
+static void func_runner(const boost::function<void()>& func) {
+    if (!wApp->isQuited()) {
+        func();
+    }
+}
+
 static void post(WServer* server, const std::string& app,
                  const boost::function<void()>& func) {
-    server->post(app, func);
+    server->post(app, boost::bind(func_runner, func));
 }
 #else
 typedef boost::shared_ptr<bool> BoolPtr;

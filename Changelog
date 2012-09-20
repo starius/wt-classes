@@ -1,3 +1,6 @@
+2012-09-20:
+    * prevent running function in quited app (bound_post, Wt with server post)
+
 2012-09-08:
     * ignore case of id of multiline messages when ordering (bugfix)
 
