@@ -34,14 +34,24 @@ namespace notify {
 
 typedef std::pair<TaskPtr, WDateTime> TaskWhen;
 typedef std::vector<TaskWhen> Tasks;
-typedef boost::thread_specific_ptr<Tasks> TasksPtr;
-TasksPtr tasks_ptr_;
 
-static Tasks& tasks() {
-    if (tasks_ptr_.get() == 0) {
-        tasks_ptr_.reset(new Tasks());
+struct ThreadState {
+    ThreadState():
+        is_processing(false)
+    { }
+
+    bool is_processing;
+    Tasks queue;
+};
+
+typedef boost::thread_specific_ptr<ThreadState> ThreadStatePtr;
+ThreadStatePtr state_ptr_;
+
+static ThreadState& state() {
+    if (state_ptr_.get() == 0) {
+        state_ptr_.reset(new ThreadState());
     }
-    return *tasks_ptr_;
+    return *state_ptr_;
 }
 
 PlanningServer::PlanningServer(WIOService* /* io_service */, WObject* p):
@@ -59,23 +69,31 @@ PlanningServer::PlanningServer(Server* notification_server, WObject* p):
     server_(notification_server)
 { }
 
-bool PlanningServer::add(TaskPtr task, const WDateTime& when,
-                         bool immediately) {
+bool PlanningServer::add(TaskPtr task, const WDateTime& when) {
     using namespace td;
     if (!when.isValid()) {
         return false;
     }
-    if (immediately) {
+    if (!state().is_processing) {
         TimeDuration wait = when + delay_ - WDateTime::currentDateTime();
         schedule(wait, boost::bind(&PlanningServer::process, this, task));
     } else {
-        tasks().push_back(std::make_pair(task, when));
+        state().queue.push_back(std::make_pair(task, when));
     }
     return true;
 }
 
-bool PlanningServer::add(Task* task, WDateTime when, bool immediately) {
-    return add(TaskPtr(task), when, immediately);
+bool PlanningServer::add(Task* task, WDateTime when) {
+    return add(TaskPtr(task), when);
+}
+
+bool PlanningServer::add(TaskPtr task, const WDateTime& when,
+                         bool /* immediately */) {
+    return add(task, when);
+}
+
+bool PlanningServer::add(Task* task, WDateTime when, bool /* immediately */) {
+    return add(TaskPtr(task), when);
 }
 
 WIOService* PlanningServer::io_service() {
@@ -92,15 +110,17 @@ void PlanningServer::schedule(const td::TimeDuration& wait,
 }
 
 void PlanningServer::process(TaskPtr task) {
+    state().is_processing = true;
     task->process(task, this);
+    state().is_processing = false;
     if (server_) {
         server_->emit(task);
     }
-    if (tasks_ptr_.get()) {
-        BOOST_FOREACH (TaskWhen task_when, tasks()) {
+    if (!state().queue.empty()) {
+        BOOST_FOREACH (TaskWhen task_when, state().queue) {
             add(task_when.first, task_when.second);
         }
-        tasks().clear();
+        state().queue.clear();
     }
 }
 

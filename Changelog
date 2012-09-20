@@ -1,5 +1,6 @@
 2012-09-20:
     * prevent running function in quited app (bound_post, Wt with server post)
+    * remove 'immediately' argument of Planning.add(task, when)
 
 2012-09-19:
     * overload Server.emit(string)

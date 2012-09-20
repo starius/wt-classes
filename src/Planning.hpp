@@ -68,21 +68,28 @@ public:
 
     The task is executed at <tt>when + delay()</tt>.
 
-    If immediately is false, the task would be added after currently running
-    task is finished and notification server is emitted with current event.
-    Using immediately = false makes sense only from Task::process().
-    This can be useful if new added task depends on
-    uncommitted results of current task.
+    If this is called from code processing a task, then new task will be added
+    to internal thread local queue, which will be added afterwards.
 
     \see schedule
     */
-    bool add(TaskPtr task, const WDateTime& when, bool immediately = true);
+    bool add(TaskPtr task, const WDateTime& when);
 
     /** Add a task to the planning list.
     This is an overloaded method for convenience.
     Ownership of the task is transferred.
     */
-    bool add(Task* task, WDateTime when, bool immediately = true);
+    bool add(Task* task, WDateTime when);
+
+    /** Add a task to the planning list.
+    \deprecated
+    */
+    bool add(TaskPtr task, const WDateTime& when, bool immediately);
+
+    /** Add a task to the planning list.
+    \deprecated
+    */
+    bool add(Task* task, WDateTime when, bool immediately);
 
     /** Get delay.
     \see add()
