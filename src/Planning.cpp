@@ -56,17 +56,20 @@ static ThreadState& state() {
 
 PlanningServer::PlanningServer(WIOService* /* io_service */, WObject* p):
     WObject(p),
-    server_(0)
+    server_(0),
+    default_notify_needed_(true)
 { }
 
 PlanningServer::PlanningServer(WObject* p):
     WObject(p),
-    server_(0)
+    server_(0),
+    default_notify_needed_(true)
 { }
 
 PlanningServer::PlanningServer(Server* notification_server, WObject* p):
     WObject(p),
-    server_(notification_server)
+    server_(notification_server),
+    default_notify_needed_(true)
 { }
 
 bool PlanningServer::add(TaskPtr task, const WDateTime& when) {
@@ -111,9 +114,10 @@ void PlanningServer::schedule(const td::TimeDuration& wait,
 
 void PlanningServer::process(TaskPtr task) {
     state().is_processing = true;
+    task->set_notify_needed(default_notify_needed());
     task->process(task, this);
     state().is_processing = false;
-    if (server_) {
+    if (server_ && task->notify_needed()) {
         server_->emit(task);
     }
     if (!state().queue.empty()) {

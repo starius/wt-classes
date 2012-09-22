@@ -41,6 +41,26 @@ public:
     \attention This method must not throw exceptions!
     */
     virtual void process(TaskPtr task, PlanningServer* server) const = 0;
+
+    /** Return if this should be passed to notify::Server after process() */
+    bool notify_needed() const {
+        return notify_needed_;
+    }
+
+    /** Set if this should be passed to notify::Server after process().
+    Prior to run Task::process() the value of this is set to
+    PlanningServer::default_notify_needed()
+    by PlanningServer.
+    So you should call Task::set_notify_needed() only from process().
+
+    This method can be used to manage notification per-task.
+    */
+    void set_notify_needed(bool notify_needed) const {
+        notify_needed_ = notify_needed;
+    }
+
+private:
+    mutable bool notify_needed_;
 };
 
 /** Planning server.
@@ -108,9 +128,11 @@ public:
     }
 
     /** Set notification server (optional).
-    The server is emitted after processing of a task.
+    The server is emitted after processing of a task, if Task::notify_needed().
 
     \note The ownership of the notification server is not transferred.
+
+    \see set_default_notify_needed()
     */
     void set_notification_server(Server* server) {
         server_ = server;
@@ -119,6 +141,22 @@ public:
     /** Get notification server */
     Server* notification_server() {
         return server_;
+    }
+
+    /** Return the value of Task::notify_needed() set before Task::process() */
+    bool default_notify_needed() const {
+        return default_notify_needed_;
+    }
+
+    /** Set the value of Task::notify_needed() set before Task::process().
+    Defaults to true.
+
+    This method can be used to manage notification globally.
+
+    \see Task::set_notify_needed()
+    */
+    void set_default_notify_needed(bool default_notify_needed) {
+        default_notify_needed_ = default_notify_needed;
     }
 
     /** Get IO service.
@@ -142,6 +180,7 @@ public:
 private:
     Server* server_;
     td::TimeDuration delay_;
+    bool default_notify_needed_;
 
     void process(TaskPtr task);
 };
