@@ -1,3 +1,6 @@
+2012-09-26:
+    * (fix) urlencode do not change [-_.], replace spaces with '+'
+
 2012-09-20:
     * prevent running function in quited app (bound_post, Wt with server post)
 
