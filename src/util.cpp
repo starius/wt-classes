@@ -281,7 +281,11 @@ std::string urlencode(const std::string& url) {
     result.width(2);
     result.fill('0');
     BOOST_FOREACH (char c, url) {
-        if (isalnum(c) && (0 < c && c < 127)) {
+        if (c == ' ') {
+            result.put('+');
+        } else if (c == '-' || c == '_' || c == '.') {
+            result.put(c);
+        } else if (isalnum(c) && (0 < c && c < 127)) {
             result.put(c);
         } else {
             result.put('%');
