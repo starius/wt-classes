@@ -1,5 +1,6 @@
 2012-09-26:
     * (fix) urlencode do not change [-_.], replace spaces with '+'
+    * add Belarusian and Ukrainian translations
 
 2012-09-22:
     * add methods to PlanningServer and Task to set if notification is needed
