@@ -29,7 +29,7 @@ Node::Node(WObject* parent):
 { }
 
 void Node::write_to(std::ostream& path, bool is_last) const {
-    path << value_;
+    path << urlencode(value_);
     if (slash_strategy_ == ALWAYS ||
             (slash_strategy_ == IF_NOT_LAST && !is_last) ||
             (slash_strategy_ == IF_HAS_CHILD && !children().empty())) {
@@ -163,12 +163,38 @@ bool Parser::meet(const std::string& part) const {
     return part.empty();
 }
 
+static std::string urldecode(const std::string& text) {
+    // source: src/Wt/Utils.C
+    std::stringstream result;
+    for (unsigned i = 0; i < text.length(); ++i) {
+        char c = text[i];
+        if (c == '+') {
+            result << ' ';
+        } else if (c == '%' && i + 2 < text.length()) {
+            std::string h = text.substr(i + 1, 2);
+            char* e = 0;
+            int hval = std::strtol(h.c_str(), &e, 16);
+            if (*e == 0) {
+                result << (char)hval;
+                i += 2;
+            } else {
+                // not a proper %XX with XX hexadecimal format
+                result << c;
+            }
+        } else {
+            result << c;
+        }
+    }
+    return result.str();
+}
+
 Node* Parser::parse(const std::string& path) {
     using namespace boost::algorithm;
     std::vector<std::string> parts;
     split(parts, path, is_any_of("/"), token_compress_on);
     Node* node = this;
-    BOOST_FOREACH (const std::string& part, parts) {
+    BOOST_FOREACH (std::string part, parts) {
+        part = urldecode(part);
         if (part.empty()) {
             continue;
         }
