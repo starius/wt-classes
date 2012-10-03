@@ -37,7 +37,7 @@ Node::~Node() {
 }
 
 void Node::write_to(std::ostream& path, bool is_last) const {
-    path << value_;
+    path << urlencode(value_);
     if (slash_strategy_ == ALWAYS ||
             (slash_strategy_ == IF_NOT_LAST && !is_last) ||
             (slash_strategy_ == IF_HAS_CHILD && !children().empty())) {
@@ -193,7 +193,8 @@ Node* Parser::parse(const std::string& path) {
     std::vector<std::string> parts;
     split(parts, path, is_any_of("/"), token_compress_on);
     Node* node = this;
-    BOOST_FOREACH (const std::string& part, parts) {
+    BOOST_FOREACH (std::string part, parts) {
+        part = urldecode(part);
         if (part.empty()) {
             continue;
         }

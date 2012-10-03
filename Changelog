@@ -1,5 +1,6 @@
 2012-10-03:
     * add function urldecode()
+    * (fix) url(en/de)code values of nodes (Url)
 
 2012-09-26:
     * (fix) urlencode do not change [-_.], replace spaces with '+'
