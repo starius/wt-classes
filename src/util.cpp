@@ -295,6 +295,31 @@ std::string urlencode(const std::string& url) {
     return result.str();
 }
 
+std::string urldecode(const std::string& text) {
+    // source: src/Wt/Utils.C
+    std::stringstream result;
+    for (unsigned i = 0; i < text.length(); ++i) {
+        char c = text[i];
+        if (c == '+') {
+            result << ' ';
+        } else if (c == '%' && i + 2 < text.length()) {
+            std::string h = text.substr(i + 1, 2);
+            char* e = 0;
+            int hval = std::strtol(h.c_str(), &e, 16);
+            if (*e == 0) {
+                result << (char)hval;
+                i += 2;
+            } else {
+                // not a proper %XX with XX hexadecimal format
+                result << c;
+            }
+        } else {
+            result << c;
+        }
+    }
+    return result.str();
+}
+
 void set_hidden(WWidget* widget, bool hidden) {
     if (hidden) {
         widget->hide();

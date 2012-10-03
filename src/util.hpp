@@ -164,6 +164,12 @@ std::string md5(const std::string& data);
 */
 std::string urlencode(const std::string& url);
 
+/** URL-decodes string.
+
+\ingroup util
+*/
+std::string urldecode(const std::string& text);
+
 /** Hides or shows the widget.
 This is a workaround for Wt 3.1.10 setHidden changes and forgotten default.
 
