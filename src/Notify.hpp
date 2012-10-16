@@ -92,8 +92,10 @@ public:
 
     /** Notify.
     Implement this method for descendants: run updates caused by the event.
+
+    Default implementation does nothing.
     */
-    virtual void notify(EventPtr event) = 0;
+    virtual void notify(EventPtr event);
 
     /** Return if this widget needs page updates.
     This method is called as a result of Server::emit(),
