@@ -29,6 +29,9 @@ Widget::~Widget() {
     server_->stop_listening(this, app_id_);
 }
 
+void Widget::notify(EventPtr event)
+{ }
+
 Server::Server(WServer* /* server */):
     updates_enabled_(true),
     direct_to_this_(false)
