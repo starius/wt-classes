@@ -280,6 +280,23 @@ void scroll_to_last(WTableView* view);
 */
 int str2int(const std::string& str, int bad = -1);
 
+/** Convert simple HTML anchors to Wt-like anchors.
+This function start JS setInterval with period \c interval_ms.
+Each time all simple anchors (created not by Wt things like WAnchor
+or LinkRole) will be converted to Wt-like links.
+Click on Wt-like links will not cause full page reload
+and will use Wt's history functions.
+
+If external_blank, then all external anchors will get target=_blank.
+
+This function is safe to be called multiple times.
+
+If !wApp, then does nothing.
+
+\ingroup util
+*/
+void fix_plain_anchors(bool external_blank = false, int interval_ms = 400);
+
 }
 
 }

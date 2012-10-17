@@ -1,3 +1,6 @@
+2012-10-18:
+    * add function fix_plain_anchors()
+
 2012-10-17:
     * (fix) provide default noop implemntation for widget.notify() (Notify)
     * (fix) make sure timeduration passed to schedule() >= delay (Planning)

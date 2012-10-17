@@ -493,6 +493,49 @@ int str2int(const std::string& str, int bad) {
     }
 }
 
+void fix_plain_anchors(bool external_blank, int interval_ms) {
+    if (!wApp) {
+        return;
+    }
+    std::stringstream s;
+    s << "if (!$.fix_plain_anchors) {";
+    s << "  $.fix_plain_anchors = true;";
+    s << "  setInterval(function() {";
+    s << "    $('a').each(function() {";
+    s << "      var a = $(this);";
+    s << "      if (a.attr('href') && !a.attr('onclick')) {";
+    s << "        var external = a[0].hostname.replace(/^www\\./, '') !=";
+    s << "          location.hostname.replace(/^www\\./, '');";
+    s << "        if (!a.attr('href').match(/^mailto\\:/) && external) {";
+    if (external_blank) {
+        s << "          a.attr('target','_blank');";
+    }
+    s << "        } else if (!external) {";
+    s << "          a.attr('onclick', '$.noop()');";
+    s << "          a.click(function() {";
+    s << "            var e = event || window.event, o = this;";
+    s << "            var WT = Wt.WT;";
+    s << "            if (e.ctrlKey || e.metaKey || (WT.button(e) > 1)) {";
+    s << "              return true;";
+    s << "            } else {";
+    s << "              {";
+    s << "                var f = function() {";
+    s << "                  WT.history.navigate(a[0].pathname, true);";
+    s << "                };";
+    s << "                f(o, e);";
+    s << "              }";
+    s << "              WT.cancelEvent(e,0x2);";
+    //s << "              // Wt._p_.update(o,'s22b9d',e,true); // FIXME ???";
+    s << "            }";
+    s << "          });";
+    s << "        }";
+    s << "      }";
+    s << "    });";
+    s << "  }, " << interval_ms << ");";
+    s << "}";
+    wApp->doJavaScript(s.str());
+}
+
 }
 
 }
