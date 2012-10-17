@@ -67,6 +67,7 @@ bool PlanningServer::add(TaskPtr task, const WDateTime& when,
     }
     if (immediately) {
         TimeDuration wait = when + delay_ - WDateTime::currentDateTime();
+        wait = std::max(wait, delay_);
         schedule(wait, boost::bind(&PlanningServer::process, this, task));
     } else {
         tasks().push_back(std::make_pair(task, when));
