@@ -1,5 +1,6 @@
 2012-10-17:
     * (fix) provide default noop implemntation for widget.notify() (Notify)
+    * (fix) make sure timeduration passed to schedule() >= delay (Planning)
 
 2012-10-03:
     * add function urldecode()

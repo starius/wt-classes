@@ -79,6 +79,7 @@ bool PlanningServer::add(TaskPtr task, const WDateTime& when) {
     }
     if (!state().is_processing) {
         TimeDuration wait = when + delay_ - WDateTime::currentDateTime();
+        wait = std::max(wait, delay_);
         schedule(wait, boost::bind(&PlanningServer::process, this, task));
     } else {
         state().queue.push_back(std::make_pair(task, when));
