@@ -55,6 +55,9 @@ It can work in conjunction with a notification server.
 */
 class Event {
 public:
+    /** Destructor */
+    virtual ~Event();
+
     /** Type of key used to select widgets to notify */
     typedef std::string Key;
 
