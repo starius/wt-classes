@@ -507,7 +507,7 @@ void fix_plain_anchors(bool external_blank, int interval_ms) {
     s << "    } else {";
     s << "      {";
     s << "        var f = function() {";
-    s << "          WT.history.navigate(o.pathname, true);";
+    s << "          WT.history.navigate('/' + o.pathname, true);";
     s << "        };";
     s << "        f(o, e);";
     s << "      }";
