@@ -16,6 +16,9 @@ namespace Wc {
 
 namespace notify {
 
+Event::~Event()
+{ }
+
 Event::operator Event::Key() const {
     return key();
 }
