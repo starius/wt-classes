@@ -136,14 +136,14 @@ public:
     void explore_all();
 
     /** Call explorer with IP, USER_AGENT and LOCALE.
-    The method is called from the constructor.
+    The method is called from the constructor through bound_post().
 
     Locale is transformed to lower case.
     */
     void explore_simple();
 
     /** Call explorer with COOKIE.
-    The method is called from the constructor.
+    The method is called from the constructor through bound_post().
 
     You may want to recall this method later since
     the explorer is not called if the cookie has just been created.
@@ -151,7 +151,7 @@ public:
     void explore_cookie();
 
     /** Call explorer with PLUGINS, MIME_TYPES, SCREEN, TIMEZONE_OFFSET, JAVA.
-    The method is called from the constructor.
+    The method is called from the constructor through bound_post().
 
     The result is got through JavaScript call,
     so the explorer is called not immediately.
