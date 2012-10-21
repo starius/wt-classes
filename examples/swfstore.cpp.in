@@ -14,6 +14,7 @@
 #include <Wt/WFileResource>
 #include <Wt/WLogger>
 #include <Wt/Wc/SWFStore.hpp>
+#include <Wt/Wc/LocalStore.hpp>
 #include <Wt/Wc/Gather.hpp>
 
 using namespace Wt;
@@ -28,6 +29,7 @@ public:
     SWFStoreApp(const WEnvironment& env):
         WApplication(env) {
         SWFStore* swf = new SWFStore(root());
+        LocalStore* localstore = new LocalStore(root());
         WPushButton* clear_storage = new WPushButton("Clear", root());
         WPushButton* one = new WPushButton("Set k=1", root());
         WPushButton* two = new WPushButton("Set k=2", root());
@@ -41,6 +43,7 @@ public:
         swf->value().connect(boost::bind(&WText::setText, k, _2));
         Gather* gather = new Gather(explore, this);
         gather->set_swfstore(swf);
+        gather->set_localstore(localstore);
     }
 };
 
