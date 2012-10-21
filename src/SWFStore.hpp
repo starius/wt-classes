@@ -75,6 +75,9 @@ public:
     the result can't be returned immediately.
 
     Instead, value() is emitted with the key and the value.
+
+    value() is not guaranteed to be emitted, since it depends on JavaScript
+    and can be interfered be client.
     */
     void get_value_of(const std::string& key, const std::string& def = "");
 
