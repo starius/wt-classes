@@ -25,6 +25,7 @@ struct ThreeWPoints;
 struct Matrix3x3;
 class AbstractStore;
 class SWFStore;
+class LocalStore;
 class Gather;
 class AbstractCaptcha;
 class PaintedCaptcha;
