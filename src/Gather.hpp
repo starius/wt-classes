@@ -8,6 +8,8 @@
 #ifndef WC_GATHER_HPP_
 #define WC_GATHER_HPP_
 
+#include <vector>
+
 #include <Wt/WGlobal>
 #include <Wt/WObject>
 #include <Wt/WJavaScript>
@@ -63,6 +65,7 @@ public:
     enum DataType {
         COOKIE = 10, /**< Cookie value (significant virtuals evidence) */
         SWF = 20, /**< SWF value (significant virtuals evidence) */
+        LOCAL_STORAGE = 25, /**< localStorage (significant virtuals evidence) */
         IP = 30, /**< IP address (medium virtuals evidence) */
         PLUGINS = 40, /**< Plugins sorted list (medium virtuals evidence) */
         MIME_TYPES = 50, /**< Mime types sorted list (medium evidence) */
@@ -95,10 +98,20 @@ public:
     */
     Gather(const DataExplorer& explorer, WObject* parent = 0);
 
+    /** Add object dealing with client-only data.
+    \note Ownership of the store is not transferred.
+    */
+    void add_store(AbstractStore* store, DataType type);
+
     /** Set SWF store to use information from browser shared flash storage.
     \note Ownership of the swfstore is not transferred.
     */
     void set_swfstore(SWFStore* swfstore);
+
+    /** Add localStorage.
+    \note Ownership of the swfstore is not transferred.
+    */
+    void set_localstore(LocalStore* localstorage);
 
     /** Return if Do Not Track header is honored.
     If Do Not Track header is honored and DNT: 1,
@@ -160,14 +173,18 @@ public:
     */
     void explore_javascript();
 
-    /** Call explorer with SWF.
-    The method is called from set_swfstore().
-
-    You may want to recall this method later since
-    the explorer is not called if the flash cookie has just been created.
+    /** Call explorer with added client-side stores.
+    The method is called from the constructor through bound_post().
 
     The result is got through JavaScript call,
     so the explorer is called not immediately.
+    */
+    void explore_stores();
+
+    /** Call explorer with SWF.
+    The method is called from set_swfstore().
+
+    \deprecated Use explore_stores() instead.
     */
     void explore_swf();
 
@@ -175,14 +192,20 @@ public:
 
 private:
     DataExplorer explorer_;
-    SWFStore* swfstore_;
+    struct StoreAndType {
+        AbstractStore* store;
+        DataType type;
+    };
+    std::vector<StoreAndType> stores_;
+    std::vector<AbstractStore*> to_delete_;
     JSignal<int, std::string> signal_; // int is DataType
     bool honor_dnt_;
     bool dnt_;
 
     void explorer_emitter(DataType type, const std::string& value);
     void explorer_emitter_helper(int type, std::string value);
-    void swf_handler(std::string key, std::string value);
+    void store_handler(std::string key, std::string value,
+                       DataType type, AbstractStore* store);
     static void doJavaScript(const std::string& javascript);
     void get_js_list(DataType type, const std::string& collection,
                      const std::string& property);

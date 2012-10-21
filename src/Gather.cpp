@@ -5,12 +5,14 @@
  * See the LICENSE file for terms of use.
  */
 
+#include <boost/foreach.hpp>
 #include <boost/algorithm/string/case_conv.hpp>
 
 #include <Wt/WApplication>
 #include <Wt/WEnvironment>
 
 #include "Gather.hpp"
+#include "LocalStore.hpp"
 #include "SWFStore.hpp"
 #include "rand.hpp"
 #include "util.hpp"
@@ -20,11 +22,11 @@ namespace Wt {
 namespace Wc {
 
 const std::string cookie_key = "userid";
-const std::string swf_key = "userid";
+const std::string store_key = "userid";
 
 Gather::Gather(const DataExplorer& explorer, WObject* parent):
     WObject(parent),
-    explorer_(explorer), swfstore_(0), signal_(this, "gather"),
+    explorer_(explorer), signal_(this, "gather"),
     honor_dnt_(false), dnt_(false) {
     const WEnvironment& env = wApp->environment();
     if (env.headerValue("DNT") == "1" ||
@@ -35,14 +37,26 @@ Gather::Gather(const DataExplorer& explorer, WObject* parent):
     bound_post(boost::bind(&Gather::explore_all, this))();
 }
 
+void Gather::add_store(AbstractStore* store, DataType type) {
+    store->value().connect(boost::bind(&Gather::store_handler, this,
+                                       _1, _2, type, store));
+    StoreAndType sat;
+    sat.store = store;
+    sat.type = type;
+    stores_.push_back(sat);
+}
+
 void Gather::set_swfstore(SWFStore* swfstore) {
-    swfstore_ = swfstore;
-    explore_swf();
+    add_store(swfstore, SWF);
+}
+
+void Gather::set_localstore(LocalStore* localstorage) {
+    add_store(localstorage, LOCAL_STORAGE);
 }
 
 // FIXME random numbers?? need statictical data
 int Gather::significance(DataType type) {
-    if (type == COOKIE || type == SWF) {
+    if (type == COOKIE || type == SWF || type == LOCAL_STORAGE) {
         return 10000;
     } else if (type == IP) {
         return 45;
@@ -67,7 +81,7 @@ void Gather::explore_all() {
     explore_simple();
     explore_cookie();
     explore_javascript();
-    explore_swf();
+    explore_stores();
 }
 
 void Gather::explore_simple() {
@@ -99,11 +113,14 @@ void Gather::explore_javascript() {
     doJavaScript(signal_.createCall(TO_S(JAVA), "navigator.javaEnabled()"));
 }
 
-void Gather::explore_swf() {
-    if (swfstore_) {
-        swfstore_->value().connect(this, &Gather::swf_handler);
-        swfstore_->get_value_of(swf_key);
+void Gather::explore_stores() {
+    BOOST_FOREACH (const StoreAndType& sat, stores_) {
+        sat.store->get_value_of(store_key);
     }
+}
+
+void Gather::explore_swf() {
+    explore_stores();
 }
 
 void Gather::explorer_emitter(DataType type, const std::string& value) {
@@ -125,12 +142,13 @@ void Gather::explorer_emitter_helper(int type, std::string value) {
     explorer_emitter(static_cast<DataType>(type), value);
 }
 
-void Gather::swf_handler(std::string key, std::string value) {
-    if (key == swf_key) {
+void Gather::store_handler(std::string key, std::string value,
+                           DataType type, AbstractStore* store) {
+    if (key == store_key) {
         if (!value.empty()) {
-            explorer_emitter(SWF, value);
-        } else if (swfstore_) {
-            swfstore_->set_item(swf_key, rand_string());
+            explorer_emitter(type, value);
+        } else {
+            store->set_item(store_key, rand_string());
         }
     }
 }
