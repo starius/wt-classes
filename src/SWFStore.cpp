@@ -17,8 +17,7 @@ namespace Wc {
 
 SWFStore::SWFStore(WContainerWidget* parent, bool load_javascript,
                    bool share_data, bool use_compression):
-    WContainerWidget(parent),
-    value_(this, "value") {
+    AbstractStore(parent) {
     resize(0, 0);
     if (load_javascript) {
         // TODO move to https CDN
@@ -40,24 +39,25 @@ SWFStore::SWFStore(WContainerWidget* parent, bool load_javascript,
                  "});");
 }
 
-void SWFStore::clear_storage() {
+void SWFStore::clear_storage_impl() {
     async_do("$(" + jsRef() + ").data('swfstore').clear();");
 }
 
-void SWFStore::set_item(const std::string& key, const std::string& value) {
+void SWFStore::set_item_impl(const std::string& key, const std::string& value) {
     async_do("$(" + jsRef() + ").data('swfstore')"
              ".setItem('" + key + "', '" + value + "');");
 }
 
-void SWFStore::remove_item(const std::string& key) {
+void SWFStore::remove_item_impl(const std::string& key) {
     async_do("$(" + jsRef() + ").data('swfstore')"
              ".removeItem('" + key + "');");
 }
 
-void SWFStore::get_value_of(const std::string& key, const std::string& def) {
+void SWFStore::get_value_of_impl(const std::string& key,
+                                 const std::string& def) {
     async_do("var value = $(" + jsRef() + ").data('swfstore')"
              ".getValueOf('" + key + "') || '" + def + "';" +
-             value_.createCall("'" + key + "'", "value"));
+             value().createCall("'" + key + "'", "value"));
 }
 
 void SWFStore::async_do(const std::string& js) {

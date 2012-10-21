@@ -9,9 +9,8 @@
 #define WC_SWF_STORE_HPP_
 
 #include <Wt/WGlobal>
-#include <Wt/WContainerWidget>
-#include <Wt/WJavaScript>
-#include <Wt/WString>
+
+#include "AbstractStore.hpp"
 
 namespace Wt {
 
@@ -43,7 +42,7 @@ SWFStore example:
 \ingroup protection
 \ingroup bindings
 */
-class SWFStore : public WContainerWidget {
+class SWFStore : public AbstractStore {
 public:
     /** Constructor.
     \param parent The parent widget.
@@ -57,38 +56,16 @@ public:
     SWFStore(WContainerWidget* parent = 0, bool load_javascript = true,
              bool share_data = true, bool use_compression = true);
 
-    /** Clear all keys and the data from the engine */
-    void clear_storage();
+protected:
+    void clear_storage_impl();
 
-    /** Add or update the value for a given key.
-    \todo quotaExceededError
-    */
-    void set_item(const std::string& key, const std::string& value);
+    void set_item_impl(const std::string& key, const std::string& value);
 
-    /** Remove the key and its value from the engine */
-    void remove_item(const std::string& key);
+    void remove_item_impl(const std::string& key);
 
-    /** Fetches the data by a key.
-    \param key The key.
-    \param def The default value returned if there is no such key.
-    Since this requires a JavaScript call,
-    the result can't be returned immediately.
-
-    Instead, value() is emitted with the key and the value.
-
-    value() is not guaranteed to be emitted, since it depends on JavaScript
-    and can be interfered be client.
-    */
-    void get_value_of(const std::string& key, const std::string& def = "");
-
-    /** The signal, emitted by get_value_of() through JavaScript */
-    JSignal<std::string, std::string>& value() {
-        return value_;
-    }
+    void get_value_of_impl(const std::string& key, const std::string& def);
 
 private:
-    JSignal<std::string, std::string> value_;
-
     void async_do(const std::string& js);
 };
 
