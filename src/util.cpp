@@ -508,7 +508,9 @@ void fix_plain_anchors(bool external_blank, int interval_ms,
     s << "    } else {";
     s << "      {";
     s << "        var f = function() {";
-    s << "          WT.history.navigate('/' + o.pathname, true);";
+    s << "          var path = o.pathname;";
+    s << "          var prefix = (path.length && path[0]=='/') ? '' : '/';";
+    s << "          WT.history.navigate(prefix + path, true);";
     s << "        };";
     s << "        f(o, e);";
     s << "      }";
