@@ -21,7 +21,7 @@ LocalStore::LocalStore(WContainerWidget* parent):
                  "if (window.localStorage.getItem('testkey') == 'testvalue') {"
                  "$(" + jsRef() + ").data('localStorage_supported', true);"
                  "}"
-                 "storage.removeItem('testkey');"
+                 "window.localStorage.removeItem('testkey');"
                  "} catch(e) { }");
 }
 
