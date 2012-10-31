@@ -289,8 +289,8 @@ and will use Wt's history functions.
 
 If external_blank, then all external anchors will get target=_blank.
 
-If skip_re is not empty, then it is used as regular expression for anchors
-that will not be changed. For example, this can be used to treat .html files.
+If skip_re is not empty, then it is used as regular expression for internal
+anchors that will not be changed. For example, to treat .html files.
 
 This function is safe to be called multiple times.
 

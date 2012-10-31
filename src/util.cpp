@@ -524,20 +524,20 @@ void fix_plain_anchors(bool external_blank, int interval_ms,
     s << "      if (a.attr('href') && !a.attr('onclick')) {";
     s << "        var external = a[0].hostname.replace(/^www\\./, '') !=";
     s << "          location.hostname.replace(/^www\\./, '');";
-    if (!skip_re.empty()) {
-        s << "        if (!a.attr('href').match(" << skip_re << ")) {";
-    }
     s << "        if (!a.attr('href').match(/^mailto\\:/) && external) {";
     if (external_blank) {
         s << "          a.attr('target','_blank');";
     }
     s << "        } else if (!external) {";
+    if (!skip_re.empty()) {
+        s << "        if (!a.attr('href').match(" << skip_re << ")) {";
+    }
     s << "          a.attr('onclick','return false;');";
     s << "          a.click(function(e) { $.fix_plain_anchors(a[0], e); });";
-    s << "        }";
     if (!skip_re.empty()) {
         s << "        }";
     }
+    s << "        }";
     s << "      }";
     s << "    });";
     s << "  }, " << interval_ms << ");";
