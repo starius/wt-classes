@@ -69,8 +69,12 @@ private:
 */
 class PlanningServer : public WObject {
 public:
+    /** Function applying some function (second arg) at some time (first arg) */
+    typedef boost::function < void(const td::TimeDuration&,
+                                   const boost::function<void()>&) > Scheduler;
+
     /** Constructor.
-    \deprecated io_service is ignored. Use another constructor
+    \see set_io_service()
     */
     PlanningServer(WIOService* io_service, WObject* p = 0);
 
@@ -159,20 +163,29 @@ public:
         default_notify_needed_ = default_notify_needed;
     }
 
+    /** Set function which will be called to apply a task at some time.
+    By default, Wt::Wc::schedule_action() is used.
+    */
+    void set_scheduler(const Scheduler& scheduler);
+
     /** Get IO service.
     \deprecated Return WIOService, used for Wt server, if available, else 0.
     */
     WIOService* io_service();
 
     /** Set IO service.
-    \deprecated Does nothing
+
+    If the number of total milliseconds of the duration exceeds the
+    size of \c int, the duration is decreased to fit into this size (INT_MAX).
+    If sizeof(int) is 4, max duration is about 24.8 days.
+
+    \see set_scheduler
     */
-    void set_io_service(WIOService*)
-    { }
+    void set_io_service(WIOService* io_service);
 
     /** Utility method used to schedule a function.
     This is a method for convenience.
-    \see schedule_action()
+    \see set_scheduler.
     */
     void schedule(const td::TimeDuration& wait,
                   const boost::function<void()>& func);
@@ -181,6 +194,7 @@ private:
     Server* server_;
     td::TimeDuration delay_;
     bool default_notify_needed_;
+    Scheduler scheduler_;
 
     void process(TaskPtr task);
 };
