@@ -289,8 +289,13 @@ and will use Wt's history functions.
 
 If external_blank, then all external anchors will get target=_blank.
 
-If skip_re is not empty, then it is used as regular expression for internal
-anchors that will not be changed. For example, to treat .html files.
+If anchor's URL match skip_re, then anchor is not changed.
+If anchor's URL match target_blank_re, then anchor is treated as external.
+If anchor's URL match internal_path_re, then anchor is treated as internal.
+If none of regular expressions matches, then built-in rules
+(domain name, URL scheme) are applied.
+
+Priority: skip_re > target_blank_re > internal_path_re > built-in rules.
 
 This function is safe to be called multiple times.
 
@@ -298,8 +303,10 @@ If !wApp, then does nothing.
 
 \ingroup util
 */
-void fix_plain_anchors(bool external_blank = false, int interval_ms = 400,
-                       const std::string& skip_re = "/\\.htm|\\.php/i");
+void fix_plain_anchors(int interval_ms = 400,
+                       const std::string& skip_re = "/^mailto\\:/",
+                       const std::string& target_blank_re = "/\\.htm|\\.php/i",
+                       const std::string& internal_path_re = "/^$/");
 
 }
 

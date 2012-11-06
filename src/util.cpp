@@ -493,8 +493,10 @@ int str2int(const std::string& str, int bad) {
     }
 }
 
-void fix_plain_anchors(bool external_blank, int interval_ms,
-                       const std::string& skip_re) {
+void fix_plain_anchors(int interval_ms,
+                       const std::string& skip_re,
+                       const std::string& target_blank_re,
+                       const std::string& internal_path_re) {
     if (!wApp) {
         return;
     }
@@ -520,23 +522,18 @@ void fix_plain_anchors(bool external_blank, int interval_ms,
     s << "  };";
     s << "  setInterval(function() {";
     s << "    $('a').each(function() {";
-    s << "      var a = $(this);";
-    s << "      if (a.attr('href') && !a.attr('onclick')) {";
-    s << "        var external = a[0].hostname.replace(/^www\\./, '') !=";
+    s << "      var a = $(this); var href = a.attr('href');";
+    s << "      if (href && !a.attr('onclick') && ";
+    s << "          !href.match(" << skip_re << ")) {";
+    s << "        var same_host = a[0].hostname.replace(/^www\\./, '') ==";
     s << "          location.hostname.replace(/^www\\./, '');";
-    s << "        if (!a.attr('href').match(/^mailto\\:/) && external) {";
-    if (external_blank) {
-        s << "          a.attr('target','_blank');";
-    }
-    s << "        } else if (!external) {";
-    if (!skip_re.empty()) {
-        s << "        if (!a.attr('href').match(" << skip_re << ")) {";
-    }
+    s << "        var external = href.match(" << target_blank_re << ");";
+    s << "        var internal = href.match(" << internal_path_re << ");";
+    s << "        if (external || (!internal && !same_host)) {";
+    s << "          a.attr('target','_blank');";
+    s << "        } else {";
     s << "          a.attr('onclick','return false;');";
     s << "          a.click(function(e) { $.fix_plain_anchors(a[0], e); });";
-    if (!skip_re.empty()) {
-        s << "        }";
-    }
     s << "        }";
     s << "      }";
     s << "    });";
