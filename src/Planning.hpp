@@ -15,10 +15,13 @@
 
 #include "Notify.hpp"
 #include "TimeDuration.hpp"
+#include "config.hpp"
 
 namespace Wt {
 
+#ifdef WC_HAVE_WIOSERVICE
 class WIOService; // FIXME http://redmine.emweb.be/issues/1189
+#endif
 
 namespace Wc {
 
@@ -73,10 +76,12 @@ public:
     typedef boost::function < void(const td::TimeDuration&,
                                    const boost::function<void()>&) > Scheduler;
 
+#ifdef WC_HAVE_WIOSERVICE
     /** Constructor.
     \see set_io_service()
     */
     PlanningServer(WIOService* io_service, WObject* p = 0);
+#endif
 
     /** Constructor */
     PlanningServer(WObject* p = 0);
@@ -168,6 +173,7 @@ public:
     */
     void set_scheduler(const Scheduler& scheduler);
 
+#ifdef WC_HAVE_WIOSERVICE
     /** Get IO service.
     \deprecated Return WIOService, used for Wt server, if available, else 0.
     */
@@ -182,6 +188,7 @@ public:
     \see set_scheduler
     */
     void set_io_service(WIOService* io_service);
+#endif
 
     /** Utility method used to schedule a function.
     This is a method for convenience.

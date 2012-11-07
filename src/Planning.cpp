@@ -59,12 +59,14 @@ static ThreadState& state() {
     return *state_ptr_;
 }
 
+#ifdef WC_HAVE_WIOSERVICE
 PlanningServer::PlanningServer(WIOService* io_service, WObject* p):
     WObject(p),
     server_(0),
     default_notify_needed_(true) {
     set_io_service(io_service);
 }
+#endif
 
 PlanningServer::PlanningServer(WObject* p):
     WObject(p),
@@ -112,12 +114,13 @@ void PlanningServer::set_scheduler(const Scheduler& scheduler) {
     scheduler_ = scheduler;
 }
 
+#ifdef WC_HAVE_WIOSERVICE
 WIOService* PlanningServer::io_service() {
 #if USE_WIOSERVICE
     return &WServer::instance()->ioService();
 #else
     return 0;
-#endif
+#endif // USE_WIOSERVICE
 }
 
 static void WIOService_schedule(WIOService* io_service,
@@ -133,6 +136,7 @@ static void WIOService_schedule(WIOService* io_service,
 void PlanningServer::set_io_service(WIOService* io_service) {
     set_scheduler(boost::bind(WIOService_schedule, io_service, _1, _2));
 }
+#endif // WC_HAVE_WIOSERVICE
 
 void PlanningServer::schedule(const td::TimeDuration& wait,
                               const boost::function<void()>& func) {
