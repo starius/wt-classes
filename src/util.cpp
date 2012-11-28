@@ -214,7 +214,8 @@ std::string unique_filename() {
 #else
     string result;
     for (int attempt = 0; attempt < 10; attempt++) {
-        string path = tmpnam(NULL);
+        char file_template[L_tmpnam];
+        string path = tmpnam(file_template);
         ofstream file_out(path.c_str());
         if (file_out.is_open()) {
             int secret = rr();

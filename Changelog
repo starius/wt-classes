@@ -1,3 +1,6 @@
+2012-11-29:
+    * (fix) do not use tmpnam(NULL), it causes races
+
 2012-11-07:
     * add custom task scheduler function (Planning)
 
