@@ -1,5 +1,5 @@
-2012-11-29:
-    * (fix) do not use tmpnam(NULL), it causes races
+2013-01-10:
+    * (fix) (Wbi/Output) propagate set_selected_by_default() to is_selected()
 
 2012-11-07:
     * add custom task scheduler function (Planning)

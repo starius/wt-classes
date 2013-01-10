@@ -301,6 +301,7 @@ void AbstractOutput::set_selectable(bool value) {
 
 void AbstractOutput::set_selected_by_default(bool value) {
     selected_by_default_ = value;
+    selected_ = value;
     update_checkbox();
 }
 
