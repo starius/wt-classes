@@ -53,7 +53,7 @@ public:
         new WText(" until new year (UTC)", root());
         //
         new WBreak(root());
-        new WText("Countdowns, connected through JavaScript: ", root());
+        new WText("Countdown and count-up, connected through JS: ", root());
         Countdown* a = new Countdown(root());
         a->set_until(5 * SECOND);
         new WText(" and ", root());
@@ -62,7 +62,7 @@ public:
         a->expired()->connect(b, &Countdown::resume);
         //
         new WBreak(root());
-        new WText("Countdown, paused in 10 s: ", root());
+        new WText("Count-up, paused in 10 s: ", root());
         Countdown* five = new Countdown(root());
         five->pause(10 * SECOND);
         //
