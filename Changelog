@@ -1,5 +1,6 @@
 2013-01-20:
     * (fix) update Countdown for new versions of jquery-countdown (>=1.6.0)
+    * (fix) Countdown uses jquery-countdown 1.6.1 by default (Chrome issue)
 
 2013-01-10:
     * (fix) (Wbi/Output) propagate set_selected_by_default() to is_selected()
