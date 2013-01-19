@@ -139,8 +139,18 @@ void Countdown::set_time_separator(const std::string& time_separator) {
 
 void Countdown::change(const std::string& name, const std::string& value,
                        bool stringify_value) {
-    apply_js("'change', '" + name + "', " +
-             (stringify_value ? WWebWidget::jsStringLiteral(value) : value));
+    std::string v = stringify_value ?
+                    WWebWidget::jsStringLiteral(value) : value;
+    do_js("try {" +
+          // jquery.countdown <= 1.5.11
+          wrap_js("'change', '" + name + "', " + v) +
+          "} catch(err) {" +
+          // jquery.countdown >= 1.6.0
+          "var o = " + wrap_js("'option'") + ";" +
+          wrap_js("'destroy'") + ";" +
+          "o['" + name + "'] = " + v + ";" +
+          wrap_js("o") +
+          "}");
 }
 
 const char PERIOD_LETTERS[] = "YOWDHMS";
