@@ -284,11 +284,6 @@ void Countdown::apply_js(const std::string& args) {
     do_js(wrap_js(args));
 }
 
-void Countdown::apply_js(const std::string& args,
-                         const td::TimeDuration& duration) {
-    do_js(wrap_js(args), duration);
-}
-
 std::string Countdown::wrap_js(const std::string& args) const {
     return "$(" + jsRef() + ").countdown(" + args + ");";
 }

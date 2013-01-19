@@ -187,7 +187,6 @@ private:
     void do_js(const std::string& js);
     void do_js(const std::string& js, const td::TimeDuration& duration);
     void apply_js(const std::string& args);
-    void apply_js(const std::string& args, const td::TimeDuration& duration);
     std::string wrap_js(const std::string& args) const;
     void update_view();
     void pause_html(const td::TimeDuration& duration);
