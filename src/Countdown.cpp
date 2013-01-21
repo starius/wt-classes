@@ -72,9 +72,8 @@ Countdown::Countdown(WContainerWidget* parent, bool load_javascript):
     if (load_javascript) {
         wApp->require("https://ajax.googleapis.com/ajax/libs/"
                       "jquery/1.7.2/jquery.min.js", "jQuery");
-        wApp->require("https://raw.github.com/starius/wt-classes/"
-                      "gh-pages/jquery.countdown-1.6.1.min.js",
-                      "jQuery.countdown");
+        wApp->require("http://cdnjs.cloudflare.com/ajax/libs/jquery-countdown/"
+                      "1.6.1/jquery.countdown.min.js", "jQuery.countdown");
     }
     apply_js("{since: 0, compact: true}");
     if (!wApp->environment().javaScript()) {
