@@ -188,12 +188,15 @@ void Example::set_pan_to() {
 void Example::left_shift() {
     mv_->left_shift(0.5);
 }
+
 void Example::right_shift() {
     mv_->right_shift(0.5);
 }
+
 void Example::top_shift() {
     mv_->top_shift(0.5);
 }
+
 void Example::bottom_shift() {
     mv_->bottom_shift(0.5);
 }

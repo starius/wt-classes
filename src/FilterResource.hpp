@@ -36,6 +36,7 @@ public:
         out << "}" << std::endl;
     }
 };
+
 \endcode
 
 \ingroup bindings

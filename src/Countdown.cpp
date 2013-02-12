@@ -155,6 +155,7 @@ const char PERIOD_LETTERS[] = "YOWDHMS";
 const TimeDuration PERIOD_DURATIONS[] = {
     365 * DAY, 30 * DAY, WEEK, DAY, HOUR, MINUTE, SECOND
 };
+
 const int PERIOD_LENGTH = 7;
 const char* const COMPACT_LABELS = "ymwd";
 const int COMPACT_LABELS_LENGTH = 4;
