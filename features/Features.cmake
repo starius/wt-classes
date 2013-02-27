@@ -40,6 +40,8 @@ check_cxx_source_compiles("#include <Wt/Utils>\n int main() {
     Wt::Utils::md5(\"\"); }" WC_HAVE_WT_MD5)
 check_cxx_source_compiles("#include <Wt/WFont>\n int main() {
     Wt::WFont().setSize(200); }" WC_HAVE_WFONT_SETSIZE_DOUBLE)
+check_cxx_source_compiles("#include <string>\n #include <Wt/WApplication>\n
+    int main() { std::string l = wApp->locale(); }" WC_HAVE_STRING_LOCALE)
 
 if(WC_HAVE_WT_MD5)
     set(WC_HAVE_MD5 ON)

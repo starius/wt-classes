@@ -54,6 +54,9 @@
 #include <Wt/WComboBox>
 #include <Wt/WAbstractToggleButton>
 #include <Wt/WSlider>
+#ifndef WC_HAVE_STRING_LOCALE
+#include <Wt/WLocale>
+#endif
 
 #include "util.hpp"
 #include "rand.hpp"
@@ -357,6 +360,24 @@ WString value_text(const WFormWidget* form_widget) {
         return "";
     }
 #endif
+}
+
+std::string get_locale(WApplication* app) {
+    if (!app) {
+        app = wApp;
+    }
+#ifdef WC_HAVE_STRING_LOCALE
+    return app->locale();
+#else
+    return app->locale()->name();
+#endif
+}
+
+void set_locale(const std::string& locale, WApplication* app) {
+    if (!app) {
+        app = wApp;
+    }
+    app->setLocale(locale);
 }
 
 }

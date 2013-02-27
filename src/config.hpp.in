@@ -29,6 +29,7 @@
 #cmakedefine OPENSSL_FOUND
 #cmakedefine WC_USE_WT_MD5
 #cmakedefine WC_USE_OPENSSL
+#cmakedefine WC_HAVE_STRING_LOCALE
 
 #cmakedefine WC_HAVE_GRAVATAR
 #cmakedefine WC_HAVE_RECAPTCHA
