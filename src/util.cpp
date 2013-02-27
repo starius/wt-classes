@@ -369,7 +369,7 @@ std::string get_locale(WApplication* app) {
 #ifdef WC_HAVE_STRING_LOCALE
     return app->locale();
 #else
-    return app->locale()->name();
+    return app->locale().name();
 #endif
 }
 
