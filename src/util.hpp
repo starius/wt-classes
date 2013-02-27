@@ -308,6 +308,20 @@ void fix_plain_anchors(int interval_ms = 400,
                        const std::string& target_blank_re = "/\\.htm|\\.php/i",
                        const std::string& internal_path_re = "/^$/");
 
+/** Return locale string of an application.
+\param app Application. 0 means wApp.
+Shitty non-compatible change in Wt 3.3.0 replaced string WApplication::locale()
+with WLocale. This is a workaround function.
+*/
+std::string get_locale(WApplication* app = 0);
+
+/** Set locale string of an application.
+\param locale Locale as string.
+\param app Application. 0 means wApp.
+FTGJ
+*/
+void set_locale(const std::string& locale, WApplication* app = 0);
+
 }
 
 }

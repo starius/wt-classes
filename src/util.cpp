@@ -58,6 +58,9 @@
 #include <Wt/WSlider>
 #include <Wt/WDialog>
 #include <Wt/WTableView>
+#ifndef WC_HAVE_STRING_LOCALE
+#include <Wt/WLocale>
+#endif
 
 #include "util.hpp"
 #include "rand.hpp"
@@ -541,6 +544,24 @@ void fix_plain_anchors(int interval_ms,
     s << "  }, " << interval_ms << ");";
     s << "}";
     wApp->doJavaScript(s.str());
+}
+
+std::string get_locale(WApplication* app) {
+    if (!app) {
+        app = wApp;
+    }
+#ifdef WC_HAVE_STRING_LOCALE
+    return app->locale();
+#else
+    return app->locale()->name();
+#endif
+}
+
+void set_locale(const std::string& locale, WApplication* app) {
+    if (!app) {
+        app = wApp;
+    }
+    app->setLocale(locale);
 }
 
 }

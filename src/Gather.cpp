@@ -88,7 +88,7 @@ void Gather::explore_simple() {
     const WEnvironment& env = wApp->environment();
     explorer_emitter(IP, env.clientAddress());
     explorer_emitter(USER_AGENT, env.userAgent());
-    explorer_emitter(LOCALE, boost::algorithm::to_lower_copy(env.locale()));
+    explorer_emitter(LOCALE, boost::algorithm::to_lower_copy(get_locale()));
 }
 
 void Gather::explore_cookie() {

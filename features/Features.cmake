@@ -48,6 +48,8 @@ check_cxx_source_compiles("#include <Wt/Json/Object>\n int main() {
     Wt::Json::Object obj; }" WC_HAVE_JSON_OBJECT)
 check_cxx_source_compiles("#include <Wt/WTableView>\n int main() {
     Wt::WTableView v; v.setCurrentPage(0); }" WC_HAVE_ITEMVIEW_PAGING)
+check_cxx_source_compiles("#include <string>\n #include <Wt/WApplication>\n
+    int main() { std::string l = wApp->locale(); }" WC_HAVE_STRING_LOCALE)
 
 if(WC_HAVE_WT_MD5)
     set(WC_HAVE_MD5 ON)
