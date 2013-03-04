@@ -5,6 +5,35 @@ namespace Wc {
 
 /** \page release-notes Release notes
 
+\section wc141 wt-classes 1.4.1
+Bugfix release. Includes fixes for 1.4.0.
+New features will be released in 1.5.0.
+\subsection wc141localestest locales-test:
+ - (bugfix) false possitive error in locales-test (using Wt messages locally)
+ - (bugfix) ignore case of id of multiline messages when ordering (locales-test)
+
+\subsection wc141fixes Fixes:
+ - (bugfix) crash, if wApp is invalid when schedule_action() is called
+ - (bugfix) races in one_bound_post, occured in case of re-use it's result
+ - (bugfix) races in Notify, which may crash an app
+ - (bugfix) cancel old scheduled tasks in Countdown when new ones are added
+ - (bugfix) prevent running function in quited app (bound_post, WServer::post)
+ - (bugfix) urlencode do not change [-_.], replace spaces with '+'
+ - (bugfix) url(en/de)code values of nodes (Url)
+ - (bugfix) make sure timeduration passed to schedule() >= delay (Planning)
+ - (bugfix) provide default noop implemntation for widget.notify() (Notify)
+ - (bugfix) add virtual destructor to abstract class Event (Notify)
+ - (bugfix) (Wbi/Output) propagate set_selected_by_default() to is_selected()
+
+\subsection wc141fixes Port:
+ - (port) add get_locale() and set_locale(string) because of Wt 3.3.0
+ - (port) make Countdown work in Wt 3.2.2
+ - (port) update Countdown for new versions of jquery-countdown (>=1.6.0)
+ - (port) Countdown uses jquery-countdown 1.6.1 by default (Chrome issue)
+
+\subsection wc141impr Improvement:
+ - (behavior) improve generation of random numbers in a range (if no WRandom)
+
 \section wc140 wt-classes 1.4.0
 \subsection wc140global Global changes
  - started Release notes

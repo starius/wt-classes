@@ -1,3 +1,6 @@
+2013-03-04:
+    * version 1.4.1 released
+
 2013-02-28:
     * (workaround) add get_locale() and set_locale(string) because of Wt 3.3.0
 
