@@ -481,12 +481,15 @@ std::string json_escape_utf8(const std::string& utf8) {
 }
 
 void scroll_to_last(WTableView* view) {
+#ifdef WC_HAVE_ITEMVIEW_PAGING
     if (!wApp || !wApp->environment().ajax() || view->pageCount() > 0) {
         view->setCurrentPage(view->pageCount() - 1);
-    } else if (wApp) {
-        wApp->doJavaScript("$('#" + view->id() + " div')"
-                           ".scrollTop(999999999);");
-    }
+    } else
+#endif
+        if (wApp) {
+            wApp->doJavaScript("$('#" + view->id() + " div')"
+                               ".scrollTop(999999999);");
+        }
 }
 
 int str2int(const std::string& str, int bad) {

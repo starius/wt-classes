@@ -269,6 +269,8 @@ This function does preprocessing of JSON, containing UTF-8 chars.
 std::string json_escape_utf8(const std::string& utf8);
 
 /** Scroll view to bottom (JavaScript + HTML versions).
+\warning Does nothing in HTML mode for earlier versions of Wt,
+    lacking WTableView.pageCount and WTableView.setCurrentPage.
 
 \ingroup util
 */
