@@ -21,9 +21,9 @@
 namespace Wt {
 
 class WIOService; // FIXME http://redmine.emweb.be/issues/1189
-class WServer; // not declared n WGlobal of Wt 3.1.2
-class WDialog; // not declared n WGlobal of Wt 3.1.2
-class WTextEdit; // not declared n WGlobal of Wt 3.1.2
+class WServer; // not declared in WGlobal of Wt 3.1.2
+class WDialog; // not declared in WGlobal of Wt 3.1.2
+class WTextEdit; // not declared in WGlobal of Wt 3.1.2
 
 namespace Wc {
 
