@@ -8,6 +8,7 @@
 #include <Wt/WApplication>
 
 #include "LocalStore.hpp"
+#include "config.hpp"
 
 namespace Wt {
 
