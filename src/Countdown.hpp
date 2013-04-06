@@ -45,7 +45,7 @@ public:
         be loaded from
     https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js
     and
-    https://raw.github.com/starius/wt-classes/gh-pages/jquery.countdown.min.js
+    http://cdnjs.cloudflare.com/ajax/libs/jquery-countdown/1.6.1/jquery.countdown.min.js
     . <br>
         Passing load_javascript = false, this is up to you to
         load all needed libs using WApplication::require().
