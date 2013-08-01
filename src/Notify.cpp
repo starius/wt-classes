@@ -109,7 +109,9 @@ void Server::start_listening(Widget* widget) {
 void Server::stop_listening(Widget* widget, WApplication* app_id) {
     boost::mutex::scoped_lock lock(mutex_);
     Widgets& widgets = o2w_[widget->key()][app_id].second;
-    widgets.erase(std::find(widgets.begin(), widgets.end(), widget));
+    Widgets::iterator it = std::find(widgets.begin(), widgets.end(), widget);
+    *it = widgets.back();
+    widgets.pop_back();
     if (widgets.empty()) {
         o2w_[widget->key()].erase(app_id);
         if (a2p_[app_id].expired()) {
