@@ -1,3 +1,6 @@
+2013-08-01:
+    * Notify.Server.stop_listening, optimize removing element from vector
+
 2013-02-28:
     * (workaround) add get_locale() and set_locale(string) because of Wt 3.3.0
 
