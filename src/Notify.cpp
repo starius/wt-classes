@@ -4,6 +4,7 @@
 #include <boost/bind.hpp>
 #include <boost/foreach.hpp>
 #include <boost/make_shared.hpp>
+#include <boost/thread/tss.hpp>
 
 #include <Wt/WServer>
 #include <Wt/WApplication>
@@ -109,6 +110,17 @@ void Server::start_listening(Widget* widget) {
     widgets.push_back(widget);
 }
 
+typedef std::set<Widget*> WidgetsSet;
+typedef boost::thread_specific_ptr<WidgetsSet> WidgetsSetPtr;
+WidgetsSetPtr widgets_set_ptr_;
+
+static WidgetsSet& widgets_set() {
+    if (widgets_set_ptr_.get() == 0) {
+        widgets_set_ptr_.reset(new WidgetsSet());
+    }
+    return *widgets_set_ptr_;
+}
+
 void Server::stop_listening(Widget* widget, WApplication* app_id) {
     boost::mutex::scoped_lock lock(mutex_);
     Widgets& widgets = o2w_[widget->key()][app_id].second;
@@ -124,10 +136,12 @@ void Server::stop_listening(Widget* widget, WApplication* app_id) {
             o2w_.erase(widget->key());
         }
     }
+    widgets_set().erase(widget);
 }
 
 void Server::notify_widgets(const boost::any& event) const {
-    Widgets widgets;
+    WidgetsSet& widgets_s = widgets_set();
+    widgets_s.clear();
     mutex_.lock();
     const EventPtr* e = boost::any_cast<EventPtr>(&event);
     O2W::const_iterator o2w_it = o2w_.find((*e)->key());
@@ -136,12 +150,17 @@ void Server::notify_widgets(const boost::any& event) const {
         A2W::const_iterator a2w_it = a2w.find(wApp);
         if (a2w_it != a2w.end()) {
             const PosterAndWidgets& paw = a2w_it->second;
-            widgets = paw.second;
+            const Widgets& widgets_v = paw.second;
+            WidgetsSet widgets_s_temp(widgets_v.begin(), widgets_v.end());
+            widgets_s.swap(widgets_s_temp);
         }
     }
     mutex_.unlock();
     bool updates_needed = false;
-    BOOST_FOREACH (Widget* widget, widgets) {
+    while (!widgets_s.empty()) {
+        WidgetsSet::iterator it = widgets_s.begin();
+        Widget* widget = *it;
+        widgets_s.erase(it);
         updates_needed |= widget->updates_needed(*e);
         widget->notify(*e);
     }
