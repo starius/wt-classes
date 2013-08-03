@@ -1,5 +1,6 @@
 2013-08-03:
     * add example for Notify when one widget removes another while notification
+    * produce warning if deleted Widget is being notified (Notify)
 
 2013-08-01:
     * Notify.Server.stop_listening, optimize removing element from vector
