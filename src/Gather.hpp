@@ -142,6 +142,9 @@ public:
     */
     static int significance(DataType type);
 
+    /** String representation of data type */
+    static std::string type_to_str(DataType type);
+
     /** \name (Re)explore data */
     /* @{ */
 

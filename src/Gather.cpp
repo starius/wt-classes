@@ -77,6 +77,34 @@ int Gather::significance(DataType type) {
     }
 }
 
+std::string Gather::type_to_str(DataType type) {
+    if (type == COOKIE) {
+        return "cookie";
+    } else if (type == SWF) {
+        return "flash_cookie";
+    } else if (type == LOCAL_STORAGE) {
+        return "local_storage";
+    } else if (type == IP) {
+        return "ip";
+    } else if (type == PLUGINS) {
+        return "plugins";
+    } else if (type == MIME_TYPES) {
+        return "mime_types";
+    } else if (type == USER_AGENT) {
+        return "user_agent";
+    } else if (type == SCREEN) {
+        return "screen";
+    } else if (type == LOCALE) {
+        return "locale";
+    } else if (type == TIMEZONE_OFFSET) {
+        return "timezone";
+    } else if (type == JAVA) {
+        return "java";
+    } else {
+        return "unknown";
+    }
+}
+
 void Gather::explore_all() {
     explore_simple();
     explore_cookie();
