@@ -62,6 +62,16 @@ $ sudo add-apt-repository ppa:starius/wc
 $ sudo apt-get update
 $ sudo apt-get install '.*wtclasses.*'
 
+SWFStore:
+to make it work, add following lines to nginx config:
+    location ~ /(swfstore.swf) {
+        alias /usr/share/javascript/yui/swfstore/$1;
+    }
+/usr/share/javascript/yui/swfstore/swfstore.swf must exist.
+For Debian 6.0, install libjs-yui, for Debian 7+
+you must download swfstore.swf manually and put it there.
+See also http://yuilibrary.com/support/20121030-vulnerability/
+
 ------------------------------------------
 Boris Nagaev <bnagaev@gmail.com>
 
