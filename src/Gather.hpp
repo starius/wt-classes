@@ -200,7 +200,6 @@ private:
         DataType type;
     };
     std::vector<StoreAndType> stores_;
-    std::vector<AbstractStore*> to_delete_;
     JSignal<int, std::string> signal_; // int is DataType
     bool honor_dnt_;
     bool dnt_;
