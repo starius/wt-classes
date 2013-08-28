@@ -141,6 +141,7 @@ struct Game : public notify::Task {
         } else if (exceed_time_limit) {
             return magenta;
         }
+        return white;
     }
 
     GlobalColor user_color(int i) const {
