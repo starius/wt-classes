@@ -40,6 +40,7 @@ class ResourceView;
 class MapImage;
 class MapViewer;
 class Pager;
+class GlobalLocalizedStrings;
 
 class AbstractArgument;
 class AbstractInput;
