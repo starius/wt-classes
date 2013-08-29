@@ -66,6 +66,7 @@ private:
     std::vector<std::string> paths_;
     int ref_count_;
     boost::mutex ref_count_mutex_;
+    WMessageResourceBundle* default_bundle_;
 
     friend class GlobalLocalizedStringsPtr;
 };

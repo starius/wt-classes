@@ -33,8 +33,12 @@ public:
     }
 
     bool resolveKey(const std::string& key, std::string& result) {
-        if (bundle_) {
-            return bundle_->resolveKey(key, result);
+        WMessageResourceBundle* default_bundle = data_->default_bundle_;
+        BOOST_ASSERT(default_bundle);
+        if (bundle_ && bundle_->resolveKey(key, result)) {
+            return true;
+        } else if (default_bundle->resolveKey(key, result)) {
+            return true;
         } else {
             return false;
         }
@@ -42,8 +46,12 @@ public:
 
     bool resolvePluralKey(const std::string& key, std::string& result,
                           ::uint64_t amount) {
-        if (bundle_) {
-            return bundle_->resolvePluralKey(key, result, amount);
+        WMessageResourceBundle* default_bundle = data_->default_bundle_;
+        BOOST_ASSERT(default_bundle);
+        if (bundle_ && bundle_->resolvePluralKey(key, result, amount)) {
+            return true;
+        } else if (default_bundle->resolvePluralKey(key, result, amount)) {
+            return true;
         } else {
             return false;
         }
@@ -75,6 +83,7 @@ private:
 
 GlobalLocalizedStrings::GlobalLocalizedStrings() {
     add_lang("");
+    default_bundle_ = &(lang_to_bundle_[""]);
 }
 
 GlobalLocalizedStrings::~GlobalLocalizedStrings() {
