@@ -56,6 +56,9 @@ public:
     /** Hide the row containing the input widget */
     void hide(WWidget* input);
 
+    /** Show of hide the row containing the input widget */
+    void set_visible(WWidget* input, bool visible);
+
     /** Apply a function to all items in order of addition.
     \attention Do not add widgets manually (e.g. by WTable->elementAt())
         if you are using this method.

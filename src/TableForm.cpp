@@ -90,6 +90,14 @@ void TableForm::hide(WWidget* input) {
     parent_row_(input)->hide();
 }
 
+void TableForm::set_visible(WWidget* input, bool visible) {
+    if (visible) {
+        show(input);
+    } else {
+        hide(input);
+    }
+}
+
 void TableForm::foreach(const boost::function<void(WWidget*)>& f) {
     BOOST_FOREACH (WWidget* input, inputs_) {
         f(input);

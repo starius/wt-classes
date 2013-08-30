@@ -1,3 +1,6 @@
+2013-08-30:
+    * add method TableForm.set_visible()
+
 2013-08-29:
     * add class GlobalLocalizedStrings
 
