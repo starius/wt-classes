@@ -41,6 +41,7 @@ class MapImage;
 class MapViewer;
 class Pager;
 class GlobalLocalizedStrings;
+class CachedContents;
 
 class AbstractArgument;
 class AbstractInput;

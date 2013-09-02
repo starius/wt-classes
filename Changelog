@@ -1,3 +1,6 @@
+2013-09-03:
+    * add class CachedContents
+
 2013-08-30:
     * add method TableForm.set_visible()
 
