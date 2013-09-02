@@ -98,6 +98,7 @@ void CachedContents::clear() {
     url_to_widget_.clear();
     visited_urls_.clear();
     current_widget_ = 0;
+    WContainerWidget::clear();
 }
 
 void CachedContents::resize_cache() {
