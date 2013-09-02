@@ -10,7 +10,6 @@
 
 #include <map>
 #include <vector>
-#include <boost/thread/mutex.hpp>
 
 #include <Wt/WLocalizedStrings>
 #include <Wt/WMessageResourceBundle>
@@ -67,8 +66,6 @@ private:
     typedef std::map<std::string, WMessageResourceBundle> Lang2Bundle;
     Lang2Bundle lang_to_bundle_;
     std::vector<std::string> paths_;
-    int ref_count_;
-    boost::mutex ref_count_mutex_;
     WMessageResourceBundle* default_bundle_;
 
     friend class GlobalLocalizedStringsPtr;

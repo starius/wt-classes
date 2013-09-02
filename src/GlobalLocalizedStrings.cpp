@@ -22,15 +22,11 @@ class GlobalLocalizedStringsPtr : public WLocalizedStrings {
 public:
     GlobalLocalizedStringsPtr(GlobalLocalizedStrings* data):
         data_(data), bundle_(0) {
-        boost::mutex::scoped_lock lock(data_->ref_count_mutex_);
-        data_->ref_count_ += 1;
         update_bundle_ptr();
     }
 
-    ~GlobalLocalizedStringsPtr() {
-        boost::mutex::scoped_lock lock(data_->ref_count_mutex_);
-        data_->ref_count_ -= 1;
-    }
+    ~GlobalLocalizedStringsPtr()
+    { }
 
     bool resolveKey(const std::string& key, std::string& result) {
         WMessageResourceBundle* default_bundle = data_->default_bundle_;
@@ -86,9 +82,8 @@ GlobalLocalizedStrings::GlobalLocalizedStrings() {
     default_bundle_ = &(lang_to_bundle_[""]);
 }
 
-GlobalLocalizedStrings::~GlobalLocalizedStrings() {
-    BOOST_ASSERT(ref_count_ == 0);
-}
+GlobalLocalizedStrings::~GlobalLocalizedStrings()
+{ }
 
 WLocalizedStrings* GlobalLocalizedStrings::create_localized_strings() {
     return new GlobalLocalizedStringsPtr(this);
