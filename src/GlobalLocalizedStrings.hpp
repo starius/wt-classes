@@ -35,7 +35,10 @@ wApp->setLocalizedStrings(global_storage->create_localized_strings());
 
 \warning Global storage should not be modified
 
-\todo Refresh data, if files were changed.
+You can not refresh instance of GlobalLocalizedStrings,
+because no locking is used for access from WApplication's.
+To update translations, create new instance of GlobalLocalizedStrings
+and use it for new WApplication instances.
 
 \ingroup util
 */
