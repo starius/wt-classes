@@ -86,26 +86,31 @@ public:
     void show_complex_root() {
         boost::this_thread::sleep(SECOND); // work
         set_contents_raw(new WText("Simulates CPU-expensive work"));
+        wApp->setTitle("Simulates CPU-expensive work");
     }
 
     void show_complex(int id) {
         boost::this_thread::sleep(SECOND); // work
         set_contents_raw(new WText(TO_S(id)));
+        wApp->setTitle(TO_S(id));
     }
 
     void show_ignored_node() {
         boost::this_thread::sleep(SECOND); // work
         set_contents_raw(new WText("This URL is not cached"));
+        wApp->setTitle("This URL is not cached");
     }
 
     void show_ignored_prefix() {
         boost::this_thread::sleep(SECOND); // work
         set_contents_raw(new WText("This URL and sub-URLs are not cached"));
+        wApp->setTitle("This URL and sub-URLs are not cached");
     }
 
     void show_ignored_node_2() {
         boost::this_thread::sleep(SECOND); // work
         set_contents_raw(new WText("This sub-URL is not cached"));
+        wApp->setTitle("This sub-URL is not cached");
     }
 
 protected:

@@ -19,7 +19,8 @@ namespace Wt {
 namespace Wc {
 
 CachedContents::CachedContents(WContainerWidget* parent):
-    WContainerWidget(parent), cache_size_(10), current_widget_(0)
+    WContainerWidget(parent), cache_size_(10), current_widget_(0),
+    cache_title_(true)
 { }
 
 CachedContents::~CachedContents() {
@@ -35,12 +36,21 @@ void CachedContents::open_url(const std::string& url) {
         Url2Widget::iterator it = url_to_widget_.find(fixed_url);
         if (it == url_to_widget_.end()) {
             open_url_impl(fixed_url);
-            url_to_widget_[fixed_url] = current_widget_;
+            WidgetAndTitle& widget_and_title = url_to_widget_[fixed_url];
+            widget_and_title.first = current_widget_;
+            if (cache_title_) {
+                widget_and_title.second = wApp->title();
+            }
             resize_cache();
             visited_urls_.push_back(fixed_url);
         } else {
-            WWidget* widget = it->second;
+            WidgetAndTitle& widget_and_title = it->second;
+            WWidget* widget = widget_and_title.first;
             set_contents_raw(widget);
+            if (cache_title_) {
+                const WString& title = widget_and_title.second;
+                wApp->setTitle(title);
+            }
             visited_urls_.remove(fixed_url);
             visited_urls_.push_back(fixed_url);
         }
@@ -81,7 +91,8 @@ void CachedContents::ignore_prefix(const std::string& prefix) {
 
 void CachedContents::clear() {
     BOOST_FOREACH (Url2Widget::value_type& u2w, url_to_widget_) {
-        WWidget* widget = u2w.second;
+        WidgetAndTitle& widget_and_title = u2w.second;
+        WWidget* widget = widget_and_title.first;
         delete widget;
     }
     url_to_widget_.clear();
@@ -94,7 +105,8 @@ void CachedContents::resize_cache() {
         const std::string& url = visited_urls_.front();
         Url2Widget::iterator it = url_to_widget_.find(url);
         BOOST_ASSERT(it != url_to_widget_.end());
-        WWidget* widget = it->second;
+        WidgetAndTitle& widget_and_title = it->second;
+        WWidget* widget = widget_and_title.first;
         delete widget;
         url_to_widget_.erase(it);
         visited_urls_.pop_front();

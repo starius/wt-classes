@@ -68,6 +68,18 @@ public:
         return current_widget_;
     }
 
+    /** Return if window title is cached.
+    Defaults to true.
+    */
+    bool cache_title() const {
+        return cache_title_;
+    }
+
+    /** Set if title is cached */
+    void set_cache_title(bool cache_title) {
+        cache_title_ = cache_title;
+    }
+
     /** Set the widget as contents */
     void set_contents_raw(WWidget* widget);
 
@@ -105,12 +117,14 @@ private:
     typedef std::set<std::string> StringsSet;
     StringsSet ignored_urls_;
     StringsSet ignored_prefixes_;
-    typedef std::map<std::string, WWidget*> Url2Widget;
+    typedef std::pair<WWidget*, WString> WidgetAndTitle;
+    typedef std::map<std::string, WidgetAndTitle> Url2Widget;
     Url2Widget url_to_widget_;
     typedef std::list<std::string> StringsList;
     StringsList visited_urls_;
     int cache_size_;
     WWidget* current_widget_;
+    bool cache_title_;
 
     bool is_ignored(const std::string& url);
     void resize_cache();
