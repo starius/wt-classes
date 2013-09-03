@@ -134,7 +134,9 @@ void CachedContents::resize_cache() {
         BOOST_ASSERT(it != url_to_widget_.end());
         WidgetAndTitle& widget_and_title = it->second;
         WWidget* widget = widget_and_title.first;
-        delete widget;
+        if (widget != current_widget_) {
+            delete widget;
+        }
         url_to_widget_.erase(it);
         visited_urls_.pop_front();
     }
