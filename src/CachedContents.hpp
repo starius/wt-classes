@@ -85,6 +85,7 @@ public:
 
     /** Return max number of widgets in cache (excluding currently shown).
     Defaults to 10.
+    0 means cache is disabled.
     */
     int cache_size() const {
         return cache_size_;
