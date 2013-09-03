@@ -41,8 +41,8 @@ void CachedContents::open_url(const std::string& url) {
             if (cache_title_) {
                 widget_and_title.second = wApp->title();
             }
-            resize_cache();
             visited_urls_.push_back(fixed_url);
+            resize_cache();
         } else {
             WidgetAndTitle& widget_and_title = it->second;
             WWidget* widget = widget_and_title.first;
