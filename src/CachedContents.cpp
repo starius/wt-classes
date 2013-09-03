@@ -59,7 +59,20 @@ void CachedContents::open_url(const std::string& url) {
 
 void CachedContents::set_contents_raw(WWidget* w) {
     if (current_widget_) {
-        if (wApp->environment().ajax()) {
+        bool current_is_cached = false;
+        BOOST_FOREACH (const Url2Widget::value_type& u2w, url_to_widget_) {
+            const WidgetAndTitle& w_a_t = u2w.second;
+            WWidget* widget = w_a_t.first;
+            if (widget == current_widget_) {
+                current_is_cached = true;
+                break;
+            }
+        }
+        if (!current_is_cached) {
+            // it is ignored or set by external code
+            delete current_widget_;
+            current_widget_ = 0;
+        } else if (wApp->environment().ajax()) {
             current_widget_->hide();
         } else {
             // HTML version, client side cache is useless
