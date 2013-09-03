@@ -90,10 +90,10 @@ public:
         return cache_size_;
     }
 
-    /** Set max number of widgets in cache (excluding currently shown) */
-    void set_cache_size(int cache_size) {
-        cache_size_ = cache_size;
-    }
+    /** Set max number of widgets in cache (excluding currently shown).
+    If cache size exceeds new value, it is reduced.
+    */
+    void set_cache_size(int cache_size);
 
     /** Do not cache widgets at given URL */
     void ignore_url(const std::string& url);

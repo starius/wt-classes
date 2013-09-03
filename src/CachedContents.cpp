@@ -79,6 +79,11 @@ void CachedContents::set_contents_raw(WWidget* w) {
     current_widget_ = w;
 }
 
+void CachedContents::set_cache_size(int cache_size) {
+    cache_size_ = cache_size;
+    resize_cache();
+}
+
 void CachedContents::ignore_url(const std::string& url) {
     std::string fixed_url = (!url.empty() && *url.rbegin() == '/') ?
                             url : url + "/";
