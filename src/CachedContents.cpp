@@ -106,7 +106,11 @@ void CachedContents::clear_cache() {
 }
 
 void CachedContents::resize_cache() {
-    if (visited_urls_.size() > cache_size()) {
+    int desired_size = cache_size();
+    if (desired_size < 0) {
+        desired_size = 0;
+    }
+    while (visited_urls_.size() > desired_size) {
         const std::string& url = visited_urls_.front();
         Url2Widget::iterator it = url_to_widget_.find(url);
         BOOST_ASSERT(it != url_to_widget_.end());
