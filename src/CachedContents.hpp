@@ -83,7 +83,7 @@ public:
     /** Set the widget as contents */
     void set_contents_raw(WWidget* widget);
 
-    /** Return max number of widgets in cache (excluding currently shown).
+    /** Return max number of widgets in cache (including currently shown).
     Defaults to 10.
     0 means cache is disabled.
     */
@@ -91,7 +91,7 @@ public:
         return cache_size_;
     }
 
-    /** Set max number of widgets in cache (excluding currently shown).
+    /** Set max number of widgets in cache (including currently shown).
     If cache size exceeds new value, it is reduced.
     */
     void set_cache_size(int cache_size);
