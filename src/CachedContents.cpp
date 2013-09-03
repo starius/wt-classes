@@ -51,7 +51,7 @@ void CachedContents::open_url(const std::string& url) {
                 const WString& title = widget_and_title.second;
                 wApp->setTitle(title);
             }
-            visited_urls_.remove(fixed_url);
+            visited_urls_.remove(fixed_url); // O(cache_size)
             visited_urls_.push_back(fixed_url);
         }
     }
@@ -61,6 +61,7 @@ void CachedContents::set_contents_raw(WWidget* w) {
     if (current_widget_) {
         bool current_is_cached = false;
         BOOST_FOREACH (const Url2Widget::value_type& u2w, url_to_widget_) {
+            // O(cache_size)
             const WidgetAndTitle& w_a_t = u2w.second;
             WWidget* widget = w_a_t.first;
             if (widget == current_widget_) {
