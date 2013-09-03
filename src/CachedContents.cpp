@@ -24,7 +24,7 @@ CachedContents::CachedContents(WContainerWidget* parent):
 { }
 
 CachedContents::~CachedContents() {
-    clear();
+    clear_cache();
 }
 
 void CachedContents::open_url(const std::string& url) {
@@ -90,6 +90,11 @@ void CachedContents::ignore_prefix(const std::string& prefix) {
 }
 
 void CachedContents::clear() {
+    clear_cache();
+    WContainerWidget::clear();
+}
+
+void CachedContents::clear_cache() {
     BOOST_FOREACH (Url2Widget::value_type& u2w, url_to_widget_) {
         WidgetAndTitle& widget_and_title = u2w.second;
         WWidget* widget = widget_and_title.first;
@@ -98,7 +103,6 @@ void CachedContents::clear() {
     url_to_widget_.clear();
     visited_urls_.clear();
     current_widget_ = 0;
-    WContainerWidget::clear();
 }
 
 void CachedContents::resize_cache() {

@@ -101,10 +101,13 @@ public:
     /** Do not cache widgets at URLs starting with given prefix */
     void ignore_prefix(const std::string& prefix);
 
-    /** Clear cache.
+    /** Clear cache and widget (as WContainerWidget.clear()).
     Do it on login/logout.
     */
     void clear();
+
+    /** Clear cache and widget */
+    void clear_cache();
 
 protected:
     /** Update visible contents of widget according to the URL (implementation).
