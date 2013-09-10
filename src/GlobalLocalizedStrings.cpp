@@ -94,6 +94,7 @@ static void add_path_to_bundle(WMessageResourceBundle& bundle,
                                const std::string& lang) {
     std::string full_path = path + (lang.empty() ? "" : "_") + lang;
     bundle.use(full_path);
+    bundle.refresh();
 }
 
 void GlobalLocalizedStrings::use(const std::string& path) {
