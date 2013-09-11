@@ -132,8 +132,6 @@ private:
 
     void update_url();
     void resize_image(const WLength& size);
-    static bool https(SecureRequests secure_requests);
-    bool https() const;
     static std::string rating_str(Rating rating);
     std::string rating_str() const;
 };

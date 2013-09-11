@@ -102,10 +102,12 @@ std::string GravatarImage::url(const std::string& email, short size,
                                const std::string& default_url,
                                Rating rating, SecureRequests secure_requests) {
     std::stringstream url;
-    if (https(secure_requests)) {
-        url << "https://secure.";
-    } else {
-        url << "http://www.";
+    if (secure_requests == INHERIT) {
+        url << "//";
+    } else if (secure_requests == ALWAYS) {
+        url << "https://";
+    } else if (secure_requests == NEVER) {
+        url << "http://";
     }
     url << "gravatar.com/avatar/";
     url << md5(email);
@@ -133,16 +135,6 @@ void GravatarImage::update_url() {
 
 void GravatarImage::resize_image(const WLength& size) {
     resize(size, size);
-}
-
-bool GravatarImage::https(SecureRequests secure_requests) {
-    return secure_requests == ALWAYS ||
-           (secure_requests == INHERIT &&
-            wApp && wApp->environment().urlScheme() == "https");
-}
-
-bool GravatarImage::https() const {
-    return https(secure_requests_);
 }
 
 std::string GravatarImage::rating_str(Rating rating) {
