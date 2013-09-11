@@ -101,6 +101,9 @@ std::string GravatarImage::url(const std::string& email, short size,
                                bool force_default,
                                const std::string& default_url,
                                Rating rating, SecureRequests secure_requests) {
+    if (default_url.find("imgur") != std::string::npos) {
+        return default_url;
+    }
     std::stringstream url;
     if (secure_requests == INHERIT) {
         url << "//";
