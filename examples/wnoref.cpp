@@ -87,6 +87,8 @@ public:
                                     "not on hard drive"));
         root()->addWidget(new WBreak);
         textarea_ = new WTextArea(root());
+        textarea_->setRows(10);
+        textarea_->setColumns(80);
         root()->addWidget(new WBreak);
         WPushButton* get_link = new WPushButton("Get link!", root());
         get_link->clicked().connect(this, &WnorefApp::do_get_link);
