@@ -111,7 +111,7 @@ public:
                           environment().deploymentPath() +
                           note_url_->full_path();
         boost::algorithm::replace_all(url, "//", "/");
-        url = environment().urlScheme() + "://" + url;
+        url = url_scheme() + "://" + url;
         root()->clear();
         WLineEdit* url_edit = new WLineEdit(url, root());
         url_edit->setTextSize(50);
