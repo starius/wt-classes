@@ -112,6 +112,7 @@ public:
         boost::algorithm::replace_all(url, "//", "/");
         root()->clear();
         WLineEdit* url_edit = new WLineEdit(url, root());
+        url_edit->setTextSize(50);
         doJavaScript(url_edit->jsRef() + ".select();");
         doJavaScript(url_edit->jsRef() + ".focus();");
         int delay_mins = delay_->corrected_value();
