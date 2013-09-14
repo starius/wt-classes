@@ -35,6 +35,7 @@
 #include <Wt/Wc/util.hpp>
 #include <Wt/Wc/Url.hpp>
 #include <Wt/Wc/TimeDuration.hpp>
+#include <Wt/Wc/ConstrainedSpinBox.hpp>
 #include <Wt/Wc/rand.hpp>
 
 using namespace Wt;
@@ -89,6 +90,11 @@ public:
         root()->addWidget(new WBreak);
         WPushButton* get_link = new WPushButton("Get link!", root());
         get_link->clicked().connect(this, &WnorefApp::do_get_link);
+        root()->addWidget(new WText("Store max "));
+        delay_ = new ConstrainedSpinBox(root());
+        delay_->setRange(1, 60);
+        delay_->setValue(5);
+        root()->addWidget(new WText(" minutes"));
     }
 
     void do_get_link() {
@@ -108,7 +114,8 @@ public:
         WLineEdit* url_edit = new WLineEdit(url, root());
         doJavaScript(url_edit->jsRef() + ".select();");
         doJavaScript(url_edit->jsRef() + ".focus();");
-        planning_.add(note, now() + 5 * td::MINUTE);
+        int delay_mins = delay_->corrected_value();
+        planning_.add(note, now() + delay_mins * td::MINUTE);
     }
 
     void show_note() {
@@ -133,6 +140,7 @@ private:
     Parser* parser_;
     StringNode* note_url_;
     WTextArea* textarea_;
+    ConstrainedSpinBox* delay_;
 };
 
 WApplication* createWnorefApp(const WEnvironment& env) {
