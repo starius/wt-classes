@@ -16,10 +16,13 @@
  */
 
 #include <map>
+#include <vector>
 #include <boost/thread/mutex.hpp>
 #include <boost/shared_ptr.hpp>
 #include <boost/thread/mutex.hpp>
 #include <boost/algorithm/string/replace.hpp>
+#include <boost/algorithm/string/split.hpp>
+#include <boost/algorithm/string/classification.hpp>
 
 #include <Wt/WApplication>
 #include <Wt/WEnvironment>
@@ -94,7 +97,8 @@ public:
         root()->addWidget(new WBreak);
         url_edit_ = new WLineEdit(root());
         url_edit_->setTextSize(50);
-        url_edit_->hide();
+        WPushButton* open_url = new WPushButton("Open", root());
+        open_url->clicked().connect(this, &WnorefApp::do_open_url);
         //
         parser_ = new Parser(this);
         note_url_ = new StringNode(parser_);
@@ -133,7 +137,6 @@ public:
         url_edit_->setText(url);
         doJavaScript(url_edit_->jsRef() + ".select();");
         doJavaScript(url_edit_->jsRef() + ".focus();");
-        url_edit_->show();
         request_too_large_->hide();
     }
 
@@ -148,8 +151,19 @@ public:
             textarea_->setText(note->text_);
             key_to_note_.erase(it); // show text only one time
         }
-        url_edit_->hide();
         request_too_large_->hide();
+    }
+
+    void do_open_url() {
+        std::string url = url_edit_->text().toUTF8();
+        // split url into parts and take the last one
+        using namespace boost::algorithm;
+        std::vector<std::string> parts;
+        split(parts, url, is_any_of("/"), token_compress_on);
+        std::string key = parts.back();
+        note_url_->set_string(key);
+        parser_->open(note_url_->full_path());
+        setInternalPath(note_url_->full_path(), /* emit */ false);
     }
 
 private:
