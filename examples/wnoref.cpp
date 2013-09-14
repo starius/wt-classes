@@ -20,6 +20,7 @@
 #include <boost/shared_ptr.hpp>
 #include <boost/thread/mutex.hpp>
 #include <boost/foreach.hpp>
+#include <boost/algorithm/string/replace.hpp>
 
 #include <Wt/WApplication>
 #include <Wt/WEnvironment>
@@ -103,6 +104,7 @@ public:
                           environment().hostName() +
                           environment().deploymentPath() +
                           note_url_->full_path();
+        boost::algorithm::replace_all(url, "//", "/");
         root()->clear();
         WLineEdit* url_edit = new WLineEdit(url, root());
         doJavaScript(url_edit->jsRef() + ".select();");
