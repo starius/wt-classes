@@ -87,9 +87,15 @@ public:
         delay_->setValue(5);
         root()->addWidget(new WText(" minutes"));
         root()->addWidget(new WBreak);
+        request_too_large_ = new WText("Request too large", root());
+        request_too_large_->decorationStyle().setForegroundColor(Wt::red);
+        request_too_large_->hide();
+        requestTooLarge().connect(request_too_large_, &WWidget::show);
+        root()->addWidget(new WBreak);
         url_edit_ = new WLineEdit(root());
         url_edit_->setTextSize(50);
         url_edit_->hide();
+        //
         parser_ = new Parser(this);
         note_url_ = new StringNode(parser_);
         parser_->connect(parser_,
@@ -103,6 +109,7 @@ public:
     void show_main() {
         textarea_->setText("");
         url_edit_->setText("");
+        request_too_large_->hide();
     }
 
     void do_get_link() {
@@ -127,6 +134,7 @@ public:
         doJavaScript(url_edit_->jsRef() + ".select();");
         doJavaScript(url_edit_->jsRef() + ".focus();");
         url_edit_->show();
+        request_too_large_->hide();
     }
 
     void show_note() {
@@ -141,6 +149,7 @@ public:
             key_to_note_.erase(it); // show text only one time
         }
         url_edit_->hide();
+        request_too_large_->hide();
     }
 
 private:
@@ -149,6 +158,7 @@ private:
     WTextArea* textarea_;
     ConstrainedSpinBox* delay_;
     WLineEdit* url_edit_;
+    WText* request_too_large_;
 };
 
 WApplication* createWnorefApp(const WEnvironment& env) {
