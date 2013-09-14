@@ -80,13 +80,17 @@ public:
     }
 
     void show_main() {
+        show_text("");
+    }
+
+    void show_text(const Wt::WString& text) {
         root()->clear();
         root()->addWidget(new WText("Enter text to be shown only once"));
         root()->addWidget(new WBreak);
         root()->addWidget(new WText("Text is stored in the RAM, "
                                     "not on hard drive"));
         root()->addWidget(new WBreak);
-        textarea_ = new WTextArea(root());
+        textarea_ = new WTextArea(text, root());
         textarea_->setRows(10);
         textarea_->setColumns(80);
         root()->addWidget(new WBreak);
@@ -113,6 +117,10 @@ public:
         boost::algorithm::replace_all(url, "//", "/");
         url = url_scheme() + "://" + url;
         root()->clear();
+        WAnchor* main = new WAnchor(root());
+        main->setRefInternalPath(parser_->full_path());
+        main->setText("Main page");
+        root()->addWidget(new WBreak);
         WLineEdit* url_edit = new WLineEdit(url, root());
         url_edit->setTextSize(50);
         doJavaScript(url_edit->jsRef() + ".select();");
@@ -122,19 +130,14 @@ public:
     }
 
     void show_note() {
-        root()->clear();
-        WAnchor* main = new WAnchor(root());
-        main->setRefInternalPath(parser_->full_path());
-        main->setText("Main page");
-        root()->addWidget(new WBreak);
         boost::mutex::scoped_lock lock(key_to_note_mutex_);
         std::string key = note_url_->value();
         Key2Note::iterator it = key_to_note_.find(key);
         if (it == key_to_note_.end()) {
-            root()->addWidget(new WText("No note with this key!"));
+            show_text("No note with this key!");
         } else {
             NotePtr note = it->second;
-            root()->addWidget(new WText(note->text_, PlainText));
+            show_text(note->text_);
             key_to_note_.erase(it); // show text only one time
         }
     }
