@@ -567,6 +567,21 @@ void set_locale(const std::string& locale, WApplication* app) {
     app->setLocale(locale);
 }
 
+std::string url_scheme(WApplication* app) {
+    if (!app) {
+        app = wApp;
+    }
+    const WEnvironment& env = app->environment();
+    std::string proto = env.headerValue("X-Forwarded-Proto");
+    if (proto == "http" || proto == "https") {
+        return proto;
+    }
+    if (env.urlScheme() == "http" || env.urlScheme() == "https") {
+        return env.urlScheme();
+    }
+    return "http";
+}
+
 }
 
 }

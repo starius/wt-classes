@@ -325,6 +325,14 @@ FTGJ
 */
 void set_locale(const std::string& locale, WApplication* app = 0);
 
+/** Return URL scheme being used ("http" or "https").
+This relies on X-Forwarded-Proto header.
+If no such header, use WEnvironment.urlScheme().
+Return value of this function is guaranteed to be
+either "http" or "https".
+*/
+std::string url_scheme(WApplication* app = 0);
+
 }
 
 }

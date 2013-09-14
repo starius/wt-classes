@@ -1,5 +1,6 @@
 2013-09-14:
     * add example wnoref
+    * add function url_scheme()
 
 2013-09-03:
     * add class CachedContents
