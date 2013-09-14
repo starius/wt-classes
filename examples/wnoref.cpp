@@ -107,11 +107,11 @@ public:
         boost::mutex::scoped_lock lock(key_to_note_mutex_);
         key_to_note_[key] = note;
         note_url_->set_string(key);
-        std::string url = environment().urlScheme() + "://" +
-                          environment().hostName() +
+        std::string url = environment().hostName() +
                           environment().deploymentPath() +
                           note_url_->full_path();
         boost::algorithm::replace_all(url, "//", "/");
+        url = environment().urlScheme() + "://" + url;
         root()->clear();
         WLineEdit* url_edit = new WLineEdit(url, root());
         url_edit->setTextSize(50);
