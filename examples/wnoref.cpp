@@ -84,7 +84,7 @@ public:
         root()->addWidget(new WBreak);
         WPushButton* get_link = new WPushButton("Get link!", root());
         get_link->clicked().connect(this, &WnorefApp::do_get_link);
-        root()->addWidget(new WText("Store max "));
+        root()->addWidget(new WText(" Store max "));
         delay_ = new ConstrainedSpinBox(root());
         delay_->setRange(1, 60);
         delay_->setValue(5);
