@@ -493,6 +493,6 @@ WApplication* createRockPaperScissorsApp(const WEnvironment& env) {
 }
 
 int main(int argc, char** argv) {
-    return WRun(argc, argv, &createRockPaperScissorsApp);
+    return wrun_stop_ioservice(argc, argv, &createRockPaperScissorsApp);
 }
 
