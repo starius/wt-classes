@@ -183,6 +183,6 @@ WApplication* createWnorefApp(const WEnvironment& env) {
 }
 
 int main(int argc, char** argv) {
-    return WRun(argc, argv, &createWnorefApp);
+    return wrun_stop_ioservice(argc, argv, &createWnorefApp);
 }
 
