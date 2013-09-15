@@ -119,12 +119,15 @@ public:
     void do_get_link() {
         NotePtr note(new Note);
         std::string key = rand_string(12);
-        note->key_ = key;
-        note->text_ = textarea_->text();
         {
             boost::mutex::scoped_lock lock(key_to_note_mutex_);
+            while (key_to_note_.find(key) != key_to_note_.end()) {
+                key = rand_string(12);
+            }
             key_to_note_[key] = note;
         }
+        note->key_ = key;
+        note->text_ = textarea_->text();
         int delay_mins = delay_->corrected_value();
         planning_.add(note, now() + delay_mins * td::MINUTE);
         //
