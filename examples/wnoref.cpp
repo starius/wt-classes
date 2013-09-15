@@ -73,7 +73,9 @@ public:
     WnorefApp(const WEnvironment& env):
         WApplication(env) {
         setTitle("WNoRef");
+        root()->setContentAlignment(AlignCenter);
         root()->clear();
+        root()->addWidget(new WBreak);
         root()->addWidget(new WText("Enter text to be shown only once"));
         root()->addWidget(new WBreak);
         root()->addWidget(new WText("Text is stored in the RAM, "
