@@ -6,6 +6,7 @@
  */
 
 #include <Wt/WServer>
+#include <Wt/Wc/util.hpp>
 
 #cmakedefine HAVE_SWFSTORE
 
@@ -50,6 +51,7 @@ int main(int argc, char** argv) {
     AllServer server(argc, argv);
     if (server.start()) {
         Wt::WServer::waitForShutdown();
+        stop_ioservice(server);
         server.stop();
     }
 }
