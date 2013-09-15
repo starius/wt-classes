@@ -72,6 +72,7 @@ class WnorefApp : public WApplication {
 public:
     WnorefApp(const WEnvironment& env):
         WApplication(env) {
+        setTitle("WNoRef");
         root()->clear();
         root()->addWidget(new WText("Enter text to be shown only once"));
         root()->addWidget(new WBreak);
