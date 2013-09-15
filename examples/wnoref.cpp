@@ -132,9 +132,8 @@ public:
         planning_.add(note, now() + delay_mins * td::MINUTE);
         //
         note_url_->set_string(key);
-        std::string url = environment().hostName() +
-                          environment().deploymentPath() +
-                          note_url_->full_path();
+        std::string url = environment().hostName() + "/" +
+                          bookmarkUrl(note_url_->full_path());
         boost::algorithm::replace_all(url, "//", "/");
         url = url_scheme() + "://" + url;
         url_edit_->setText(url);
