@@ -1,5 +1,6 @@
 2013-09-15:
     * add function wrun_stop_ioservice()
+    * add function stop_ioservice()
 
 2013-09-14:
     * add example wnoref

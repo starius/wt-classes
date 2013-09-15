@@ -334,6 +334,9 @@ either "http" or "https".
 */
 std::string url_scheme(WApplication* app = 0);
 
+/** Try to stop ioservice and return if success */
+bool stop_ioservice(WServer& server);
+
 /** Run WServer, stop ioservice on exit */
 int wrun_stop_ioservice(int argc, char** argv, ApplicationCreator creator);
 

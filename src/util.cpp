@@ -582,15 +582,19 @@ std::string url_scheme(WApplication* app) {
     return "http";
 }
 
+bool stop_ioservice(WServer& server) {
+#ifdef WC_HAVE_WIOSERVICE
+        server.ioService().boost::asio::io_service::stop();
+#endif
+}
+
 int wrun_stop_ioservice(int argc, char** argv, ApplicationCreator creator) {
     WServer server(argv[0], "");
     server.setServerConfiguration(argc, argv);
     server.addEntryPoint(Wt::Application, creator);
     if (server.start()) {
         Wt::WServer::waitForShutdown();
-#ifdef WC_HAVE_WIOSERVICE
-        server.ioService().boost::asio::io_service::stop();
-#endif
+        stop_ioservice(server);
         server.stop();
         return 0;
     } else {
