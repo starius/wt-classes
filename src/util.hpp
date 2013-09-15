@@ -14,6 +14,7 @@
 #include <boost/any.hpp>
 
 #include <Wt/WGlobal>
+#include <Wt/WApplication> // for ApplicationCreator
 #include <Wt/WDateTime>
 
 #include "global.hpp"
@@ -332,6 +333,9 @@ Return value of this function is guaranteed to be
 either "http" or "https".
 */
 std::string url_scheme(WApplication* app = 0);
+
+/** Run WServer, stop ioservice on exit */
+int wrun_stop_ioservice(int argc, char** argv, ApplicationCreator creator);
 
 }
 
