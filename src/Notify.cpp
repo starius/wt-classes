@@ -25,7 +25,17 @@ Event::operator Event::Key() const {
 }
 
 Widget::Widget(const Event::Key& key, Server* server, const std::string& /*a*/):
-    key_(key), server_(server), app_id_(wApp) {
+    server_(server), app_id_(wApp) {
+    keylist_.push_back(key);
+    server_->start_listening(this);
+}
+
+Widget::Widget(Server* server):
+    server_(server), app_id_(wApp) {
+}
+
+void Widget::start_listening(const Event::KeyList& keylist) {
+    keylist_ = keylist;
     server_->start_listening(this);
 }
 
@@ -48,6 +58,7 @@ Server::Server(WServer* /* server */):
 void Server::emit(EventPtr event) const {
     mutex_.lock();
     bool notify_in_this_app = false;
+    // find any Applications interested in this event
     O2W::const_iterator it = o2w_.find(event->key());
     if (it != o2w_.end()) {
         BOOST_FOREACH (const A2W::value_type& a2w, it->second) {
@@ -92,22 +103,24 @@ void Server::emit(const std::string& key) const {
 void Server::start_listening(Widget* widget) {
     boost::mutex::scoped_lock lock(mutex_);
     WApplication* app_id = wApp;
-    A2W& a2w = o2w_[widget->key()];
-    if (a2w.find(app_id) == a2w.end()) {
-        PosterPtr poster_ptr;
-        PosterWeakPtr& poster_weak_ptr = a2p_[app_id];
-        if (poster_weak_ptr.expired()) {
-            OneAnyFunc notify = boost::bind(&Server::notify_widgets, this, _1);
-            OneAnyFunc poster = one_bound_post(notify, merge_allowed_);
-            poster_ptr = boost::make_shared<OneAnyFunc>(poster);
-            poster_weak_ptr = poster_ptr;
-        } else {
-            poster_ptr = poster_weak_ptr.lock();
+    BOOST_FOREACH(const Event::Key key, widget->keylist() ) {
+        A2W& a2w = o2w_[key];
+        if (a2w.find(app_id) == a2w.end()) {
+            PosterPtr poster_ptr;
+            PosterWeakPtr& poster_weak_ptr = a2p_[app_id];
+            if (poster_weak_ptr.expired()) {
+                OneAnyFunc notify = boost::bind(&Server::notify_widgets, this, _1);
+                OneAnyFunc poster = one_bound_post(notify, merge_allowed_);
+                poster_ptr = boost::make_shared<OneAnyFunc>(poster);
+                poster_weak_ptr = poster_ptr;
+            } else {
+                poster_ptr = poster_weak_ptr.lock();
+            }
+            a2w[app_id] = std::make_pair(poster_ptr, Widgets());
         }
-        a2w[app_id] = std::make_pair(poster_ptr, Widgets());
+        Widgets& widgets = a2w[app_id].second;
+        widgets.push_back(widget);
     }
-    Widgets& widgets = a2w[app_id].second;
-    widgets.push_back(widget);
 }
 
 typedef std::set<Widget*> WidgetsSet;
@@ -123,17 +136,20 @@ static WidgetsSet& widgets_set() {
 
 void Server::stop_listening(Widget* widget, WApplication* app_id) {
     boost::mutex::scoped_lock lock(mutex_);
-    Widgets& widgets = o2w_[widget->key()][app_id].second;
-    Widgets::iterator it = std::find(widgets.begin(), widgets.end(), widget);
-    *it = widgets.back();
-    widgets.pop_back();
-    if (widgets.empty()) {
-        o2w_[widget->key()].erase(app_id);
-        if (a2p_[app_id].expired()) {
-            a2p_.erase(app_id);
-        }
-        if (o2w_[widget->key()].empty()) {
-            o2w_.erase(widget->key());
+    BOOST_FOREACH (const Event::Key key, widget->keylist()) {
+        Widgets& widgets = o2w_[key][app_id].second;
+        Widgets::iterator it = std::find(widgets.begin(),
+                widgets.end(), widget);
+        *it = widgets.back();
+        widgets.pop_back();
+        if (widgets.empty()) {
+            o2w_[key].erase(app_id);
+            if (a2p_[app_id].expired()) {
+                a2p_.erase(app_id);
+            }
+            if (o2w_[key].empty()) {
+                o2w_.erase(key);
+            }
         }
     }
     widgets_set().erase(widget);
