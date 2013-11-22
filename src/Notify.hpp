@@ -9,6 +9,7 @@
 #define WC_NOTIFY_HPP_
 
 #include <map>
+#include <vector>
 #include <boost/thread/mutex.hpp>
 #include <boost/shared_ptr.hpp>
 #include <boost/weak_ptr.hpp>
@@ -61,6 +62,7 @@ public:
 
     /** Type of key used to select widgets to notify */
     typedef std::string Key;
+    typedef std::vector<std::string> KeyList;
 
     /** Get key */
     virtual Key key() const = 0;
@@ -90,6 +92,16 @@ public:
     Widget(const Event::Key& key, Server* server,
            const std::string& app_id = "");
 
+    /** Constructor.
+    \param keylist    List of Event keys to listen
+    \param server     Notification server
+    When created, wApp must return current WApplication.
+    */
+    Widget(Server* server);
+  
+
+  void start_listening(const Event::KeyList &keylist);
+
     /** Destructor */
     virtual ~Widget();
 
@@ -116,12 +128,13 @@ public:
     }
 
     /** Get event key */
-    const Event::Key& key() const {
-        return key_;
+    const Event::KeyList& keylist() const {
+        return keylist_;
     }
 
 private:
-    const Event::Key key_;
+//    const Event::Key key_;
+    Event::KeyList keylist_;
     Server* server_;
     WApplication* app_id_;
 };
