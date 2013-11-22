@@ -47,8 +47,9 @@ endforeach()
 
 include_directories(${CMAKE_CURRENT_BINARY_DIR})
 
-set(libs wt boost_filesystem boost_thread boost_signals boost_system
-    boost_program_options)
+set(libs wt${WT_LIB_SUFFIX} boost_filesystem${BOOST_LIB_SUFFIX}
+boost_thread${BOOST_LIB_SUFFIX}  boost_signals${BOOST_LIB_SUFFIX}
+boost_system${BOOST_LIB_SUFFIX} boost_program_options${BOOST_LIB_SUFFIX})
 
 if(WC_USE_OPENSSL)
     set(libs ${libs} ${OPENSSL_LIBRARIES})
