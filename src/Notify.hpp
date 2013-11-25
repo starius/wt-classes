@@ -97,10 +97,20 @@ public:
     */
     Widget(Server* server);
 
-    /** Constructor.
-    Start listening events of the following keys.
-    */
+    /** Start listening events of the following key */
+    void start_listening(const Event::Key& key);
+
+    /** Start listening events of the following keys */
     void start_listening(const Event::KeyList& keylist);
+
+    /* Stop listening events of the following keys */
+    void stop_listening(const Event::KeyList& keylist);
+
+    /** Stop listening events of the following key */
+    void stop_listening(const Event::Key& key);
+
+    /** Stop listening events of all keys */
+    void stop_listening();
 
     /** Destructor */
     virtual ~Widget();
@@ -141,6 +151,8 @@ private:
     Event::KeyList keylist_;
     Server* server_;
     WApplication* app_id_;
+
+    friend class Server;
 };
 
 /** Notification server.
@@ -235,6 +247,30 @@ public:
         merge_allowed_ = merge_allowed;
     }
 
+    /** Pair (widget, key) */
+    typedef std::pair<Widget*, Event::Key> WidgetAndKey;
+
+    /** List of pairs (widget, key) */
+    typedef std::vector<WidgetAndKey> WidgetAndKeyList;
+
+    /** Add pairs (widget, key) to internal map.
+    Having huge amount of widgets and keys, use this method
+    to add all of them using only one mutex locking.
+
+    wApp must return current WApplication. All widgets
+    must be from that application.
+
+    If a pair is already in internal map, adds it twice.
+    Be be carefully not to do this!
+    */
+    void start_listening(const WidgetAndKeyList& changes);
+
+    /** Remove pairs (widget, key) from internal map.
+    If a pair is not in internal map, does nothing.
+    If a pair is in internal map twice, removes it once.
+    */
+    void stop_listening(const WidgetAndKeyList& changes);
+
 private:
     typedef boost::shared_ptr<OneAnyFunc> PosterPtr;
     typedef boost::weak_ptr<OneAnyFunc> PosterWeakPtr;
@@ -249,10 +285,6 @@ private:
     bool updates_enabled_;
     bool direct_to_this_;
     bool merge_allowed_;
-
-    void start_listening(Widget* widget);
-
-    void stop_listening(Widget* widget, WApplication* app_id);
 
     void notify_widgets(const boost::any& event) const;
 

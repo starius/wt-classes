@@ -26,21 +26,48 @@ Event::operator Event::Key() const {
 
 Widget::Widget(const Event::Key& key, Server* server, const std::string& /*a*/):
     server_(server), app_id_(wApp) {
-    keylist_.push_back(key);
-    server_->start_listening(this);
+    start_listening(key);
 }
 
 Widget::Widget(Server* server):
-    server_(server), app_id_(wApp) {
+    server_(server), app_id_(wApp)
+{ }
+
+void Widget::start_listening(const Event::Key& key) {
+    Server::WidgetAndKeyList changes;
+    changes.push_back(std::make_pair(this, key));
+    server_->start_listening(changes);
 }
 
 void Widget::start_listening(const Event::KeyList& keylist) {
-    keylist_ = keylist;
-    server_->start_listening(this);
+    Server::WidgetAndKeyList changes;
+    BOOST_FOREACH (const Event::Key& key, keylist) {
+        changes.push_back(std::make_pair(this, key));
+    }
+    server_->start_listening(changes);
+}
+
+
+void Widget::stop_listening(const Event::KeyList& keylist) {
+    Server::WidgetAndKeyList changes;
+    BOOST_FOREACH (const Event::Key& key, keylist) {
+        changes.push_back(std::make_pair(this, key));
+    }
+    server_->stop_listening(changes);
+}
+
+void Widget::stop_listening(const Event::Key& key) {
+    Server::WidgetAndKeyList changes;
+    changes.push_back(std::make_pair(this, key));
+    server_->stop_listening(changes);
+}
+
+void Widget::stop_listening() {
+    stop_listening(keylist_);
 }
 
 Widget::~Widget() {
-    server_->stop_listening(this, app_id_);
+    stop_listening();
 }
 
 void Widget::notify(EventPtr event) {
@@ -104,10 +131,12 @@ void Server::emit(const std::string& key) const {
     emit(boost::make_shared<DummyEvent>(key));
 }
 
-void Server::start_listening(Widget* widget) {
+void Server::start_listening(const WidgetAndKeyList& changes) {
     boost::mutex::scoped_lock lock(mutex_);
     WApplication* app_id = wApp;
-    BOOST_FOREACH(const Event::Key key, widget->keylist() ) {
+    BOOST_FOREACH (const WidgetAndKey& widget_and_key, changes) {
+        Widget* widget = widget_and_key.first;
+        const Event::Key& key = widget_and_key.second;
         A2W& a2w = o2w_[key];
         if (a2w.find(app_id) == a2w.end()) {
             PosterPtr poster_ptr;
@@ -124,6 +153,7 @@ void Server::start_listening(Widget* widget) {
         }
         Widgets& widgets = a2w[app_id].second;
         widgets.push_back(widget);
+        widget->keylist_.push_back(key);
     }
 }
 
@@ -138,25 +168,39 @@ static WidgetsSet& widgets_set() {
     return *widgets_set_ptr_;
 }
 
-void Server::stop_listening(Widget* widget, WApplication* app_id) {
+void Server::stop_listening(const WidgetAndKeyList& changes) {
     boost::mutex::scoped_lock lock(mutex_);
-    BOOST_FOREACH (const Event::Key key, widget->keylist()) {
+    BOOST_FOREACH (const WidgetAndKey& widget_and_key, changes) {
+        Widget* widget = widget_and_key.first;
+        const Event::Key& key = widget_and_key.second;
+        // remove pair from internal map
+        WApplication* app_id = widget->app_id_;
         Widgets& widgets = o2w_[key][app_id].second;
         Widgets::iterator it = std::find(widgets.begin(),
                 widgets.end(), widget);
-        *it = widgets.back();
-        widgets.pop_back();
-        if (widgets.empty()) {
-            o2w_[key].erase(app_id);
-            if (a2p_[app_id].expired()) {
-                a2p_.erase(app_id);
-            }
-            if (o2w_[key].empty()) {
-                o2w_.erase(key);
+        if (it != widgets.end()) {
+            *it = widgets.back();
+            widgets.pop_back();
+            if (widgets.empty()) {
+                o2w_[key].erase(app_id);
+                if (a2p_[app_id].expired()) {
+                    a2p_.erase(app_id);
+                }
+                if (o2w_[key].empty()) {
+                    o2w_.erase(key);
+                }
             }
         }
+        // remove key from widget
+        Event::KeyList& keys = widget->keylist_;
+        Event::KeyList::iterator kit = std::find(keys.begin(), keys.end(), key);
+        if (kit != keys.end()) {
+            // remove it: move back to it and pop back
+            *kit = keys.back();
+            keys.pop_back();
+        }
+        widgets_set().erase(widget);
     }
-    widgets_set().erase(widget);
 }
 
 void Server::notify_widgets(const boost::any& event) const {
