@@ -131,9 +131,7 @@ void Server::emit(const std::string& key) const {
     emit(boost::make_shared<DummyEvent>(key));
 }
 
-void Server::start_listening(const WidgetAndKeyList& changes) {
-    boost::mutex::scoped_lock lock(mutex_);
-    WApplication* app_id = wApp;
+Server::PosterPtr Server::get_poster_ptr(WApplication* app_id) {
     PosterWeakPtr& poster_weak_ptr = a2p_[app_id];
     PosterPtr poster_ptr;
     if (poster_weak_ptr.expired()) {
@@ -141,9 +139,16 @@ void Server::start_listening(const WidgetAndKeyList& changes) {
         OneAnyFunc poster = one_bound_post(notify, merge_allowed_);
         poster_ptr = boost::make_shared<OneAnyFunc>(poster);
         poster_weak_ptr = poster_ptr;
+        return poster_ptr;
     } else {
-        poster_ptr = poster_weak_ptr.lock();
+        return poster_weak_ptr.lock();
     }
+}
+
+void Server::start_listening(const WidgetAndKeyList& changes) {
+    boost::mutex::scoped_lock lock(mutex_);
+    WApplication* app_id = wApp;
+    PosterPtr poster_ptr = get_poster_ptr(app_id);
     BOOST_FOREACH (const WidgetAndKey& widget_and_key, changes) {
         Widget* widget = widget_and_key.first;
         const Event::Key& key = widget_and_key.second;
@@ -168,37 +173,40 @@ static WidgetsSet& widgets_set() {
     return *widgets_set_ptr_;
 }
 
+void Server::remove_key(Widget* widget, const Event::Key& key) {
+    // remove pair from internal map
+    WApplication* app_id = widget->app_id_;
+    Widgets& widgets = o2w_[key][app_id].second;
+    Widgets::iterator it = std::find(widgets.begin(), widgets.end(), widget);
+    if (it != widgets.end()) {
+        *it = widgets.back();
+        widgets.pop_back();
+        if (widgets.empty()) {
+            o2w_[key].erase(app_id);
+            if (a2p_[app_id].expired()) {
+                a2p_.erase(app_id);
+            }
+            if (o2w_[key].empty()) {
+                o2w_.erase(key);
+            }
+        }
+    }
+    // remove key from widget
+    Event::KeyList& keys = widget->keylist_;
+    Event::KeyList::iterator kit = std::find(keys.begin(), keys.end(), key);
+    if (kit != keys.end()) {
+        // remove it: move back to it and pop back
+        *kit = keys.back();
+        keys.pop_back();
+    }
+}
+
 void Server::stop_listening(const WidgetAndKeyList& changes) {
     boost::mutex::scoped_lock lock(mutex_);
     BOOST_FOREACH (const WidgetAndKey& widget_and_key, changes) {
         Widget* widget = widget_and_key.first;
         const Event::Key& key = widget_and_key.second;
-        // remove pair from internal map
-        WApplication* app_id = widget->app_id_;
-        Widgets& widgets = o2w_[key][app_id].second;
-        Widgets::iterator it = std::find(widgets.begin(),
-                widgets.end(), widget);
-        if (it != widgets.end()) {
-            *it = widgets.back();
-            widgets.pop_back();
-            if (widgets.empty()) {
-                o2w_[key].erase(app_id);
-                if (a2p_[app_id].expired()) {
-                    a2p_.erase(app_id);
-                }
-                if (o2w_[key].empty()) {
-                    o2w_.erase(key);
-                }
-            }
-        }
-        // remove key from widget
-        Event::KeyList& keys = widget->keylist_;
-        Event::KeyList::iterator kit = std::find(keys.begin(), keys.end(), key);
-        if (kit != keys.end()) {
-            // remove it: move back to it and pop back
-            *kit = keys.back();
-            keys.pop_back();
-        }
+        remove_key(widget, key);
         widgets_set().erase(widget);
     }
 }

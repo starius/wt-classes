@@ -288,6 +288,9 @@ private:
 
     void notify_widgets(const boost::any& event) const;
 
+    PosterPtr get_poster_ptr(WApplication* app_id);
+    void remove_key(Widget* widget, const Event::Key& key);
+
     friend class Widget;
 };
 
