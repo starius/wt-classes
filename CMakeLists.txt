@@ -13,6 +13,13 @@ set(VERSION ${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH})
 set(local_include_dir ${PROJECT_BINARY_DIR}/include)
 set(local_headers_dir ${local_include_dir}/Wt/Wc)
 
+set(Boost_USE_STATIC_LIBS OFF CACHE BOOL "Use static boost libs")
+set(Boost_USE_MULTITHREADED ON CACHE BOOL "Use multithreaded boost libs")
+set(Boost_USE_STATIC_RUNTIME OFF CACHE BOOL
+    "Use boost libs linked with static C++ standard library")
+set(boost_libs filesystem thread signals system program_options)
+find_package(Boost 1.42.0 COMPONENTS ${boost_libs} REQUIRED)
+
 set(datadir ${CMAKE_INSTALL_PREFIX}/share CACHE PATH "Root of data files")
 set(WT_DIR ${datadir}/Wt CACHE PATH "Wt installation dir")
 set(DOC_SUBDIR ${datadir}/doc/libwtclasses CACHE PATH "Docs subdir")

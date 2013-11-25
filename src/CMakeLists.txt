@@ -47,14 +47,16 @@ endforeach()
 
 include_directories(${CMAKE_CURRENT_BINARY_DIR})
 
-set(libs wt boost_filesystem boost_thread boost_signals boost_system
-    boost_program_options)
+set(libs wt ${Boost_LIBRARIES})
 
 if(WC_USE_OPENSSL)
     set(libs ${libs} ${OPENSSL_LIBRARIES})
 endif()
 
 option(BUILD_STATIC_WC "Build static version of the library as well" ON)
+
+include_directories(${Boost_INCLUDE_DIRS})
+link_directories(${Boost_LIBRARY_DIRS})
 
 add_library(wtclasses SHARED ${wtclasses_sources})
 target_link_libraries(wtclasses ${libs})
