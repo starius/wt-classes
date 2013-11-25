@@ -127,7 +127,7 @@ public:
         return true;
     }
 
-    /** Get event key */
+    /** Get event keys */
     const Event::KeyList& keylist() const {
         return keylist_;
     }
