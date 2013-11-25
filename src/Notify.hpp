@@ -262,6 +262,8 @@ public:
 
     If a pair is already in internal map, adds it twice.
     Be be carefully not to do this!
+    If key was added twice to widget, this widget is notified once,
+    but do not rely on this behaviour!
     */
     void start_listening(const WidgetAndKeyList& changes);
 
