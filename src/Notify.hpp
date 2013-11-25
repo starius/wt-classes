@@ -132,6 +132,11 @@ public:
         return keylist_;
     }
 
+    /** Get first event key.
+    If event key list is empty, return "".
+    */
+    const Event::Key key() const;
+
 private:
     Event::KeyList keylist_;
     Server* server_;

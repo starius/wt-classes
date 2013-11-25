@@ -49,6 +49,10 @@ void Widget::notify(EventPtr event) {
     }
 }
 
+const Event::Key Widget::key() const {
+    return keylist_.empty() ? "" : keylist_[0];
+}
+
 Server::Server(WServer* /* server */):
     updates_enabled_(true),
     direct_to_this_(false),
