@@ -134,21 +134,21 @@ void Server::emit(const std::string& key) const {
 void Server::start_listening(const WidgetAndKeyList& changes) {
     boost::mutex::scoped_lock lock(mutex_);
     WApplication* app_id = wApp;
+    PosterWeakPtr& poster_weak_ptr = a2p_[app_id];
+    PosterPtr poster_ptr;
+    if (poster_weak_ptr.expired()) {
+        OneAnyFunc notify = boost::bind(&Server::notify_widgets, this, _1);
+        OneAnyFunc poster = one_bound_post(notify, merge_allowed_);
+        poster_ptr = boost::make_shared<OneAnyFunc>(poster);
+        poster_weak_ptr = poster_ptr;
+    } else {
+        poster_ptr = poster_weak_ptr.lock();
+    }
     BOOST_FOREACH (const WidgetAndKey& widget_and_key, changes) {
         Widget* widget = widget_and_key.first;
         const Event::Key& key = widget_and_key.second;
         A2W& a2w = o2w_[key];
         if (a2w.find(app_id) == a2w.end()) {
-            PosterPtr poster_ptr;
-            PosterWeakPtr& poster_weak_ptr = a2p_[app_id];
-            if (poster_weak_ptr.expired()) {
-                OneAnyFunc notify = boost::bind(&Server::notify_widgets, this, _1);
-                OneAnyFunc poster = one_bound_post(notify, merge_allowed_);
-                poster_ptr = boost::make_shared<OneAnyFunc>(poster);
-                poster_weak_ptr = poster_ptr;
-            } else {
-                poster_ptr = poster_weak_ptr.lock();
-            }
             a2w[app_id] = std::make_pair(poster_ptr, Widgets());
         }
         Widgets& widgets = a2w[app_id].second;
