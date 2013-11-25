@@ -49,6 +49,11 @@ to this event.
 
 To execute some actions scheduling, use PlanningServer class.
 It can work in conjunction with a notification server.
+
+Example:
+\include examples/notify.cpp
+
+See also examples/rock-paper-scissors.cpp
 */
 
 /** Event abstract class.
