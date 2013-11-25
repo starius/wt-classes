@@ -584,7 +584,7 @@ std::string url_scheme(WApplication* app) {
 
 bool stop_ioservice(WServer& server) {
 #ifdef WC_HAVE_WIOSERVICE
-        server.ioService().boost::asio::io_service::stop();
+    server.ioService().boost::asio::io_service::stop();
 #endif
 }
 

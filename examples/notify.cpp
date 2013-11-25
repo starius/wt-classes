@@ -23,7 +23,7 @@ notify::Server notify_server;
 
 class NumberText : public WText, public notify::Widget {
 public:
-    NumberText( WContainerWidget* parent):
+    NumberText(WContainerWidget* parent):
         WText(parent),
         notify::Widget(&notify_server),
         number_(0) {

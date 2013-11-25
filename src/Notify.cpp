@@ -47,7 +47,6 @@ void Widget::start_listening(const Event::KeyList& keylist) {
     server_->start_listening(changes);
 }
 
-
 void Widget::stop_listening(const Event::KeyList& keylist) {
     Server::WidgetAndKeyList changes;
     BOOST_FOREACH (const Event::Key& key, keylist) {
