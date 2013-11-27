@@ -16,15 +16,15 @@ using namespace Wt::Wc;
 namespace po = boost::program_options;
 
 void solve_quadratic(const po::variables_map& vm) {
-    int a = vm["a"].as<int>();
-    int b = vm["b"].as<int>();
-    int c = vm["c"].as<int>();
+    float a = vm["a"].as<float>();
+    float b = vm["b"].as<float>();
+    float c = vm["c"].as<float>();
     std::string out_filename = vm["o"].as<std::string>();
     std::ofstream out(out_filename.c_str());
     if (a == 0) {
         throw std::invalid_argument("a = 0");
     }
-    int D = b * b - 4 * a * c;
+    float D = b * b - 4 * a * c;
     float two_a = 2 * a;
     float extreme_point = float(-b) / two_a;
     if (D < 0) {
@@ -48,11 +48,11 @@ public:
         new WText("Solve a quadratic equation", root());
         TableTask* task = new TableTask(root());
         task->add_input(new LineEditInput(new WLineEdit("1"), "--a"), "x2 (a)");
-        desc_.add_options()("a", po::value<int>());
+        desc_.add_options()("a", po::value<float>());
         task->add_input(new LineEditInput(new WLineEdit("-2"), "--b"), "x (b)");
-        desc_.add_options()("b", po::value<int>());
+        desc_.add_options()("b", po::value<float>());
         task->add_input(new LineEditInput(new WLineEdit("1"), "--c"), "1 (c)");
-        desc_.add_options()("c", po::value<int>());
+        desc_.add_options()("c", po::value<float>());
         task->add_output(new PrintFileOutput("--o"), "Roots of equation");
         desc_.add_options()("o", po::value<std::string>());
         task->set_runner(new BoostOptionsRunner(solve_quadratic, &desc_));

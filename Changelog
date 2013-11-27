@@ -1,3 +1,6 @@
+2013-11-27:
+    * use float instead of int in quadratic-equation
+
 2013-11-22:
     * multikey widgets (Notify)
 
