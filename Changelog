@@ -1,3 +1,6 @@
+2013-11-22:
+    * multikey widgets (Notify)
+
 2013-09-15:
     * add function wrun_stop_ioservice()
     * add function stop_ioservice()
