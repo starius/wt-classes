@@ -97,7 +97,7 @@ typedef boost::function<void(const boost::any&)> OneAnyFunc;
 \param allow_merge Whether sequential calls of returned functor
     are allowed to be merged and executed through single post.
     This is optimization of number of function posts (call of function,
-    returned by bound_post()) and pushed of server initiated updates.
+    returned by bound_post()) and pushes of server initiated updates.
 
 This function is like bound_post(), but it allows to bind one argument.
 
