@@ -57,7 +57,7 @@ void Gather::set_localstore(LocalStore* localstorage) {
 // FIXME random numbers?? need statictical data
 int Gather::significance(DataType type) {
     if (type == COOKIE || type == SWF || type == LOCAL_STORAGE ||
-            type == ETAG) {
+            type == ETAG || type == LAST_MODIFIED) {
         return 10000;
     } else if (type == IP) {
         return 45;
@@ -87,6 +87,8 @@ std::string Gather::type_to_str(DataType type) {
         return "local_storage";
     } else if (type == ETAG) {
         return "etag";
+    } else if (type == LAST_MODIFIED) {
+        return "last_modified";
     } else if (type == IP) {
         return "ip";
     } else if (type == PLUGINS) {

@@ -29,8 +29,17 @@ See EtagStore.
 */
 class EtagStoreResource : public WResource {
 public:
-    /** Constructor */
+    /** Constructor.
+    \param cookie_name Name of cookie used to distinguish clients
+    \param send_header Header send to client
+        (ETag or Last-Modified)
+    \param receive_header Header received from client
+        (If-None-Match or If-Modified-Since)
+    \param parent Parent Wt object
+    */
     EtagStoreResource(const std::string& cookie_name = "wces",
+                      const std::string& send_header = "ETag",
+                      const std::string& receive_header = "If-None-Match",
                       WObject* parent = 0);
 
     /** Handles a request */
@@ -39,6 +48,16 @@ public:
     /** Return name of cookie used to distinguish clients */
     const std::string& cookie_name() const {
         return cookie_name_;
+    }
+
+    /** Header send to client */
+    const std::string& send_header() const {
+        return send_header_;
+    }
+
+    /** Header received from client */
+    const std::string& receive_header() const {
+        return receive_header_;
     }
 
 private:
@@ -53,6 +72,8 @@ private:
     Map cookie_to_etag_;
     boost::mutex cookie_to_etag_mutex_;
     std::string cookie_name_;
+    std::string send_header_;
+    std::string receive_header_;
 
     void handle_etag(const Http::Request& request, Http::Response& response);
 

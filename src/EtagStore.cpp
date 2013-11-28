@@ -19,8 +19,11 @@ namespace Wt {
 namespace Wc {
 
 EtagStoreResource::EtagStoreResource(const std::string& cookie_name,
+                                     const std::string& send_header,
+                                     const std::string& receive_header,
                                      WObject* parent):
-    WResource(parent), cookie_name_(cookie_name) {
+    WResource(parent), cookie_name_(cookie_name),
+    send_header_(send_header), receive_header_(receive_header) {
     setDispositionType(WResource::Inline);
 }
 
@@ -60,7 +63,7 @@ void EtagStoreResource::handle_etag(const Http::Request& request,
     int cookie_length = (cookie_end == -1) ? -1 : (cookie_end - cookie_begin);
     std::string cookie_value = cookies.substr(cookie_begin, cookie_length);
     //
-    std::string etag_value = request.headerValue("If-None-Match");
+    std::string etag_value = request.headerValue(receive_header());
     boost::mutex::scoped_lock lock(cookie_to_etag_mutex_);
     Map::iterator it = cookie_to_etag_.find(cookie_value);
     if (it == cookie_to_etag_.end()) {
@@ -72,13 +75,13 @@ void EtagStoreResource::handle_etag(const Http::Request& request,
     }
     etag.from_client = etag_value;
     if (!etag.to_client.empty()) {
-        response.addHeader("ETag", etag.to_client);
+        response.addHeader(send_header(), etag.to_client);
         etag.to_client.clear();
     } else {
         etag.handler(etag.from_client);
     }
     if (!etag.from_client.empty()) {
-        response.addHeader("ETag", etag.from_client);
+        response.addHeader(send_header(), etag.from_client);
     }
 }
 
