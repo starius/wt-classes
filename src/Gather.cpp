@@ -85,6 +85,8 @@ std::string Gather::type_to_str(DataType type) {
         return "flash_cookie";
     } else if (type == LOCAL_STORAGE) {
         return "local_storage";
+    } else if (type == ETAG) {
+        return "etag";
     } else if (type == IP) {
         return "ip";
     } else if (type == PLUGINS) {
