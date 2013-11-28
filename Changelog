@@ -1,3 +1,6 @@
+2013-11-28:
+    * add class EtagStore
+
 2013-11-27:
     * use float instead of int in quadratic-equation
 

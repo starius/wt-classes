@@ -26,6 +26,8 @@ struct Matrix3x3;
 class AbstractStore;
 class SWFStore;
 class LocalStore;
+class EtagStore;
+class EtagStoreResource;
 class Gather;
 class AbstractCaptcha;
 class PaintedCaptcha;
