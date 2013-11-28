@@ -15,7 +15,9 @@
 #include <Wt/WLogger>
 #include <Wt/Wc/SWFStore.hpp>
 #include <Wt/Wc/LocalStore.hpp>
+#include <Wt/Wc/EtagStore.hpp>
 #include <Wt/Wc/Gather.hpp>
+#include <Wt/Wc/util.hpp>
 
 using namespace Wt;
 using namespace Wt::Wc;
@@ -24,12 +26,15 @@ void explore(Gather::DataType type, const std::string& value) {
     wApp->log("info") << "Gathered: type=" << type << ", value=" << value;
 } // gather
 
+EtagStoreResource etag_resource;
+
 class SWFStoreApp : public WApplication {
 public:
     SWFStoreApp(const WEnvironment& env):
         WApplication(env) {
         SWFStore* swf = new SWFStore(root());
         LocalStore* localstore = new LocalStore(root());
+        EtagStore* etagstore = new EtagStore(&etag_resource, root());
         WPushButton* clear_storage = new WPushButton("Clear", root());
         WPushButton* one = new WPushButton("Set k=1", root());
         WPushButton* two = new WPushButton("Set k=2", root());
@@ -44,6 +49,7 @@ public:
         Gather* gather = new Gather(explore, this);
         gather->set_swfstore(swf);
         gather->set_localstore(localstore);
+        gather->add_store(etagstore, Gather::ETAG);
     }
 };
 
@@ -62,6 +68,7 @@ public:
         setServerConfiguration(argc, argv);
         addResource(&swfstore_, "/swfstore.swf");
         addResource(&storage_whitelist_, "/storage-whitelist.xml");
+        addResource(&etag_resource, "/etag-test.gif");
         addEntryPoint(Wt::Application, createSWFStoreApp);
     }
 
@@ -74,6 +81,7 @@ int main(int argc, char** argv) {
     SWFStoreServer server(argc, argv);
     if (server.start()) {
         Wt::WServer::waitForShutdown();
+        stop_ioservice(server);
         server.stop();
     }
 }
