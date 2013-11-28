@@ -11,10 +11,8 @@ file(GLOB examples_sources "${CMAKE_CURRENT_SOURCE_DIR}/*.cpp")
 list(REMOVE_ITEM examples_sources ${CMAKE_CURRENT_SOURCE_DIR}/all.cpp)
 list(REMOVE_ITEM examples_sources ${CMAKE_CURRENT_SOURCE_DIR}/swfstore.cpp)
 
-if(EXISTS ${SWFSTORE_FILE})
-    set(HAVE_SWFSTORE 1)
-    list(APPEND examples_sources ${CMAKE_CURRENT_BINARY_DIR}/swfstore.cpp)
-endif()
+set(HAVE_SWFSTORE 1)
+list(APPEND examples_sources ${CMAKE_CURRENT_BINARY_DIR}/swfstore.cpp)
 
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/all.cpp.in.in
     ${CMAKE_CURRENT_BINARY_DIR}/all.cpp.in)
