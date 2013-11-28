@@ -66,6 +66,7 @@ public:
         COOKIE = 10, /**< Cookie value (significant virtuals evidence) */
         SWF = 20, /**< SWF value (significant virtuals evidence) */
         LOCAL_STORAGE = 25, /**< localStorage (significant virtuals evidence) */
+        ETAG = 26, /**< ETag cookie (significant virtuals evidence) */
         IP = 30, /**< IP address (medium virtuals evidence) */
         PLUGINS = 40, /**< Plugins sorted list (medium virtuals evidence) */
         MIME_TYPES = 50, /**< Mime types sorted list (medium evidence) */
