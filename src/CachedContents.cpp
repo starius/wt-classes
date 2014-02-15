@@ -124,6 +124,10 @@ void CachedContents::clear_cache() {
     current_widget_ = 0;
 }
 
+void CachedContents::remove_from_cache(const std::string& url) {
+    url_to_widget_.erase(url);
+}
+
 void CachedContents::resize_cache() {
     int desired_size = cache_size();
     if (desired_size < 0) {

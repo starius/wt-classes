@@ -110,6 +110,9 @@ public:
     /** Clear cache and widget */
     void clear_cache();
 
+    /** Remove cached widget with this URL */
+    void remove_from_cache(const std::string& url);
+
 protected:
     /** Update visible contents of widget according to the URL (implementation).
     The function is invoked from open_url() if this URL is not in cache.
