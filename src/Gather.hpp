@@ -75,6 +75,7 @@ public:
         SCREEN = 70, /**< Screen resolution, depth (weak virtuals evidence) */
         LOCALE = 80, /**< Browser locale (weak virtuals evidence) */
         TIMEZONE_OFFSET = 85, /**< Timezone offset (weak virtuals evidence) */
+        TIME_ERROR = 86, /**< Client - server diff in milliseconds (weak) */
         JAVA = 90 /**< Java enabled (weak virtuals evidence) */
     };
 
@@ -168,7 +169,7 @@ public:
     */
     void explore_cookie();
 
-    /** Call explorer with PLUGINS, MIME_TYPES, SCREEN, TIMEZONE_OFFSET, JAVA.
+    /** Call PLUGINS, MIME_TYPES, SCREEN, TIMEZONE_OFFSET, TIME_ERROR JAVA.
     The method is called from the constructor through bound_post().
 
     The result is got through JavaScript call,

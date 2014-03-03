@@ -6,6 +6,7 @@
  */
 
 #include <boost/foreach.hpp>
+#include <boost/lexical_cast.hpp>
 #include <boost/algorithm/string/case_conv.hpp>
 
 #include <Wt/WApplication>
@@ -71,6 +72,8 @@ int Gather::significance(DataType type) {
         return 10;
     } else if (type == TIMEZONE_OFFSET) {
         return 5;
+    } else if (type == TIME_ERROR) {
+        return 5;
     } else if (type == JAVA) {
         return 5;
     } else {
@@ -103,6 +106,8 @@ std::string Gather::type_to_str(DataType type) {
         return "locale";
     } else if (type == TIMEZONE_OFFSET) {
         return "timezone";
+    } else if (type == TIME_ERROR) {
+        return "timeerror";
     } else if (type == JAVA) {
         return "java";
     } else {
@@ -143,6 +148,8 @@ void Gather::explore_javascript() {
                                     "screen.height + ',' + screen.colorDepth"));
     doJavaScript(signal_.createCall(TO_S(TIMEZONE_OFFSET),
                                     "''+(new Date()).getTimezoneOffset()"));
+    doJavaScript(signal_.createCall(TO_S(TIME_ERROR),
+                                    "''+Date.now() % (60 * 60 * 1000)"));
     doJavaScript(signal_.createCall(TO_S(JAVA), "navigator.javaEnabled()"));
 }
 
@@ -161,13 +168,30 @@ void Gather::explorer_emitter(DataType type, const std::string& value) {
         return;
     }
     if (significance(type) && !value.empty()) {
-        if (value.size() > MAX_SIZE) {
-            std::string w(value);
+        std::string w(value);
+        if (w.size() > MAX_SIZE) {
             w.resize(MAX_SIZE);
-            explorer_(type, w);
-        } else {
-            explorer_(type, value);
         }
+        if (type == TIME_ERROR) {
+            try {
+                int client_ms = boost::lexical_cast<int>(w);
+                int server_ms = now().toPosixTime()
+                                .time_of_day().total_milliseconds();
+                int d = (client_ms - server_ms) % (60 * 60 * 1000);
+                if (d > 30 * 60 * 1000) {
+                    // 30 mins
+                    d -= 60 * 60 * 1000;
+                }
+                if (d < -30 * 60 * 1000) {
+                    d += 60 * 60 * 1000;
+                }
+                // from -30min to +30min
+                w = TO_S(d);
+            } catch (...) {
+                return;
+            }
+        }
+        explorer_(type, w);
     }
 }
 
