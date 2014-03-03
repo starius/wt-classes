@@ -61,8 +61,8 @@ public:
                     int x = boost::lexical_cast<int>(x_str);
                     int y = boost::lexical_cast<int>(y_str);
                     xy = WMouseEvent::Coordinates(x, y);
-                } catch (...)
-                { }
+                } catch (...) {
+                }
             }
         }
         map_image_->clicked().emit(xy);
