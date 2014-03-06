@@ -66,6 +66,8 @@ int Gather::significance(DataType type) {
         return 30;
     } else if (type == USER_AGENT) {
         return 25;
+    } else if (type == HTTP_ACCEPT) {
+        return 25;
     } else if (type == SCREEN) {
         return 20;
     } else if (type == LOCALE) {
@@ -100,6 +102,8 @@ std::string Gather::type_to_str(DataType type) {
         return "mime_types";
     } else if (type == USER_AGENT) {
         return "user_agent";
+    } else if (type == HTTP_ACCEPT) {
+        return "http_accept";
     } else if (type == SCREEN) {
         return "screen";
     } else if (type == LOCALE) {
@@ -126,6 +130,7 @@ void Gather::explore_simple() {
     const WEnvironment& env = wApp->environment();
     explorer_emitter(IP, env.clientAddress());
     explorer_emitter(USER_AGENT, env.userAgent());
+    explorer_emitter(HTTP_ACCEPT, env.accept());
     explorer_emitter(LOCALE, boost::algorithm::to_lower_copy(get_locale()));
 }
 

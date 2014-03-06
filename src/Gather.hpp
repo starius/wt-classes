@@ -72,6 +72,7 @@ public:
         PLUGINS = 40, /**< Plugins sorted list (medium virtuals evidence) */
         MIME_TYPES = 50, /**< Mime types sorted list (medium evidence) */
         USER_AGENT = 60, /**< User agent (weak virtuals evidence) */
+        HTTP_ACCEPT = 65, /**< HTTP_ACCEPT header (weak virtuals evidence) */
         SCREEN = 70, /**< Screen resolution, depth (weak virtuals evidence) */
         LOCALE = 80, /**< Browser locale (weak virtuals evidence) */
         TIMEZONE_OFFSET = 85, /**< Timezone offset (weak virtuals evidence) */
@@ -154,7 +155,7 @@ public:
     /** Call explorer for all data */
     void explore_all();
 
-    /** Call explorer with IP, USER_AGENT and LOCALE.
+    /** Call explorer with IP, USER_AGENT, HTTP_ACCEPT and LOCALE.
     The method is called from the constructor through bound_post().
 
     Locale is transformed to lower case.
