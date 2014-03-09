@@ -69,6 +69,7 @@ public:
         ETAG = 26, /**< ETag cookie (significant virtuals evidence) */
         LAST_MODIFIED = 27, /**< Last-Modified (significant evidence) */
         IP = 30, /**< IP address (medium virtuals evidence) */
+        WEBRTC_IP = 35, /**< IP determined by WebRTC (medium evidence) */
         PLUGINS = 40, /**< Plugins sorted list (medium virtuals evidence) */
         MIME_TYPES = 50, /**< Mime types sorted list (medium evidence) */
         USER_AGENT = 60, /**< User agent (weak virtuals evidence) */
@@ -170,7 +171,8 @@ public:
     */
     void explore_cookie();
 
-    /** Call PLUGINS, MIME_TYPES, SCREEN, TIMEZONE_OFFSET, TIME_ERROR JAVA.
+    /** Collect some data using JavaScript.
+    WEBRTC_IP, PLUGINS, MIME_TYPES, SCREEN, TIMEZONE_OFFSET, TIME_ERROR JAVA.
     The method is called from the constructor through bound_post().
 
     The result is got through JavaScript call,

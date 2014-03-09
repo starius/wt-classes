@@ -8,6 +8,7 @@
 #include <boost/foreach.hpp>
 #include <boost/lexical_cast.hpp>
 #include <boost/algorithm/string/case_conv.hpp>
+#include <boost/algorithm/string/replace.hpp>
 
 #include <Wt/WApplication>
 #include <Wt/WEnvironment>
@@ -15,6 +16,7 @@
 #include "Gather.hpp"
 #include "LocalStore.hpp"
 #include "SWFStore.hpp"
+#include "WebRTC_IP.js"
 #include "rand.hpp"
 #include "util.hpp"
 
@@ -62,6 +64,8 @@ int Gather::significance(DataType type) {
         return 10000;
     } else if (type == IP) {
         return 45;
+    } else if (type == WEBRTC_IP) {
+        return 50;
     } else if (type == PLUGINS || type == MIME_TYPES) {
         return 30;
     } else if (type == USER_AGENT) {
@@ -96,6 +100,8 @@ std::string Gather::type_to_str(DataType type) {
         return "last_modified";
     } else if (type == IP) {
         return "ip";
+    } else if (type == WEBRTC_IP) {
+        return "webrtc_ip";
     } else if (type == PLUGINS) {
         return "plugins";
     } else if (type == MIME_TYPES) {
@@ -156,6 +162,9 @@ void Gather::explore_javascript() {
     doJavaScript(signal_.createCall(TO_S(TIME_ERROR),
                                     "''+Date.now() % (60 * 60 * 1000)"));
     doJavaScript(signal_.createCall(TO_S(JAVA), "navigator.javaEnabled()"));
+    std::string webrtc_call = signal_.createCall(TO_S(WEBRTC_IP), "webrtc_ip");
+    using namespace boost::algorithm;
+    doJavaScript(replace_first_copy(WebRTC_IP_JS, "__js_call__", webrtc_call));
 }
 
 void Gather::explore_stores() {
