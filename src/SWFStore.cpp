@@ -29,6 +29,8 @@ SWFStore::SWFStore(WContainerWidget* parent, bool load_javascript,
                       "2.9.0/build/swfstore/swfstore-min.js",
                       "YAHOO.util.SWFStore");
     }
+    wApp->require("http://code.jquery.com/jquery-1.11.0.min.js");
+    wApp->require("http://code.jquery.com/jquery-migrate-1.2.1.min.js");
     doJavaScript("var swfstore = new YAHOO.util.SWFStore('" + id() + "', " +
                  bool_to_string(share_data) + "," +
                  bool_to_string(use_compression) + ");"

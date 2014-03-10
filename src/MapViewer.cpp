@@ -77,8 +77,8 @@ MapViewer::MapViewer(Wt::WContainerWidget* p):
 {
     wApp->require("http://openlayers.org/api/OpenLayers.js",
                   "OpenLayers");
-    wApp->require("https://ajax.googleapis.com/ajax/libs/"
-                  "jquery/1.7.2/jquery.min.js", "jQuery");
+    wApp->require("http://code.jquery.com/jquery-1.11.0.min.js");
+    wApp->require("http://code.jquery.com/jquery-migrate-1.2.1.min.js");
     setImplementation(new Wt::WContainerWidget());
     get_impl()->setStyleClass("impl_cw");
     wApp->styleSheet().addRule(".impl_cw", "position:relative;");
