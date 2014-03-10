@@ -80,6 +80,8 @@ int Gather::significance(DataType type) {
         return 5;
     } else if (type == TIME_ERROR) {
         return 5;
+    } else if (type == PING) {
+        return 5;
     } else if (type == JAVA) {
         return 5;
     } else {
@@ -120,6 +122,8 @@ std::string Gather::type_to_str(DataType type) {
         return "timezone";
     } else if (type == TIME_ERROR) {
         return "timeerror";
+    } else if (type == PING) {
+        return "ping";
     } else if (type == JAVA) {
         return "java";
     } else {
@@ -154,6 +158,8 @@ void Gather::explore_cookie() {
 }
 
 void Gather::explore_javascript() {
+    wApp->require("http://code.jquery.com/jquery-1.11.0.min.js");
+    wApp->require("http://code.jquery.com/jquery-migrate-1.2.1.min.js");
     signal_.connect(this, &Gather::explorer_emitter_helper);
     get_js_list(PLUGINS, "navigator.plugins", "name");
     get_js_list(MIME_TYPES, "navigator.mimeTypes", "suffixes.toLowerCase()");
@@ -166,9 +172,11 @@ void Gather::explore_javascript() {
     doJavaScript(signal_.createCall(TO_S(JAVA), "navigator.javaEnabled()"));
     std::string call_ip = signal_.createCall(TO_S(WEBRTC_IP), "localIp");
     std::string call_lan = signal_.createCall(TO_S(WEBRTC_LAN), "ip");
+    std::string call_ping = signal_.createCall(TO_S(PING), "ping");
     using namespace boost::algorithm;
     std::string js = replace_first_copy(WebRTC_IP_JS, "__webrtc_ip__", call_ip);
     js = replace_first_copy(js, "__webrtc_lan__", call_lan);
+    js = replace_first_copy(js, "__ping__", call_ping);
     doJavaScript(js);
 }
 

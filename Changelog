@@ -1,5 +1,6 @@
 2014-03-10:
     * update jquery version used and use it explicitly
+    * Gather gathers ping of clients
 
 2014-03-09:
     * Gather gathers local IP using WebRTC

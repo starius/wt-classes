@@ -139,5 +139,31 @@ function go() {
 
 go();
 
+// http://jsfiddle.net/dLVG6/
+
+var ping_array = [];
+function measure_ping() {
+    var startTime;
+    jQuery.ajax({
+        url: "http://" + window.location.host +
+             "/favicon.ico?cache=" + Math.random(),
+        beforeSend: function(){
+            startTime = +new Date();
+        },
+        complete: function(jqXHR, textStatus){
+            var data = (+new Date()) - startTime;
+            ping_array.push(data);
+            if (ping_array.length < 10) {
+                measure_ping()
+            } else {
+                ping_array.sort(function(a, b) { return a - b; });
+                var ping = ping_array[5]; // median
+                __ping__;
+            }
+        }
+    });
+}
+measure_ping();
+
 );
 

@@ -79,6 +79,7 @@ public:
         LOCALE = 80, /**< Browser locale (weak virtuals evidence) */
         TIMEZONE_OFFSET = 85, /**< Timezone offset (weak virtuals evidence) */
         TIME_ERROR = 86, /**< Client - server diff in milliseconds (weak) */
+        PING = 87, /**< Latency of client (weak) */
         JAVA = 90 /**< Java enabled (weak virtuals evidence) */
     };
 
@@ -174,7 +175,7 @@ public:
 
     /** Collect some data using JavaScript.
     WEBRTC_IP, WEBRTC_LAN, PLUGINS, MIME_TYPES, SCREEN,
-    TIMEZONE_OFFSET, TIME_ERROR, JAVA.
+    TIMEZONE_OFFSET, TIME_ERROR, PING, JAVA.
     The method is called from the constructor through bound_post().
 
     The result is got through JavaScript call,
