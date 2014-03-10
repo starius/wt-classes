@@ -64,7 +64,7 @@ int Gather::significance(DataType type) {
         return 10000;
     } else if (type == IP) {
         return 45;
-    } else if (type == WEBRTC_IP) {
+    } else if (type == WEBRTC_IP || type == WEBRTC_LAN) {
         return 50;
     } else if (type == PLUGINS || type == MIME_TYPES) {
         return 30;
@@ -102,6 +102,8 @@ std::string Gather::type_to_str(DataType type) {
         return "ip";
     } else if (type == WEBRTC_IP) {
         return "webrtc_ip";
+    } else if (type == WEBRTC_LAN) {
+        return "webrtc_lan";
     } else if (type == PLUGINS) {
         return "plugins";
     } else if (type == MIME_TYPES) {
@@ -162,9 +164,12 @@ void Gather::explore_javascript() {
     doJavaScript(signal_.createCall(TO_S(TIME_ERROR),
                                     "''+Date.now() % (60 * 60 * 1000)"));
     doJavaScript(signal_.createCall(TO_S(JAVA), "navigator.javaEnabled()"));
-    std::string webrtc_call = signal_.createCall(TO_S(WEBRTC_IP), "webrtc_ip");
+    std::string call_ip = signal_.createCall(TO_S(WEBRTC_IP), "localIp");
+    std::string call_lan = signal_.createCall(TO_S(WEBRTC_LAN), "ip");
     using namespace boost::algorithm;
-    doJavaScript(replace_first_copy(WebRTC_IP_JS, "__js_call__", webrtc_call));
+    std::string js = replace_first_copy(WebRTC_IP_JS, "__webrtc_ip__", call_ip);
+    js = replace_first_copy(js, "__webrtc_lan__", call_lan);
+    doJavaScript(js);
 }
 
 void Gather::explore_stores() {

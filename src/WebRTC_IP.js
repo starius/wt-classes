@@ -2,63 +2,142 @@
 
 const std::string WebRTC_IP_JS = WT_JS(
 
-// http://jsfiddle.net/GZurr/
-var RTCPeerConnection = /*window.RTCPeerConnection ||*/
-    window.webkitRTCPeerConnection || window.mozRTCPeerConnection;
+// https://hacking.ventures/local-ip-discovery-with-html5-webrtc-security-and-privacy-risk/
+// https://dl.dropboxusercontent.com/u/1878671/enumhosts.html
 
-if (RTCPeerConnection)(function() {
-    var rtc = new RTCPeerConnection( {iceServers: []});
-    if (window.mozRTCPeerConnection) { // FF needs a channel/stream to proceed
-        rtc.createDataChannel('', {reliable: false});
-    };
-    rtc.onicecandidate = function(evt) {
-        if (evt.candidate) {
-            grepSDP(evt.candidate.candidate);
-        }
-    };
-    rtc.createOffer(function(offerDesc) {
-        grepSDP(offerDesc.sdp);
-        rtc.setLocalDescription(offerDesc);
-    }, function(e) {
-        console.warn("offer failed", e);
+function TaskController(numConcurrent, onDone) {
+  this.numConcurrent = numConcurrent;
+  this.onDone = onDone || function() {};
+  this.pending = 0;
+  this.queued = [];
+  this.checkTimer = -1;
+}
+
+TaskController.prototype.deferCheck = function() {
+  if (this.checkTimer != -1) return;
+  this.checkTimer = setTimeout((function() {
+    this.checkTimer = -1;
+    this.check();
+  }).bind(this), 0);
+};
+
+TaskController.prototype.check = function() {
+  if (this.pending < 1 && this.queued.length == 0) return this.onDone();
+  while (this.pending < this.numConcurrent && this.queued.length > 0) {
+    try {
+      this.pending += 1;
+      setTimeout((function(task) {
+        task((function() {
+          this.pending -= 1;
+          this.deferCheck();
+        }).bind(this));
+      }).bind(this, this.queued.shift()), 0);
+    }
+    catch (e) {
+      this.pending -= 1;
+      this.deferCheck();
+    }
+  }
+};
+
+TaskController.prototype.queue = function(task) {
+  this.queued.push(task);
+  this.deferCheck();
+};
+
+function probeIp(ip, timeout, cb) {
+  var start = Date.now();
+  var done = false;
+  var img = document.createElement('img');
+  var clean = function() {
+    if (!img) return;
+    document.body.removeChild(img);
+    img = null;
+  };
+  var onResult = function(success) {
+    if (done) return;
+    done = true;
+    clean();
+    cb(ip, Date.now() - start < timeout);
+  };
+  document.body.appendChild(img);
+  img.style.display = 'none';
+  img.onload = function() { onResult(true); };
+  img.onerror = function() { onResult(false); };
+  img.src = 'https://' + ip + ':' + ~~(1024+1024*Math.random()) + '/I_DO_NOT_EXIST?' + Math.random();
+  setTimeout(function() { if (img) img.src = ''; }, timeout + 500);
+}
+
+function probeNet(net, onHostFound, onDone) {
+  net = net.replace(new RegExp("(\\d+\\.\\d+\\.\\d+)\\.\\d+"), '$1.');
+  var timeout = 5000;
+  var done = false;
+  var found = [];
+  var q = new TaskController(5, onDone);
+  for (var i = 1; i < 256; ++i) {
+    q.queue((function(i, cb) {
+      probeIp(net + i, timeout, function(ip, success) {
+        if (success) onHostFound(ip);
+        cb();
+      });
+    }).bind(this, i));
+  }
+}
+
+function enumLocalIPs(cb) {
+  var RTCPeerConnection = window.webkitRTCPeerConnection || window.mozRTCPeerConnection;
+  if (!RTCPeerConnection) return false;
+  var addrs = Object.create(null);
+  addrs['0.0.0.0'] = false;
+  function addAddress(newAddr) {
+    if (newAddr in addrs) return;
+    addrs[newAddr] = true;
+    cb(newAddr);
+  }
+  function grepSDP(sdp) {
+    var hosts = [];
+    sdp.split('\r\n').forEach(function (line) {
+      if (~line.indexOf('a=candidate')) {
+        var parts = line.split(' '),
+            addr = parts[4],
+            type = parts[7];
+        if (type === 'host') addAddress(addr);
+      } else if (~line.indexOf('c=')) {
+        var parts = line.split(' '),
+        addr = parts[2];
+        addAddress(addr);
+      }
     });
-    var addrs = Object.create(null);
-    addrs["0.0.0.0"] = false;
-    function updateDisplay(newAddr) {
-        if (newAddr in addrs) {
-            return;
-        } else {
-            addrs[newAddr] = true;
-        }
-        var displayAddrs = Object.keys(addrs).filter(function(k) {
-            return addrs[k];
-        });
-        displayAddrs.sort();
-        var webrtc_ip = displayAddrs.join(",") || "n/a";
-        __js_call__;
-    }
-    function grepSDP(sdp) {
-        var hosts = [];
-        sdp.split('\r\n').forEach(function(line) {
-            // c.f. http://tools.ietf.org/html/rfc4566#page-39
-            if (~line.indexOf("a=candidate")) {
-                // http://tools.ietf.org/html/rfc4566#section-5.13
-                var parts = line.split(' '),
-                    // http://tools.ietf.org/html/rfc5245#section-15.1
-                    addr = parts[4],
-                    type = parts[7];
-                if (type === 'host') {
-                    updateDisplay(addr);
-                }
-            } else if (~line.indexOf("c=")) {
-                // http://tools.ietf.org/html/rfc4566#section-5.7
-                var parts = line.split(' '),
-                    addr = parts[2];
-                updateDisplay(addr);
-            }
-        });
-    }
-})();
+  }
+  var rtc = new RTCPeerConnection({iceServers:[]});
+  if (window.mozRTCPeerConnection) rtc.createDataChannel('', {reliable:false});
+  rtc.onicecandidate = function (evt) {
+    if (evt.candidate) grepSDP(evt.candidate.candidate);
+  };
+  setTimeout(function() {
+    rtc.createOffer(function (offerDesc) {
+      grepSDP(offerDesc.sdp);
+      rtc.setLocalDescription(offerDesc);
+    }, function (e) {});
+  }, 500);
+  return true;
+}
+
+function go() {
+  var q = new TaskController(1);
+  enumLocalIPs(function(localIp) {
+    __webrtc_ip__;
+    q.queue(function(cb) {
+      probeNet(localIp,
+               function(ip) {
+                 __webrtc_lan__;
+               },
+               cb);
+    });
+  });
+}
+
+go();
 
 );
 
