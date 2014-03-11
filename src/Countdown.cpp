@@ -70,8 +70,6 @@ Countdown::Countdown(WContainerWidget* parent, bool load_javascript):
     implementJavaScript(&Countdown::lap, lap_js());
     implementJavaScript(&Countdown::resume, resume_js());
     if (load_javascript) {
-        wApp->require("http://code.jquery.com/jquery-1.11.0.min.js");
-        wApp->require("http://code.jquery.com/jquery-migrate-1.2.1.min.js");
         wApp->require("http://cdnjs.cloudflare.com/ajax/libs/jquery-countdown/"
                       "1.6.1/jquery.countdown.min.js", "jQuery.countdown");
     }

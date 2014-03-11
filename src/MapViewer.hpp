@@ -29,6 +29,9 @@ namespace Wc {
 It is intended to facilitate an introduction of
 a dynamic map in any web page.
 
+\warning You must load jQuery with ajax method.
+    JQuery shipped with Wt does not have this method.
+
 Main features:
  - It uses free content (<a href="http://openstreetmap.org/">OpenStreetMap</a>).
    Ajax version is based on <a href="http://openlayers.org">OpenLayers</a> API.
