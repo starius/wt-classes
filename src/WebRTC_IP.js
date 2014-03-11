@@ -143,14 +143,17 @@ go();
 
 var ping_array = [];
 function measure_ping() {
-    var startTime;
-    jQuery.ajax({
-        url: "http://" + window.location.host +
-             "/favicon.ico?cache=" + Math.random(),
-        beforeSend: function(){
-            startTime = +new Date();
-        },
-        complete: function(jqXHR, textStatus){
+    var startTime = +new Date();
+    var xmlhttp;
+    if (window.XMLHttpRequest) {
+        // code for IE7+, Firefox, Chrome, Opera, Safari
+        xmlhttp = new XMLHttpRequest();
+    } else {
+        // code for IE6, IE5
+        xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+    }
+    xmlhttp.onreadystatechange = function() {
+        if (xmlhttp.readyState == 4) {
             var data = (+new Date()) - startTime;
             ping_array.push(data);
             if (ping_array.length < 10) {
@@ -161,7 +164,11 @@ function measure_ping() {
                 __ping__;
             }
         }
-    });
+    };
+    var url = "http://" + window.location.host +
+               "/favicon.ico?cache=" + Math.random();
+    xmlhttp.open("GET", url, true);
+    xmlhttp.send();
 }
 measure_ping();
 

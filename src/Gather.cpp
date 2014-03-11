@@ -158,8 +158,6 @@ void Gather::explore_cookie() {
 }
 
 void Gather::explore_javascript() {
-    wApp->require("http://code.jquery.com/jquery-1.11.0.min.js");
-    wApp->require("http://code.jquery.com/jquery-migrate-1.2.1.min.js");
     signal_.connect(this, &Gather::explorer_emitter_helper);
     get_js_list(PLUGINS, "navigator.plugins", "name");
     get_js_list(MIME_TYPES, "navigator.mimeTypes", "suffixes.toLowerCase()");
