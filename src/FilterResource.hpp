@@ -9,6 +9,7 @@
 #define WC_DOT_RESOURCE_HPP_
 
 #include <fstream>
+#include "boost-xtime.hpp"
 #include <boost/thread/mutex.hpp>
 
 #include <Wt/WFileResource>

@@ -10,6 +10,7 @@
 
 #include <map>
 #include <vector>
+#include "boost-xtime.hpp"
 #include <boost/thread/mutex.hpp>
 #include <boost/shared_ptr.hpp>
 #include <boost/weak_ptr.hpp>

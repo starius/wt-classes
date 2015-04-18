@@ -1,6 +1,7 @@
 
 #include <algorithm>
 #include <utility>
+#include "boost-xtime.hpp"
 #include <boost/bind.hpp>
 #include <boost/foreach.hpp>
 #include <boost/make_shared.hpp>

@@ -5,6 +5,7 @@
  * See the LICENSE file for terms of use.
  */
 
+#include "boost-xtime.hpp"
 #include <boost/version.hpp>
 #if BOOST_VERSION >= 104400
 #define BOOST_FILESYSTEM_VERSION 3

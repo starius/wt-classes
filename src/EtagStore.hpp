@@ -11,6 +11,7 @@
 #include <map>
 #include <boost/any.hpp>
 #include <boost/function.hpp>
+#include "boost-xtime.hpp"
 #include <boost/thread/mutex.hpp>
 
 #include <Wt/WGlobal>

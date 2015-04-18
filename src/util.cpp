@@ -7,6 +7,8 @@
 
 #include "config.hpp"
 
+#include "boost-xtime.hpp"
+
 #define USE_SERVER_POST (defined(WC_HAVE_SERVER_POST) && \
     defined(WC_HAVE_ENVIRONMENT_SERVER))
 

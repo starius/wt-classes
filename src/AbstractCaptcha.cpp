@@ -6,6 +6,7 @@
  */
 
 #include <map>
+#include "boost-xtime.hpp"
 #include <boost/thread/mutex.hpp>
 
 #include <Wt/WDateTime>

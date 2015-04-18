@@ -10,6 +10,7 @@
 #include <climits>
 #include <vector>
 #include <utility>
+#include "boost-xtime.hpp"
 #include <boost/bind.hpp>
 #include <boost/foreach.hpp>
 #include <boost/thread/tss.hpp>

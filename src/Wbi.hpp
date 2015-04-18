@@ -12,6 +12,7 @@
 #include <vector>
 #include <list>
 #include <set>
+#include "boost-xtime.hpp"
 #include <boost/function.hpp>
 #include <boost/thread/mutex.hpp>
 #include <boost/thread.hpp>
