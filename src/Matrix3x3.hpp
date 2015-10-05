@@ -10,6 +10,7 @@
 
 #include <ostream>
 
+#include <Wt/WPainterPath>
 #include <Wt/WTransform>
 #include <Wt/WPointF>
 
