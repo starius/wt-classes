@@ -28,6 +28,14 @@ set(DOC_SUBDIR ${datadir}/doc/libwtclasses CACHE PATH "Docs subdir")
 
 include(${CMAKE_CURRENT_SOURCE_DIR}/features/ubuntu-gcc.cmake)
 include(${CMAKE_CURRENT_SOURCE_DIR}/features/Features.cmake)
+INCLUDE_DIRECTORIES(
+${WT_DIR}/include
+${Boost_INCLUDE_DIR}
+)
+LINK_DIRECTORIES(
+${WT_DIR}/lib
+${Boost_LIBRARY_DIR}
+)
 
 subdirs(src)
 file(GLOB local_headers "${local_headers_dir}/*.hpp")
