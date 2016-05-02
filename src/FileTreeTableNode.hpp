@@ -32,8 +32,11 @@ class FileTreeTableNode : public Wt::WTreeTableNode
 {
 public:
   /*! \brief Construct a new node for the given file.
+   * \param path directory to display
+   * \param suffix if non-empty, only display files with this suffix
    */
     FileTreeTableNode(const boost::filesystem::path& path, 
+
                       const std::string &suffix="");
 
 private:

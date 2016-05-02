@@ -17,7 +17,7 @@ namespace Wt {
 namespace Wc {
 
 /**
- * \defgroup fileexplorer File Explorer example
+ * \defgroup FileTreeTable widget that displays a file system tree
  */
 /*@{*/
 
@@ -41,6 +41,9 @@ public:
   /*! \brief Construct a new FileTreeTable.
    *
    * Create a new FileTreeTable to browse the given path.
+   * \param path directory to display
+   * \param suffix if non-empty, only display files with this suffix
+   * \param parent optional Parent widget
    */
     FileTreeTable(const boost::filesystem::path& path, const std::string &suffix="",
 		Wt::WContainerWidget *parent=0);
