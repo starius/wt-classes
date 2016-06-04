@@ -27,7 +27,7 @@ EtagStoreResource::EtagStoreResource(const std::string& cookie_name,
     setDispositionType(WResource::Inline);
 }
 
-static const char EMPTY_GIF[] = {
+static const unsigned char EMPTY_GIF[] = {
     0x47, 0x49, 0x46, 0x38, 0x39, 0x61, 0x01, 0x00, 0x01, 0x00,
     0x80, 0x00, 0x00, 0xdb, 0xdf, 0xef, 0x00, 0x00, 0x00, 0x21,
     0xf9, 0x04, 0x01, 0x00, 0x00, 0x00, 0x00, 0x2c, 0x00, 0x00,
@@ -42,7 +42,8 @@ void EtagStoreResource::handleRequest(const Http::Request& request,
     handle_etag(request, response);
     response.setMimeType("image/gif");
     response.addHeader("Content-Length", TO_S(EMPTY_GIF_SIZE));
-    response.out().write(EMPTY_GIF, EMPTY_GIF_SIZE);
+    response.out().write( reinterpret_cast<const char*>(EMPTY_GIF),  
+EMPTY_GIF_SIZE);
 }
 
 void EtagStoreResource::handle_etag(const Http::Request& request,
