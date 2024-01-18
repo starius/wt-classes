@@ -17,7 +17,7 @@ set(Boost_USE_STATIC_LIBS OFF CACHE BOOL "Use static boost libs")
 set(Boost_USE_MULTITHREADED ON CACHE BOOL "Use multithreaded boost libs")
 set(Boost_USE_STATIC_RUNTIME OFF CACHE BOOL
     "Use boost libs linked with static C++ standard library")
-set(boost_libs filesystem thread signals system program_options)
+set(boost_libs filesystem thread system program_options)
 find_package(Boost 1.42.0 COMPONENTS ${boost_libs} REQUIRED)
 
 set(WT_LIB_SUFFIX "" CACHE STRING "Wt lib suffix (empty or 'd')")
