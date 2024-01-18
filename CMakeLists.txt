@@ -10,6 +10,9 @@ set(SONAME 12)
 
 set(VERSION ${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH})
 
+# We need the deprecated binding boost::bind global placeholders
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DBOOST_BIND_GLOBAL_PLACEHOLDERS")
+
 set(local_include_dir ${PROJECT_BINARY_DIR}/include)
 set(local_headers_dir ${local_include_dir}/Wt/Wc)
 
