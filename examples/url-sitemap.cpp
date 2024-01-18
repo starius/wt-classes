@@ -131,7 +131,7 @@ public:
         new WText("Items:", contents_);
         for (int i = 0; i < 10; ++i) {
             new WBreak(contents_);
-            int id = abs(rr());
+            int id = rr();
             WAnchor* user = new WAnchor(contents_);
             user->setRefInternalPath(user_profile_->get_full_path(id));
             user->setText(user_profile_->get_full_path(id));
