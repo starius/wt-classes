@@ -44,7 +44,7 @@ TimeDuration TimeDuration::operator -() const {
 }
 
 TimeDuration TimeDuration::operator /(const double& b) const {
-    return ptime::milliseconds(double(total_milliseconds()) /  b);
+    return ptime::milliseconds(long(total_milliseconds() / b));
 }
 
 TimeDuration TimeDuration::operator /(int b) const {
@@ -52,7 +52,7 @@ TimeDuration TimeDuration::operator /(int b) const {
 }
 
 TimeDuration TimeDuration::operator *(const double& b) const {
-    return ptime::milliseconds(double(total_milliseconds()) *  b);
+    return ptime::milliseconds(long(total_milliseconds() * b));
 }
 
 TimeDuration TimeDuration::operator *(int b) const {
