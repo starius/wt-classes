@@ -33,7 +33,11 @@ if(NOT WC_HAVE_PAGER)
     list(REMOVE_ITEM examples_sources ${CMAKE_CURRENT_SOURCE_DIR}/pager.cpp)
 endif()
 
-include(FindPythonInterp)
+if(NOT WC_HAVE_SPINBOX)
+    list(REMOVE_ITEM examples_sources ${CMAKE_CURRENT_SOURCE_DIR}/wnoref.cpp)
+endif()
+
+include(FindPython3)
 
 list(REMOVE_DUPLICATES examples_sources)
 

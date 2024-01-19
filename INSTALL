@@ -2,8 +2,13 @@ wt-classes, utility classes used by Wt applications
 ------------------------------------------
 
 Compile and install wt-classes library:
-$ cmake .
-$ make install
+
+    $ cmake -B build -S .  # create a cmake build directory under the
+                           # top-level directory and configure it
+    $ cd build             # move to the new build directory
+    $ make                 # build wt-classes
+    $ sudo make install    # install as root user
+
 Read about cmake for more information
 
 Dependencies:
@@ -12,7 +17,6 @@ Dependencies:
  * libboost >= 1.42
   * boost_filesystem (version 2 or 3)
   * boost_system
-  * boost_signals
   * boost_thread
   * boost_date_time
   * headers:
@@ -26,6 +30,7 @@ Dependencies:
    * boost/format.hpp
    * boost/function.hpp
    * boost/shared_ptr.hpp
+   * boost/signals2.hpp
 
 Recommendations:
  * YUI library >= 2.8.0 for SWFStore
