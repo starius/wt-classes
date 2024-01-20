@@ -382,7 +382,7 @@ void schedule_action(const td::TimeDuration& wait,
     WIOService& io = WServer::instance()->ioService();
     io.schedule(ms, func);
 #else
-    TimerPtr timer = boost::make_shared<Timer>(boost::ref(wc_io.io), wait);
+    TimerPtr timer = boost::make_shared<Timer>(wc_io.io, wait);
     timer->async_wait(boost::bind(handle_timeout, timer, func,
                                   boost::asio::placeholders::error));
 #endif
@@ -588,6 +588,7 @@ bool stop_ioservice(WServer& server) {
 #ifdef WC_HAVE_WIOSERVICE
     server.ioService().boost::asio::io_service::stop();
 #endif
+    return 0;
 }
 
 int wrun_stop_ioservice(int argc, char** argv, ApplicationCreator creator) {

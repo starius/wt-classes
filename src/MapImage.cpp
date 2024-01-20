@@ -79,15 +79,15 @@ private:
     WApplication* app_;
 };
 
-void emit_clicked(MapImage::ClickSignal* signal, WMouseEvent& event) {
-    signal->emit(event.widget());
+void emit_clicked(MapImage::ClickSignal& signal, const WMouseEvent& event) {
+    signal.emit(event.widget());
 }
 
 MapImage::MapImage(WImage* image, WContainerWidget* parent):
     WCompositeWidget(parent) {
     if (wApp->environment().ajax()) {
         setImplementation(image);
-        image->clicked().connect(boost::bind(emit_clicked, &clicked_, _1));
+        image->clicked().connect(boost::bind(emit_clicked, boost::ref(clicked_), _1));
     } else {
         std::string url = wApp->bookmarkUrl();
         char join = url.find('?') == std::string::npos ? '?' : '&';

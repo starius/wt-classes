@@ -13,6 +13,7 @@ syntax: glob
 *.so*
 *.a
 *.o
+*.*~
 
 build/
 debug/
